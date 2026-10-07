@@ -369,6 +369,7 @@ const UI = {
     flags: 'Rode vlaggen',
     flagsHint: 'Vink aan wat je ziet of hoort.',
     note: 'Notitie',
+    source: 'Bron: {source}',
     headings: {
       what: 'Wat het is',
       why: 'Waarom het nodig is',
@@ -1148,6 +1149,7 @@ function viewDoc() {
 
     <section class="card">
       ${['what', 'why', 'who', 'costTime', 'contract'].map((k) => `<div class="section-block"><h3>${esc(H[k])}</h3><p>${txt(d[k])}</p></div>`).join('')}
+      ${d.source ? `<p class="muted small">${esc(t(UI.doc.source, { source: d.source }))}</p>` : ''}
     </section>`;
 }
 
@@ -1156,7 +1158,8 @@ function viewDoc() {
    ========================================================================== */
 function mailDocs(p) {
   const { active } = dossierDocs(p);
-  return active.filter((x) => readDoc(p, x.d.id).status === 'niet-gevraagd')
+  // Documenten met "inMail": false (zoals de eigen bouwkundige keuring) vraag je niet op bij makelaar of verkoper.
+  return active.filter((x) => x.d.inMail !== false && readDoc(p, x.d.id).status === 'niet-gevraagd')
     .sort((a, b) => (a.marker === 'weet' ? 0 : 1) - (b.marker === 'weet' ? 0 : 1))
     .map((x) => x.d);
 }

@@ -45,7 +45,7 @@ De server heeft PHP met cURL nodig. Node, een database of een build-stap zijn ni
 
 ## Inhoud bijwerken (`content.nl.json`)
 
-Alle teksten die niet tot de interface horen, staan in `content.nl.json`. Je kunt het bestand bewerken in de editor van DirectAdmin of lokaal in een teksteditor. Controleer na elke wijziging of het nog geldige JSON is, bijvoorbeeld op jsonlint.com. Eén vergeten komma en de app laadt niet.
+Alle teksten die niet tot de interface horen, staan in `content.nl.json`. De documentteksten komen uit hoofdstuk 4.2 en 5.2 van de gids "Huis kopen in Italië - Definitief". `NAKIJKLIJST.md` laat zien wat nog leeg is en wat nog moet worden nagekeken. Je kunt het bestand bewerken in de editor van DirectAdmin of lokaal in een teksteditor. Controleer na elke wijziging of het nog geldige JSON is, bijvoorbeeld op jsonlint.com. Eén vergeten komma en de app laadt niet.
 
 Vaste afspraken:
 
@@ -65,11 +65,13 @@ Belangrijkste onderdelen:
 | `check.riskTexts` | Risicoteksten: `{ "id": "...", "when": ["verbouwd"], "rank": 1, "text": "..." }`. `when` = één treffer genoeg, `whenAll` = alle vlaggen nodig. Naast profielvlaggen werken ook `nee:<vraag>` en `weet:<vraag>`, zodat een risicotekst al na de check kan verschijnen. De app toont er hoogstens drie, laagste `rank` eerst. |
 | `check.actions` | Acties per profiel voor de actielijst in de pdf: `{ "id": "...", "when": ["grond"], "phase": "compromesso", "text": "..." }`. |
 | `documents` | De documenten. `phase` is `bod`, `compromesso` of `rogito`. `appliesWhen`: leeg = altijd, anders één treffer genoeg. `criticalWhen`: maakt het document extra belangrijk. `dropWhen`: laat het document vervallen of vervangen (zie hieronder). De vijf kopjes zijn `what`, `why`, `who`, `costTime` en `contract`. `requestIt` en `requestNl` zijn de regels in de opvraagmail. |
-| `documents[].flags` | Rode vlaggen: `id`, `text`, `severity` (`bespreken`, `oplossen` of `niet-tekenen`) en `clauses` (fase 2). |
+| `documents[].source` | De paragraaf in de gids waar de teksten vandaan komen, bijvoorbeeld `gids 4.2.1`. De app toont dit onder de kopjes. |
+| `documents[].inMail` | Zet op `false` voor documenten die je niet bij makelaar of verkoper opvraagt, zoals de eigen bouwkundige keuring. Ze komen dan niet in de opvraagmail. |
+| `documents[].flags` | Rode vlaggen: `id`, `text`, `severity` (`bespreken`, `oplossen` of `niet-tekenen`) en `clauses`: de id's van de clausules die bij deze vlag horen. |
 | `mail` | Onderwerp, aanhef per ontvanger, inleiding en slot van de opvraagmail, in het Italiaans en het Nederlands. `{immobile}` wordt de naam van de woning met de gemeente. |
 | `process` | De stappen van het stroomschema in de pdf. |
 | `offerNext` | Het aanbod voor de volgende stap, onderaan de pdf. |
-| `clauses` | De clausulebibliotheek (fase 2). |
+| `clauses` | De clausulebibliotheek: `titleNl`, `whenNl` (wanneer je hem nodig hebt), `textNl`, `textIt`, `source`, `appliesWhen` (profielvlaggen waarbij de app hem voorstelt) en `reviewed`. Zolang `reviewed` op `false` staat, toont de app "concept, nog niet juridisch nagelezen". Het scherm met clausules komt in fase 2. |
 
 **Een document laten vervallen of vervangen**, bijvoorbeeld bij bouw vóór 1 september 1967:
 
