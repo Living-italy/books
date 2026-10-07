@@ -19,12 +19,11 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 - **Tekst van rode vlaggen**: korte waarnemingen in eigen woorden, elk gebaseerd op een concreet punt uit 4.2 of 5.2.
 - **Opvraagregels (`requestIt`) en de opvraagmail**: conceptvertaling, nog niet nagelezen.
 - **Profielvragen en antwoordopties**: nog steeds afgeleid uit de bouwbrief (`profielen-conformiteitscheck.md` ontbreekt).
+- **Profielen** (paragraaf 6): opgesteld uit de gids, omdat `profielen-conformiteitscheck.md` ontbreekt. Alle risicoteksten en acties zijn letterlijke zinnen uit de gids, op één samenvatting na. Of een profiel de juiste documenten extra belangrijk maakt, is een keuze van mij.
 - **Meetgebeurtenissen**: gelijk aan de oude check (`check_voltooid`, `generate_lead`, `ConformiteitsCheckVoltooid`, `Lead`), plus `check_gestart` en `ConformiteitsCheckGestart`. Score en niveau gaan mee; `value` bij `generate_lead` is weggelaten, omdat GA4 dat als geldbedrag telt.
 
 ## 3. Lege velden
 
-- `check.riskTexts`: nog geen risicoteksten (bron: `profielen-conformiteitscheck.md`)
-- `check.actions`: nog geen acties per profiel
 - `offerNext`: aanbod voor de volgende stap in de pdf
 
 | Document | Lege velden |
@@ -148,3 +147,98 @@ Documenten die niet in de tabel staan, zijn volledig gevuld. Afkortingen: what =
 | `eigendomstitel` | Eigendomstitel en vererving | gids 5.2.1 | erfgenamen |
 | `financieringsvoorbehoud` | Financieringsvoorbehoud | gids 5.2.3 | hypotheek |
 | `technische-controle` | Voorbehoud van een gunstige technische controle | gids 4.2.8, 4.2.10, 5.2.3 | altijd |
+
+## 6. Profielen
+
+De bouwbrief noemt tien basisprofielen in `profielen-conformiteitscheck.md`. Dat bestand ontbreekt, dus de profielen zijn opgesteld uit de gids. Er zijn er twaalf geworden, één per profielvlag die iets verandert, plus de uitzondering voor een getekend _compromesso_ en een basisset die altijd geldt. Het dossier toont bovenaan hoogstens drie risicoteksten (laagste rang eerst) en een uitklapbare lijst met acties per fase. De pdf toont dezelfde acties in de actielijst.
+
+### Risicoteksten
+
+| Id | Geldt als | Rang | Bron | Tekst |
+| --- | --- | --- | --- | --- |
+| `compromesso-getekend` | je hebt het _compromesso_ al getekend | 1 | gids 5.2.7 | Er kunnen na het _compromesso_ bouwovertredingen opduiken. Is legalisatie niet mogelijk, of levert de verkoper de vereiste stukken niet, dan is er sprake van wanprestatie aan zijn kant. Bij wezenlijke of niet-geregulariseerde afwijkingen kun je weigeren te passeren, ontbinding van de overeenkomst vorderen, prijsvermindering eisen of schadevergoeding vragen. Je zit dus niet automatisch vast en je bent je _caparra_ niet automatisch kwijt. |
+| `erfgenamen` | erfgenamen verkopen | 2 | gids 4.2.1 | Erfenis of verdeling van een nalatenschap vraagt om drie controles. Ten eerste of alle erfgenamen hebben meegewerkt en of de nalatenschap correct is afgewikkeld, met een ingediende _dichiarazione di successione_. Ten tweede of de aanvaarding van de nalatenschap is ingeschreven (_accettazione dell'eredità_). Ten derde of de kadastrale tenaamstelling daadwerkelijk is bijgewerkt (_voltura catastale_). |
+| `verbouwd-notaris` | het pand is verbouwd of uitgebreid | 2 | gids 5.3, 4.2.8 | De notaris controleert niet zelf de _conformità urbanistica_, dus of het huis overeenstemt met de gemeentelijke bouwvergunningen, en hij doet geen bouwkundige controle ter plaatse. Daardoor kunnen onregelmatigheden gewoon meeverkopen. |
+| `monument` | het pand is een beschermd monument | 2 | gids 4.2.7 | Elke eigendomsovergang moet binnen 30 dagen worden gemeld bij de _soprintendenza_, in de praktijk door de notaris. Vanaf die melding hebben het ministerie, de regio en de gemeente 60 dagen om hun voorkooprecht uit te oefenen en het pand tegen dezelfde prijs zelf te kopen. In die periode is de koop wel geldig maar nog niet werkzaam, en mag de verkoper je de sleutels niet geven. |
+| `voor1967` | het pand is gebouwd vóór 1 september 1967 | 3 | gids 4.2.8 | Voor woningen waarvan de bouw vóór 1 september 1967 is begonnen, gelden andere regels. Veel van die gebouwen hebben geen formele bouwvergunning, omdat die destijds nog niet verplicht was. |
+| `verbouwd-agibilita` | het pand is verbouwd of uitgebreid | 3 | gids 4.2.9 | Bij recente verbouwingen betekent een ontbrekende, niet-geactualiseerde verklaring meestal dat de aannemer of de eigenaar de procedure nooit heeft afgerond. Dat is op zichzelf een reden om door te vragen, ook als het huis er verder prima uitziet. |
+| `grond-voorkooprecht` | er hoort landbouwgrond bij | 3 | gids 4.2.6 | Is de rechthebbende niet of niet correct geïnformeerd, dan kan hij tot één jaar na de inschrijving van de koopakte de koop betwisten en het perceel tegen dezelfde prijs opeisen. Je kunt het perceel dus achteraf kwijtraken. |
+| `grond-pachter` | de landbouwgrond wordt bewerkt of verpacht | 3 | gids 4.2.6 | Het komt in de eerste plaats toe aan de pachter, de _affittuario_ die het land al minstens twee jaar als _coltivatore diretto_ bewerkt. |
+| `monument-toleranties` | het pand is een beschermd monument | 3 | gids 4.2.8 | Op panden die op grond van _D.Lgs_. 42/2004 beschermd zijn, geldt het tolerantieregime niet. Daar moet elke afwijking langs de gewone weg worden rechtgezet. |
+| `hypotheek-caparra` | je financiert met een hypotheek | 3 | gids 5.2, 5.2.3 | Zonder financieringsclausule loop je anders het risico je aanbetaling kwijt te raken als de bank onverhoopt niet financiert. In alle gevallen moet je de _caparra_ zelf voorschieten want een eventuele hypotheek op het huis krijg je pas na de overdracht. |
+| `grond-belasting` | er hoort landbouwgrond bij | 4 | gids 5.4 | Is de grond géén _pertinenza_, dan bestaat je akte fiscaal uit twee delen: het gebouw tegen 2 of 9 % van de lage kadastrale waarde, en de grond tegen 9 % van de werkelijke prijs, of tegen 15 % als het landbouwgrond is en jij geen erkend landbouwer bent. |
+| `vincolo` | het pand ligt in een beschermd gebied | 4 | gids 4.2.7, 5.2.2 | Het _vincolo paesaggistico_ beschermt het landschap en raakt vooral wat je mag verbouwen, niet de verkoop zelf. Wil je bouwen terwijl er belemmeringen zijn dan heb je toestemming nodig van de _soprintendenza_, de territoriale dienst van het Italiaanse ministerie van Cultuur. |
+| `condominio` | de woning hoort bij een _condominio_ (VvE) | 4 | gids 5.3 | Naar Italiaans recht ben je als koper hoofdelijk aansprakelijk voor de VvE-bijdragen over het lopende en het voorafgaande beheersjaar. De VvE mag jou aanspreken voor schulden van de verkoper, en die regel is dwingend. |
+| `verhuurd` | de woning is verhuurd of in gebruik | 4 | gids 5.2.1 | Is er een lopende huurovereenkomst, dan neem jij die als koper over: koop breekt naar Italiaans recht geen huur. Bij een geregistreerd huurcontract met vaste datum kun je de huurder niet zomaar buiten de deur zetten. |
+| `vennootschap-btw` | een vennootschap verkoopt | 5 | gids 5.4 | Let op: btw geldt alleen als je van een bouwbedrijf (_impresa costruttrice/ristrutturatrice_) koopt binnen vijf jaar na voltooiing van de werken (of als het bedrijf uitdrukkelijk voor btw kiest). Koop je daarbuiten van een bedrijf, dan is de verkoop meestal btw-vrij en betaal je juist de _imposta di registro_ (9 %, of 2% bij _prima casa_). Dat scheelt meer dan het lijkt, want de grondslag verandert mee. |
+| `prima-casa` | het wordt je hoofdverblijf (_prima casa_) | 5 | gids hoofdstuk 6 | Heb je gekocht met de _prima casa_-korting op de overdrachtsbelasting, dan moet je je binnen achttien maanden na de akte laten inschrijven in de gemeente waar het huis staat. Doe je dat niet, dan vordert de fiscus het belastingvoordeel terug, verhoogd met rente en een boete van 30 %. |
+| `afstand` | je koopt op afstand | 6 | gids 2.2.6 | Kun je niet zelf bij het _rogito_ zijn, dan kun je iemand volmacht geven om namens jou te tekenen. Dat gebeurt met een _procura speciale_: een volmacht voor precies deze ene aankoop, met zo smal mogelijk omschreven bevoegdheden. |
+| `taal` | je volgt de akte niet in het Italiaans | 6 | gids 2.2.6 | Notariële akten worden in het Italiaans opgesteld. Spreek je onvoldoende Italiaans, dan moet de notaris ervoor zorgen dat je de akte begrijpt. |
+
+### Acties
+
+| Id | Geldt als | Fase | Bron | Tekst |
+| --- | --- | --- | --- | --- |
+| `basis-keuring-voor-bod` | altijd (basisset) | bod | gids 4.2.10 | Plan de keuring vóór je bod als het even kan. Dan onderhandel je met het rapport in de hand, in plaats van achteraf te moeten proberen de prijs nog aangepast te krijgen. |
+| `erfgenamen-successies` | erfgenamen verkopen | bod | gids 4.2.1 | Let er vooral op of er méér dan één niet-geregulariseerde successie is. Reken op maanden, en vraag hier daarom naar vóór je een leveringsdatum afspreekt. |
+| `vennootschap-btw-vragen` | een vennootschap verkoopt | bod | gids 5.4 | Vraag daarom bij een nieuwbouwwoning die al langer te koop staat vóór je bod wanneer de werken zijn voltooid en of de verkoper met of zonder btw verkoopt. Laat het antwoord in de _proposta_ opnemen. |
+| `vennootschap-visura-camerale` | een vennootschap verkoopt | bod | gids 5.2.6 | Vraag een _visura camerale_ op: daarin zie je hoe lang het bedrijf bestaat en of er een insolventieprocedure loopt. |
+| `voor1967-bewijs` | het pand is gebouwd vóór 1 september 1967 | bod | gids 4.2.8 | De _geometra_ en de notaris baseren zich in zulke gevallen op ander bewijs: historische luchtfoto's; oude kaarten; registraties in het kadaster. Vraag als koper altijd om die onderbouwing wanneer deze route wordt gebruikt, en neem geen genoegen met de enkele mededeling dat het huis "oud" is. |
+| `verbouwd-titel` | het pand is verbouwd of uitgebreid | bod | gids 4.2.8 | Neem dus geen genoegen met het feit dat er een titel in de akte staat. Laat je _geometra_ controleren dat die titel daadwerkelijk bestaat, bij de gemeente is terug te vinden, en op dít pand betrekking heeft. |
+| `verbouwd-kamers` | het pand is verbouwd of uitgebreid | bod | gids 4.2.8 | Vraag de makelaar daarom bij elke kamer onder de grond of onder het dak naar de bestemming volgens de vergunning, en laat de _geometra_ de situatie met de tekeningen vergelijken. |
+| `grond-berekening` | er hoort landbouwgrond bij | bod | gids 5.4 | Vraag de berekening vóór je bod, want bij veel grond bepaalt deze post of het pand binnen je budget past. |
+| `grond-grenzen` | er hoort landbouwgrond bij | bod | gids 4.2.2 | Laat bij een perceel van enige omvang een _geometra_ de grenzen ter plaatse verifiëren voordat je tekent, zoals ook beschreven in sectie 9.6.1. |
+| `vincolo-usi-civici` | het pand ligt in een beschermd gebied | bod | gids 4.2.6 | Wat je moet doen: vraag de gemeente om een verklaring over de aanwezigheid van _usi civici_ op de betrokken _particelle_, en laat de notaris dit uitdrukkelijk nagaan. |
+| `condominio-vragen` | de woning hoort bij een _condominio_ (VvE) | bod | gids 1.2.1 | Vraag altijd naar de hoogte van de condominiumkosten, eventuele achterstallige betalingen door de verkoper, en de notulen van recente vergaderingen van eigenaren. |
+| `hypotheek-toezegging` | je financiert met een hypotheek | bod | gids 5.2.3 | Vraag daarom vooraf bij de bank een voorlopige financieringstoezegging (_delibera reddituale_ of _parere di fattibilità_): daarmee maak je je bod sterker en kun je het voorbehoud kort houden of laten vervallen. |
+| `verhuurd-contract` | de woning is verhuurd of in gebruik | bod | gids 5.2.1 | Vraag om een kopie van het contract en van de registratie, en laat in het _compromesso_ vastleggen wanneer en in welke staat het pand wordt opgeleverd. |
+| `basis-zelf-laten-opnemen` | altijd (basisset) | compromesso | gids 5.2.1 | Ontbindende en opschortende voorwaarden, garanties over vergunningen en afspraken over de vindplaats van de betaling moet je zelf laten opnemen. |
+| `getekend-jurist` | je hebt het _compromesso_ al getekend | compromesso | gids 5.2.7 | Laat je in zo'n situatie wel bijstaan door een Italiaanse jurist. |
+| `erfgenamen-compromesso` | erfgenamen verkopen | compromesso | gids 5.2.1 | Is het vererfd, laat dan opnemen dat de _dichiarazione di successione_ is ingediend, dat de aanvaarding van de nalatenschap, de _accettazione dell'eredità_, is ingeschreven, en dat de kadastrale tenaamstelling via een _voltura catastale_ is bijgewerkt vóór de akte, alles op kosten van de verkoper. |
+| `erfgenamen-leveringsdatum` | erfgenamen verkopen | compromesso | gids 5.2.1 | Staat het pand nog op naam van een overledene en is er meer dan één successie niet afgewikkeld, spreek dan geen krappe leveringsdatum af: het opsporen van alle rechthebbenden kost maanden. |
+| `mede-eigenaren-toestemming` | er zijn meerdere eigenaren | compromesso | gids 5.3 | Ga na dat alle eigenaren meetekenen, ook een echtgenoot of mede-erfgenaam. De notaris controleert bij meerdere verkopers of iedereen toestemming heeft gegeven. |
+| `mede-eigenaren-caparra` | er zijn meerdere eigenaren | compromesso | gids 5.2.1 | De _caparra confirmatoria_: het bedrag, de betaalwijze, aan wie precies wordt betaald, de verwijzing naar de uitgeschreven cheques of overboekingen, en bij meerdere verkopers de verdeling over de mede-eigenaren. |
+| `verbouwd-termijn` | het pand is verbouwd of uitgebreid | compromesso | gids 5.2.3 | Houd bij zulke voorwaarden rekening met doorlooptijden bij de gemeente: die heeft wettelijk 30 dagen om inzage te geven in het bouwarchief (_accesso agli atti_), en in de praktijk duurt het vaak langer. |
+| `grond-particella` | er hoort landbouwgrond bij | compromesso | gids 4.2.6 | Het voorkooprecht kent geen minimumoppervlakte. Vraag je notaris daarom per _particella_ of het recht geldt, ook als de buurman zegt geen belangstelling te hebben. |
+| `grond-planning` | er hoort landbouwgrond bij | compromesso | gids 4.2.6 | De kennisgeving aan de rechthebbende gaat per aangetekende brief, met het voorlopige koopcontract erbij. Vanaf ontvangst heeft hij 30 dagen om te reageren. Reken die 30 dagen dus in je planning mee, bovenop de 7 tot 30 dagen voor de _CDU_. |
+| `vincolo-voorwaarde` | het pand ligt in een beschermd gebied | compromesso | gids 5.2.2 | Eventueel neem je een opschortende voorwaarde die je beschermt tegen belemmeringen die in het compromesso niet of niet voldoende vermeld zijn. |
+| `hypotheek-aanvraag` | je financiert met een hypotheek | compromesso | gids 5.2.3 | Dien je aanvraag dus meteen in, bewaar elke ontvangstbevestiging en vraag bij afwijzing een schriftelijke weigering met datum. |
+| `hypotheek-volmacht` | je financiert met een hypotheek én je koopt op afstand | compromesso | gids 2.2.6 | Koop je met een Italiaanse hypotheek, overleg dan tijdig met bank en notaris. Een volmacht om te kopen geeft niet vanzelf de bevoegdheid om ook de hypotheekakte te tekenen, en banken stellen eigen eisen. |
+| `afstand-volmacht` | je koopt op afstand | compromesso | gids 2.2.6 | Begin bij de Italiaanse notaris die de akte zal verlijden. Laat hem de tekst opstellen of vooraf goedkeuren, en laat de volmacht pas daarna tekenen. |
+| `afstand-gevolmachtigde` | je koopt op afstand én je volgt de akte niet in het Italiaans | compromesso | gids 2.2.6 | Kies je een gevolmachtigde die Italiaans spreekt, dan is er bij het _rogito_ geen tolk en geen schriftelijke vertaling nodig. |
+| `basis-conceptakte` | altijd (basisset) | rogito | gids 5.3 | Vraag de ontwerpakte enkele dagen vooraf op en laat hem doornemen door je eigen jurist of tolk. |
+| `getekend-verlenging` | je hebt het _compromesso_ al getekend | rogito | gids 5.2.7 | Is de overtreding herstelbaar, spreek dan met de verkoper een verlenging van de termijn af zodat de legalisatieprocedure kan worden afgerond (zie sectie 5.2.4). |
+| `getekend-verlenging-schriftelijk` | je hebt het _compromesso_ al getekend | rogito | gids 5.2.4 | Leg een verlenging daarom altijd schriftelijk vast, met verwijzing naar het oorspronkelijke contract en de oorspronkelijke termijn, de nieuwe datum, of die nieuwe termijn wél of niet fataal is, wat er met de _caparra_ gebeurt, en eventuele nieuwe voorwaarden. |
+| `grond-uitsplitsen` | er hoort landbouwgrond bij | rogito | gids 5.4 | Laat de notaris de prijs in de akte uitsplitsen over de woning, de _pertinenze_ en de grond, en vraag hem vóór het tekenen om een berekening per onderdeel. |
+| `grond-aanschrijving` | er hoort landbouwgrond bij | rogito | gids 5.3 | Laat de notaris de bewijzen van de aanschrijving daarom aan het dossier hechten en bewaar ze zelf ook. |
+| `monument-melding` | het pand is een beschermd monument | rogito | gids 5.3 | Laat de notaris de melding daarom zelf verzorgen en vraag om het ontvangstbewijs. |
+| `monument-planning` | het pand is een beschermd monument | rogito | gids 5.3 | Zolang de termijn loopt mag de verkoper het pand niet aan je leveren. Plan verhuizing, aannemer en opzegging van je huidige woning pas na afloop van de termijn. |
+| `condominio-verklaring` | de woning hoort bij een _condominio_ (VvE) | rogito | gids 5.3, 4.2.11 | Koop je een appartement, dan is er één document dat je niet mag overslaan: een recente verklaring van de _amministratore_ over de stand van de betalingen en over besloten maar nog niet uitgevoerde werkzaamheden. Vraag de verklaring één tot twee weken vóór de akte aan, en niet later. |
+| `condominio-depot` | de woning hoort bij een _condominio_ (VvE) | rogito | gids 5.3 | Laat de verklaring aan de akte hechten en laat, als er iets openstaat, dat bedrag bij de notaris in depot houden tot het is voldaan. |
+| `hypotheek-bank` | je financiert met een hypotheek | rogito | gids 5.2.3 | Informeer je bank tijdig over de geplande datum, zodat de cheque klaarligt of de transactie kan worden uitgevoerd. |
+| `afstand-origineel` | je koopt op afstand | rogito | gids 5.3 | Het origineel moet tijdig fysiek bij de notaris liggen; een scan per mail volstaat alleen om de tekst vooraf te laten controleren. |
+| `taal-bozza` | je volgt de akte niet in het Italiaans | rogito | gids 5.3 | Vraag minimaal een week van tevoren een conceptakte (_bozza_) op, zodat je deze rustig kunt (laten) vertalen en weet wat je verklaart. |
+| `taal-tolk` | je volgt de akte niet in het Italiaans | rogito | gids 5.4 | Vertaler/tolk bij de akte (als je geen Italiaans spreekt): €500 - €800, omdat de tolk de hele akte moet vertalen en aanwezig moet zijn. |
+| `prima-casa-pertinenze` | het wordt je hoofdverblijf (_prima casa_) | rogito | gids 5.4 | Laat je notaris de situatie m.b.t. de _pertinenze_ uitdrukkelijk in de akte vastleggen, dat is later je belangrijkste bewijs. |
+
+### Extra belangrijke documenten per profiel
+
+| Document | Extra belangrijk als |
+| --- | --- |
+| Atto di provenienza | erfgenamen verkopen |
+| Usucapione | er hoort landbouwgrond bij |
+| Visura catastale | erfgenamen verkopen |
+| Planimetria catastale | het pand is verbouwd of uitgebreid |
+| Titoli edilizi e stato legittimo | het pand is gebouwd vóór 1 september 1967, het pand is verbouwd of uitgebreid, je financiert met een hypotheek |
+| Identiteit en bevoegdheid van de verkoper | erfgenamen verkopen, er zijn meerdere eigenaren, een vennootschap verkoopt |
+| Locazione o comodato | de woning is verhuurd of in gebruik |
+| Relazione di regolarità edilizia e catastale (RRE) | het pand is verbouwd of uitgebreid, je financiert met een hypotheek |
+| Agibilità o SCA | het pand is verbouwd of uitgebreid |
+| Certificato di destinazione urbanistica | er hoort landbouwgrond bij |
+| Vincoli | het pand ligt in een beschermd gebied, het pand is een beschermd monument |
+| Prelazione agraria | de landbouwgrond wordt bewerkt of verpacht |
+| Servitù | er hoort landbouwgrond bij |
+
+### Niet letterlijk uit de gids
+
+- "Ga na dat alle eigenaren meetekenen, ook een echtgenoot of mede-erfgenaam. De notaris controleert bij meerdere verkopers of iedereen toestemming heeft gegeven." (samenvatting van gids 5.3 (controles notaris))

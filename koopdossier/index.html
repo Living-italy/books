@@ -104,6 +104,7 @@ a { color: var(--terra-dark); }
 .answer:hover { background: var(--olive-soft); border-color: var(--olive); }
 .answer[aria-pressed="true"] { background: var(--olive); color: #fff; border-color: var(--olive); }
 details.help { margin: 8px 0; }
+details.card > summary.h-summary { cursor: pointer; font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 1.2rem; min-height: 44px; display: flex; align-items: center; }
 details.help summary { cursor: pointer; color: var(--terra-dark); font-weight: 600; min-height: 44px; display: flex; align-items: center; }
 .score { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .score .num { font-family: 'Playfair Display', Georgia, serif; font-size: 3.4rem; font-weight: 700; line-height: 1; }
@@ -344,7 +345,8 @@ const UI = {
     replacedBy: 'In plaats daarvan: {doc}.',
     notApplicable: '{n} documenten gelden niet voor deze woning volgens je profiel.',
     profile: 'Profiel',
-    score: 'Score'
+    score: 'Score',
+    actions: 'Acties voor deze woning ({n})'
   },
 
   markers: {
@@ -589,6 +591,20 @@ function attentionPoints(answers) {
     });
 }
 
+// Voorwaarden op vlaggen: 'when' (één treffer genoeg) en/of 'whenAll' (alle vlaggen nodig).
+// Zonder voorwaarden geldt een regel altijd (basisset).
+function matchesFlags(x, set) {
+  const any = !(x.when && x.when.length) || x.when.some((f) => set.has(f));
+  const all = !(x.whenAll && x.whenAll.length) || x.whenAll.every((f) => set.has(f));
+  return any && all;
+}
+// Acties uit het profiel, op volgorde van fase.
+function profileActions(p) {
+  const set = new Set(p.flags);
+  return (C.check.actions || []).filter((a) => matchesFlags(a, set))
+    .sort((a, b) => PHASE_ORDER.indexOf(a.phase) - PHASE_ORDER.indexOf(b.phase));
+}
+
 // Risicoteksten: 'when' (één treffer genoeg) en/of 'whenAll' (alle vlaggen nodig).
 // Naast profielvlaggen tellen ook 'nee:<vraag>' en 'weet:<vraag>' als vlag.
 function riskTexts(flags, answers) {
@@ -596,10 +612,8 @@ function riskTexts(flags, answers) {
   Object.entries(answers).forEach(([q, a]) => { if (a === 'nee' || a === 'weet') set.add(`${a}:${q}`); });
   const seen = new Map();
   (C.check.riskTexts || []).forEach((r) => {
-    const anyOk = !(r.when && r.when.length) || r.when.some((f) => set.has(f));
-    const allOk = !(r.whenAll && r.whenAll.length) || r.whenAll.every((f) => set.has(f));
     if (!(r.when && r.when.length) && !(r.whenAll && r.whenAll.length)) return;
-    if (!anyOk || !allOk) return;
+    if (!matchesFlags(r, set)) return;
     const key = r.id || r.text;
     if (!seen.has(key) || seen.get(key).rank > r.rank) seen.set(key, r);
   });
@@ -1071,6 +1085,7 @@ function viewDossier() {
       ${s.score.complete ? `<a class="btn ghost" href="#resultaat/${p.id}">${esc(UI.check.resultTitle)}</a>` : ''}
     </div>
     ${flags.has('compromesso-getekend') ? `<div class="notice red">${esc(UI.dossier.compromesso)}</div>` : ''}
+    ${dossierRisks(p)}
     ${!s.score.complete ? `<div class="notice warn"><p>${esc(t(UI.dossier.checkIncomplete, { n: s.score.answered, total: s.score.total }))}</p><a class="btn secondary" href="#check/${p.id}" data-action="check-edit" data-prop="${p.id}">${esc(UI.dossier.finishCheck)}</a></div>` : ''}
     <label class="switch"><input type="checkbox" id="only-open" data-change="only-open"${onlyOpen ? ' checked' : ''}> ${esc(UI.dossier.onlyOpen)}</label>
     ${shown.length === 0 ? `<p class="allclear">${esc(UI.dossier.allClear)}</p>` : ''}
@@ -1084,6 +1099,21 @@ function viewDossier() {
       <p class="muted small" style="margin:4px 0 0">${t(esc(UI.dossier.droppedBecause), { reason: txt(info.dropped.reason) })}${info.dropped.replacedBy && IDX.doc[info.dropped.replacedBy] ? ' ' + t(esc(UI.dossier.replacedBy), { doc: fmt(docName(IDX.doc[info.dropped.replacedBy])) }) : ''}</p></div>`).join('')}</section>` : ''}
     ${notApplicable ? `<p class="muted small">${esc(t(UI.dossier.notApplicable, { n: notApplicable }))}</p>` : ''}`;
 }
+// Risicoteksten en acties uit het profiel, bovenaan het dossier.
+function dossierRisks(p) {
+  const risks = riskTexts(p.flags, effectiveAnswers(p));
+  const acts = profileActions(p);
+  let html = '';
+  if (risks.length) html += `<section class="card"><h2>${esc(UI.check.risks)}</h2>${risks.map((r) => `<p>${txt(r.text)}</p>`).join('')}</section>`;
+  if (acts.length) {
+    html += `<details class="card"><summary class="h-summary">${esc(t(UI.dossier.actions, { n: acts.length }))}</summary>${PHASE_ORDER.map((ph) => {
+      const list = acts.filter((a) => a.phase === ph);
+      return list.length ? `<h3 style="margin-top:12px">${esc(UI.phases[ph])}</h3><ul class="points">${list.map((a) => `<li>${txt(a.text)}</li>`).join('')}</ul>` : '';
+    }).join('')}</details>`;
+  }
+  return html;
+}
+
 function docRow(p, x) {
   const { d, info, marker } = x;
   const e = readDoc(p, d.id);
@@ -1319,10 +1349,7 @@ function printReport(propId) {
       actions.push({ phase: d.phase, sev: SEVERITY_ORDER[f.severity] ?? 3, html: t(esc(R.actionFlag), { doc: name, text: fmt(f.text), severity: esc(UI.severities[f.severity] || f.severity) }) });
     });
   });
-  const flagSet = new Set(p.flags);
-  (C.check.actions || []).forEach((a) => {
-    if (!(a.when || []).length || a.when.some((f) => flagSet.has(f))) actions.push({ phase: a.phase || 'bod', sev: 3, html: txt(a.text) });
-  });
+  profileActions(p).forEach((a) => actions.push({ phase: a.phase || 'bod', sev: 3, html: txt(a.text) }));
   actions.sort((a, b) => PHASE_ORDER.indexOf(a.phase) - PHASE_ORDER.indexOf(b.phase) || a.sev - b.sev);
 
   const mail = !checkOnly ? buildMail(p, state.prefs.recipient || C.mail.recipients[0].id, state.prefs.sender || '') : null;
