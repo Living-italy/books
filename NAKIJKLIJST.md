@@ -19,7 +19,7 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 - **Tekst van rode vlaggen**: korte waarnemingen in eigen woorden, elk gebaseerd op een concreet punt uit 4.2 of 5.2.
 - **Opvraagregels (`requestIt`) en de opvraagmail**: conceptvertaling, nog niet nagelezen.
 - **Profielvragen en antwoordopties**: nog steeds afgeleid uit de bouwbrief (`profielen-conformiteitscheck.md` ontbreekt).
-- **Meetgebeurtenissen**: de oude check stuurde `check_voltooid` en `generate_lead` naar GA4 en `ConformiteitsCheckVoltooid` en `Lead` naar Meta, met score en niveau erbij. De nieuwe app stuurt volgens de bouwbrief `check_gestart`, `check_afgerond` en `check_aangemeld` (bij Meta `Lead`), zonder score. Pas dat aan als je rapportages op de oude namen draaien.
+- **Meetgebeurtenissen**: gelijk aan de oude check (`check_voltooid`, `generate_lead`, `ConformiteitsCheckVoltooid`, `Lead`), plus `check_gestart` en `ConformiteitsCheckGestart`. Score en niveau gaan mee; `value` bij `generate_lead` is weggelaten, omdat GA4 dat als geldbedrag telt.
 
 ## 3. Lege velden
 

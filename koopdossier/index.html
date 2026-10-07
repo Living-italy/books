@@ -687,13 +687,20 @@ function loadAnalytics() {
     window.fbq('track', 'PageView');
   }
 }
-function track(name) {
-  if (!analyticsLoaded) return;
-  if (SETTINGS.ga4Id && window.gtag) window.gtag('event', name);
-  if (SETTINGS.metaPixelId && window.fbq) {
-    if (name === 'check_aangemeld') window.fbq('track', 'Lead'); else window.fbq('trackCustom', name);
-  }
+// Namen gelijk aan de oude conformiteitscheck, zodat rapporten in GA4 en Meta doorlopen.
+// Score en niveau mogen mee; antwoorden nooit. Geen 'value': GA4 leest dat als geldbedrag.
+const EVENTS = {
+  gestart: { ga: 'check_gestart', meta: ['trackCustom', 'ConformiteitsCheckGestart'] },
+  afgerond: { ga: 'check_voltooid', meta: ['trackCustom', 'ConformiteitsCheckVoltooid'] },
+  aangemeld: { ga: 'generate_lead', meta: ['track', 'Lead', { content_name: 'conformiteitscheck' }] }
+};
+function track(key, params) {
+  const ev = EVENTS[key];
+  if (!analyticsLoaded || !ev) return;
+  if (SETTINGS.ga4Id && window.gtag) window.gtag('event', ev.ga, params || {});
+  if (SETTINGS.metaPixelId && window.fbq) window.fbq(ev.meta[0], ev.meta[1], ev.meta[2] || params || {});
 }
+const scoreParams = (s) => ({ score: s.score, niveau: s.level.label });
 
 /* ==========================================================================
    ROUTER
@@ -808,7 +815,7 @@ function answerCheck(a) {
   answers[q.id] = a;
   if (prop && a === 'nee') checkFlag(prop, q.flag);
   saveState();
-  if (isFirst) track('check_gestart');
+  if (isFirst) track('gestart');
   if (flow.check.index < qs.length - 1) { flow.check.index++; navigate(); return; }
   // Laatste vraag: naar de uitkomst, of terug naar de eerste open vraag.
   const open = qs.findIndex((x) => !answers[x.id]);
@@ -817,7 +824,7 @@ function answerCheck(a) {
 }
 function finishCheck(prop) {
   flow.check = null;
-  if (!prop) { state.prefs.checkDone = true; saveState(); track('check_afgerond'); }
+  if (!prop) { state.prefs.checkDone = true; saveState(); track('afgerond', scoreParams(scoreOf(state.lastCheck))); }
   go(prop ? `#resultaat/${prop.id}` : '#resultaat');
 }
 
@@ -914,7 +921,7 @@ async function submitSignup(form) {
   } catch (e) { ok = false; }
   state.prefs.emailAsked = true;
   saveState();
-  if (ok) track('check_aangemeld');
+  if (ok) track('aangemeld', scoreParams(s));
   msg.textContent = ok ? UI.signup.thanks : UI.signup.failed;
   toast(ok ? UI.signup.thanks : UI.signup.failed);
   if (mode === 'dialog') $('#dialog').close();

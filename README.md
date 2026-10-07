@@ -96,7 +96,13 @@ Interfaceteksten (knoppen, kopjes, meldingen) staan in het object `UI` in `index
 
 - Dossiergegevens (namen, adressen, antwoorden, notities) blijven in de browser, onder de sleutel `koopdossier` in `localStorage`.
 - Alleen als de gebruiker zelf een e-mailadres invult, gaan e-mailadres, voornaam, score, risiconiveau en het aantal aandachtspunten naar `api.php` en van daar naar Brevo.
-- GA4 en Meta Pixel laden alleen op de checkschermen en alleen als hun ID is ingevuld. Ze krijgen drie gebeurtenissen: `check_gestart`, `check_afgerond` en `check_aangemeld` (bij Meta als `Lead`). Nooit met antwoorden.
+- GA4 en Meta Pixel laden alleen op de checkschermen en alleen als hun ID is ingevuld. De namen zijn gelijk aan die van de oude check, zodat rapporten doorlopen. Score en niveau gaan mee, antwoorden nooit.
+
+  | Moment | GA4 | Meta |
+  | --- | --- | --- |
+  | Check begonnen | `check_gestart` | `ConformiteitsCheckGestart` |
+  | Check af | `check_voltooid` met `score` en `niveau` | `ConformiteitsCheckVoltooid` met `score` en `niveau` |
+  | Aangemeld | `generate_lead` met `score` en `niveau` (geen `value`) | `Lead` met `content_name: conformiteitscheck` |
 - Zet geen sessie-opnames (zoals Microsoft Clarity) op deze pagina's, of maskeer alle invoervelden.
 
 ## Testlijst fase 1
