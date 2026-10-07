@@ -1,0 +1,641 @@
+{
+  "version": "2026-10-07",
+  "language": "nl",
+  "check": {
+    "title": "Is dit huis wel legaal?",
+    "intro": "",
+    "levels": [
+      { "id": "laag", "max": 15, "label": "Laag risico", "text": "" },
+      { "id": "verhoogd", "max": 40, "label": "Verhoogd risico", "text": "" },
+      { "id": "hoog", "max": 100, "label": "Hoog risico", "text": "" }
+    ],
+    "questions": [
+      {
+        "id": "catastale",
+        "weight": 10,
+        "text": "Klopt de kadastrale plattegrond (*planimetria catastale*) met de werkelijke indeling van het huis?",
+        "help": "",
+        "documents": ["planimetria-catastale"],
+        "flag": "planimetria-wijkt-af"
+      },
+      {
+        "id": "urbanistica",
+        "weight": 12,
+        "text": "Is er voor elke verbouwing een vergunning?",
+        "help": "",
+        "documents": ["titoli-edilizi"],
+        "flag": "verbouwing-zonder-vergunning"
+      },
+      {
+        "id": "agibilita",
+        "weight": 7,
+        "text": "Is er een geldig bewoonbaarheidscertificaat (*agibilità*)?",
+        "help": "",
+        "documents": ["agibilita"],
+        "flag": "agibilita-ontbreekt"
+      },
+      {
+        "id": "eigendom",
+        "weight": 7,
+        "text": "Kloppen het kadastraal uittreksel (*visura*) en de akte met de gegevens van de verkoper?",
+        "help": "",
+        "documents": ["atto-provenienza", "visura-catastale"],
+        "flag": "visura-naam-wijkt-af"
+      },
+      {
+        "id": "ipoteca",
+        "weight": 10,
+        "text": "Is de woning vrij van hypotheek, beslag of schulden?",
+        "help": "",
+        "documents": ["ispezione-ipotecaria-compromesso", "ispezione-ipotecaria-rogito"],
+        "flag": "hypotheek-of-beslag"
+      },
+      {
+        "id": "erfgenamen",
+        "weight": 7,
+        "text": "Gaan alle eigenaren en erfgenamen akkoord met de verkoop?",
+        "help": "",
+        "documents": ["identiteit-verkoper"],
+        "flag": "eigenaar-tekent-niet"
+      },
+      {
+        "id": "meters",
+        "weight": 6,
+        "text": "Kloppen de vierkante meters met het kadaster?",
+        "help": "",
+        "documents": ["visura-catastale"],
+        "flag": "meters-wijken-af"
+      },
+      {
+        "id": "aanbouw",
+        "weight": 9,
+        "text": "Zijn bijgebouwen, veranda en zwembad geregistreerd?",
+        "help": "",
+        "documents": ["titoli-edilizi"],
+        "flag": "aanbouw-zonder-vergunning"
+      },
+      {
+        "id": "bestemming",
+        "weight": 7,
+        "text": "Klopt het gebruik van de woning met de kadastrale bestemming?",
+        "help": "",
+        "documents": ["visura-catastale"],
+        "flag": "categorie-wijkt-af"
+      },
+      {
+        "id": "impianti",
+        "weight": 4,
+        "text": "Zijn er verklaringen van conformiteit voor elektra en gas?",
+        "help": "",
+        "documents": ["impianti"],
+        "flag": "impianti-ontbreken"
+      },
+      {
+        "id": "ape",
+        "weight": 2,
+        "text": "Is er een geldig energiecertificaat (*APE*)?",
+        "help": "",
+        "documents": ["ape"],
+        "flag": "ape-ontbreekt"
+      },
+      {
+        "id": "fognatura",
+        "weight": 4,
+        "text": "Is de afvoer of septic tank in orde en gemeld?",
+        "help": "",
+        "documents": ["riolering-water"],
+        "flag": "scarico-zonder-vergunning"
+      },
+      {
+        "id": "servitu",
+        "weight": 5,
+        "text": "Is de toegangsweg eigen grond, of is het recht van overpad (*servitù*) vastgelegd?",
+        "help": "",
+        "documents": ["servitu"],
+        "flag": "toegang-niet-vastgelegd"
+      },
+      {
+        "id": "vincoli",
+        "weight": 4,
+        "text": "Zijn de beperkingen (*vincoli*) op het pand bekend?",
+        "help": "",
+        "documents": ["vincoli"],
+        "flag": "vincoli-onbekend"
+      },
+      {
+        "id": "geometra",
+        "weight": 6,
+        "text": "Laat je vóór het bod een onafhankelijke controle doen door een eigen *geometra* (bouwkundig adviseur)?",
+        "help": "",
+        "documents": ["relazione-tecnica"],
+        "flag": "geen-eigen-controle"
+      }
+    ],
+    "profile": [
+      {
+        "id": "fase",
+        "text": "In welke fase zit je?",
+        "help": "",
+        "options": [
+          { "id": "orienteren", "label": "Ik oriënteer me nog", "flags": [] },
+          { "id": "bezichtigen", "label": "Ik bezichtig woningen", "flags": [] },
+          { "id": "bod", "label": "Ik wil een bod doen of heb het al gedaan", "flags": [] },
+          { "id": "compromesso-getekend", "label": "Ik heb het *compromesso* (voorlopig koopcontract) al getekend", "flags": ["compromesso-getekend"] },
+          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+        ]
+      },
+      {
+        "id": "type",
+        "text": "Wat voor woning is het?",
+        "help": "",
+        "options": [
+          { "id": "appartement", "label": "Appartement in een gebouw met meerdere woningen", "flags": ["condominio"] },
+          { "id": "geschakeld", "label": "Rijtjeshuis of geschakelde woning", "flags": [] },
+          { "id": "vrijstaand", "label": "Vrijstaand huis of villa", "flags": [] },
+          { "id": "rustico", "label": "Boerderij, *rustico* of *casale* (landelijk huis)", "flags": [] },
+          { "id": "weet", "label": "Weet ik niet", "flags": ["condominio"] }
+        ]
+      },
+      {
+        "id": "bouwjaar",
+        "text": "Wanneer is het pand gebouwd?",
+        "help": "",
+        "options": [
+          { "id": "voor-1967", "label": "Vóór 1 september 1967", "flags": ["voor1967"] },
+          { "id": "na-1967", "label": "Op of na 1 september 1967", "flags": [] },
+          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+        ]
+      },
+      {
+        "id": "verbouwd",
+        "text": "Is het pand na de bouw verbouwd of uitgebreid?",
+        "help": "",
+        "options": [
+          { "id": "ja", "label": "Ja", "flags": ["verbouwd"] },
+          { "id": "nee", "label": "Nee", "flags": [] },
+          { "id": "weet", "label": "Weet ik niet", "flags": ["verbouwd"] }
+        ]
+      },
+      {
+        "id": "beschermd",
+        "text": "Ligt het pand in een beschermd gebied? Je kunt meer dan één antwoord kiezen.",
+        "help": "",
+        "multiple": true,
+        "options": [
+          { "id": "landschap", "label": "Beschermd landschap", "flags": ["vincolo"] },
+          { "id": "monument", "label": "Het pand is een beschermd monument", "flags": ["vincolo", "monument"] },
+          { "id": "usi-civici", "label": "Grond met gebruiksrechten van de gemeenschap (*usi civici*)", "flags": ["vincolo"] },
+          { "id": "geen", "label": "Nee, geen beschermd gebied", "flags": [], "exclusive": true },
+          { "id": "weet", "label": "Weet ik niet", "flags": ["vincolo"], "exclusive": true }
+        ]
+      },
+      {
+        "id": "verkoper",
+        "text": "Wie verkoopt de woning?",
+        "help": "",
+        "options": [
+          { "id": "particulier", "label": "Eén particuliere eigenaar", "flags": [] },
+          { "id": "meerdere-eigenaren", "label": "Meerdere eigenaren, bijvoorbeeld een echtpaar", "flags": ["mede-eigenaren"] },
+          { "id": "erfgenamen", "label": "Erfgenamen", "flags": ["erfgenamen"] },
+          { "id": "vennootschap", "label": "Een bedrijf of vennootschap", "flags": ["vennootschap"] },
+          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+        ]
+      },
+      {
+        "id": "grond",
+        "text": "Hoort er landbouwgrond bij de woning?",
+        "help": "",
+        "options": [
+          { "id": "geen", "label": "Nee, alleen een tuin of geen grond", "flags": [] },
+          { "id": "niet-bewerkt", "label": "Ja, maar die wordt niet bewerkt of verpacht", "flags": ["grond"] },
+          { "id": "bewerkt", "label": "Ja, en die wordt bewerkt of verpacht", "flags": ["grond", "grond-bewerkt"] },
+          { "id": "weet", "label": "Weet ik niet", "flags": ["grond"] }
+        ]
+      },
+      {
+        "id": "afstand",
+        "text": "Koop je op afstand, en kun je de akte in het Italiaans volgen?",
+        "help": "",
+        "options": [
+          { "id": "aanwezig-italiaans", "label": "Ik ben er zelf bij en volg de akte in het Italiaans", "flags": [] },
+          { "id": "aanwezig-geen-italiaans", "label": "Ik ben er zelf bij, maar volg de akte niet in het Italiaans", "flags": ["taal"] },
+          { "id": "afstand-italiaans", "label": "Ik koop op afstand en volg de akte in het Italiaans", "flags": ["afstand"] },
+          { "id": "afstand-geen-italiaans", "label": "Ik koop op afstand en volg de akte niet in het Italiaans", "flags": ["afstand", "taal"] },
+          { "id": "weet", "label": "Weet ik niet", "flags": ["afstand", "taal"] }
+        ]
+      },
+      {
+        "id": "woning",
+        "text": "Wordt het je hoofdverblijf (*prima casa*) of een tweede huis?",
+        "help": "",
+        "options": [
+          { "id": "prima-casa", "label": "Hoofdverblijf (*prima casa*)", "flags": ["prima-casa"] },
+          { "id": "tweede-huis", "label": "Tweede huis", "flags": [] },
+          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+        ]
+      },
+      {
+        "id": "financiering",
+        "text": "Hoe betaal je de woning?",
+        "help": "",
+        "options": [
+          { "id": "eigen-geld", "label": "Met eigen geld", "flags": [] },
+          { "id": "hypotheek", "label": "Met een hypotheek", "flags": ["hypotheek"] },
+          { "id": "weet", "label": "Weet ik niet", "flags": ["hypotheek"] }
+        ]
+      },
+      {
+        "id": "gebruik",
+        "text": "Is de woning verhuurd of bij iemand in gebruik?",
+        "help": "",
+        "options": [
+          { "id": "nee", "label": "Nee, de woning is vrij", "flags": [] },
+          { "id": "verhuurd", "label": "Ja, verhuurd", "flags": ["verhuurd"] },
+          { "id": "in-gebruik", "label": "Ja, iemand gebruikt de woning zonder huurcontract", "flags": ["verhuurd"] },
+          { "id": "weet", "label": "Weet ik niet", "flags": ["verhuurd"] }
+        ]
+      }
+    ],
+    "profileFlags": [
+      { "id": "compromesso-getekend", "label": "je hebt het *compromesso* al getekend" },
+      { "id": "condominio", "label": "de woning hoort bij een *condominio* (VvE)" },
+      { "id": "voor1967", "label": "het pand is gebouwd vóór 1 september 1967" },
+      { "id": "verbouwd", "label": "het pand is verbouwd of uitgebreid" },
+      { "id": "vincolo", "label": "het pand ligt in een beschermd gebied" },
+      { "id": "monument", "label": "het pand is een beschermd monument" },
+      { "id": "mede-eigenaren", "label": "er zijn meerdere eigenaren" },
+      { "id": "erfgenamen", "label": "erfgenamen verkopen" },
+      { "id": "vennootschap", "label": "een vennootschap verkoopt" },
+      { "id": "grond", "label": "er hoort landbouwgrond bij" },
+      { "id": "grond-bewerkt", "label": "de landbouwgrond wordt bewerkt of verpacht" },
+      { "id": "afstand", "label": "je koopt op afstand" },
+      { "id": "taal", "label": "je volgt de akte niet in het Italiaans" },
+      { "id": "prima-casa", "label": "het wordt je hoofdverblijf (*prima casa*)" },
+      { "id": "hypotheek", "label": "je financiert met een hypotheek" },
+      { "id": "verhuurd", "label": "de woning is verhuurd of in gebruik" }
+    ],
+    "riskTexts": [],
+    "actions": []
+  },
+  "documents": [
+    {
+      "id": "atto-provenienza",
+      "nameIt": "Atto di provenienza",
+      "nameNl": "Eigendomstitel",
+      "phase": "bod",
+      "supplier": "Verkoper of makelaar",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "copia dell'atto di provenienza",
+      "requestNl": "een kopie van de eigendomstitel (*atto di provenienza*)",
+      "glossary": [],
+      "flags": [
+        { "id": "verkregen-via-schenking", "text": "De verkoper heeft de woning verkregen via een schenking", "severity": "bespreken", "clauses": [] },
+        { "id": "erfenis-niet-alle-erfgenamen", "text": "De woning komt uit een erfenis en niet alle erfgenamen tekenen mee", "severity": "niet-tekenen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "visura-catastale",
+      "nameIt": "Visura catastale",
+      "nameNl": "Kadastraal uittreksel",
+      "phase": "bod",
+      "supplier": "Makelaar",
+      "appliesWhen": [],
+      "criticalWhen": ["erfgenamen"],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "visura catastale aggiornata",
+      "requestNl": "een actueel kadastraal uittreksel (*visura catastale*)",
+      "glossary": ["visura-catastale"],
+      "flags": [
+        { "id": "visura-naam-wijkt-af", "text": "De naam op de *visura* is niet die van de verkoper", "severity": "oplossen", "clauses": [] },
+        { "id": "categorie-wijkt-af", "text": "De kadastrale categorie klopt niet met het werkelijke gebruik", "severity": "oplossen", "clauses": [] },
+        { "id": "meters-wijken-af", "text": "De vierkante meters kloppen niet met het kadaster", "severity": "bespreken", "clauses": [] }
+      ]
+    },
+    {
+      "id": "planimetria-catastale",
+      "nameIt": "Planimetria catastale",
+      "nameNl": "Kadastrale plattegrond",
+      "phase": "bod",
+      "supplier": "Makelaar of verkoper",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "planimetria catastale aggiornata",
+      "requestNl": "een actuele kadastrale plattegrond (*planimetria catastale*)",
+      "glossary": [],
+      "flags": [
+        { "id": "planimetria-wijkt-af", "text": "De plattegrond wijkt af van de werkelijke indeling", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "titoli-edilizi",
+      "nameIt": "Titoli edilizi e stato legittimo",
+      "nameNl": "Bouwvergunningen",
+      "phase": "bod",
+      "supplier": "Verkoper, je eigen *geometra* controleert bij de gemeente",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "copia dei titoli edilizi e della documentazione sullo stato legittimo dell'immobile",
+      "requestNl": "een kopie van de bouwvergunningen (*titoli edilizi*) en de stukken over de legale staat (*stato legittimo*)",
+      "glossary": [],
+      "flags": [
+        { "id": "verbouwing-zonder-vergunning", "text": "Voor een verbouwing is geen vergunning te vinden", "severity": "oplossen", "clauses": [] },
+        { "id": "aanbouw-zonder-vergunning", "text": "Een aanbouw, bijgebouw, veranda of zwembad is niet vergund of niet geregistreerd", "severity": "oplossen", "clauses": [] },
+        { "id": "condono-niet-afgerond", "text": "Er loopt een *condono* (legalisatie achteraf) die nooit is afgerond", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "ape",
+      "nameIt": "APE",
+      "nameNl": "Energielabel",
+      "phase": "bod",
+      "supplier": "Verkoper",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "attestato di prestazione energetica (APE) in corso di validità",
+      "requestNl": "een geldig energielabel (*APE*)",
+      "glossary": [],
+      "flags": [
+        { "id": "ape-ontbreekt", "text": "Het energielabel ontbreekt of is verlopen", "severity": "bespreken", "clauses": [] }
+      ]
+    },
+    {
+      "id": "identiteit-verkoper",
+      "nameIt": "",
+      "nameNl": "Identiteit en bevoegdheid van de verkoper",
+      "phase": "bod",
+      "supplier": "Verkoper, de notaris controleert",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "dati identificativi di tutti i proprietari e documentazione che ne attesti il potere di vendere",
+      "requestNl": "de identiteitsgegevens van alle eigenaren en de stukken waaruit blijkt dat zij mogen verkopen",
+      "glossary": [],
+      "flags": [
+        { "id": "eigenaar-tekent-niet", "text": "Een echtgenoot, mede-eigenaar of erfgenaam tekent niet mee", "severity": "niet-tekenen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "makelaar",
+      "nameIt": "",
+      "nameNl": "Inschrijving en provisie van de makelaar",
+      "phase": "bod",
+      "supplier": "Makelaar",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "estremi dell'iscrizione dell'agente immobiliare e conferma scritta della provvigione",
+      "requestNl": "de inschrijvingsgegevens van de makelaar en een schriftelijke bevestiging van de provisie",
+      "glossary": [],
+      "flags": [
+        { "id": "makelaar-niet-ingeschreven", "text": "De makelaar is niet ingeschreven", "severity": "oplossen", "clauses": [] },
+        { "id": "provisie-niet-op-papier", "text": "De provisie van de makelaar staat niet op papier", "severity": "bespreken", "clauses": [] }
+      ]
+    },
+    {
+      "id": "huur-gebruik",
+      "nameIt": "Locazione o comodato",
+      "nameNl": "Huur of gebruik",
+      "phase": "bod",
+      "supplier": "Verkoper",
+      "appliesWhen": ["verhuurd"],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "copia di eventuali contratti di locazione o comodato in corso",
+      "requestNl": "een kopie van lopende huur- of gebruikscontracten (*locazione*, *comodato*)",
+      "glossary": [],
+      "flags": [
+        { "id": "contract-loopt-door", "text": "Er loopt een huur- of gebruikscontract dat niet eindigt vóór de overdracht", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "relazione-tecnica",
+      "nameIt": "Relazione tecnica di conformità",
+      "nameNl": "Rapport over bouw en kadaster",
+      "phase": "compromesso",
+      "supplier": "Je eigen *geometra* of architect",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "relazione tecnica di conformità urbanistica e catastale",
+      "requestNl": "een rapport over de overeenstemming met bouwvergunningen en kadaster (*relazione tecnica di conformità*)",
+      "glossary": [],
+      "flags": [
+        { "id": "geen-eigen-controle", "text": "Er is nog geen onafhankelijke controle door een eigen *geometra*", "severity": "bespreken", "clauses": [] },
+        { "id": "afwijking-buiten-tolerantie", "text": "Het rapport noemt afwijkingen buiten de wettelijke toleranties", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "ispezione-ipotecaria-compromesso",
+      "nameIt": "Ispezione ipotecaria",
+      "nameNl": "Hypotheken en beslagen (vóór het compromesso)",
+      "phase": "compromesso",
+      "supplier": "Notaris of *geometra*",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "ispezione ipotecaria aggiornata",
+      "requestNl": "een actueel overzicht van hypotheken en beslagen (*ispezione ipotecaria*)",
+      "glossary": [],
+      "flags": [
+        { "id": "hypotheek-of-beslag", "text": "Er staat een hypotheek, beslag of rechtsvordering ingeschreven", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "ispezione-ipotecaria-rogito",
+      "nameIt": "Ispezione ipotecaria",
+      "nameNl": "Hypotheken en beslagen (vóór de rogito)",
+      "phase": "rogito",
+      "supplier": "Notaris of *geometra*",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "ispezione ipotecaria aggiornata alla data del rogito",
+      "requestNl": "een overzicht van hypotheken en beslagen (*ispezione ipotecaria*), bijgewerkt tot de datum van de *rogito*",
+      "glossary": [],
+      "flags": [
+        { "id": "hypotheek-of-beslag-rogito", "text": "Er staat een hypotheek, beslag of rechtsvordering ingeschreven", "severity": "niet-tekenen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "agibilita",
+      "nameIt": "Agibilità o SCA",
+      "nameNl": "Gebruiksgeschiktheid",
+      "phase": "compromesso",
+      "supplier": "Verkoper",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "certificato di agibilità o segnalazione certificata di agibilità (SCA)",
+      "requestNl": "het bewijs van gebruiksgeschiktheid (*agibilità* of *SCA*)",
+      "glossary": [],
+      "flags": [
+        { "id": "agibilita-ontbreekt", "text": "De *agibilità* ontbreekt of is nooit aangevraagd", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "impianti",
+      "nameIt": "Dichiarazioni di conformità degli impianti",
+      "nameNl": "Verklaringen voor de installaties",
+      "phase": "compromesso",
+      "supplier": "Verkoper",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "dichiarazioni di conformità degli impianti elettrico, gas e di riscaldamento",
+      "requestNl": "de verklaringen van conformiteit voor elektra, gas en verwarming (*dichiarazioni di conformità degli impianti*)",
+      "glossary": [],
+      "flags": [
+        { "id": "impianti-ontbreken", "text": "Verklaringen voor elektra, gas of verwarming ontbreken", "severity": "bespreken", "clauses": [] }
+      ]
+    },
+    {
+      "id": "destinazione-urbanistica",
+      "nameIt": "Certificato di destinazione urbanistica",
+      "nameNl": "Bestemming van de grond",
+      "phase": "compromesso",
+      "supplier": "Verkoper, via de gemeente",
+      "appliesWhen": ["grond"],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "certificato di destinazione urbanistica dei terreni",
+      "requestNl": "het bestemmingscertificaat van de grond (*certificato di destinazione urbanistica*)",
+      "glossary": [],
+      "flags": [
+        { "id": "bestemming-blokkeert-plannen", "text": "De bestemming van de grond blokkeert je plannen", "severity": "bespreken", "clauses": [] }
+      ]
+    },
+    {
+      "id": "vincoli",
+      "nameIt": "Vincoli",
+      "nameNl": "Beperkingen: landschap, monument, *usi civici*",
+      "phase": "compromesso",
+      "supplier": "*Geometra* en notaris",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "informazioni su eventuali vincoli paesaggistici, storico-artistici o usi civici",
+      "requestNl": "informatie over eventuele beperkingen voor landschap, monument of *usi civici*",
+      "glossary": [],
+      "flags": [
+        { "id": "vincoli-onbekend", "text": "Het is niet bekend welke beperkingen op het pand rusten", "severity": "bespreken", "clauses": [] },
+        { "id": "monument-voorkooprecht", "text": "Het pand is een beschermd monument met voorkooprecht van de staat", "severity": "bespreken", "clauses": [] }
+      ]
+    },
+    {
+      "id": "prelazione-agraria",
+      "nameIt": "Prelazione agraria",
+      "nameNl": "Voorkooprecht bij landbouwgrond",
+      "phase": "compromesso",
+      "supplier": "Verkoper, de notaris controleert",
+      "appliesWhen": ["grond"],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "informazioni sugli aventi diritto di prelazione agraria ed eventuali rinunce",
+      "requestNl": "informatie over wie een voorkooprecht op de landbouwgrond heeft (*prelazione agraria*) en eventuele afstandsverklaringen",
+      "glossary": [],
+      "flags": [
+        { "id": "geen-afstandsverklaring", "text": "Er is geen afstandsverklaring van de rechthebbenden", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "servitu",
+      "nameIt": "Servitù",
+      "nameNl": "Erfdienstbaarheden: overpad, put, leidingen",
+      "phase": "compromesso",
+      "supplier": "Notaris en *geometra*",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "informazioni su servitù esistenti (accesso, pozzo, condutture)",
+      "requestNl": "informatie over bestaande erfdienstbaarheden (*servitù*): toegang, put, leidingen",
+      "glossary": [],
+      "flags": [
+        { "id": "toegang-niet-vastgelegd", "text": "De toegangsweg loopt over andermans grond zonder vastgelegd recht", "severity": "oplossen", "clauses": [] }
+      ]
+    },
+    {
+      "id": "condominio",
+      "nameIt": "Documenti del condominio",
+      "nameNl": "Stukken van de VvE",
+      "phase": "compromesso",
+      "supplier": "Verkoper, via de *amministratore* (beheerder)",
+      "appliesWhen": ["condominio"],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "documentazione del condominio, con la situazione dei pagamenti e le delibere su lavori straordinari",
+      "requestNl": "de stukken van de VvE (*condominio*), met de stand van de betalingen en de besluiten over grote werken",
+      "glossary": [],
+      "flags": [
+        { "id": "achterstallige-bijdragen", "text": "Er zijn achterstallige bijdragen aan de VvE", "severity": "oplossen", "clauses": [] },
+        { "id": "grote-werken-besloten", "text": "De VvE heeft al grote werken besloten", "severity": "bespreken", "clauses": [] }
+      ]
+    },
+    {
+      "id": "riolering-water",
+      "nameIt": "Autorizzazione allo scarico e pozzo",
+      "nameNl": "Riolering en water",
+      "phase": "compromesso",
+      "supplier": "Verkoper",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "requestIt": "autorizzazione allo scarico e, se presente, documentazione del pozzo",
+      "requestNl": "de vergunning voor de afvoer (*autorizzazione allo scarico*) en, als er een put is, de stukken van de put (*pozzo*)",
+      "glossary": [],
+      "flags": [
+        { "id": "scarico-zonder-vergunning", "text": "Septic tank of put zonder vergunning of melding", "severity": "oplossen", "clauses": [] }
+      ]
+    }
+  ],
+  "clauses": [],
+  "mail": {
+    "reviewed": false,
+    "subjectIt": "Richiesta documenti per l'immobile {immobile}",
+    "subjectNl": "Verzoek om documenten voor de woning {immobile}",
+    "locationIt": " a {comune}",
+    "locationNl": " in {comune}",
+    "recipients": [
+      { "id": "makelaar", "label": "Makelaar", "greetingIt": "Spettabile agenzia,", "greetingNl": "Geachte makelaar," },
+      { "id": "verkoper", "label": "Verkoper", "greetingIt": "Gentile Signora, gentile Signore,", "greetingNl": "Geachte mevrouw, geachte heer," },
+      { "id": "geometra", "label": "Geometra", "greetingIt": "Gentile geometra,", "greetingNl": "Geachte geometra," }
+    ],
+    "introIt": "sono interessato/a all'immobile {immobile}. Per poter valutare l'acquisto con attenzione, Le chiedo cortesemente di inviarmi i seguenti documenti:",
+    "introNl": "ik heb belangstelling voor de woning {immobile}. Om de aankoop zorgvuldig te kunnen beoordelen, vraag ik u vriendelijk mij de volgende documenten te sturen:",
+    "closingIt": "La ringrazio in anticipo per la collaborazione. Resto a disposizione per qualsiasi chiarimento.\n\nCordiali saluti,",
+    "closingNl": "Alvast hartelijk dank voor uw medewerking. Voor vragen ben ik graag bereikbaar.\n\nMet vriendelijke groet,"
+  },
+  "process": [
+    "Oriënteren en bezichtigen",
+    "Vóór het bod: eerste documenten opvragen en nakijken",
+    "Bod",
+    "Vóór het *compromesso*: technische en juridische controle",
+    "*Compromesso* tekenen",
+    "Vóór de *rogito*: laatste controles",
+    "*Rogito* bij de notaris"
+  ],
+  "offerNext": ""
+}

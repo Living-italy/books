@@ -1,0 +1,1536 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koopdossier Italië</title>
+<meta name="description" content="Houd per Italiaanse woning bij welke documenten je hebt, welke rode vlaggen er spelen en wat je nog moet opvragen.">
+<meta name="theme-color" content="#FAF6EE">
+<script>
+/* ==========================================================================
+   INSTELLINGEN. Pas deze waarden aan na het uploaden.
+   Een leeg adres verbergt de bijbehorende knop.
+   ========================================================================== */
+const SETTINGS = {
+  contentFile: 'content.nl.json',
+  apiUrl: 'api.php',
+  begrippenwijzerUrl: '',   // fase 2, bijvoorbeeld 'https://example.nl/begrippenwijzer/#{id}'
+  chatbotUrl: '',           // fase 2, bijvoorbeeld 'https://example.nl/chatbot/?vraag={vraag}'
+  contactUrl: '',           // fase 2, link naar de contactpagina
+  ga4Id: '',                // bijvoorbeeld 'G-XXXXXXX', alleen geladen op de checkschermen
+  metaPixelId: '',          // alleen geladen op de checkschermen
+  bron: 'koopdossier',      // waarde van het Brevo-veld BRON
+  storageKey: 'koopdossier'
+};
+</script>
+<style>
+@font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 100 1000; font-display: swap; src: url(fonts/dmsans-latin.woff2) format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 100 1000; font-display: swap; src: url(fonts/dmsans-italic-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400 900; font-display: swap; src: url(fonts/playfair-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Playfair Display'; font-style: italic; font-weight: 400 900; font-display: swap; src: url(fonts/playfair-italic-latin.woff2) format('woff2'); }
+
+:root {
+  --cream: #FAF6EE;
+  --surface: #FFFDF8;
+  --line: #E3D8C6;
+  --ink: #2B2622;
+  --muted: #645B52;
+  --terra: #A94B29;
+  --terra-dark: #833819;
+  --terra-soft: #F6E3D9;
+  --olive: #56622F;
+  --olive-dark: #414B22;
+  --olive-soft: #E8EBD8;
+  --amber: #7A5A0E;
+  --amber-soft: #FBF0D2;
+  --red: #9B1C1C;
+  --red-soft: #FBE1DE;
+  --focus: #1F5FAD;
+  --radius: 12px;
+  --nav-h: 68px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--cream); color: var(--ink);
+  font: 400 18px/1.55 'DM Sans', system-ui, sans-serif;
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
+  overflow-wrap: break-word;
+}
+h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.12rem; }
+p { margin: 0 0 1em; }
+em, i { font-style: italic; }
+a { color: var(--terra-dark); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 16px; }
+.muted { color: var(--muted); }
+.small { font-size: .9rem; }
+.todo { color: var(--muted); font-style: italic; background: repeating-linear-gradient(45deg, transparent 0 6px, #0000000a 6px 12px); padding: 0 .25em; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
+
+.topbar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.topbar .brand { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+.topbar .brand span { color: var(--terra); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4em; min-height: 48px; padding: 10px 18px; border-radius: 10px; border: 2px solid var(--terra); background: var(--terra); color: #fff; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; }
+.btn:hover { background: var(--terra-dark); border-color: var(--terra-dark); }
+.btn.secondary { background: var(--surface); color: var(--terra-dark); }
+.btn.secondary:hover { background: var(--terra-soft); }
+.btn.ghost { background: transparent; border-color: transparent; color: var(--terra-dark); text-decoration: underline; padding-left: 8px; padding-right: 8px; }
+.btn.ghost:hover { background: var(--terra-soft); }
+.btn.olive { background: var(--olive); border-color: var(--olive); }
+.btn.olive:hover { background: var(--olive-dark); border-color: var(--olive-dark); }
+.btn.danger { background: var(--surface); color: var(--red); border-color: var(--red); }
+.btn.block { display: flex; width: 100%; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin: 0 0 16px; }
+.card > :last-child { margin-bottom: 0; }
+.notice { border-left: 5px solid var(--olive); background: var(--olive-soft); padding: 12px 16px; border-radius: 8px; margin: 0 0 16px; }
+.notice.warn { border-color: var(--terra); background: var(--terra-soft); }
+.notice.red { border-color: var(--red); background: var(--red-soft); }
+.notice > :last-child { margin-bottom: 0; }
+
+/* Check */
+.progress { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 8px 0 20px; }
+.progress > div { height: 100%; background: var(--olive); }
+.answers { display: grid; gap: 10px; margin: 20px 0; }
+.answer { min-height: 56px; font-size: 1.1rem; justify-content: flex-start; background: var(--surface); color: var(--ink); border-color: var(--line); }
+.answer:hover { background: var(--olive-soft); border-color: var(--olive); }
+.answer[aria-pressed="true"] { background: var(--olive); color: #fff; border-color: var(--olive); }
+details.help { margin: 8px 0; }
+details.help summary { cursor: pointer; color: var(--terra-dark); font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+.score { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.score .num { font-family: 'Playfair Display', Georgia, serif; font-size: 3.4rem; font-weight: 700; line-height: 1; }
+.score .num small { font-size: 1.1rem; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 400; }
+.level { display: inline-block; padding: 4px 12px; border-radius: 99px; font-weight: 700; font-size: .95rem; }
+.level.laag { background: var(--olive-soft); color: var(--olive-dark); }
+.level.verhoogd { background: var(--amber-soft); color: var(--amber); }
+.level.hoog { background: var(--red-soft); color: var(--red); }
+.level.onvolledig { background: var(--line); color: var(--muted); }
+ul.points { padding-left: 1.2em; margin: 0 0 1em; }
+ul.points li { margin-bottom: .5em; }
+
+/* Formulieren */
+label.field { display: block; margin: 0 0 14px; font-weight: 600; }
+label.field input, label.field select, label.field textarea { display: block; width: 100%; margin-top: 6px; font: inherit; font-weight: 400; }
+input[type=text], input[type=email], input[type=date], select, textarea {
+  min-height: 48px; padding: 10px 12px; border: 2px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); font: inherit; max-width: 100%;
+}
+textarea { min-height: 110px; resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--olive); }
+fieldset { border: 0; padding: 0; margin: 0 0 16px; min-width: 0; }
+legend { font-weight: 700; padding: 0; margin-bottom: 8px; }
+.choice { display: flex; align-items: flex-start; gap: 12px; min-height: 48px; padding: 10px 12px; border: 2px solid var(--line); border-radius: 10px; background: #fff; margin-bottom: 8px; cursor: pointer; }
+.choice input { width: 22px; height: 22px; margin: 2px 0 0; flex: none; accent-color: var(--olive); }
+.choice:has(input:checked) { border-color: var(--olive); background: var(--olive-soft); }
+.choice.compact { display: inline-flex; margin-right: 6px; padding: 8px 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-block; font-size: .82rem; font-weight: 700; padding: 3px 10px; border-radius: 99px; background: var(--line); color: var(--ink); }
+.chip.nee { background: var(--red-soft); color: var(--red); }
+.chip.weet { background: var(--amber-soft); color: var(--amber); }
+.chip.critical { background: var(--terra-soft); color: var(--terra-dark); }
+.chip.flagged { background: var(--red); color: #fff; }
+.chip.st-niet-gevraagd { background: var(--line); color: var(--ink); }
+.chip.st-gevraagd { background: #E3ECF7; color: #1F4E87; }
+.chip.st-ontvangen { background: var(--amber-soft); color: var(--amber); }
+.chip.st-akkoord { background: var(--olive-soft); color: var(--olive-dark); }
+.chip.st-probleem { background: var(--red-soft); color: var(--red); }
+.chip.st-nvt { background: #EEE; color: var(--muted); }
+.sev-bespreken { color: var(--amber); }
+.sev-oplossen { color: var(--terra-dark); }
+.sev-niet-tekenen { color: var(--red); }
+
+/* Woningen en dossier */
+.meter { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 8px 0; }
+.meter > div { height: 100%; background: var(--olive); }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .95rem; color: var(--muted); margin: 6px 0; }
+.phase { margin: 24px 0 8px; }
+.docrow { display: grid; grid-template-columns: 1fr; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
+.docrow.mark-nee { border-left: 6px solid var(--red); }
+.docrow.mark-weet { border-left: 6px solid var(--amber); }
+.docrow a.title { color: var(--ink); text-decoration: none; display: block; min-height: 44px; }
+.docrow a.title:hover .nl { text-decoration: underline; }
+.docrow .it { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600; font-size: 1.1rem; display: block; }
+.docrow .nl { display: block; color: var(--muted); }
+.docrow select { width: 100%; }
+@media (min-width: 620px) {
+  .docrow { grid-template-columns: 1fr 210px; align-items: center; }
+}
+.switch { display: flex; align-items: center; gap: 10px; min-height: 48px; font-weight: 600; cursor: pointer; }
+.switch input { width: 22px; height: 22px; accent-color: var(--olive); }
+.allclear { background: var(--olive-soft); border-radius: var(--radius); padding: 16px; font-weight: 600; color: var(--olive-dark); }
+.doc-head .it { font-style: italic; }
+.section-block { margin: 0 0 18px; }
+.section-block h3 { margin-bottom: .3em; }
+.flagitem { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; border: 2px solid var(--line); border-radius: 10px; background: #fff; margin-bottom: 8px; cursor: pointer; min-height: 48px; }
+.flagitem input { width: 22px; height: 22px; flex: none; margin-top: 2px; accent-color: var(--red); }
+.flagitem:has(input:checked) { border-color: var(--red); background: var(--red-soft); }
+.flagitem .sev { display: block; font-size: .85rem; font-weight: 700; }
+.grid2 { display: grid; gap: 0 16px; }
+@media (min-width: 560px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+.mailbox { white-space: pre-wrap; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px; font-size: 1rem; }
+
+/* Navigatie onderaan */
+.bottomnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.bottomnav ul { list-style: none; margin: 0 auto; padding: 0; display: flex; max-width: 760px; }
+.bottomnav li { flex: 1; }
+.bottomnav a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: var(--nav-h); color: var(--muted); text-decoration: none; font-size: .85rem; font-weight: 600; }
+.bottomnav a svg { width: 24px; height: 24px; }
+.bottomnav a[aria-current="page"] { color: var(--terra-dark); box-shadow: inset 0 3px 0 var(--terra); }
+
+footer.site { max-width: 760px; margin: 24px auto 0; padding: 16px; font-size: .88rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+dialog { border: 0; border-radius: var(--radius); padding: 20px; max-width: min(520px, calc(100vw - 32px)); width: 100%; background: var(--surface); color: var(--ink); }
+dialog::backdrop { background: rgba(43, 38, 34, .5); }
+.toast { position: fixed; left: 16px; right: 16px; bottom: calc(var(--nav-h) + 16px); max-width: 520px; margin: 0 auto; background: var(--ink); color: #fff; padding: 12px 16px; border-radius: 10px; z-index: 20; }
+.toast[hidden] { display: none; }
+
+#print-root { display: none; }
+
+/* Afdrukken en pdf */
+@media print {
+  @page { size: A4; margin: 15mm 14mm; }
+  body { background: #fff; padding: 0; font-size: 10.5pt; line-height: 1.4; color: #000; }
+  #app, .bottomnav, footer.site, .toast, dialog, .topbar { display: none !important; }
+  #print-root { display: block; }
+  #print-root h1 { font-size: 20pt; }
+  #print-root h2 { font-size: 13.5pt; margin-top: 14pt; border-bottom: 1px solid #999; padding-bottom: 2pt; break-after: avoid; }
+  #print-root h3 { font-size: 11.5pt; break-after: avoid; }
+  #print-root table { width: 100%; border-collapse: collapse; margin: 4pt 0 10pt; }
+  #print-root th, #print-root td { border: 1px solid #999; padding: 3pt 5pt; text-align: left; vertical-align: top; }
+  #print-root th { background: #eee; }
+  #print-root tr { break-inside: avoid; }
+  #print-root .box { display: inline-block; width: 11pt; height: 11pt; border: 1.2pt solid #000; }
+  #print-root .flow { display: flex; flex-wrap: wrap; gap: 4pt; align-items: center; }
+  #print-root .flow span.step { border: 1px solid #000; padding: 3pt 6pt; border-radius: 4pt; }
+  #print-root .pagebreak { break-before: page; }
+  #print-root .mailbox { border: 1px solid #999; white-space: pre-wrap; padding: 6pt; font-size: 10pt; }
+  #print-root .disclaimer { border-top: 1px solid #000; margin-top: 14pt; padding-top: 6pt; font-size: 9.5pt; }
+  #print-root .todo { background: none; }
+}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#woningen">Koopdossier <span>Italië</span></a></header>
+<main id="app" class="wrap" tabindex="-1"><p class="muted">Laden…</p></main>
+<footer class="site" id="footer"></footer>
+<nav class="bottomnav" id="nav" aria-label="Hoofdmenu"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+<div id="print-root"></div>
+
+<script>
+'use strict';
+
+/* ==========================================================================
+   INTERFACETEKSTEN. Alle vaste teksten van de app staan hier.
+   Voor een andere taal: kopieer dit object en gebruik content.<taal>.json.
+   ========================================================================== */
+const UI = {
+  appName: 'Koopdossier Italië',
+  todo: '[nog invullen]',
+  loading: 'Laden…',
+  loadError: 'De inhoud kon niet worden geladen. Controleer of content.nl.json in dezelfde map staat als index.html en open de app via een webadres (niet als los bestand).',
+  storageError: 'Opslaan lukt niet in deze browser. Gebruik geen privévenster, of maak een back-up.',
+  contentUpdated: 'Inhoud bijgewerkt op {date}.',
+  disclaimer: 'Dit hulpmiddel geeft algemene informatie en vervangt geen advies van notaris, advocaat of geometra. De clausules zijn voorbeelden om te bespreken, geen kant-en-klare contracttekst.',
+  back: 'Terug',
+  next: 'Volgende',
+  previous: 'Vorige',
+  cancel: 'Annuleren',
+  close: 'Sluiten',
+  yes: 'Ja',
+  no: 'Nee',
+  copied: 'Gekopieerd.',
+  copyFailed: 'Kopiëren lukte niet. Selecteer de tekst en kopieer hem zelf.',
+  saved: 'Opgeslagen.',
+
+  nav: { woningen: 'Woningen', dossier: 'Dossier', export: 'Exporteren' },
+
+  firstUse: {
+    title: 'Je gegevens blijven op dit apparaat',
+    text: 'Alles wat je hier invult, staat alleen in deze browser op dit apparaat. Niets gaat naar een server. Wis je je browsergegevens, dan is je dossier weg. Maak daarom af en toe een back-up via Exporteren.',
+    ok: 'Begrepen'
+  },
+
+  answers: { ja: 'Ja', nee: 'Nee', weet: 'Weet ik niet' },
+  answerNa: 'n.v.t. volgens profiel',
+  answerNone: 'niet beantwoord',
+
+  check: {
+    lead: '15 vragen, ongeveer twee minuten. Gratis en zonder aanmelding. Je ziet de uitkomst direct.',
+    start: 'Start de check',
+    resume: 'Verder waar je was',
+    restart: 'Opnieuw beginnen',
+    forProperty: 'Check voor {name}',
+    questionOf: 'Vraag {n} van {total}',
+    help: 'Uitleg bij deze vraag',
+    toResult: 'Bekijk de uitkomst',
+    resultTitle: 'Je uitkomst',
+    scoreLabel: 'Risicoscore',
+    scoreOf: 'van 100',
+    risks: 'Waar het risico zit',
+    points: 'Aandachtspunten',
+    pointNee: 'Aandachtspunt: {text}',
+    pointWeet: 'Eerst opvragen: {doc}',
+    noPoints: 'Geen open punten in deze lijst. Dat zegt niets over stukken die je nog niet hebt gezien.',
+    makeDossier: 'Maak hier een dossier van',
+    editAnswers: 'Antwoorden aanpassen',
+    printReport: 'Rapport afdrukken of als pdf bewaren',
+    backToDossier: 'Terug naar het dossier',
+    incomplete: 'Nog niet alle vragen zijn beantwoord.'
+  },
+
+  signup: {
+    title: 'Ontvang je rapport als pdf',
+    text: 'Vul je voornaam en e-mailadres in. Je krijgt het rapport en af en toe een mail met tips over kopen in Italië. Afmelden kan altijd. Alleen je voornaam, e-mailadres, score, risiconiveau en het aantal aandachtspunten worden verstuurd. Je antwoorden en je dossier blijven op dit apparaat.',
+    firstName: 'Voornaam',
+    email: 'E-mailadres',
+    submit: 'Aanmelden en pdf maken',
+    skip: 'Overslaan',
+    skipPrint: 'Overslaan en pdf maken',
+    sending: 'Bezig met aanmelden…',
+    thanks: 'Dank je, je bent aangemeld.',
+    failed: 'Aanmelden lukte niet. Je kunt het rapport wel gewoon afdrukken.',
+    invalidEmail: 'Vul een geldig e-mailadres in.'
+  },
+
+  profile: {
+    titleNew: 'Nieuwe woning',
+    titleEdit: 'Profiel van {name}',
+    intro: 'Een paar vragen over deze woning. Daarmee bepaalt de app welke documenten voor jou gelden en welke extra belangrijk zijn.',
+    name: 'Naam van de woning',
+    namePlaceholder: 'Bijvoorbeeld: huis met olijfgaard',
+    comune: 'Gemeente (comune)',
+    stepOf: 'Stap {n} van {total}',
+    finish: 'Dossier openen',
+    defaultName: 'Mijn woning',
+    multipleHint: 'Meer antwoorden mogelijk.'
+  },
+
+  woningen: {
+    title: 'Woningen',
+    empty: 'Je hebt nog geen dossier. Begin met de check, of voeg direct een woning toe.',
+    add: 'Woning toevoegen',
+    newCheck: 'Doe de check',
+    open: 'Open dossier',
+    editProfile: 'Profiel aanpassen',
+    remove: 'Verwijderen',
+    confirmRemove: 'Wil je het dossier "{name}" verwijderen? Dit kun je niet ongedaan maken.',
+    progress: '{done} van {total} documenten afgerond',
+    open_points: '{n} open punten',
+    red_flags: '{n} rode vlaggen',
+    checkIncomplete: 'Check: {n} van {total} beantwoord'
+  },
+
+  dossier: {
+    noProperty: 'Kies eerst een woning.',
+    toWoningen: 'Naar woningen',
+    onlyOpen: 'Alleen open punten tonen',
+    allClear: 'Geen open punten in deze lijst.',
+    checkIncomplete: 'De check voor deze woning is nog niet af ({n} van {total} beantwoord). De score telt pas mee als alle vragen beantwoord zijn.',
+    finishCheck: 'Check afmaken',
+    compromesso: 'Je hebt het compromesso al getekend. Deze versie toont nog de gewone lijst. Bespreek je dossier zo snel mogelijk met een advocaat of notaris en kijk welke voorwaarden in je contract staan.',
+    statusLabel: 'Status van {doc}',
+    dropped: 'Vervallen voor deze woning',
+    droppedBecause: 'Vervalt omdat {reason}.',
+    replacedBy: 'In plaats daarvan: {doc}.',
+    notApplicable: '{n} documenten gelden niet voor deze woning volgens je profiel.',
+    profile: 'Profiel',
+    score: 'Score'
+  },
+
+  markers: {
+    nee: 'aandachtspunt uit de check',
+    weet: 'eerst opvragen',
+    critical: 'extra belangrijk',
+    flagged: '{n} rode vlag(gen)'
+  },
+
+  phases: { bod: 'Vóór het bod', compromesso: 'Vóór het compromesso', rogito: 'Vóór de rogito' },
+  phasesPlain: { bod: 'vóór het bod', compromesso: 'vóór het compromesso', rogito: 'vóór de rogito' },
+  statuses: { 'niet-gevraagd': 'Niet gevraagd', gevraagd: 'Gevraagd', ontvangen: 'Ontvangen', akkoord: 'Akkoord', probleem: 'Probleem', nvt: 'Niet van toepassing' },
+  severities: { bespreken: 'Bespreken met je geometra', oplossen: 'Eerst laten oplossen', 'niet-tekenen': 'Niet tekenen' },
+
+  doc: {
+    backToDossier: 'Terug naar het dossier',
+    phase: 'Fase',
+    supplier: 'Wie levert het',
+    critical: 'Extra belangrijk voor deze woning, omdat {reasons}.',
+    status: 'Status',
+    requested: 'Gevraagd op',
+    received: 'Ontvangen op',
+    checkQuestions: 'Uit de check',
+    flags: 'Rode vlaggen',
+    flagsHint: 'Vink aan wat je ziet of hoort.',
+    note: 'Notitie',
+    headings: {
+      what: 'Wat het is',
+      why: 'Waarom het nodig is',
+      who: 'Wie het opvraagt',
+      costTime: 'Wat het kost en hoe lang het duurt',
+      contract: 'Wat je vastlegt in het compromesso'
+    }
+  },
+
+  exp: {
+    title: 'Exporteren',
+    property: 'Woning',
+    mailTitle: 'Italiaanse opvraagmail',
+    mailIntro: 'De mail vraagt alle documenten op die nog op "niet gevraagd" staan. Documenten waar je in de check "weet ik niet" hebt geantwoord, staan bovenaan.',
+    recipient: 'Aan wie stuur je de mail?',
+    sender: 'Je naam onder de mail',
+    mailNone: 'Alle documenten zijn al gevraagd. Er is niets meer op te vragen.',
+    mailCount: '{n} documenten in de mail.',
+    copy: 'Kopieer de mail',
+    openMail: 'Open in je mailprogramma',
+    translation: 'Nederlandse vertaling ter controle',
+    concept: 'Concept, nog niet nagelezen door een Italiaanse jurist.',
+    markTitle: 'Documenten op "gevraagd" zetten?',
+    markText: 'Wil je deze {n} documenten op "gevraagd" zetten, met de datum van vandaag?',
+    markYes: 'Ja, zet op gevraagd',
+    markNo: 'Nee, nog niet',
+    marked: '{n} documenten staan nu op gevraagd.',
+    pdfTitle: 'Dossier als pdf',
+    pdfText: 'Druk het dossier af of kies in het afdrukvenster "Opslaan als pdf". Het rapport bevat je antwoorden, de score, alle documenten met status, een actielijst en de opvraagmail als bijlage.',
+    pdfButton: 'Afdrukken of pdf maken',
+    backupTitle: 'Back-up',
+    backupText: 'Je dossiers staan alleen op dit apparaat. Download af en toe een back-up en bewaar die goed. Met een back-up zet je je dossiers ook over naar een ander apparaat.',
+    backupExport: 'Back-up downloaden',
+    backupImport: 'Back-up terugzetten',
+    importConfirm: 'Met deze back-up ({n} woningen) vervang je alles wat nu in de app staat. Doorgaan?',
+    importDone: 'Back-up teruggezet.',
+    importInvalid: 'Dit bestand is geen geldige back-up van het Koopdossier.',
+    importNewer: 'Deze back-up komt uit een nieuwere versie van de app. Ververs de pagina en probeer het opnieuw.',
+    wipe: 'Alles wissen',
+    wipeConfirm: 'Weet je zeker dat je alle dossiers en antwoorden van dit apparaat wilt wissen? Maak eerst een back-up als je ze wilt bewaren.',
+    wiped: 'Alles is gewist.',
+    noProperties: 'Er is nog geen woning. Je kunt wel het rapport van je laatste check afdrukken.'
+  },
+
+  report: {
+    title: 'Koopdossier Italië',
+    checkOnly: 'Rapport van de conformiteitscheck',
+    date: 'Datum: {date}',
+    answers: 'Je antwoorden op de check',
+    profile: 'Profiel van de woning',
+    question: 'Vraag',
+    answer: 'Antwoord',
+    scoreTitle: 'Risicoscore',
+    documents: 'Documenten',
+    colDone: 'Klaar',
+    colDoc: 'Document',
+    colStatus: 'Status',
+    colDates: 'Gevraagd / ontvangen',
+    colNotes: 'Rode vlaggen en notitie',
+    actions: 'Actielijst',
+    actionRequest: 'Opvragen: {doc}',
+    actionChase: 'Navragen: {doc}',
+    actionReview: 'Nakijken: {doc}',
+    actionSolve: 'Laten oplossen: {doc}',
+    actionFlag: 'Rode vlag bij {doc}: {text} ({severity})',
+    noActions: 'Geen open punten in deze lijst.',
+    flow: 'Het koopproces in stappen',
+    appendix: 'Bijlage: teksten',
+    mailAppendix: 'Opvraagmail (Italiaans) met vertaling',
+    contentVersion: 'Inhoudsversie: {version}',
+    next: 'De volgende stap'
+  }
+};
+
+/* ==========================================================================
+   HULPFUNCTIES
+   ========================================================================== */
+const $ = (sel, root = document) => root.querySelector(sel);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// Opmaak in inhoud: *woord* wordt cursief (Italiaanse termen).
+const fmt = (s) => esc(s).replace(/\*([^*\n]+)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
+// Tekst uit de inhoud; leeg toont [nog invullen].
+const txt = (s) => (s && String(s).trim()) ? fmt(s) : `<span class="todo">${esc(UI.todo)}</span>`;
+const plain = (s) => String(s || '').replace(/\*([^*\n]+)\*/g, '$1');
+function t(str, vars = {}) { return String(str).replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m)); }
+function todayIso() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+function longDate(iso) { const d = iso ? new Date(iso + 'T12:00:00') : new Date(); return isNaN(d) ? iso : d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }); }
+function shortDate(iso) { if (!iso) return ''; const d = new Date(iso + 'T12:00:00'); return isNaN(d) ? iso : d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }); }
+function newId() { return 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
+
+let toastTimer = null;
+function toast(msg) {
+  const el = $('#toast'); el.textContent = msg; el.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 3500);
+}
+
+/* ==========================================================================
+   OPSLAG. Eén sleutel in localStorage, met een schemaversie.
+   Onbekende id's blijven bewaard en worden genegeerd.
+   ========================================================================== */
+const SCHEMA = 1;
+const STATUSES = ['niet-gevraagd', 'gevraagd', 'ontvangen', 'akkoord', 'probleem', 'nvt'];
+const SEVERITY_ORDER = { 'niet-tekenen': 0, oplossen: 1, bespreken: 2 };
+const PHASE_ORDER = ['bod', 'compromesso', 'rogito'];
+
+function emptyState() { return { schema: SCHEMA, lastCheck: {}, properties: [], prefs: {} }; }
+function migrate(s) {
+  if (!s || typeof s !== 'object' || Array.isArray(s)) return emptyState();
+  // Toekomstige migraties: if (s.schema === 1) { ...; s.schema = 2; }
+  if (typeof s.schema !== 'number') s.schema = SCHEMA;
+  if (!s.lastCheck || typeof s.lastCheck !== 'object') s.lastCheck = {};
+  if (!Array.isArray(s.properties)) s.properties = [];
+  if (!s.prefs || typeof s.prefs !== 'object') s.prefs = {};
+  s.properties.forEach((p) => {
+    if (!p.check) p.check = {};
+    if (!p.profile) p.profile = {};
+    if (!Array.isArray(p.flags)) p.flags = [];
+    if (!p.docs) p.docs = {};
+    if (!Array.isArray(p.clauses)) p.clauses = [];
+  });
+  return s;
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(SETTINGS.storageKey);
+    return raw ? migrate(JSON.parse(raw)) : emptyState();
+  } catch (e) { return emptyState(); }
+}
+function saveState() {
+  try { localStorage.setItem(SETTINGS.storageKey, JSON.stringify(state)); return true; }
+  catch (e) { toast(UI.storageError); return false; }
+}
+
+let state = loadState();
+let C = null;            // inhoud uit content.nl.json
+const IDX = { doc: {}, flag: {}, q: {}, pflag: {} };
+
+function indexContent() {
+  C.documents.forEach((d) => {
+    IDX.doc[d.id] = d;
+    (d.flags || []).forEach((f) => { IDX.flag[f.id] = { flag: f, doc: d }; });
+  });
+  C.check.questions.forEach((q) => { IDX.q[q.id] = q; });
+  (C.check.profileFlags || []).forEach((f) => { IDX.pflag[f.id] = f; });
+}
+
+/* ==========================================================================
+   REKENREGELS
+   ========================================================================== */
+const getProp = (id) => state.properties.find((p) => p.id === id);
+const docName = (d) => d.nameIt ? `*${d.nameIt}* (${d.nameNl})` : d.nameNl;
+
+function flagsFromProfile(profile) {
+  const out = new Set();
+  C.check.profile.forEach((q) => {
+    const a = profile[q.id];
+    if (a == null) return;
+    (Array.isArray(a) ? a : [a]).forEach((optId) => {
+      const o = q.options.find((x) => x.id === optId);
+      if (o) (o.flags || []).forEach((f) => out.add(f));
+    });
+  });
+  return [...out];
+}
+
+// Hoe een document bij deze vlaggen staat: van toepassing, vervallen, extra kritiek.
+function docInfo(d, flags) {
+  const hit = (list) => (list || []).some((f) => flags.has(f));
+  const applies = !(d.appliesWhen && d.appliesWhen.length) || hit(d.appliesWhen);
+  const drop = (d.dropWhen || []).find((r) => hit(r.when));
+  const critical = (d.criticalWhen || []).filter((f) => flags.has(f));
+  return { applies, dropped: applies && drop ? drop : null, active: applies && !drop, critical };
+}
+
+// Antwoorden zoals ze meetellen: een vraag bij documenten die niet van toepassing zijn, telt als ja.
+function effectiveAnswers(p) {
+  const flags = new Set(p.flags);
+  const out = {};
+  C.check.questions.forEach((q) => {
+    const anyActive = (q.documents || []).some((id) => IDX.doc[id] && docInfo(IDX.doc[id], flags).active);
+    if (q.documents && q.documents.length && !anyActive) out[q.id] = 'na';
+    else if (['ja', 'nee', 'weet'].includes(p.check[q.id])) out[q.id] = p.check[q.id];
+  });
+  return out;
+}
+
+// Score: nee telt het volle gewicht, weet ik niet 0,7 keer, ja telt nul.
+function scoreOf(answers) {
+  let sum = 0, answered = 0;
+  C.check.questions.forEach((q) => {
+    const a = answers[q.id];
+    if (!a) return;
+    answered++;
+    if (a === 'nee') sum += q.weight;
+    else if (a === 'weet') sum += 0.7 * q.weight;
+  });
+  const score = Math.round(sum);
+  const total = C.check.questions.length;
+  return { score, answered, total, complete: answered === total, level: levelOf(score) };
+}
+function levelOf(score) { return C.check.levels.find((l) => score <= l.max) || C.check.levels[C.check.levels.length - 1]; }
+
+// Aandachtspunten: elk nee en elk weet ik niet, zwaarste gewicht eerst.
+function attentionPoints(answers) {
+  return C.check.questions
+    .filter((q) => answers[q.id] === 'nee' || answers[q.id] === 'weet')
+    .sort((a, b) => (answers[a.id] === answers[b.id] ? b.weight - a.weight : answers[a.id] === 'nee' ? -1 : 1))
+    .map((q) => {
+      const a = answers[q.id];
+      const f = IDX.flag[q.flag];
+      const d = IDX.doc[(q.documents || [])[0]];
+      return a === 'nee'
+        ? { q, answer: a, html: t(esc(UI.check.pointNee), { text: f ? fmt(f.flag.text) : fmt(q.text) }) }
+        : { q, answer: a, html: t(esc(UI.check.pointWeet), { doc: d ? fmt(docName(d)) : fmt(q.text) }) };
+    });
+}
+
+// Risicoteksten: 'when' (één treffer genoeg) en/of 'whenAll' (alle vlaggen nodig).
+// Naast profielvlaggen tellen ook 'nee:<vraag>' en 'weet:<vraag>' als vlag.
+function riskTexts(flags, answers) {
+  const set = new Set(flags);
+  Object.entries(answers).forEach(([q, a]) => { if (a === 'nee' || a === 'weet') set.add(`${a}:${q}`); });
+  const seen = new Map();
+  (C.check.riskTexts || []).forEach((r) => {
+    const anyOk = !(r.when && r.when.length) || r.when.some((f) => set.has(f));
+    const allOk = !(r.whenAll && r.whenAll.length) || r.whenAll.every((f) => set.has(f));
+    if (!(r.when && r.when.length) && !(r.whenAll && r.whenAll.length)) return;
+    if (!anyOk || !allOk) return;
+    const key = r.id || r.text;
+    if (!seen.has(key) || seen.get(key).rank > r.rank) seen.set(key, r);
+  });
+  return [...seen.values()].sort((a, b) => a.rank - b.rank).slice(0, 3);
+}
+
+const DEFAULT_DOC = Object.freeze({ status: 'niet-gevraagd', requested: '', received: '', note: '', flags: [] });
+function readDoc(p, id) { return Object.assign({}, DEFAULT_DOC, p.docs[id] || {}, { flags: (p.docs[id] && p.docs[id].flags) || [] }); }
+function writeDoc(p, id) {
+  if (!p.docs[id]) p.docs[id] = { status: 'niet-gevraagd', requested: '', received: '', note: '', flags: [] };
+  if (!Array.isArray(p.docs[id].flags)) p.docs[id].flags = [];
+  return p.docs[id];
+}
+function checkFlag(p, flagId) {
+  const hit = IDX.flag[flagId];
+  if (!hit) return;
+  const e = writeDoc(p, hit.doc.id);
+  if (!e.flags.includes(flagId)) e.flags.push(flagId);
+}
+
+// Markering per document vanuit de check: nee gaat voor weet.
+function docMarker(p, docId) {
+  let m = null;
+  C.check.questions.forEach((q) => {
+    if (!(q.documents || []).includes(docId)) return;
+    const a = p.check[q.id];
+    if (a === 'nee') m = 'nee';
+    else if (a === 'weet' && m !== 'nee') m = 'weet';
+  });
+  return m;
+}
+const activeFlags = (p, d) => readDoc(p, d.id).flags.filter((f) => IDX.flag[f] && IDX.flag[f].doc.id === d.id);
+
+function isOpen(p, d) {
+  const e = readDoc(p, d.id);
+  return !['akkoord', 'nvt'].includes(e.status) || activeFlags(p, d).length > 0 || docMarker(p, d.id) === 'nee';
+}
+
+// Documenten van een woning, gesorteerd: nee eerst, dan weet, dan extra kritiek, dan de volgorde uit de inhoud.
+function dossierDocs(p) {
+  const flags = new Set(p.flags);
+  const rank = { nee: 0, weet: 1 };
+  const active = [], dropped = [];
+  let notApplicable = 0;
+  C.documents.forEach((d, i) => {
+    const info = docInfo(d, flags);
+    if (!info.applies) { notApplicable++; return; }
+    if (info.dropped) { dropped.push({ d, info }); return; }
+    const marker = docMarker(p, d.id);
+    active.push({ d, info, marker, order: [rank[marker] ?? 2, info.critical.length ? 0 : 1, i] });
+  });
+  active.sort((a, b) => a.order[0] - b.order[0] || a.order[1] - b.order[1] || a.order[2] - b.order[2]);
+  return { active, dropped, notApplicable };
+}
+
+function propertySummary(p) {
+  const { active } = dossierDocs(p);
+  const done = active.filter((x) => ['akkoord', 'nvt'].includes(readDoc(p, x.d.id).status) && !activeFlags(p, x.d).length).length;
+  const open = active.filter((x) => isOpen(p, x.d)).length;
+  const red = active.reduce((n, x) => n + activeFlags(p, x.d).length, 0);
+  return { done, total: active.length, open, red, score: scoreOf(effectiveAnswers(p)) };
+}
+
+/* ==========================================================================
+   METEN. Alleen op de checkschermen, alleen gebeurtenissen, nooit antwoorden.
+   ========================================================================== */
+let analyticsLoaded = false;
+function loadAnalytics() {
+  if (analyticsLoaded || (!SETTINGS.ga4Id && !SETTINGS.metaPixelId)) return;
+  analyticsLoaded = true;
+  if (SETTINGS.ga4Id) {
+    const s = document.createElement('script');
+    s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(SETTINGS.ga4Id);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', SETTINGS.ga4Id, { page_location: location.origin + location.pathname });
+  }
+  if (SETTINGS.metaPixelId) {
+    /* eslint-disable */
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    /* eslint-enable */
+    window.fbq('init', SETTINGS.metaPixelId);
+    window.fbq('track', 'PageView');
+  }
+}
+function track(name) {
+  if (!analyticsLoaded) return;
+  if (SETTINGS.ga4Id && window.gtag) window.gtag('event', name);
+  if (SETTINGS.metaPixelId && window.fbq) {
+    if (name === 'check_aangemeld') window.fbq('track', 'Lead'); else window.fbq('trackCustom', name);
+  }
+}
+
+/* ==========================================================================
+   ROUTER
+   ========================================================================== */
+let route = { name: 'check', args: [] };
+const flow = { check: null, profile: null };   // tijdelijke stand van check en profielvragen
+
+function parseHash() {
+  const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  return { name: parts[0] || '', args: parts.slice(1) };
+}
+function go(hash) { if (location.hash === hash) render(); else location.hash = hash; }
+
+function currentPropId() {
+  const id = state.prefs.current;
+  return id && getProp(id) ? id : (state.properties[0] && state.properties[0].id);
+}
+
+function render() {
+  route = parseHash();
+  if (!route.name) { route = { name: state.properties.length ? 'woningen' : 'check', args: [] }; }
+  const views = { check: viewCheck, resultaat: viewResult, profiel: viewProfile, woningen: viewWoningen, dossier: viewDossier, doc: viewDoc, export: viewExport };
+  const view = views[route.name] || viewWoningen;
+  const activeId = document.activeElement && document.activeElement.id;
+  const app = $('#app');
+  app.innerHTML = firstUseNotice() + view();
+  renderNav();
+  if (activeId && document.getElementById(activeId)) document.getElementById(activeId).focus({ preventScroll: true });
+}
+
+function navigate() {
+  render();
+  window.scrollTo(0, 0);
+  const h = $('#app h1');
+  if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+}
+
+function renderNav() {
+  const pid = currentPropId();
+  const icon = {
+    woningen: '<path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    dossier: '<path d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+    export: '<path d="M12 3v12M7 8l5-5 5 5M5 15v5h14v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
+  };
+  const items = [
+    ['woningen', '#woningen', ['woningen', 'profiel']],
+    ['dossier', pid ? `#dossier/${pid}` : '#woningen', ['dossier', 'doc']],
+    ['export', pid ? `#export/${pid}` : '#export', ['export']]
+  ];
+  $('#nav').innerHTML = '<ul>' + items.map(([k, href, names]) =>
+    `<li><a href="${href}"${names.includes(route.name) ? ' aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${icon[k]}</svg>${esc(UI.nav[k])}</a></li>`
+  ).join('') + '</ul>';
+}
+
+function firstUseNotice() {
+  if (state.prefs.noticeSeen || ['check', 'resultaat'].includes(route.name)) return '';
+  return `<div class="notice" role="note"><h2 class="h3" style="font-size:1.1rem">${esc(UI.firstUse.title)}</h2><p>${esc(UI.firstUse.text)}</p><button class="btn olive" data-action="notice-ok">${esc(UI.firstUse.ok)}</button></div>`;
+}
+
+/* ==========================================================================
+   SCHERM: CHECK
+   ========================================================================== */
+// De check werkt op lastCheck (los) of op de antwoorden van één woning (#check/<id>).
+function checkTarget() {
+  const pid = route.args[0];
+  const p = pid && getProp(pid);
+  return p ? { answers: p.check, prop: p } : { answers: state.lastCheck, prop: null };
+}
+
+function viewCheck() {
+  const { answers, prop } = checkTarget();
+  const qs = C.check.questions;
+  if (!prop) loadAnalytics();
+  if (!flow.check || flow.check.prop !== (prop ? prop.id : null)) flow.check = { prop: prop ? prop.id : null, index: -1 };
+  const i = flow.check.index;
+
+  if (i < 0) {
+    const answered = qs.filter((q) => answers[q.id]).length;
+    const first = qs.findIndex((q) => !answers[q.id]);
+    return `
+      <h1>${prop ? esc(t(UI.check.forProperty, { name: prop.name })) : fmt(C.check.title)}</h1>
+      ${C.check.intro ? `<p>${fmt(C.check.intro)}</p>` : ''}
+      <p class="muted">${esc(UI.check.lead)}</p>
+      <div class="actions">
+        ${answered > 0 && answered < qs.length ? `<button class="btn" data-action="check-goto" data-i="${first}">${esc(UI.check.resume)}</button>` : ''}
+        ${answered === qs.length ? `<a class="btn" href="${prop ? `#resultaat/${prop.id}` : '#resultaat'}">${esc(UI.check.toResult)}</a>` : ''}
+        <button class="btn ${answered ? 'secondary' : ''}" data-action="check-start">${esc(answered ? UI.check.restart : UI.check.start)}</button>
+      </div>`;
+  }
+  const q = qs[i];
+  const cur = answers[q.id];
+  const pct = Math.round((i / qs.length) * 100);
+  return `
+    <p class="muted small" id="qcount">${esc(t(UI.check.questionOf, { n: i + 1, total: qs.length }))}</p>
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${qs.length}" aria-valuenow="${i}" aria-labelledby="qcount"><div style="width:${pct}%"></div></div>
+    <h1 style="font-size:1.45rem">${fmt(q.text)}</h1>
+    <details class="help"><summary>${esc(UI.check.help)}</summary><p>${txt(q.help)}</p></details>
+    <div class="answers" role="group" aria-label="${esc(plain(q.text))}">
+      ${['ja', 'nee', 'weet'].map((a) => `<button class="btn answer" id="ans-${a}" data-action="check-answer" data-a="${a}" aria-pressed="${cur === a}">${esc(UI.answers[a])}</button>`).join('')}
+    </div>
+    <div class="actions">
+      <button class="btn ghost" data-action="check-goto" data-i="${i - 1}">${esc(UI.previous)}</button>
+      ${cur && i < qs.length - 1 ? `<button class="btn ghost" data-action="check-goto" data-i="${i + 1}">${esc(UI.next)}</button>` : ''}
+    </div>`;
+}
+
+function answerCheck(a) {
+  const { answers, prop } = checkTarget();
+  const qs = C.check.questions;
+  const q = qs[flow.check.index];
+  const isFirst = !prop && Object.keys(answers).filter((k) => IDX.q[k]).length === 0;
+  answers[q.id] = a;
+  if (prop && a === 'nee') checkFlag(prop, q.flag);
+  saveState();
+  if (isFirst) track('check_gestart');
+  if (flow.check.index < qs.length - 1) { flow.check.index++; navigate(); return; }
+  // Laatste vraag: naar de uitkomst, of terug naar de eerste open vraag.
+  const open = qs.findIndex((x) => !answers[x.id]);
+  if (open >= 0) { flow.check.index = open; navigate(); return; }
+  finishCheck(prop);
+}
+function finishCheck(prop) {
+  flow.check = null;
+  if (!prop) { state.prefs.checkDone = true; saveState(); track('check_afgerond'); }
+  go(prop ? `#resultaat/${prop.id}` : '#resultaat');
+}
+
+/* ==========================================================================
+   SCHERM: RESULTAAT
+   ========================================================================== */
+function viewResult() {
+  const pid = route.args[0];
+  const prop = pid && getProp(pid);
+  if (!prop) loadAnalytics();
+  const answers = prop ? effectiveAnswers(prop) : Object.assign({}, state.lastCheck);
+  const s = scoreOf(answers);
+  if (!prop && !s.complete) return viewCheckIncomplete();
+  const risks = riskTexts(prop ? prop.flags : [], answers);
+  const points = attentionPoints(answers);
+  const showSignup = !prop && !state.prefs.emailAsked;
+  return `
+    <h1>${esc(UI.check.resultTitle)}</h1>
+    <section class="card" aria-live="polite">
+      <div class="score">
+        <div class="num">${s.score}<small> ${esc(UI.check.scoreOf)}</small></div>
+        <div><span class="sr-only">${esc(UI.check.scoreLabel)}: </span><span class="level ${esc(s.level.id)}">${esc(s.level.label)}</span></div>
+      </div>
+      <p style="margin-top:12px">${txt(s.level.text)}</p>
+    </section>
+    ${risks.length ? `<section class="card"><h2>${esc(UI.check.risks)}</h2>${risks.map((r) => `<p>${txt(r.text)}</p>`).join('')}</section>` : ''}
+    <section class="card">
+      <h2>${esc(UI.check.points)}</h2>
+      ${points.length ? `<ul class="points">${points.map((x) => `<li>${x.html}</li>`).join('')}</ul>` : `<p>${esc(UI.check.noPoints)}</p>`}
+    </section>
+    ${showSignup ? signupForm('inline') : ''}
+    <div class="actions">
+      ${prop ? `<a class="btn" href="#dossier/${prop.id}">${esc(UI.check.backToDossier)}</a>` : `<button class="btn" data-action="make-dossier">${esc(UI.check.makeDossier)}</button>`}
+      <button class="btn secondary" data-action="print" data-prop="${prop ? prop.id : ''}">${esc(UI.check.printReport)}</button>
+      <button class="btn ghost" data-action="check-edit" data-prop="${prop ? prop.id : ''}">${esc(UI.check.editAnswers)}</button>
+    </div>`;
+}
+function viewCheckIncomplete() {
+  return `<h1>${esc(UI.check.resultTitle)}</h1><p>${esc(UI.check.incomplete)}</p><a class="btn" href="#check">${esc(UI.check.resume)}</a>`;
+}
+
+function signupForm(mode) {
+  return `
+    <form class="card" data-form="signup" data-mode="${mode}" novalidate>
+      <h2 id="${mode === 'dialog' ? 'dialog-title' : 'signup-title'}">${esc(UI.signup.title)}</h2>
+      <p class="small">${esc(UI.signup.text)}</p>
+      <label class="field">${esc(UI.signup.firstName)}<input type="text" name="voornaam" autocomplete="given-name" maxlength="60"></label>
+      <label class="field">${esc(UI.signup.email)}<input type="email" name="email" autocomplete="email" required maxlength="120"></label>
+      <div class="sr-only" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <p class="small" data-role="msg" role="status" aria-live="polite"></p>
+      <div class="actions" style="margin-bottom:0">
+        <button class="btn" type="submit">${esc(UI.signup.submit)}</button>
+        <button class="btn ghost" type="button" data-action="signup-skip" data-mode="${mode}">${esc(mode === 'dialog' ? UI.signup.skipPrint : UI.signup.skip)}</button>
+      </div>
+    </form>`;
+}
+
+let pendingPrint = null;   // id van de woning (of '' voor de losse check) die na de aanmelding wordt afgedrukt
+
+function requestPrint(propId) {
+  if (state.prefs.emailAsked) { printReport(propId); return; }
+  pendingPrint = propId;
+  const dlg = $('#dialog');
+  dlg.innerHTML = signupForm('dialog').replace('class="card"', 'class=""');
+  dlg.showModal();
+}
+
+async function submitSignup(form) {
+  const msg = form.querySelector('[data-role=msg]');
+  const email = form.email.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = UI.signup.invalidEmail; form.email.focus(); return; }
+  const mode = form.dataset.mode;
+  const propId = mode === 'dialog' ? pendingPrint : '';
+  const prop = propId && getProp(propId);
+  const answers = prop ? effectiveAnswers(prop) : state.lastCheck;
+  const s = scoreOf(answers);
+  const body = {
+    email,
+    VOORNAAM: form.voornaam.value.trim(),
+    RISICO_SCORE: s.score,
+    RISICO_NIVEAU: s.level.id,
+    AANDACHTSPUNTEN: attentionPoints(answers).length,
+    BRON: SETTINGS.bron
+  };
+  if (form.website.value) body.website = form.website.value;
+  msg.textContent = UI.signup.sending;
+  form.querySelector('button[type=submit]').disabled = true;
+  let ok = false;
+  try {
+    const res = await fetch(SETTINGS.apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json().catch(() => ({}));
+    ok = res.ok && data.ok;
+  } catch (e) { ok = false; }
+  state.prefs.emailAsked = true;
+  saveState();
+  if (ok) track('check_aangemeld');
+  msg.textContent = ok ? UI.signup.thanks : UI.signup.failed;
+  toast(ok ? UI.signup.thanks : UI.signup.failed);
+  if (mode === 'dialog') $('#dialog').close();
+  printReport(propId);
+  render();
+}
+
+/* ==========================================================================
+   SCHERM: PROFIELVRAGEN
+   ========================================================================== */
+// #profiel/nieuw (eventueel met de antwoorden van de laatste check) of #profiel/<id>.
+function startProfile(fromCheck) {
+  flow.profile = { propId: null, step: 0, name: '', comune: '', profile: {}, check: fromCheck ? Object.assign({}, state.lastCheck) : {} };
+  go('#profiel/nieuw');
+}
+function viewProfile() {
+  const pid = route.args[0];
+  if (pid && pid !== 'nieuw') {
+    const p = getProp(pid);
+    if (!p) return viewWoningen();
+    if (!flow.profile || flow.profile.propId !== pid) flow.profile = { propId: pid, step: 0, name: p.name, comune: p.comune || '', profile: JSON.parse(JSON.stringify(p.profile)), check: p.check };
+  } else if (!flow.profile || flow.profile.propId) {
+    flow.profile = { propId: null, step: 0, name: '', comune: '', profile: {}, check: {} };
+  }
+  const f = flow.profile;
+  const qs = C.check.profile;
+  const total = qs.length + 1;
+  const title = f.propId ? t(UI.profile.titleEdit, { name: f.name }) : UI.profile.titleNew;
+  const head = `<p class="muted small" id="pcount">${esc(t(UI.profile.stepOf, { n: f.step + 1, total }))}</p>
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${f.step}" aria-labelledby="pcount"><div style="width:${Math.round(f.step / total * 100)}%"></div></div>`;
+  if (f.step === 0) {
+    return `${head}<h1>${esc(title)}</h1><p>${esc(UI.profile.intro)}</p>
+      <form data-form="profile-step">
+        <label class="field">${esc(UI.profile.name)}<input type="text" id="pf-name" name="name" value="${esc(f.name)}" placeholder="${esc(UI.profile.namePlaceholder)}" maxlength="80"></label>
+        <label class="field">${esc(UI.profile.comune)}<input type="text" id="pf-comune" name="comune" value="${esc(f.comune)}" maxlength="80"></label>
+        <div class="actions"><button class="btn" type="submit">${esc(UI.next)}</button></div>
+      </form>`;
+  }
+  const q = qs[f.step - 1];
+  const cur = f.profile[q.id];
+  const isLast = f.step === total - 1;
+  const type = q.multiple ? 'checkbox' : 'radio';
+  const checked = (o) => (q.multiple ? (cur || []).includes(o.id) : cur === o.id);
+  return `${head}
+    <form data-form="profile-step">
+      <fieldset>
+        <legend><h1 style="font-size:1.4rem;margin:0">${fmt(q.text)}</h1></legend>
+        ${q.help ? `<p>${fmt(q.help)}</p>` : ''}
+        ${q.multiple ? `<p class="muted small">${esc(UI.profile.multipleHint)}</p>` : ''}
+        ${q.options.map((o) => `<label class="choice"><input type="${type}" name="opt" value="${esc(o.id)}" id="po-${esc(q.id)}-${esc(o.id)}"${q.multiple ? ` data-change="profile-opt"${o.exclusive ? ' data-exclusive="1"' : ''}` : ''}${checked(o) ? ' checked' : ''}><span>${fmt(o.label)}</span></label>`).join('')}
+      </fieldset>
+      <div class="actions">
+        <button class="btn" type="submit">${esc(isLast ? UI.profile.finish : UI.next)}</button>
+        <button class="btn ghost" type="button" data-action="profile-back">${esc(UI.previous)}</button>
+      </div>
+    </form>`;
+}
+function submitProfileStep(form) {
+  const f = flow.profile;
+  const qs = C.check.profile;
+  if (f.step === 0) {
+    f.name = form.name.value.trim();
+    f.comune = form.comune.value.trim();
+  } else {
+    const q = qs[f.step - 1];
+    const vals = [...form.querySelectorAll('input[name=opt]:checked')].map((x) => x.value);
+    if (q.multiple) f.profile[q.id] = vals; else if (vals[0]) f.profile[q.id] = vals[0]; else delete f.profile[q.id];
+  }
+  if (f.step < qs.length) { f.step++; navigate(); return; }
+  finishProfile();
+}
+function finishProfile() {
+  const f = flow.profile;
+  let p;
+  if (f.propId) {
+    p = getProp(f.propId);
+    p.name = f.name || p.name || UI.profile.defaultName;
+    p.comune = f.comune;
+    p.profile = f.profile;
+  } else {
+    p = { id: newId(), name: f.name || UI.profile.defaultName, comune: f.comune, check: f.check, profile: f.profile, flags: [], docs: {}, clauses: [] };
+    // Elk nee uit de check zet de bijbehorende rode vlag alvast aan.
+    C.check.questions.forEach((q) => { if (p.check[q.id] === 'nee') checkFlag(p, q.flag); });
+    state.properties.push(p);
+  }
+  p.flags = flagsFromProfile(p.profile);
+  state.prefs.current = p.id;
+  flow.profile = null;
+  saveState();
+  go(`#dossier/${p.id}`);
+}
+
+/* ==========================================================================
+   SCHERM: WONINGEN
+   ========================================================================== */
+function scoreChip(s) {
+  return s.complete
+    ? `<span class="level ${esc(s.level.id)}">${esc(UI.dossier.score)} ${s.score} · ${esc(s.level.label)}</span>`
+    : `<span class="level onvolledig">${esc(t(UI.woningen.checkIncomplete, { n: s.answered, total: s.total }))}</span>`;
+}
+function viewWoningen() {
+  const list = state.properties;
+  return `
+    <h1>${esc(UI.woningen.title)}</h1>
+    ${list.length ? '' : `<p>${esc(UI.woningen.empty)}</p>`}
+    ${list.map((p) => {
+      const s = propertySummary(p);
+      const pct = s.total ? Math.round(s.done / s.total * 100) : 0;
+      return `<article class="card">
+        <h2 style="margin-bottom:.2em">${esc(p.name)}</h2>
+        ${p.comune ? `<p class="muted" style="margin:0 0 8px">${esc(p.comune)}</p>` : ''}
+        ${scoreChip(s.score)}
+        <div class="meter" role="img" aria-label="${esc(t(UI.woningen.progress, { done: s.done, total: s.total }))}"><div style="width:${pct}%"></div></div>
+        <div class="stats"><span>${esc(t(UI.woningen.progress, { done: s.done, total: s.total }))}</span><span>${esc(t(UI.woningen.open_points, { n: s.open }))}</span><span>${esc(t(UI.woningen.red_flags, { n: s.red }))}</span></div>
+        <div class="actions" style="margin-bottom:0">
+          <a class="btn" href="#dossier/${p.id}">${esc(UI.woningen.open)}</a>
+          <a class="btn secondary" href="#profiel/${p.id}" data-action="profile-edit" data-prop="${p.id}">${esc(UI.woningen.editProfile)}</a>
+          <button class="btn ghost" data-action="remove-prop" data-prop="${p.id}">${esc(UI.woningen.remove)}</button>
+        </div>
+      </article>`;
+    }).join('')}
+    <div class="actions">
+      <button class="btn" data-action="add-prop">${esc(UI.woningen.add)}</button>
+      <a class="btn secondary" href="#check">${esc(UI.woningen.newCheck)}</a>
+    </div>`;
+}
+
+/* ==========================================================================
+   SCHERM: DOSSIER
+   ========================================================================== */
+function viewDossier() {
+  const p = getProp(route.args[0] || currentPropId());
+  if (!p) return `<h1>${esc(UI.nav.dossier)}</h1><p>${esc(UI.dossier.noProperty)}</p><a class="btn" href="#woningen">${esc(UI.dossier.toWoningen)}</a>`;
+  if (state.prefs.current !== p.id) { state.prefs.current = p.id; saveState(); }
+  const s = propertySummary(p);
+  const { active, dropped, notApplicable } = dossierDocs(p);
+  const onlyOpen = !!state.prefs.onlyOpen;
+  const shown = active.filter((x) => !onlyOpen || isOpen(p, x.d));
+  const flags = new Set(p.flags);
+  return `
+    <h1 style="margin-bottom:.2em">${esc(p.name)}</h1>
+    ${p.comune ? `<p class="muted" style="margin:0 0 8px">${esc(p.comune)}</p>` : ''}
+    <div class="chips" style="margin-bottom:12px">${scoreChip(s.score)}</div>
+    <div class="stats"><span>${esc(t(UI.woningen.progress, { done: s.done, total: s.total }))}</span><span>${esc(t(UI.woningen.open_points, { n: s.open }))}</span><span>${esc(t(UI.woningen.red_flags, { n: s.red }))}</span></div>
+    <div class="actions">
+      <a class="btn secondary" href="#profiel/${p.id}" data-action="profile-edit" data-prop="${p.id}">${esc(UI.dossier.profile)}</a>
+      ${s.score.complete ? `<a class="btn ghost" href="#resultaat/${p.id}">${esc(UI.check.resultTitle)}</a>` : ''}
+    </div>
+    ${flags.has('compromesso-getekend') ? `<div class="notice red">${esc(UI.dossier.compromesso)}</div>` : ''}
+    ${!s.score.complete ? `<div class="notice warn"><p>${esc(t(UI.dossier.checkIncomplete, { n: s.score.answered, total: s.score.total }))}</p><a class="btn secondary" href="#check/${p.id}" data-action="check-edit" data-prop="${p.id}">${esc(UI.dossier.finishCheck)}</a></div>` : ''}
+    <label class="switch"><input type="checkbox" id="only-open" data-change="only-open"${onlyOpen ? ' checked' : ''}> ${esc(UI.dossier.onlyOpen)}</label>
+    ${shown.length === 0 ? `<p class="allclear">${esc(UI.dossier.allClear)}</p>` : ''}
+    ${PHASE_ORDER.map((ph) => {
+      const rows = shown.filter((x) => x.d.phase === ph);
+      if (!rows.length) return '';
+      return `<section><h2 class="phase">${esc(UI.phases[ph])} <span class="muted small">(${rows.length})</span></h2>${rows.map((x) => docRow(p, x)).join('')}</section>`;
+    }).join('')}
+    ${dropped.length ? `<section><h2 class="phase">${esc(UI.dossier.dropped)}</h2>${dropped.map(({ d, info }) => `
+      <div class="card"><p style="margin:0"><strong>${fmt(docName(d))}</strong></p>
+      <p class="muted small" style="margin:4px 0 0">${t(esc(UI.dossier.droppedBecause), { reason: txt(info.dropped.reason) })}${info.dropped.replacedBy && IDX.doc[info.dropped.replacedBy] ? ' ' + t(esc(UI.dossier.replacedBy), { doc: fmt(docName(IDX.doc[info.dropped.replacedBy])) }) : ''}</p></div>`).join('')}</section>` : ''}
+    ${notApplicable ? `<p class="muted small">${esc(t(UI.dossier.notApplicable, { n: notApplicable }))}</p>` : ''}`;
+}
+function docRow(p, x) {
+  const { d, info, marker } = x;
+  const e = readDoc(p, d.id);
+  const nflags = activeFlags(p, d).length;
+  const chips = [
+    marker ? `<span class="chip ${marker}">${esc(UI.markers[marker])}</span>` : '',
+    info.critical.length ? `<span class="chip critical">${esc(UI.markers.critical)}</span>` : '',
+    nflags ? `<span class="chip flagged">${esc(t(UI.markers.flagged, { n: nflags }))}</span>` : ''
+  ].join('');
+  const sid = `st-${d.id}`;
+  return `<div class="docrow${marker ? ' mark-' + marker : ''}">
+    <a class="title" href="#doc/${p.id}/${d.id}">
+      ${d.nameIt ? `<span class="it">${esc(d.nameIt)}</span><span class="nl">${fmt(d.nameNl)}</span>` : `<span class="it" style="font-style:normal">${fmt(d.nameNl)}</span>`}
+      ${chips ? `<span class="chips" style="margin-top:6px">${chips}</span>` : ''}
+    </a>
+    <div><label class="sr-only" for="${sid}">${esc(t(UI.dossier.statusLabel, { doc: plain(d.nameIt || d.nameNl) }))}</label>
+    <select id="${sid}" data-change="status" data-prop="${p.id}" data-doc="${d.id}">${STATUSES.map((st) => `<option value="${st}"${e.status === st ? ' selected' : ''}>${esc(UI.statuses[st])}</option>`).join('')}</select></div>
+  </div>`;
+}
+
+/* ==========================================================================
+   SCHERM: DOCUMENT
+   ========================================================================== */
+function viewDoc() {
+  const p = getProp(route.args[0]);
+  const d = IDX.doc[route.args[1]];
+  if (!p || !d) return viewDossier();
+  const e = readDoc(p, d.id);
+  const info = docInfo(d, new Set(p.flags));
+  const marker = docMarker(p, d.id);
+  const qs = C.check.questions.filter((q) => (q.documents || []).includes(d.id));
+  const reasons = info.critical.map((f) => (IDX.pflag[f] ? fmt(IDX.pflag[f].label) : esc(f))).join(', ');
+  const H = UI.doc.headings;
+  return `
+    <p><a href="#dossier/${p.id}">← ${esc(UI.doc.backToDossier)}</a></p>
+    <div class="doc-head">
+      <h1 style="margin-bottom:.15em">${d.nameIt ? `<span class="it">${esc(d.nameIt)}</span>` : fmt(d.nameNl)}</h1>
+      ${d.nameIt ? `<p class="muted" style="font-size:1.1rem">${fmt(d.nameNl)}</p>` : ''}
+    </div>
+    <div class="chips" style="margin-bottom:12px">
+      ${marker ? `<span class="chip ${marker}">${esc(UI.markers[marker])}</span>` : ''}
+      <span class="chip st-${esc(e.status)}">${esc(UI.statuses[e.status] || e.status)}</span>
+    </div>
+    <p class="small"><strong>${esc(UI.doc.phase)}:</strong> ${esc(UI.phasesPlain[d.phase])}<br><strong>${esc(UI.doc.supplier)}:</strong> ${txt(d.supplier)}</p>
+    ${info.critical.length ? `<div class="notice warn">${t(esc(UI.doc.critical), { reasons })}</div>` : ''}
+
+    <section class="card">
+      <fieldset>
+        <legend>${esc(UI.doc.status)}</legend>
+        ${STATUSES.map((st) => `<label class="choice compact"><input type="radio" name="status" id="ds-${st}" value="${st}" data-change="status" data-prop="${p.id}" data-doc="${d.id}"${e.status === st ? ' checked' : ''}><span>${esc(UI.statuses[st])}</span></label>`).join('')}
+      </fieldset>
+      <div class="grid2">
+        <label class="field">${esc(UI.doc.requested)}<input type="date" id="dd-requested" value="${esc(e.requested)}" data-input="docfield" data-field="requested" data-prop="${p.id}" data-doc="${d.id}"></label>
+        <label class="field">${esc(UI.doc.received)}<input type="date" id="dd-received" value="${esc(e.received)}" data-input="docfield" data-field="received" data-prop="${p.id}" data-doc="${d.id}"></label>
+      </div>
+    </section>
+
+    ${qs.length ? `<section class="card"><h2>${esc(UI.doc.checkQuestions)}</h2>${qs.map((q) => `
+      <fieldset>
+        <legend style="font-weight:600">${fmt(q.text)}</legend>
+        ${['ja', 'nee', 'weet'].map((a) => `<label class="choice compact"><input type="radio" name="cq-${q.id}" id="cq-${q.id}-${a}" value="${a}" data-change="docanswer" data-prop="${p.id}" data-q="${q.id}"${p.check[q.id] === a ? ' checked' : ''}><span>${esc(UI.answers[a])}</span></label>`).join('')}
+      </fieldset>`).join('')}</section>` : ''}
+
+    <section class="card">
+      <h2>${esc(UI.doc.flags)}</h2>
+      <p class="muted small">${esc(UI.doc.flagsHint)}</p>
+      ${(d.flags || []).length ? d.flags.map((f) => `<label class="flagitem"><input type="checkbox" id="fl-${esc(f.id)}" data-change="flag" data-prop="${p.id}" data-doc="${d.id}" data-flag="${esc(f.id)}"${e.flags.includes(f.id) ? ' checked' : ''}><span>${txt(f.text)}<span class="sev sev-${esc(f.severity)}">${esc(UI.severities[f.severity] || f.severity)}</span></span></label>`).join('') : `<p>${txt('')}</p>`}
+    </section>
+
+    <section class="card">
+      <label class="field">${esc(UI.doc.note)}<textarea id="dd-note" data-input="docfield" data-field="note" data-prop="${p.id}" data-doc="${d.id}">${esc(e.note)}</textarea></label>
+    </section>
+
+    <section class="card">
+      ${['what', 'why', 'who', 'costTime', 'contract'].map((k) => `<div class="section-block"><h3>${esc(H[k])}</h3><p>${txt(d[k])}</p></div>`).join('')}
+    </section>`;
+}
+
+/* ==========================================================================
+   OPVRAAGMAIL
+   ========================================================================== */
+function mailDocs(p) {
+  const { active } = dossierDocs(p);
+  return active.filter((x) => readDoc(p, x.d.id).status === 'niet-gevraagd')
+    .sort((a, b) => (a.marker === 'weet' ? 0 : 1) - (b.marker === 'weet' ? 0 : 1))
+    .map((x) => x.d);
+}
+function buildMail(p, recipientId, sender) {
+  const M = C.mail;
+  const r = M.recipients.find((x) => x.id === recipientId) || M.recipients[0];
+  const docs = mailDocs(p);
+  const loc = (tpl) => (p.comune ? t(tpl, { comune: p.comune }) : '');
+  const immIt = `"${p.name}"${loc(M.locationIt)}`;
+  const immNl = `"${p.name}"${loc(M.locationNl)}`;
+  const sign = sender ? `\n${sender}` : '';
+  const fill = (s) => (s && s.trim() ? s : UI.todo);
+  const it = [r.greetingIt, '', t(fill(M.introIt), { immobile: immIt }), '', ...docs.map((d) => `- ${plain(fill(d.requestIt))}`), '', fill(M.closingIt) + sign].join('\n');
+  const nl = [r.greetingNl, '', t(fill(M.introNl), { immobile: immNl }), '', ...docs.map((d) => `- ${plain(fill(d.requestNl))}`), '', fill(M.closingNl) + sign].join('\n');
+  return { it, nl, subjectIt: t(M.subjectIt, { immobile: immIt }), subjectNl: t(M.subjectNl, { immobile: immNl }), docs };
+}
+
+async function copyText(s) {
+  try { await navigator.clipboard.writeText(s); return true; } catch (e) {
+    const ta = document.createElement('textarea'); ta.value = s; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+    ta.remove(); return ok;
+  }
+}
+
+function askMarkRequested(p, docIds) {
+  if (!docIds.length) return;
+  const dlg = $('#dialog');
+  dlg.innerHTML = `<h2 id="dialog-title">${esc(UI.exp.markTitle)}</h2><p>${esc(t(UI.exp.markText, { n: docIds.length }))}</p>
+    <div class="actions" style="margin-bottom:0"><button class="btn" data-action="mark-yes">${esc(UI.exp.markYes)}</button><button class="btn ghost" data-action="dialog-close">${esc(UI.exp.markNo)}</button></div>`;
+  dlg.dataset.prop = p.id;
+  dlg.dataset.docs = docIds.join(',');
+  dlg.showModal();
+}
+
+/* ==========================================================================
+   SCHERM: EXPORTEREN
+   ========================================================================== */
+function viewExport() {
+  const p = getProp(route.args[0] || currentPropId());
+  const rec = state.prefs.recipient || C.mail.recipients[0].id;
+  const sender = state.prefs.sender || '';
+  let mailHtml = '';
+  if (p) {
+    const m = buildMail(p, rec, sender);
+    mailHtml = `
+      <section class="card">
+        <h2>${esc(UI.exp.mailTitle)}</h2>
+        <p class="small">${esc(UI.exp.mailIntro)}</p>
+        ${C.mail.reviewed ? '' : `<p class="small"><span class="chip critical">${esc(UI.exp.concept)}</span></p>`}
+        <fieldset><legend>${esc(UI.exp.recipient)}</legend>
+          ${C.mail.recipients.map((r) => `<label class="choice compact"><input type="radio" name="rec" id="rec-${esc(r.id)}" value="${esc(r.id)}" data-change="recipient"${r.id === rec ? ' checked' : ''}><span>${fmt(r.label)}</span></label>`).join('')}
+        </fieldset>
+        <label class="field">${esc(UI.exp.sender)}<input type="text" id="sender" value="${esc(sender)}" data-input="sender" maxlength="80" autocomplete="name"></label>
+        ${m.docs.length ? `
+          <p class="small muted">${esc(t(UI.exp.mailCount, { n: m.docs.length }))}</p>
+          <p class="small"><strong>Oggetto:</strong> ${esc(m.subjectIt)}</p>
+          <div class="mailbox" lang="it" id="mail-it">${esc(m.it)}</div>
+          <div class="actions">
+            <button class="btn" data-action="mail-copy" data-prop="${p.id}">${esc(UI.exp.copy)}</button>
+            <a class="btn secondary" data-action="mail-open" data-prop="${p.id}" href="mailto:?subject=${encodeURIComponent(m.subjectIt)}&body=${encodeURIComponent(m.it)}">${esc(UI.exp.openMail)}</a>
+          </div>
+          <details class="help"><summary>${esc(UI.exp.translation)}</summary><p class="small"><strong>Onderwerp:</strong> ${esc(m.subjectNl)}</p><div class="mailbox">${esc(m.nl)}</div></details>`
+        : `<p class="allclear">${esc(UI.exp.mailNone)}</p>`}
+      </section>`;
+  }
+  return `
+    <h1>${esc(UI.exp.title)}</h1>
+    ${state.properties.length > 1 ? `<label class="field">${esc(UI.exp.property)}<select id="exp-prop" data-change="exp-prop">${state.properties.map((x) => `<option value="${x.id}"${p && x.id === p.id ? ' selected' : ''}>${esc(x.name)}</option>`).join('')}</select></label>` : ''}
+    ${p ? `<p><strong>${esc(p.name)}</strong>${p.comune ? ` · ${esc(p.comune)}` : ''}</p>` : `<p>${esc(UI.exp.noProperties)}</p>`}
+    ${mailHtml}
+    <section class="card">
+      <h2>${esc(UI.exp.pdfTitle)}</h2>
+      <p class="small">${esc(UI.exp.pdfText)}</p>
+      <button class="btn" data-action="print" data-prop="${p ? p.id : ''}"${!p && !scoreOf(state.lastCheck).answered ? ' disabled' : ''}>${esc(UI.exp.pdfButton)}</button>
+    </section>
+    <section class="card">
+      <h2>${esc(UI.exp.backupTitle)}</h2>
+      <p class="small">${esc(UI.exp.backupText)}</p>
+      <div class="actions" style="margin-bottom:0">
+        <button class="btn" data-action="backup-export">${esc(UI.exp.backupExport)}</button>
+        <label class="btn secondary" for="backup-file">${esc(UI.exp.backupImport)}</label>
+        <input type="file" id="backup-file" accept="application/json,.json" data-change="backup-import" class="sr-only">
+        <button class="btn danger" data-action="wipe">${esc(UI.exp.wipe)}</button>
+      </div>
+    </section>`;
+}
+
+function exportBackup() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `koopdossier-backup-${todayIso()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function importBackup(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    let data;
+    try { data = JSON.parse(reader.result); } catch (e) { toast(UI.exp.importInvalid); return; }
+    if (!data || typeof data !== 'object' || typeof data.schema !== 'number' || !Array.isArray(data.properties)) { toast(UI.exp.importInvalid); return; }
+    if (data.schema > SCHEMA) { toast(UI.exp.importNewer); return; }
+    if (!window.confirm(t(UI.exp.importConfirm, { n: data.properties.length }))) return;
+    state = migrate(data);
+    saveState();
+    toast(UI.exp.importDone);
+    go('#woningen');
+  };
+  reader.readAsText(file);
+}
+
+/* ==========================================================================
+   RAPPORT EN PDF. Eén sjabloon voor het checkrapport en het dossier.
+   ========================================================================== */
+function reportProperty(propId) {
+  const p = propId && getProp(propId);
+  if (p) return { p, checkOnly: false };
+  // Losse check: een tijdelijk dossier zonder profiel, met dezelfde opbouw.
+  const tmp = { id: '', name: UI.report.checkOnly, comune: '', check: Object.assign({}, state.lastCheck), profile: {}, flags: [], docs: {}, clauses: [] };
+  C.check.questions.forEach((q) => { if (tmp.check[q.id] === 'nee') checkFlag(tmp, q.flag); });
+  return { p: tmp, checkOnly: true };
+}
+function printReport(propId) {
+  const { p, checkOnly } = reportProperty(propId);
+  const R = UI.report;
+  const answers = effectiveAnswers(p);
+  const s = scoreOf(answers);
+  const risks = riskTexts(p.flags, answers);
+  const { active, dropped } = dossierDocs(p);
+  const ansLabel = (q) => answers[q.id] === 'na' ? UI.answerNa : (UI.answers[answers[q.id]] || UI.answerNone);
+
+  const profileRows = C.check.profile.filter((q) => p.profile[q.id] != null && (!Array.isArray(p.profile[q.id]) || p.profile[q.id].length)).map((q) => {
+    const vals = [].concat(p.profile[q.id]).map((id) => { const o = q.options.find((x) => x.id === id); return o ? fmt(o.label) : esc(id); });
+    return `<tr><td>${fmt(q.text)}</td><td>${vals.join(', ')}</td></tr>`;
+  }).join('');
+
+  const actions = [];
+  active.forEach(({ d }) => {
+    const e = readDoc(p, d.id);
+    const name = fmt(docName(d));
+    const key = { 'niet-gevraagd': 'actionRequest', gevraagd: 'actionChase', ontvangen: 'actionReview', probleem: 'actionSolve' }[e.status];
+    if (key) actions.push({ phase: d.phase, sev: 3, html: t(esc(R[key]), { doc: name }) });
+    activeFlags(p, d).forEach((fid) => {
+      const f = IDX.flag[fid].flag;
+      actions.push({ phase: d.phase, sev: SEVERITY_ORDER[f.severity] ?? 3, html: t(esc(R.actionFlag), { doc: name, text: fmt(f.text), severity: esc(UI.severities[f.severity] || f.severity) }) });
+    });
+  });
+  const flagSet = new Set(p.flags);
+  (C.check.actions || []).forEach((a) => {
+    if (!(a.when || []).length || a.when.some((f) => flagSet.has(f))) actions.push({ phase: a.phase || 'bod', sev: 3, html: txt(a.text) });
+  });
+  actions.sort((a, b) => PHASE_ORDER.indexOf(a.phase) - PHASE_ORDER.indexOf(b.phase) || a.sev - b.sev);
+
+  const mail = !checkOnly ? buildMail(p, state.prefs.recipient || C.mail.recipients[0].id, state.prefs.sender || '') : null;
+
+  $('#print-root').innerHTML = `
+    <h1>${esc(R.title)}</h1>
+    <p><strong>${esc(p.name)}</strong>${p.comune ? ` · ${esc(p.comune)}` : ''}<br>${esc(t(R.date, { date: longDate() }))}</p>
+
+    <h2>${esc(R.answers)}</h2>
+    <table><thead><tr><th>${esc(R.question)}</th><th style="width:28%">${esc(R.answer)}</th></tr></thead>
+    <tbody>${C.check.questions.map((q) => `<tr><td>${fmt(q.text)}</td><td>${esc(ansLabel(q))}</td></tr>`).join('')}</tbody></table>
+    ${profileRows ? `<h3>${esc(R.profile)}</h3><table><tbody>${profileRows}</tbody></table>` : ''}
+
+    <h2>${esc(R.scoreTitle)}</h2>
+    ${s.complete ? `<p><strong>${s.score} ${esc(UI.check.scoreOf)} · ${esc(s.level.label)}</strong></p><p>${txt(s.level.text)}</p>` : `<p>${esc(t(UI.woningen.checkIncomplete, { n: s.answered, total: s.total }))}</p>`}
+    ${risks.map((r) => `<p>${txt(r.text)}</p>`).join('')}
+
+    <h2>${esc(R.documents)}</h2>
+    ${PHASE_ORDER.map((ph) => {
+      const rows = active.filter((x) => x.d.phase === ph);
+      if (!rows.length) return '';
+      return `<h3>${esc(UI.phases[ph])}</h3><table><thead><tr><th style="width:9%">${esc(R.colDone)}</th><th>${esc(R.colDoc)}</th><th style="width:15%">${esc(R.colStatus)}</th><th style="width:17%">${esc(R.colDates)}</th><th style="width:30%">${esc(R.colNotes)}</th></tr></thead><tbody>
+      ${rows.map(({ d, marker }) => {
+        const e = readDoc(p, d.id);
+        const fl = activeFlags(p, d).map((fid) => `• ${fmt(IDX.flag[fid].flag.text)}`).join('<br>');
+        return `<tr><td><span class="box"></span></td><td>${fmt(docName(d))}${marker ? `<br><em>${esc(UI.markers[marker])}</em>` : ''}</td><td>${esc(UI.statuses[e.status] || e.status)}</td><td>${esc(shortDate(e.requested))}${e.received ? ' / ' + esc(shortDate(e.received)) : ''}</td><td>${fl}${fl && e.note ? '<br>' : ''}${e.note ? fmt(e.note) : ''}</td></tr>`;
+      }).join('')}</tbody></table>`;
+    }).join('')}
+    ${dropped.length ? `<p><strong>${esc(UI.dossier.dropped)}:</strong> ${dropped.map(({ d, info }) => `${fmt(docName(d))} (${txt(info.dropped.reason)})`).join('; ')}</p>` : ''}
+
+    <h2>${esc(R.actions)}</h2>
+    ${actions.length ? PHASE_ORDER.map((ph) => {
+      const list = actions.filter((a) => a.phase === ph);
+      return list.length ? `<h3>${esc(UI.phases[ph])}</h3><ul>${list.map((a) => `<li>${a.html}</li>`).join('')}</ul>` : '';
+    }).join('') : `<p>${esc(R.noActions)}</p>`}
+
+    <h2>${esc(R.flow)}</h2>
+    <div class="flow">${(C.process || []).map((st, i) => `${i ? '<span aria-hidden="true">→</span>' : ''}<span class="step">${fmt(st)}</span>`).join('')}</div>
+
+    ${mail && mail.docs.length ? `<div class="pagebreak"></div><h2>${esc(R.appendix)}</h2><h3>${esc(R.mailAppendix)}</h3>
+      ${C.mail.reviewed ? '' : `<p><em>${esc(UI.exp.concept)}</em></p>`}
+      <p><strong>Oggetto:</strong> ${esc(mail.subjectIt)}</p><div class="mailbox" lang="it">${esc(mail.it)}</div>
+      <p style="margin-top:8pt"><strong>Onderwerp:</strong> ${esc(mail.subjectNl)}</p><div class="mailbox">${esc(mail.nl)}</div>` : ''}
+
+    <div class="disclaimer">
+      <p>${esc(UI.disclaimer)}</p>
+      <p>${esc(t(R.contentVersion, { version: C.version }))}</p>
+      <p><strong>${esc(R.next)}:</strong> ${txt(C.offerNext)}</p>
+    </div>`;
+  window.print();
+}
+
+/* ==========================================================================
+   GEBEURTENISSEN
+   ========================================================================== */
+const actions = {
+  'notice-ok'() { state.prefs.noticeSeen = true; saveState(); render(); },
+  'check-start'() {
+    // Opnieuw beginnen wist de losse check; bij een woning blijven de antwoorden staan.
+    if (!checkTarget().prop) { Object.keys(state.lastCheck).forEach((k) => { if (IDX.q[k]) delete state.lastCheck[k]; }); saveState(); }
+    flow.check.index = 0; navigate();
+  },
+  'check-goto'(el) {
+    const i = Number(el.dataset.i);
+    flow.check.index = Math.max(-1, Math.min(i, C.check.questions.length - 1));
+    navigate();
+  },
+  'check-answer'(el) { answerCheck(el.dataset.a); },
+  'check-edit'(el, ev) {
+    ev.preventDefault();
+    const pid = el.dataset.prop;
+    const answers = pid ? getProp(pid).check : state.lastCheck;
+    const first = C.check.questions.findIndex((q) => !answers[q.id]);
+    flow.check = { prop: pid || null, index: first >= 0 ? first : 0 };
+    go(pid ? `#check/${pid}` : '#check');
+  },
+  'make-dossier'() { startProfile(true); },
+  'add-prop'() { startProfile(false); },
+  'profile-edit'(el, ev) { ev.preventDefault(); flow.profile = null; go(`#profiel/${el.dataset.prop}`); },
+  'profile-back'() {
+    if (flow.profile.step === 0) { history.back(); return; }
+    flow.profile.step--; navigate();
+  },
+  'remove-prop'(el) {
+    const p = getProp(el.dataset.prop);
+    if (!p || !window.confirm(t(UI.woningen.confirmRemove, { name: p.name }))) return;
+    state.properties = state.properties.filter((x) => x.id !== p.id);
+    if (state.prefs.current === p.id) delete state.prefs.current;
+    saveState(); render();
+  },
+  print(el) { requestPrint(el.dataset.prop || ''); },
+  'signup-skip'(el) {
+    state.prefs.emailAsked = true; saveState();
+    if (el.dataset.mode === 'dialog') { $('#dialog').close(); printReport(pendingPrint); }
+    render();
+  },
+  async 'mail-copy'(el) {
+    const p = getProp(el.dataset.prop);
+    const m = buildMail(p, state.prefs.recipient || C.mail.recipients[0].id, state.prefs.sender || '');
+    const ok = await copyText(`${m.subjectIt}\n\n${m.it}`);
+    toast(ok ? UI.copied : UI.copyFailed);
+    if (ok) askMarkRequested(p, m.docs.map((d) => d.id));
+  },
+  'mail-open'(el) {
+    const p = getProp(el.dataset.prop);
+    const m = buildMail(p, state.prefs.recipient || C.mail.recipients[0].id, state.prefs.sender || '');
+    setTimeout(() => askMarkRequested(p, m.docs.map((d) => d.id)), 600);
+    return true;   // standaardgedrag van de link (mailto:) laten doorgaan
+  },
+  'mark-yes'() {
+    const dlg = $('#dialog');
+    const p = getProp(dlg.dataset.prop);
+    const ids = (dlg.dataset.docs || '').split(',').filter(Boolean);
+    const today = todayIso();
+    ids.forEach((id) => { const e = writeDoc(p, id); if (e.status === 'niet-gevraagd') { e.status = 'gevraagd'; e.requested = e.requested || today; } });
+    saveState(); dlg.close(); toast(t(UI.exp.marked, { n: ids.length })); render();
+  },
+  'dialog-close'() { $('#dialog').close(); },
+  'backup-export'() { exportBackup(); },
+  wipe() {
+    if (!window.confirm(UI.exp.wipeConfirm)) return;
+    try { localStorage.removeItem(SETTINGS.storageKey); } catch (e) { /* niets */ }
+    state = emptyState(); flow.check = null; flow.profile = null;
+    toast(UI.exp.wiped); go('#check');
+  }
+};
+
+const changes = {
+  status(el) {
+    const p = getProp(el.dataset.prop);
+    const e = writeDoc(p, el.dataset.doc);
+    e.status = el.value;
+    if (el.value === 'gevraagd' && !e.requested) e.requested = todayIso();
+    if (el.value === 'ontvangen' && !e.received) e.received = todayIso();
+    saveState(); render();
+  },
+  flag(el) {
+    const p = getProp(el.dataset.prop);
+    const e = writeDoc(p, el.dataset.doc);
+    const id = el.dataset.flag;
+    e.flags = el.checked ? [...new Set([...e.flags, id])] : e.flags.filter((f) => f !== id);
+    saveState(); render();
+  },
+  docanswer(el) {
+    const p = getProp(el.dataset.prop);
+    const q = IDX.q[el.dataset.q];
+    p.check[q.id] = el.value;
+    if (el.value === 'nee') checkFlag(p, q.flag);
+    saveState(); render();
+  },
+  // Bij meerdere antwoorden sluiten opties als "geen" en "weet ik niet" de andere uit.
+  'profile-opt'(el) {
+    if (!el.checked) return;
+    el.form.querySelectorAll('input[name=opt]').forEach((x) => {
+      if (x !== el && (el.dataset.exclusive || x.dataset.exclusive)) x.checked = false;
+    });
+  },
+  'only-open'(el) { state.prefs.onlyOpen = el.checked; saveState(); render(); },
+  recipient(el) { state.prefs.recipient = el.value; saveState(); render(); },
+  'exp-prop'(el) { state.prefs.current = el.value; saveState(); go(`#export/${el.value}`); },
+  'backup-import'(el) { if (el.files && el.files[0]) importBackup(el.files[0]); el.value = ''; }
+};
+
+let inputTimer = null;
+const inputs = {
+  docfield(el) {
+    const p = getProp(el.dataset.prop);
+    writeDoc(p, el.dataset.doc)[el.dataset.field] = el.value;
+    clearTimeout(inputTimer); inputTimer = setTimeout(saveState, 300);
+  },
+  sender(el) {
+    state.prefs.sender = el.value;
+    clearTimeout(inputTimer); inputTimer = setTimeout(() => { saveState(); render(); }, 700);
+  }
+};
+
+document.addEventListener('click', (ev) => {
+  const el = ev.target.closest('[data-action]');
+  if (!el || !actions[el.dataset.action]) return;
+  const keepDefault = actions[el.dataset.action](el, ev);
+  if (keepDefault !== true && el.tagName === 'A' && !ev.defaultPrevented) ev.preventDefault();
+});
+document.addEventListener('change', (ev) => {
+  const el = ev.target.closest('[data-change]');
+  if (el && changes[el.dataset.change]) changes[el.dataset.change](el);
+});
+document.addEventListener('input', (ev) => {
+  const el = ev.target.closest('[data-input]');
+  if (el && inputs[el.dataset.input]) inputs[el.dataset.input](el);
+});
+document.addEventListener('submit', (ev) => {
+  const form = ev.target.closest('form[data-form]');
+  if (!form) return;
+  ev.preventDefault();
+  if (form.dataset.form === 'signup') submitSignup(form);
+  if (form.dataset.form === 'profile-step') submitProfileStep(form);
+});
+window.addEventListener('hashchange', navigate);
+window.addEventListener('storage', (ev) => { if (ev.key === SETTINGS.storageKey) { state = loadState(); render(); } });
+
+/* ==========================================================================
+   START
+   ========================================================================== */
+async function init() {
+  try {
+    const res = await fetch(SETTINGS.contentFile, { cache: 'no-cache' });
+    if (!res.ok) throw new Error(res.status);
+    C = await res.json();
+  } catch (e) {
+    $('#app').innerHTML = `<div class="notice red"><p>${esc(UI.loadError)}</p></div>`;
+    return;
+  }
+  indexContent();
+  // Woningen die zijn aangemaakt met oudere inhoud krijgen hun vlaggen opnieuw berekend.
+  state.properties.forEach((p) => { p.flags = flagsFromProfile(p.profile); });
+  $('#footer').innerHTML = `<p>${esc(t(UI.contentUpdated, { date: longDate(C.version) }))}</p><p>${esc(UI.disclaimer)}</p>`;
+  // ?check opent direct de check.
+  if (/(^|[?&])check(=|&|$)/.test(location.search) && !location.hash) history.replaceState(null, '', location.pathname + location.search + '#check');
+  render();
+}
+init();
+</script>
+</body>
+</html>
