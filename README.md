@@ -2,7 +2,7 @@
 
 Offline bruikbare webapp voor Nederlandse en Vlaamse kopers van een Italiaanse woning. De app begint met de conformiteitscheck "Is dit huis wel legaal?" en zet de uitkomst om in een dossier per woning: welke documenten zijn opgevraagd, ontvangen en goedgekeurd, en welke rode vlaggen spelen er.
 
-Stand: **fase 1** (check en kern). Fase 2 (rode vlaggen, clausules, opdracht voor de geometra, schadebeperking, offline gebruik) en fase 3 (toegangscode, betaalde dossiercheck, Duitse versie) volgen.
+Stand: **fase 2** (het oordeel). Fase 1 (check en kern) en fase 2 (rode vlaggen, clausules, opdracht voor de geometra, schadebeperking, offline gebruik, koppelingen) zijn klaar. Fase 3 (toegangscode, betaalde dossiercheck, Duitse versie) volgt.
 
 ## Mappen
 
@@ -11,6 +11,10 @@ koopdossier/              deze map upload je naar de server
   index.html              de hele app: opmaak, stijl en script
   content.nl.json         alle inhoud, los van de code
   api.php                 geeft de aanmelding na de check door aan Brevo
+  sw.js                   service worker voor offline gebruik
+  manifest.webmanifest    installeren op het beginscherm
+  icons/                  app-iconen
+  .htaccess               juiste bestandstype voor het manifest, geen cache op sw.js en inhoud
   fonts/                  Playfair Display en DM Sans (OFL-licentie)
 bron/                     bronbestanden voor de inhoud (oude check, model-compromesso), niet uploaden
 NAKIJKLIJST.md            lege velden en rode vlaggen om te controleren
@@ -20,13 +24,13 @@ NAKIJKLIJST.md            lege velden en rode vlaggen om te controleren
 
 1. Open in DirectAdmin **Bestandsbeheer** (File Manager) en ga naar `public_html` (of de map van het juiste domein).
 2. Maak een map aan, bijvoorbeeld `koopdossier`.
-3. Upload de inhoud van de lokale map `koopdossier/`: `index.html`, `content.nl.json`, `api.php` en de map `fonts/` met alle bestanden erin. Een zip uploaden en in DirectAdmin uitpakken kan ook.
+3. Upload de inhoud van de lokale map `koopdossier/`: `index.html`, `content.nl.json`, `api.php`, `sw.js`, `manifest.webmanifest`, `.htaccess` en de mappen `fonts/` en `icons/` met alle bestanden erin. Een zip uploaden en in DirectAdmin uitpakken kan ook. `.htaccess` begint met een punt; zet in Bestandsbeheer zo nodig "verborgen bestanden tonen" aan.
 4. Open `api.php` in de editor van DirectAdmin en vul bovenin in:
    - `BREVO_API_KEY`: de API-sleutel uit Brevo (*SMTP & API > API Keys*).
    - `BREVO_LIST_ID`: het ID van de lijst van de bestaande check.
    - `ALLOWED_ORIGINS`: leeg laten als de app op hetzelfde domein staat.
 5. Controleer in Brevo dat de contactkenmerken bestaan: `VOORNAAM` (tekst), `RISICO_SCORE` (getal), `RISICO_NIVEAU` (tekst), `AANDACHTSPUNTEN` (getal) en `BRON` (tekst). Ze zijn gelijk aan die van de oude check: `RISICO_NIVEAU` is "Laag risico", "Verhoogd risico" of "Hoog risico", en `BRON` is `conformiteitscheck` (instelbaar via `bron` in `index.html`). Neem de API-sleutel en het lijst-ID over uit het oude `conformiteitscheck.php`.
-6. Open `index.html` en vul zo nodig het blok `SETTINGS` bovenin in: `ga4Id` en `metaPixelId` voor het meten op de checkschermen, en `privacyUrl` voor de link naar je privacybeleid bij de aanmelding (standaard `/privacy`, zoals in de oude check). De adressen van Begrippenwijzer, chatbot en contactpagina zijn voor fase 2. Is een adres leeg, dan toont de app de knop niet.
+6. Open `index.html` en vul zo nodig het blok `SETTINGS` bovenin in: `ga4Id` en `metaPixelId` voor het meten op de checkschermen, en `privacyUrl` voor de link naar je privacybeleid bij de aanmelding (standaard `/privacy`, zoals in de oude check). Vul ook de adressen van Begrippenwijzer, chatbot en contactpagina in. `{id}` in het adres van de Begrippenwijzer wordt het lemma (bijvoorbeeld `visura-catastale`), `{vraag}` in het adres van de chatbot wordt de vooringevulde vraag. Is een adres leeg, dan toont de app de knop niet.
 7. Ga naar `https://jouwdomein.nl/koopdossier/?check` en doorloop de testlijst hieronder.
 
 **Het oude adres van de check doorverwijzen.** De originele check staat ter referentie in `bron/conformiteitscheck.php`. Vervang op de server de inhoud van het oude `conformiteitscheck.php` door alleen deze regel:
@@ -41,7 +45,7 @@ of zet in `.htaccess` van die map:
 Redirect 301 /conformiteitscheck.php /koopdossier/?check
 ```
 
-De server heeft PHP met cURL nodig. Node, een database of een build-stap zijn niet nodig.
+De server heeft PHP met cURL nodig. Node, een database of een build-stap zijn niet nodig. Offline gebruik werkt alleen via https (of op localhost).
 
 ## Inhoud bijwerken (`content.nl.json`)
 
@@ -49,7 +53,7 @@ Alle teksten die niet tot de interface horen, staan in `content.nl.json`. De doc
 
 Vaste afspraken:
 
-- **Verhoog `version`** (een datum, bijvoorbeeld `"2026-11-15"`) bij elke wijziging. De voettekst toont die datum als "Inhoud bijgewerkt op". In fase 2 ververst de service worker de cache zodra deze waarde verandert.
+- **Verhoog `version`** (een datum, bijvoorbeeld `"2026-11-15"`) bij elke wijziging. De voettekst toont die datum als "Inhoud bijgewerkt op". De service worker ververst zijn cache zodra deze waarde verandert. Wijzig je `index.html`, dan haalt de app die bij het volgende bezoek met verbinding vanzelf op.
 - **Een `id` verandert nooit**, ook niet als je de tekst herschrijft. De voortgang van gebruikers verwijst naar de id's. Een nieuw document of een nieuwe vlag krijgt een nieuwe id.
 - **Cursief** maak je met sterretjes: `*visura catastale*`. Gebruik dat voor Italiaanse termen en zet de Nederlandse uitleg erbij.
 - **Een leeg veld** (`""`) toont de app als "[nog invullen]". Vul niets in wat niet in de bron staat.
@@ -69,6 +73,10 @@ Belangrijkste onderdelen:
 | `documents[].inMail` | Zet op `false` voor documenten die je niet bij makelaar of verkoper opvraagt, zoals de eigen bouwkundige keuring. Ze komen dan niet in de opvraagmail. |
 | `documents[].flags` | Rode vlaggen: `id`, `text`, `severity` (`bespreken`, `oplossen` of `niet-tekenen`) en `clauses`: de id's van de clausules die bij deze vlag horen. |
 | `mail` | Onderwerp, aanhef per ontvanger, inleiding en slot van de opvraagmail, in het Italiaans en het Nederlands. `{immobile}` wordt de naam van de woning met de gemeente. |
+| `geometra` | De Italiaanse opdracht voor de geometra met Nederlandse vertaling: aanhef, inleiding, vaste taken, een zin voor panden van vóór 1967, een optionele bouwkundige keuring en het slot. De aangevinkte rode vlaggen komen erin via hun `textIt`. |
+| `signed` | De weergave voor schadebeperking na een getekend *compromesso*: een inleiding en per voorwaarde in het contract (`conditions`) de uitleg bij ja (`ifYes`) en nee (`ifNo`), met bron. `when` werkt zoals bij de acties. |
+| `documents[].flags[].textIt` | De Italiaanse tekst van een rode vlag, voor de opdracht aan de geometra. |
+| `documents[].glossary` | Lemma's in de Begrippenwijzer. |
 | `process` | De stappen van het stroomschema in de pdf. |
 | `offerNext` | Het aanbod voor de volgende stap, onderaan de pdf. |
 | `clauses` | De clausulebibliotheek: `titleNl`, `whenNl` (wanneer je hem nodig hebt), `textNl`, `textIt`, `source`, `model` (waar dezelfde afspraak in het model-*compromesso* van bijlage G staat, leeg als het model hem niet heeft), `modelIt` en `modelNl` (de letterlijke tekst van dat model in het Italiaans en Nederlands, met [...] voor invulplekken), `modelDiff` (waar het model afwijkt van het advies in de gids), `appliesWhen` (profielvlaggen waarbij de app hem voorstelt) en `reviewed`. Zolang `reviewed` op `false` staat, toont de app "concept, nog niet juridisch nagelezen". Het scherm met clausules komt in fase 2. |
@@ -121,6 +129,16 @@ Test op een telefoon (of in de browser op 360 px breed) en op een computer.
 10. Loop alle schermen door met alleen de Tab-toets en Enter. Alles is bereikbaar en de focus is zichtbaar. Er is nergens horizontaal scrollen op 360 px.
 11. Lege teksten tonen "[nog invullen]".
 12. Voeg een document toe aan `content.nl.json` en verhoog `version`. Na herladen staat het nieuwe document in het dossier en is de bestaande voortgang intact.
+
+## Testlijst fase 2
+
+1. Vink bij een woning een paar rode vlaggen aan en open **Rode vlaggen**. De vlaggen staan gegroepeerd op ernst (niet tekenen, eerst laten oplossen, bespreken), met een link naar het document en naar de passende clausule. Zonder vlaggen staat er "Geen open punten in deze lijst". Met een contactadres in `SETTINGS` staat onderaan een contactknop.
+2. Open **Clausules**. Bovenaan staan de voorgestelde clausules met de reden ("Omdat je bij … hebt aangevinkt", "Omdat erfgenamen verkopen"). Nederlands en Italiaans staan op een telefoon onder elkaar en op een breed scherm naast elkaar, elk met een kopieerknop. Niet nagelezen clausules tonen "concept, nog niet juridisch nagelezen". Vink er een aan: hij staat in de bijlage van de pdf.
+3. Ga naar **Exporteren**. De opdracht voor de geometra staat in het Italiaans, met de aangevinkte vlaggen in het Italiaans en de vertaling eronder. Vink de bouwkundige keuring aan en zie de zin verschijnen.
+4. Kies bij een woning in het profiel "Ik heb het compromesso al getekend". Het dossier opent met een rood omkaderde vraag welke voorwaarden in het contract staan, met uitleg per antwoord. De antwoorden staan ook in de pdf.
+5. Vul de adressen van Begrippenwijzer en chatbot in. Op een documentscherm staan dan de knoppen "Begrippenwijzer: …" en "Vraag het de chatbot".
+6. Open de app één keer met verbinding, zet de telefoon in vliegtuigmodus en open de app opnieuw. De check, de woningen en de dossiers werken. Kies in de browser "Toevoegen aan beginscherm": de app krijgt een eigen icoon.
+7. Verhoog `version` in `content.nl.json`. Bij het volgende bezoek met verbinding toont de voettekst de nieuwe datum, ook daarna offline.
 
 ## Lettertypen
 

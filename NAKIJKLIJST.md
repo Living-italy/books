@@ -19,6 +19,10 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 - **Clausules, Italiaanse tekst**: de eigen clausuleteksten zijn conceptvertalingen van mij, met de termen van het Italiaanse model. De letterlijke Italiaanse modeltekst staat er apart bij (paragraaf 5). Alle clausules staan op `reviewed: false`.
 - **Tekst van rode vlaggen**: korte waarnemingen in eigen woorden, elk gebaseerd op een concreet punt uit 4.2 of 5.2.
 - **Opvraagregels (`requestIt`) en de opvraagmail**: conceptvertaling, nog niet nagelezen.
+- **Italiaanse tekst van de rode vlaggen (`textIt`)**: conceptvertaling van alle 90 vlaggen, voor de opdracht aan de geometra.
+- **Opdracht voor de geometra** (`geometra`): de Italiaanse tekst en de vertaling zijn van mij, opgebouwd uit wat de gids in 4.2.8 en 4.2.10 zegt dat de geometra doet. De uitleg erbij ("Vraag je om een *verifica*…") is letterlijk uit de gids. Staat op `reviewed: false`.
+- **Schadebeperking** (`signed`): de inleiding en de uitleg per voorwaarde zijn letterlijke zinnen uit 5.2.1, 5.2.3, 5.2.4, 5.2.5 en 5.2.7; de vragen zelf zijn van mij.
+- **Begrippenwijzer**: elk document met een Italiaanse naam heeft een lemma-id gekregen dat van die naam is afgeleid (bijvoorbeeld `atto-di-provenienza`). Pas ze aan zodra het adrespatroon van de Begrippenwijzer bekend is.
 - **Profielvragen en antwoordopties**: opgesteld uit de bouwbrief en op 7 oktober 2026 door Stef akkoord bevonden, inclusief de keuze bij "weet ik niet".
 - **Profielen** (paragraaf 6): opgesteld uit de gids, omdat `profielen-conformiteitscheck.md` ontbreekt. Alle risicoteksten en acties zijn letterlijke zinnen uit de gids, op één samenvatting na. Of een profiel de juiste documenten extra belangrijk maakt, is een keuze van mij.
 - **Meetgebeurtenissen**: gelijk aan de oude check (`check_voltooid`, `generate_lead`, `ConformiteitsCheckVoltooid`, `Lead`), plus `check_gestart` en `ConformiteitsCheckGestart`. Score en niveau gaan mee; `value` bij `generate_lead` is weggelaten, omdat GA4 dat als geldbedrag telt.

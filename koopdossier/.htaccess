@@ -1,0 +1,8 @@
+# Koopdossier Italië
+AddType application/manifest+json .webmanifest
+<IfModule mod_headers.c>
+  # De service worker en de inhoud altijd vers ophalen; de app regelt zelf de offline cache.
+  <FilesMatch "^(sw\.js|content\.nl\.json|index\.html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

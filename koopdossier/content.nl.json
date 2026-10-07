@@ -1163,7 +1163,9 @@
       "contract": "Dat de verkoper vóór de akte een gewaarmerkte kopie van de eigendomstitel levert, en bij een vererfd pand dat de aanvaarding is ingeschreven en de tenaamstelling is bijgewerkt, op zijn kosten.",
       "requestIt": "copia dell'atto di provenienza",
       "requestNl": "een kopie van de eigendomstitel (*atto di provenienza*)",
-      "glossary": [],
+      "glossary": [
+        "atto-di-provenienza"
+      ],
       "flags": [
         {
           "id": "verkregen-via-schenking",
@@ -1171,7 +1173,8 @@
           "severity": "bespreken",
           "clauses": [
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "Il venditore ha acquisito l'immobile per donazione"
         },
         {
           "id": "schenking-vordering-ingeschreven",
@@ -1179,7 +1182,8 @@
           "severity": "oplossen",
           "clauses": [
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "Risulta trascritta una domanda di riduzione o un'opposizione alla donazione"
         },
         {
           "id": "erfenis-niet-alle-erfgenamen",
@@ -1187,7 +1191,8 @@
           "severity": "niet-tekenen",
           "clauses": [
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "L'immobile proviene da una successione e non tutti gli eredi collaborano alla vendita"
         },
         {
           "id": "aanvaarding-niet-ingeschreven",
@@ -1195,7 +1200,8 @@
           "severity": "oplossen",
           "clauses": [
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "L'accettazione dell'eredità non risulta trascritta"
         },
         {
           "id": "voltura-niet-bijgewerkt",
@@ -1203,7 +1209,8 @@
           "severity": "oplossen",
           "clauses": [
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "L'immobile risulta ancora intestato in catasto a una persona deceduta (voltura catastale non eseguita)"
         },
         {
           "id": "meerdere-successies",
@@ -1211,7 +1218,8 @@
           "severity": "oplossen",
           "clauses": [
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "Più di una successione non risulta definita"
         },
         {
           "id": "successie-onvolledig",
@@ -1220,7 +1228,8 @@
           "clauses": [
             "eigendomstitel",
             "omschrijving-object"
-          ]
+          ],
+          "textIt": "Nella dichiarazione di successione manca un terreno o una quota, ad esempio la corte, il passo carraio o l'autorimessa"
         },
         {
           "id": "geen-copia-conforme",
@@ -1228,7 +1237,8 @@
           "severity": "bespreken",
           "clauses": [
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "Il venditore fornisce solo una scansione dell'atto, non una copia conforme"
         }
       ],
       "source": "gids 4.2.1"
@@ -1252,7 +1262,9 @@
       "contract": "Een verklaring van de verkoper dat geen derde een deel van het perceel of van de opstallen in bezit heeft en dat er geen claim loopt.",
       "requestIt": "dichiarazione che nessun terzo possiede porzioni del terreno o dei fabbricati e che non vi sono contestazioni in corso",
       "requestNl": "een verklaring dat geen derde een deel van het perceel of van de opstallen in bezit heeft en dat er geen claim loopt",
-      "glossary": [],
+      "glossary": [
+        "usucapione"
+      ],
       "flags": [
         {
           "id": "buurman-gebruikt-grond",
@@ -1260,7 +1272,8 @@
           "severity": "oplossen",
           "clauses": [
             "geen-bezit-derden"
-          ]
+          ],
+          "textIt": "Un vicino utilizza da anni una porzione del terreno"
         },
         {
           "id": "bouwwerk-van-ander",
@@ -1268,7 +1281,8 @@
           "severity": "bespreken",
           "clauses": [
             "geen-bezit-derden"
-          ]
+          ],
+          "textIt": "Sul terreno si trova un capanno, un muro o una recinzione di terzi"
         },
         {
           "id": "oprit-door-anderen",
@@ -1276,7 +1290,8 @@
           "severity": "bespreken",
           "clauses": [
             "geen-bezit-derden"
-          ]
+          ],
+          "textIt": "Un accesso carrabile o un giardino è utilizzato stabilmente da terzi"
         },
         {
           "id": "grensakkoord-niet-ingeschreven",
@@ -1284,7 +1299,8 @@
           "severity": "oplossen",
           "clauses": [
             "geen-bezit-derden"
-          ]
+          ],
+          "textIt": "Esiste un accordo sui confini che non è stato trascritto"
         }
       ]
     },
@@ -1317,7 +1333,8 @@
           "clauses": [
             "eigendomstitel",
             "kadastrale-conformiteit"
-          ]
+          ],
+          "textIt": "L'intestatario della visura non coincide con il venditore"
         },
         {
           "id": "categorie-wijkt-af",
@@ -1325,7 +1342,8 @@
           "severity": "oplossen",
           "clauses": [
             "kadastrale-conformiteit"
-          ]
+          ],
+          "textIt": "La categoria catastale non corrisponde all'uso effettivo"
         },
         {
           "id": "meters-wijken-af",
@@ -1333,13 +1351,15 @@
           "severity": "bespreken",
           "clauses": [
             "omschrijving-object"
-          ]
+          ],
+          "textIt": "La superficie non corrisponde a quella catastale"
         },
         {
           "id": "rendita-proposta",
           "text": "De *rendita* staat nog als *proposta*, niet als *validata* of *rettificata*",
           "severity": "bespreken",
-          "clauses": []
+          "clauses": [],
+          "textIt": "La rendita risulta ancora proposta e non validata o rettificata"
         },
         {
           "id": "ruralita",
@@ -1347,7 +1367,8 @@
           "severity": "bespreken",
           "clauses": [
             "geplande-ingreep"
-          ]
+          ],
+          "textIt": "Per un fienile, una stalla o un annesso risulta l'annotazione di ruralità, oppure l'edificio è in categoria D/10"
         },
         {
           "id": "grond-niet-op-naam",
@@ -1355,7 +1376,8 @@
           "severity": "oplossen",
           "clauses": [
             "omschrijving-object"
-          ]
+          ],
+          "textIt": "Il terreno, il passo carraio o la corte non risultano intestati al venditore, o manca la sua quota"
         }
       ],
       "source": "gids 4.2.2"
@@ -1378,7 +1400,9 @@
       "contract": "Dat de verkoper vóór de akte voor de kadastrale conformiteit zorgt en de kosten daarvan draagt.",
       "requestIt": "planimetria catastale aggiornata",
       "requestNl": "een actuele kadastrale plattegrond (*planimetria catastale*)",
-      "glossary": [],
+      "glossary": [
+        "planimetria-catastale"
+      ],
       "flags": [
         {
           "id": "planimetria-wijkt-af",
@@ -1386,7 +1410,8 @@
           "severity": "oplossen",
           "clauses": [
             "kadastrale-conformiteit"
-          ]
+          ],
+          "textIt": "La planimetria catastale non corrisponde alla distribuzione interna effettiva"
         },
         {
           "id": "planimetria-ontbreekt",
@@ -1394,7 +1419,8 @@
           "severity": "oplossen",
           "clauses": [
             "kadastrale-conformiteit"
-          ]
+          ],
+          "textIt": "Non risulta depositata alcuna planimetria catastale"
         },
         {
           "id": "mansarda-hoogte",
@@ -1402,7 +1428,8 @@
           "severity": "bespreken",
           "clauses": [
             "kadastrale-conformiteit"
-          ]
+          ],
+          "textIt": "Una mansarda o un sottotetto è proposto come abitabile; occorre verificare l'altezza interna indicata in planimetria"
         },
         {
           "id": "grenzen-niet-geverifieerd",
@@ -1410,7 +1437,8 @@
           "severity": "bespreken",
           "clauses": [
             "omschrijving-object"
-          ]
+          ],
+          "textIt": "I confini del terreno non sono stati verificati sul posto"
         }
       ],
       "source": "gids 4.2.2"
@@ -1435,7 +1463,9 @@
       "contract": "Een opschortende voorwaarde van een gunstige technische controle, met een termijn die de 30 dagen van de gemeente ruim dekt, en de afspraak wie een *sanatoria* betaalt.",
       "requestIt": "copia dei titoli edilizi e della documentazione sullo stato legittimo dell'immobile",
       "requestNl": "een kopie van de bouwvergunningen (*titoli edilizi*) en de stukken over de legale staat (*stato legittimo*)",
-      "glossary": [],
+      "glossary": [
+        "titoli-edilizi-e-stato-legittimo"
+      ],
       "flags": [
         {
           "id": "verbouwing-zonder-vergunning",
@@ -1444,7 +1474,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "Per una ristrutturazione non risulta alcun titolo edilizio"
         },
         {
           "id": "aanbouw-zonder-vergunning",
@@ -1453,7 +1484,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "Un ampliamento, un annesso, una veranda, una serra o una piscina non risulta nel titolo edilizio"
         },
         {
           "id": "condono-niet-afgerond",
@@ -1462,7 +1494,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "È ancora in corso una domanda di condono non definita"
         },
         {
           "id": "titel-bestaat-niet",
@@ -1471,7 +1504,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "Il titolo edilizio indicato non esiste, non risulta presso il Comune o si riferisce a un altro immobile"
         },
         {
           "id": "lottizzazione-abusiva",
@@ -1479,7 +1513,8 @@
           "severity": "niet-tekenen",
           "clauses": [
             "vergunningen"
-          ]
+          ],
+          "textIt": "Risulta un provvedimento o una trascrizione per lottizzazione abusiva"
         },
         {
           "id": "kamer-niet-vergund",
@@ -1488,7 +1523,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "Un locale è proposto come camera o soggiorno ma nel titolo risulta come cantina, ripostiglio o sottotetto (taverna, locale hobby)"
         },
         {
           "id": "te-dicht-op-de-weg",
@@ -1497,7 +1533,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "L'edificio si trova nella fascia di rispetto stradale e non risulta autorizzato in tale posizione"
         },
         {
           "id": "controsoffitto",
@@ -1505,7 +1542,8 @@
           "severity": "bespreken",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Una difformità viene eliminata solo con un controsoffitto"
         }
       ],
       "source": "gids 4.2.8"
@@ -1529,7 +1567,9 @@
       "contract": "",
       "requestIt": "dichiarazione sostitutiva di atto di notorietà sull'edificazione dell'immobile prima del 1° settembre 1967, con la documentazione a supporto",
       "requestNl": "de verklaring dat het pand vóór 1 september 1967 is gebouwd (*dichiarazione sostitutiva di atto di notorietà*), met de onderbouwing",
-      "glossary": [],
+      "glossary": [
+        "dichiarazione-sostitutiva-di-atto-di-notorieta"
+      ],
       "flags": [
         {
           "id": "pre1967-zonder-onderbouwing",
@@ -1538,7 +1578,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "L'edificazione ante 1967 è solo dichiarata, senza documentazione a supporto (foto aeree, mappe, dati catastali)"
         }
       ]
     },
@@ -1558,7 +1599,9 @@
       "contract": "Verklaring dat er een geldig energiecertificaat *APE* is en dat een (digitale) kopie ervan ruim voor de overdracht aan de koper wordt overhandigd (of beter: nu).",
       "requestIt": "attestato di prestazione energetica (APE) in corso di validità",
       "requestNl": "een geldig energielabel (*APE*)",
-      "glossary": [],
+      "glossary": [
+        "ape"
+      ],
       "flags": [
         {
           "id": "ape-ontbreekt",
@@ -1566,7 +1609,8 @@
           "severity": "bespreken",
           "clauses": [
             "ape"
-          ]
+          ],
+          "textIt": "L'APE manca o è scaduto"
         },
         {
           "id": "ape-klasse-past-niet",
@@ -1574,7 +1618,8 @@
           "severity": "bespreken",
           "clauses": [
             "ape"
-          ]
+          ],
+          "textIt": "La classe energetica non sembra corrispondere all'immobile visitato"
         },
         {
           "id": "ape-zonder-bezoek",
@@ -1582,7 +1627,8 @@
           "severity": "oplossen",
           "clauses": [
             "ape"
-          ]
+          ],
+          "textIt": "L'APE è stato redatto senza sopralluogo, sulla base di foto o videochiamata"
         },
         {
           "id": "libretto-niet-bijgehouden",
@@ -1590,7 +1636,8 @@
           "severity": "bespreken",
           "clauses": [
             "ape"
-          ]
+          ],
+          "textIt": "I libretti di impianto non risultano aggiornati"
         }
       ],
       "source": "gids 4.2.9, 5.2.2"
@@ -1624,7 +1671,8 @@
           "clauses": [
             "partijen-gegevens",
             "eigendomstitel"
-          ]
+          ],
+          "textIt": "Un coniuge, un comproprietario o un erede non sottoscrive"
         }
       ],
       "source": "gids 5.2.1"
@@ -1651,13 +1699,15 @@
           "id": "makelaar-niet-ingeschreven",
           "text": "De makelaar is niet ingeschreven",
           "severity": "oplossen",
-          "clauses": []
+          "clauses": [],
+          "textIt": "L'agente immobiliare non risulta iscritto"
         },
         {
           "id": "provisie-niet-op-papier",
           "text": "De provisie van de makelaar staat niet op papier",
           "severity": "bespreken",
-          "clauses": []
+          "clauses": [],
+          "textIt": "La provvigione dell'agente non è stata pattuita per iscritto"
         },
         {
           "id": "provisie-bij-bod",
@@ -1665,13 +1715,15 @@
           "severity": "bespreken",
           "clauses": [
             "opschortende-voorwaarden"
-          ]
+          ],
+          "textIt": "Il modulo dell'agenzia rende la provvigione dovuta già all'accettazione della proposta"
         },
         {
           "id": "makelaar-niet-geverifieerd",
           "text": "De makelaar geeft informatie door die hij niet zelf heeft gecontroleerd",
           "severity": "bespreken",
-          "clauses": []
+          "clauses": [],
+          "textIt": "L'agente trasmette informazioni che non ha verificato personalmente"
         }
       ],
       "source": "gids 4.2.9, 5.2.3"
@@ -1696,7 +1748,9 @@
       "contract": "Een verklaring of het pand vrij van huur en gebruik wordt geleverd.",
       "requestIt": "copia di eventuali contratti di locazione o comodato in corso",
       "requestNl": "een kopie van lopende huur- of gebruikscontracten (*locazione*, *comodato*)",
-      "glossary": [],
+      "glossary": [
+        "locazione-o-comodato"
+      ],
       "flags": [
         {
           "id": "contract-loopt-door",
@@ -1704,7 +1758,8 @@
           "severity": "oplossen",
           "clauses": [
             "vrij-van-huur"
-          ]
+          ],
+          "textIt": "È in corso un contratto di locazione o comodato che non scade prima del rogito"
         },
         {
           "id": "geregistreerd-huurcontract",
@@ -1712,7 +1767,8 @@
           "severity": "bespreken",
           "clauses": [
             "vrij-van-huur"
-          ]
+          ],
+          "textIt": "Esiste un contratto di locazione registrato con data certa"
         }
       ],
       "source": "gids 5.2.1"
@@ -1735,7 +1791,9 @@
       "contract": "Een voorbehoud van een gunstige uitkomst van de *perizia*, met een termijn, en wat er gebeurt als er gebreken worden gevonden.",
       "requestIt": "",
       "requestNl": "",
-      "glossary": [],
+      "glossary": [
+        "perizia-tecnica"
+      ],
       "flags": [
         {
           "id": "scheuren-fundering",
@@ -1743,7 +1801,8 @@
           "severity": "oplossen",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Crepe nei muri portanti, cedimenti o segni di danni sismici"
         },
         {
           "id": "dak-slecht",
@@ -1751,7 +1810,8 @@
           "severity": "bespreken",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Il tetto presenta cedimenti o infiltrazioni"
         },
         {
           "id": "vocht",
@@ -1759,7 +1819,8 @@
           "severity": "bespreken",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Macchie di umidità, umidità di risalita o scarso drenaggio attorno all'edificio"
         },
         {
           "id": "installaties-verouderd",
@@ -1767,7 +1828,8 @@
           "severity": "bespreken",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Impianto elettrico obsoleto senza salvavita, oppure vecchie tubazioni in piombo o rame"
         },
         {
           "id": "houtaantasting",
@@ -1775,7 +1837,8 @@
           "severity": "bespreken",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Travi o struttura del tetto attaccate da tarli o capricorno"
         },
         {
           "id": "asbest",
@@ -1783,7 +1846,8 @@
           "severity": "oplossen",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Presenza di materiali contenenti amianto"
         }
       ]
     },
@@ -1806,7 +1870,9 @@
       "contract": "Het toevoegen van zulke clausules moet voor de ondertekening gebeuren, want achteraf kun je niets eenzijdig toevoegen.",
       "requestIt": "bozza del contratto preliminare (compromesso), da esaminare prima della firma",
       "requestNl": "het concept van het voorlopig koopcontract (*compromesso*), om vóór de ondertekening na te kijken",
-      "glossary": [],
+      "glossary": [
+        "bozza-del-compromesso"
+      ],
       "flags": [
         {
           "id": "concept-ontbindend",
@@ -1814,7 +1880,8 @@
           "severity": "oplossen",
           "clauses": [
             "opschortende-voorwaarden"
-          ]
+          ],
+          "textIt": "La bozza rende ogni pattuizione una clausola risolutiva espressa e non prevede condizioni sospensive"
         },
         {
           "id": "concept-geen-financiering",
@@ -1822,7 +1889,8 @@
           "severity": "oplossen",
           "clauses": [
             "financieringsvoorbehoud"
-          ]
+          ],
+          "textIt": "La bozza non prevede la condizione sospensiva del mutuo, pur essendo necessario un finanziamento"
         },
         {
           "id": "concept-geen-technische-controle",
@@ -1830,7 +1898,8 @@
           "severity": "oplossen",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "La bozza non prevede la condizione sospensiva dell'esito favorevole della verifica tecnica"
         },
         {
           "id": "concept-geen-prelazione",
@@ -1838,7 +1907,8 @@
           "severity": "oplossen",
           "clauses": [
             "prelazione-agraria"
-          ]
+          ],
+          "textIt": "È compreso terreno agricolo, ma la bozza non menziona la prelazione agraria"
         },
         {
           "id": "concept-uitzondering-art2",
@@ -1847,7 +1917,8 @@
           "clauses": [
             "vrij-van-hypotheken",
             "vrij-van-huur"
-          ]
+          ],
+          "textIt": "Tra le garanzie del venditore figura un'eccezione, ad esempio un'ipoteca che resta iscritta o una locazione in corso"
         },
         {
           "id": "concept-datum-fataal",
@@ -1855,7 +1926,8 @@
           "severity": "bespreken",
           "clauses": [
             "datum-rogito"
-          ]
+          ],
+          "textIt": "Il termine per il rogito è indicato come essenziale"
         },
         {
           "id": "concept-a-corpo",
@@ -1863,7 +1935,8 @@
           "severity": "bespreken",
           "clauses": [
             "omschrijving-object"
-          ]
+          ],
+          "textIt": "La vendita è a corpo, senza indicare separatamente ogni identificativo catastale con la relativa quota"
         },
         {
           "id": "concept-servitu",
@@ -1871,7 +1944,8 @@
           "severity": "bespreken",
           "clauses": [
             "servitu"
-          ]
+          ],
+          "textIt": "Le servitù sono indicate solo \"se e in quanto esistenti\", senza un elenco completo"
         },
         {
           "id": "concept-vve-tot-vandaag",
@@ -1879,7 +1953,8 @@
           "severity": "bespreken",
           "clauses": [
             "condominio"
-          ]
+          ],
+          "textIt": "Restano a carico del venditore solo le spese condominiali deliberate fino alla data del preliminare"
         },
         {
           "id": "concept-ape-bij-akte",
@@ -1887,7 +1962,8 @@
           "severity": "bespreken",
           "clauses": [
             "ape"
-          ]
+          ],
+          "textIt": "L'APE viene consegnato solo al rogito"
         },
         {
           "id": "concept-installaties-koper",
@@ -1895,7 +1971,8 @@
           "severity": "bespreken",
           "clauses": [
             "vergunningen"
-          ]
+          ],
+          "textIt": "La messa a norma degli impianti è a carico dell'acquirente"
         }
       ]
     },
@@ -1918,7 +1995,9 @@
       "contract": "Een opschortende voorwaarde van een gunstige technische controle, met een termijn die de 30 dagen van de gemeente ruim dekt, en de afspraak wie een *sanatoria* betaalt.",
       "requestIt": "relazione di regolarità edilizia e catastale (RRE)",
       "requestNl": "een rapport over vergunningen en kadaster (*relazione di regolarità edilizia e catastale*, *RRE*)",
-      "glossary": [],
+      "glossary": [
+        "relazione-di-regolarita-edilizia-e-catastale-rre"
+      ],
       "flags": [
         {
           "id": "geen-eigen-controle",
@@ -1926,7 +2005,8 @@
           "severity": "bespreken",
           "clauses": [
             "technische-controle"
-          ]
+          ],
+          "textIt": "Non è ancora stata eseguita una verifica indipendente da parte di un mio tecnico di fiducia"
         },
         {
           "id": "afwijking-buiten-tolerantie",
@@ -1935,7 +2015,8 @@
           "clauses": [
             "technische-controle",
             "vergunningen"
-          ]
+          ],
+          "textIt": "La relazione indica difformità oltre le tolleranze del decreto Salva Casa"
         }
       ],
       "source": "gids 4.2.8"
@@ -1956,7 +2037,9 @@
       "contract": "Dat het pand vrij van hypotheken en beslagen wordt geleverd en dat de doorhaling vóór of bij het *rogito* is ingeschreven.",
       "requestIt": "ispezione ipotecaria aggiornata",
       "requestNl": "een actueel overzicht van hypotheken en beslagen (*ispezione ipotecaria*)",
-      "glossary": [],
+      "glossary": [
+        "ispezione-ipotecaria"
+      ],
       "flags": [
         {
           "id": "hypotheek-of-beslag",
@@ -1964,7 +2047,8 @@
           "severity": "oplossen",
           "clauses": [
             "vrij-van-hypotheken"
-          ]
+          ],
+          "textIt": "Risulta iscritta un'ipoteca, un pignoramento o una domanda giudiziale"
         },
         {
           "id": "ipoteca-giudiziale",
@@ -1972,7 +2056,8 @@
           "severity": "oplossen",
           "clauses": [
             "vrij-van-hypotheken"
-          ]
+          ],
+          "textIt": "Risulta iscritta un'ipoteca giudiziale o legale"
         }
       ],
       "source": "gids 4.2.3"
@@ -1993,7 +2078,9 @@
       "contract": "Dat het pand vrij van hypotheken en beslagen wordt geleverd en dat de doorhaling vóór of bij het *rogito* is ingeschreven.",
       "requestIt": "ispezione ipotecaria aggiornata alla data del rogito",
       "requestNl": "een overzicht van hypotheken en beslagen (*ispezione ipotecaria*), bijgewerkt tot de datum van de *rogito*",
-      "glossary": [],
+      "glossary": [
+        "ispezione-ipotecaria"
+      ],
       "flags": [
         {
           "id": "hypotheek-of-beslag-rogito",
@@ -2001,7 +2088,8 @@
           "severity": "niet-tekenen",
           "clauses": [
             "vrij-van-hypotheken"
-          ]
+          ],
+          "textIt": "Risulta iscritta un'ipoteca, un pignoramento o una domanda giudiziale"
         },
         {
           "id": "doorhaling-ontbreekt",
@@ -2009,7 +2097,8 @@
           "severity": "oplossen",
           "clauses": [
             "vrij-van-hypotheken"
-          ]
+          ],
+          "textIt": "Un'ipoteca estinta risulta ancora iscritta perché manca la cancellazione"
         }
       ],
       "source": "gids 4.2.3"
@@ -2032,7 +2121,9 @@
       "contract": "Dat de verkoper de *agibilità* of *SCA* vóór de akte overlegt, als opschortende voorwaarde, en dat het *APE* bij de akte wordt gevoegd.",
       "requestIt": "certificato di agibilità o segnalazione certificata di agibilità (SCA)",
       "requestNl": "het bewijs van gebruiksgeschiktheid (*agibilità* of *SCA*)",
-      "glossary": [],
+      "glossary": [
+        "agibilita-o-sca"
+      ],
       "flags": [
         {
           "id": "agibilita-ontbreekt",
@@ -2041,7 +2132,8 @@
           "clauses": [
             "vergunningen",
             "technische-controle"
-          ]
+          ],
+          "textIt": "L'agibilità manca o non è mai stata richiesta"
         },
         {
           "id": "sca-niet-geactualiseerd",
@@ -2049,7 +2141,8 @@
           "severity": "oplossen",
           "clauses": [
             "vergunningen"
-          ]
+          ],
+          "textIt": "Dopo una ristrutturazione l'agibilità non è stata aggiornata"
         }
       ],
       "source": "gids 4.2.9"
@@ -2070,7 +2163,9 @@
       "contract": "",
       "requestIt": "dichiarazioni di conformità degli impianti elettrico, gas e di riscaldamento",
       "requestNl": "de verklaringen van conformiteit voor elektra, gas en verwarming (*dichiarazioni di conformità degli impianti*)",
-      "glossary": [],
+      "glossary": [
+        "dichiarazioni-di-conformita-degli-impianti"
+      ],
       "flags": [
         {
           "id": "impianti-ontbreken",
@@ -2078,7 +2173,8 @@
           "severity": "bespreken",
           "clauses": [
             "vergunningen"
-          ]
+          ],
+          "textIt": "Mancano le dichiarazioni di conformità degli impianti elettrico, gas o di riscaldamento"
         }
       ],
       "source": "gids 4.2.9"
@@ -2103,7 +2199,9 @@
       "contract": "Dat de verkoper een geldige *CDU* levert, of verklaart dat het bestemmingsplan sinds de afgifte niet is gewijzigd.",
       "requestIt": "certificato di destinazione urbanistica dei terreni",
       "requestNl": "het bestemmingscertificaat van de grond (*certificato di destinazione urbanistica*)",
-      "glossary": [],
+      "glossary": [
+        "certificato-di-destinazione-urbanistica"
+      ],
       "flags": [
         {
           "id": "bestemming-blokkeert-plannen",
@@ -2111,7 +2209,8 @@
           "severity": "bespreken",
           "clauses": [
             "geplande-ingreep"
-          ]
+          ],
+          "textIt": "La destinazione urbanistica del terreno impedisce gli interventi previsti"
         },
         {
           "id": "deels-landbouwgrond",
@@ -2119,7 +2218,8 @@
           "severity": "bespreken",
           "clauses": [
             "geplande-ingreep"
-          ]
+          ],
+          "textIt": "Il terreno è (in parte) agricolo, quindi non sono possibili nuove costruzioni"
         },
         {
           "id": "risicozone",
@@ -2127,7 +2227,8 @@
           "severity": "bespreken",
           "clauses": [
             "geplande-ingreep"
-          ]
+          ],
+          "textIt": "Il terreno si trova in una zona a rischio"
         },
         {
           "id": "bebouwingsindex-te-laag",
@@ -2135,13 +2236,15 @@
           "severity": "bespreken",
           "clauses": [
             "geplande-ingreep"
-          ]
+          ],
+          "textIt": "L'indice di edificabilità è insufficiente per gli interventi previsti"
         },
         {
           "id": "cdu-verlopen",
           "text": "De *CDU* is ouder dan een jaar, of het bestemmingsplan is sindsdien gewijzigd",
           "severity": "oplossen",
-          "clauses": []
+          "clauses": [],
+          "textIt": "Il CDU ha più di un anno, oppure lo strumento urbanistico è stato modificato"
         }
       ],
       "source": "gids 4.2.7"
@@ -2165,7 +2268,9 @@
       "contract": "Beschrijving van de eventuele belemmeringen (*vincoli*) ten gevolge van landschapsbescherming, monumenteneisen of archeologische kwesties. Eventueel neem je een opschortende voorwaarde die je beschermt tegen belemmeringen die in het compromesso niet of niet voldoende vermeld zijn.",
       "requestIt": "informazioni su eventuali vincoli paesaggistici, storico-artistici o usi civici",
       "requestNl": "informatie over eventuele beperkingen voor landschap, monument of *usi civici*",
-      "glossary": [],
+      "glossary": [
+        "vincoli"
+      ],
       "flags": [
         {
           "id": "vincoli-onbekend",
@@ -2173,7 +2278,8 @@
           "severity": "bespreken",
           "clauses": [
             "vincoli"
-          ]
+          ],
+          "textIt": "Non è noto quali vincoli gravino sull'immobile"
         },
         {
           "id": "monument-voorkooprecht",
@@ -2182,7 +2288,8 @@
           "clauses": [
             "vincoli",
             "datum-rogito"
-          ]
+          ],
+          "textIt": "L'immobile è dichiarato bene culturale, con diritto di prelazione di Ministero, Regione e Comune"
         },
         {
           "id": "usi-civici",
@@ -2190,7 +2297,8 @@
           "severity": "oplossen",
           "clauses": [
             "prelazione-agraria"
-          ]
+          ],
+          "textIt": "Sul terreno grava un uso civico"
         },
         {
           "id": "landschap-blokkeert-verbouwing",
@@ -2199,7 +2307,8 @@
           "clauses": [
             "vincoli",
             "geplande-ingreep"
-          ]
+          ],
+          "textIt": "Un vincolo paesaggistico rende impossibili gli interventi previsti"
         }
       ],
       "source": "gids 4.2.6, 4.2.7, 5.2.2"
@@ -2224,7 +2333,9 @@
       "contract": "Dat de levering pas plaatsvindt nadat de kennisgeving is verricht en de termijn van 30 dagen is verstreken, en dat het perceel vrij is van *usi civici*. Een verklaring vooraf, zonder kennisgeving, is nietig.",
       "requestIt": "informazioni sugli aventi diritto di prelazione agraria ed eventuali rinunce",
       "requestNl": "informatie over wie een voorkooprecht op de landbouwgrond heeft (*prelazione agraria*) en eventuele afstandsverklaringen",
-      "glossary": [],
+      "glossary": [
+        "prelazione-agraria"
+      ],
       "flags": [
         {
           "id": "geen-afstandsverklaring",
@@ -2232,7 +2343,8 @@
           "severity": "oplossen",
           "clauses": [
             "prelazione-agraria"
-          ]
+          ],
+          "textIt": "Agli aventi diritto alla prelazione agraria non è stata fatta la notifica, o manca la rinuncia scritta successiva alla notifica"
         },
         {
           "id": "pachter-of-boer-buurman",
@@ -2240,7 +2352,8 @@
           "severity": "bespreken",
           "clauses": [
             "prelazione-agraria"
-          ]
+          ],
+          "textIt": "Sul terreno c'è un affittuario, oppure il confinante è coltivatore diretto"
         },
         {
           "id": "strook-landbouwgrond",
@@ -2248,7 +2361,8 @@
           "severity": "bespreken",
           "clauses": [
             "prelazione-agraria"
-          ]
+          ],
+          "textIt": "Al giardino è annessa una striscia di terreno agricolo"
         }
       ],
       "source": "gids 4.2.6"
@@ -2271,7 +2385,9 @@
       "contract": "Een volledige opgave van alle erfdienstbaarheden, ook de niet-geregistreerde, en dat de verkoper de papieren van de put vóór de akte overlegt.",
       "requestIt": "informazioni su servitù esistenti (accesso, pozzo, condutture)",
       "requestNl": "informatie over bestaande erfdienstbaarheden (*servitù*): toegang, put, leidingen",
-      "glossary": [],
+      "glossary": [
+        "servitu"
+      ],
       "flags": [
         {
           "id": "toegang-niet-vastgelegd",
@@ -2279,7 +2395,8 @@
           "severity": "oplossen",
           "clauses": [
             "servitu"
-          ]
+          ],
+          "textIt": "La strada di accesso passa su un fondo altrui senza servitù costituita"
         },
         {
           "id": "servitu-door-gebruik",
@@ -2287,7 +2404,8 @@
           "severity": "bespreken",
           "clauses": [
             "servitu"
-          ]
+          ],
+          "textIt": "Terzi utilizzano un passaggio, una condotta o un accesso sul fondo non risultante dai registri"
         },
         {
           "id": "strada-vicinale",
@@ -2295,7 +2413,8 @@
           "severity": "bespreken",
           "clauses": [
             "servitu"
-          ]
+          ],
+          "textIt": "La strada di accesso è una strada vicinale con obbligo di contribuzione, oppure vi sono arretrati"
         }
       ],
       "source": "gids 4.2.5"
@@ -2318,7 +2437,9 @@
       "contract": "Een verklaring van de *amministratore* dat alle bijdragen zijn voldaan, en dat oudere schulden en al besloten werken voor rekening van de verkoper blijven.",
       "requestIt": "documentazione del condominio, con la situazione dei pagamenti e le delibere su lavori straordinari",
       "requestNl": "de stukken van de VvE (*condominio*), met de stand van de betalingen en de besluiten over grote werken",
-      "glossary": [],
+      "glossary": [
+        "documenti-del-condominio"
+      ],
       "flags": [
         {
           "id": "achterstallige-bijdragen",
@@ -2326,7 +2447,8 @@
           "severity": "oplossen",
           "clauses": [
             "condominio"
-          ]
+          ],
+          "textIt": "Vi sono contributi condominiali arretrati"
         },
         {
           "id": "grote-werken-besloten",
@@ -2334,7 +2456,8 @@
           "severity": "bespreken",
           "clauses": [
             "condominio"
-          ]
+          ],
+          "textIt": "Il condominio ha già deliberato lavori straordinari"
         },
         {
           "id": "rei-ontbreekt",
@@ -2342,7 +2465,8 @@
           "severity": "bespreken",
           "clauses": [
             "condominio"
-          ]
+          ],
+          "textIt": "Manca la certificazione antincendio REI"
         },
         {
           "id": "reglement-beperkt-verhuur",
@@ -2350,7 +2474,8 @@
           "severity": "bespreken",
           "clauses": [
             "condominio"
-          ]
+          ],
+          "textIt": "Il regolamento condominiale limita gli affitti brevi"
         },
         {
           "id": "geen-verklaring-amministratore",
@@ -2358,7 +2483,8 @@
           "severity": "oplossen",
           "clauses": [
             "condominio"
-          ]
+          ],
+          "textIt": "Manca la dichiarazione dell'amministratore sul pagamento dei contributi"
         }
       ],
       "source": "gids 4.2.11"
@@ -2379,7 +2505,9 @@
       "contract": "Is er een put op het terrein, laat dan opnemen dat de verkoper het aanmeldingsbewijs of de concessie vóór de akte overlegt. Ontbreken de papieren van de put, laat de regularisatie dan niet aan jezelf over na de levering, maar leg vast dat de verkoper het vóór de akte regelt. Kan dat niet binnen de leveringstermijn, spreek dan af wie het doet, wie het betaalt en wat er gebeurt als de vergunning wordt geweigerd.",
       "requestIt": "autorizzazione allo scarico e, se presente, documentazione del pozzo",
       "requestNl": "de vergunning voor de afvoer (*autorizzazione allo scarico*) en, als er een put is, de stukken van de put (*pozzo*)",
-      "glossary": [],
+      "glossary": [
+        "autorizzazione-allo-scarico-e-pozzo"
+      ],
       "flags": [
         {
           "id": "scarico-zonder-vergunning",
@@ -2387,7 +2515,8 @@
           "severity": "oplossen",
           "clauses": [
             "servitu"
-          ]
+          ],
+          "textIt": "Fossa biologica o pozzo senza autorizzazione o denuncia"
         },
         {
           "id": "put-zonder-concessione",
@@ -2395,7 +2524,8 @@
           "severity": "oplossen",
           "clauses": [
             "servitu"
-          ]
+          ],
+          "textIt": "L'acqua del pozzo è usata per irrigazione, piscina o agriturismo senza concessione"
         }
       ],
       "source": "gids 4.2.5"
@@ -2779,5 +2909,102 @@
     "Vóór de *rogito*: laatste controles",
     "*Rogito* bij de notaris"
   ],
-  "offerNext": ""
+  "offerNext": "",
+  "geometra": {
+    "reviewed": false,
+    "source": "gids 4.2.8, 4.2.10, 4.2 (accesso agli atti)",
+    "subjectIt": "Incarico per la verifica di conformità urbanistica e catastale: immobile {immobile}",
+    "subjectNl": "Opdracht voor de controle van vergunningen en kadaster: woning {immobile}",
+    "greetingIt": "Gentile geometra,",
+    "greetingNl": "Geachte geometra,",
+    "introIt": "sto valutando l'acquisto dell'immobile {immobile} e desidero affidarLe la verifica della conformità urbanistica e catastale (stato legittimo). In particolare Le chiedo di:",
+    "introNl": "ik overweeg de aankoop van de woning {immobile} en wil u vragen de vergunningen en het kadaster te controleren (*stato legittimo*). Ik vraag u in het bijzonder:",
+    "tasks": [
+      {
+        "it": "richiedere al Comune l'accesso agli atti e reperire il titolo edilizio originario e tutti i titoli successivi;",
+        "nl": "bij de gemeente inzage aan te vragen (*accesso agli atti*) en de oorspronkelijke bouwvergunning en alle latere vergunningen op te vragen;"
+      },
+      {
+        "it": "confrontare lo stato di fatto con i titoli edilizi e con la planimetria catastale: posizione e dimensioni di ampliamenti e pertinenze, posizione di finestre, porte e abbaini, volumi, altezze e destinazione d'uso dei locali, eventuali opere non autorizzate come verande, serre o ripostigli;",
+        "nl": "de feitelijke toestand te vergelijken met de vergunningen en de kadastrale plattegrond: de positie en afmetingen van uitbouwen en bijgebouwen, de plaats van ramen, deuren en dakkapellen, het volume, de hoogte en het gebruik van de ruimtes, en constructies die niet in de vergunning staan, zoals serres, veranda's en schuurtjes;"
+      },
+      {
+        "it": "indicare se eventuali difformità rientrano nelle tolleranze del decreto Salva Casa oppure richiedono una sanatoria, con una stima dei costi e dei tempi;",
+        "nl": "aan te geven of eventuele afwijkingen binnen de toleranties van het *Salva Casa*-decreet vallen of een *sanatoria* vragen, met een schatting van kosten en doorlooptijd;"
+      },
+      {
+        "it": "redigere una relazione di regolarità edilizia e catastale (RRE).",
+        "nl": "een rapport over vergunningen en kadaster op te stellen (*relazione di regolarità edilizia e catastale*, *RRE*)."
+      }
+    ],
+    "pre1967It": "Poiché l'immobile risulta iniziato prima del 1° settembre 1967, Le chiedo di verificare anche la documentazione a supporto (foto aeree storiche, mappe, dati catastali) e che non vi siano stati ampliamenti successivi non autorizzati.",
+    "pre1967Nl": "Omdat het pand vóór 1 september 1967 is begonnen, vraag ik u ook de onderbouwing na te gaan (historische luchtfoto's, oude kaarten, kadaster) en te controleren dat het daarna niet zonder vergunning is uitgebreid.",
+    "periziaIt": "Le chiedo inoltre una perizia tecnica sullo stato dell'immobile (struttura, tetto, umidità, impianti, scarichi e fossa biologica, legno, amianto, serramenti), con una stima indicativa dei costi di ripristino ordinata per urgenza.",
+    "periziaNl": "Daarnaast vraag ik u om een bouwkundige keuring (*perizia tecnica*) van de staat van de woning (constructie, dak, vocht, installaties, riolering en septic tank, hout, asbest, ramen en deuren), met een indicatie van de herstelkosten, geordend naar urgentie.",
+    "pointsIt": "Le segnalo in particolare i seguenti punti:",
+    "pointsNl": "Ik wijs u in het bijzonder op de volgende punten:",
+    "unknownIt": "da verificare: {doc}",
+    "unknownNl": "na te gaan: {doc}",
+    "closingIt": "Se necessario, chiederò al venditore la delega per l'accesso agli atti. La prego di inviarmi un preventivo con i costi e i tempi previsti.\n\nCordiali saluti,",
+    "closingNl": "Waar nodig vraag ik de verkoper om een volmacht voor de inzage. Wilt u mij een offerte sturen met de kosten en de verwachte doorlooptijd?\n\nMet vriendelijke groet,",
+    "why": "Vraag je om een *verifica*, dan krijg je dus de controle van vergunningen en kadaster, en niet vanzelf ook de bouwkundige keuring uit sectie 4.2.10. Zeg erbij welke van de twee je wilt. Vóór je bod is aanvaard heb je zelf nog geen aanspraak op inzage, en loopt de route dus altijd via een volmacht van de verkoper aan jouw *geometra*."
+  },
+  "signed": {
+    "intro": "Je positie is sterker dan je misschien denkt. Het *compromesso* blijft geldig.",
+    "introSource": "gids 5.2.7",
+    "conditions": [
+      {
+        "id": "fataal",
+        "label": "Staat de datum van de akte als fatale termijn (*termine essenziale*) in het contract?",
+        "ifYes": "Is het een fatale termijn (*termine essenziale*), dan is het contract bij overschrijding van rechtswege ontbonden. Er is één ontsnappingsluik, en het is kort. De partij die er niets aan kan doen mag alsnog nakoming eisen, maar moet dat binnen 3 dagen na het verstrijken van de termijn aan de wederpartij laten weten.",
+        "ifNo": "Is het een gewone termijn, dan is te laat leveren wanprestatie, maar het contract blijft bestaan en de wederpartij moet je in gebreke stellen.",
+        "source": "gids 5.2.4"
+      },
+      {
+        "id": "financiering",
+        "label": "Staat er een financieringsvoorbehoud in (*condizione sospensiva mutuo*)?",
+        "when": [
+          "hypotheek"
+        ],
+        "ifYes": "Dien je aanvraag dus meteen in, bewaar elke ontvangstbevestiging en vraag bij afwijzing een schriftelijke weigering met datum.",
+        "ifNo": "Zonder zo'n clausule loop je het risico dat de *caparra* verloren gaat, dus neem geen onnodig risico op dat vlak.",
+        "source": "gids 5.2.3"
+      },
+      {
+        "id": "technisch",
+        "label": "Staat er een voorbehoud van een gunstige technische controle in?",
+        "ifYes": "Houd bij zulke voorwaarden rekening met doorlooptijden bij de gemeente: die heeft wettelijk 30 dagen om inzage te geven in het bouwarchief (*accesso agli atti*), en in de praktijk duurt het vaak langer.",
+        "ifNo": "Is de overtreding herstelbaar, spreek dan met de verkoper een verlenging van de termijn af zodat de legalisatieprocedure kan worden afgerond (zie sectie 5.2.4). Is legalisatie niet mogelijk, of levert de verkoper de vereiste stukken niet, dan is er sprake van wanprestatie aan zijn kant.",
+        "source": "gids 5.2.3, 5.2.7"
+      },
+      {
+        "id": "ontbindend",
+        "label": "Zijn de voorwaarden opschortend (*condizione sospensiva*) en niet ontbindend?",
+        "ifYes": "Een goed geformuleerde opschortende voorwaarde heeft een dubbel voordeel: gaat de koop niet door doordat de voorwaarde niet intreedt (bijvoorbeeld de hypotheek komt niet rond of de technische controle valt negatief uit), dan ben je niet alleen van de koop af, maar hoef je ook géén makelaarscourtage te betalen.",
+        "ifNo": "Bij een ontbindende voorwaarde werkt het andersom. De koop is dan meteen tot stand gekomen en de makelaar heeft zijn provisie verdiend.",
+        "source": "gids 5.2.3"
+      },
+      {
+        "id": "kadaster",
+        "label": "Zorgt de verkoper volgens het contract op zijn kosten voor de kadastrale conformiteit?",
+        "ifYes": "Een afwijking moet dus hoe dan ook vóór het *rogito* zijn rechtgezet, maar de wet zegt niet wie het bijwerken betaalt.",
+        "ifNo": "Spreek je dit niet af, dan sta je vlak voor de akte voor de keuze tussen zelf betalen of de koop laten afketsen.",
+        "source": "gids 5.2.1"
+      },
+      {
+        "id": "registratie",
+        "label": "Is het contract binnen 30 dagen geregistreerd bij de *Agenzia delle Entrate*?",
+        "ifYes": "Na registratie krijgt het contract een stempel en kun je er zeker van zijn dat alles officieel is vastgelegd.",
+        "ifNo": "Belangrijk: Het voorlopige contract moet binnen 30 dagen na ondertekening worden geregistreerd bij de *Agenzia delle Entrate* (vóór het *Decreto-legge* 73/2022 was dat 20 dagen). Heb je via een makelaar gekocht, dan is die wettelijk verplicht de *preliminare* te laten registreren (je mag dat dus van hem verlangen): hij factureert de kosten doorgaans door.",
+        "source": "gids 5.2.5"
+      },
+      {
+        "id": "trascrizione",
+        "label": "Is het contract ingeschreven in het openbare register (*trascrizione*)?",
+        "ifYes": "Let op de vervaltermijn: de reserverende werking vervalt als de definitieve akte niet binnen één jaar na de in het voorcontract genoemde datum en in elk geval binnen drie jaar na de *trascrizione* wordt ingeschreven.",
+        "ifNo": "In de praktijk is *trascrizione* vooral verstandig als er veel tijd zit tussen *compromesso* en *rogito*, als je een hoge aanbetaling (*caparra/acconto*) doet, of als je extra zekerheid wilt tegen problemen aan de kant van de verkoper.",
+        "source": "gids 5.2.5"
+      }
+    ]
+  }
 }
