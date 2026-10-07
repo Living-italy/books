@@ -12,7 +12,7 @@ koopdossier/              deze map upload je naar de server
   content.nl.json         alle inhoud, los van de code
   api.php                 geeft de aanmelding na de check door aan Brevo
   fonts/                  Playfair Display en DM Sans (OFL-licentie)
-bron/                     bronbestanden voor de inhoud, niet uploaden
+bron/                     bronbestanden voor de inhoud (oude check, model-compromesso), niet uploaden
 NAKIJKLIJST.md            lege velden en rode vlaggen om te controleren
 ```
 
@@ -71,7 +71,7 @@ Belangrijkste onderdelen:
 | `mail` | Onderwerp, aanhef per ontvanger, inleiding en slot van de opvraagmail, in het Italiaans en het Nederlands. `{immobile}` wordt de naam van de woning met de gemeente. |
 | `process` | De stappen van het stroomschema in de pdf. |
 | `offerNext` | Het aanbod voor de volgende stap, onderaan de pdf. |
-| `clauses` | De clausulebibliotheek: `titleNl`, `whenNl` (wanneer je hem nodig hebt), `textNl`, `textIt`, `source`, `model` (waar dezelfde afspraak in het model-*compromesso* van bijlage G staat, leeg als het model hem niet heeft), `appliesWhen` (profielvlaggen waarbij de app hem voorstelt) en `reviewed`. Zolang `reviewed` op `false` staat, toont de app "concept, nog niet juridisch nagelezen". Het scherm met clausules komt in fase 2. |
+| `clauses` | De clausulebibliotheek: `titleNl`, `whenNl` (wanneer je hem nodig hebt), `textNl`, `textIt`, `source`, `model` (waar dezelfde afspraak in het model-*compromesso* van bijlage G staat, leeg als het model hem niet heeft), `modelIt` en `modelNl` (de letterlijke tekst van dat model in het Italiaans en Nederlands, met [...] voor invulplekken), `modelDiff` (waar het model afwijkt van het advies in de gids), `appliesWhen` (profielvlaggen waarbij de app hem voorstelt) en `reviewed`. Zolang `reviewed` op `false` staat, toont de app "concept, nog niet juridisch nagelezen". Het scherm met clausules komt in fase 2. |
 
 **Een document laten vervallen of vervangen**, bijvoorbeeld bij bouw vóór 1 september 1967:
 

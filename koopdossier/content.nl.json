@@ -2301,104 +2301,131 @@
         "mede-eigenaren"
       ],
       "reviewed": false,
-      "model": "Bijlage G, aanhef (partijen)"
+      "model": "Bijlage G, aanhef (partijen)",
+      "modelIt": "codice fiscale [...], di stato civile [...], in prosieguo denominata anche \"Parte Promittente Venditrice\"",
+      "modelNl": "fiscale code [...], burgerlijke staat [...], hierna ook te noemen verkopende partij, promittente venditrice.",
+      "modelDiff": ""
     },
     {
       "id": "omschrijving-object",
       "titleNl": "Omschrijving van de woning en alle kadastrale nummers",
       "whenNl": "Altijd, en zeker als er grond, een garage of gemeenschappelijke delen bij horen.",
       "textNl": "De woning wordt omschreven met adres, kadastrale gegevens, oppervlakte en bijgebouwen. Elk kadastraal nummer wordt afzonderlijk vermeld, ook dat van de grond, de garage en de gemeenschappelijke delen, met bij elk het aandeel dat de koper verkrijgt. Vermeld wordt om welke oppervlaktemaat het gaat en of de prijs voor het geheel geldt of per vierkante meter.",
-      "textIt": "L'immobile è descritto con indirizzo, dati catastali, superficie e pertinenze. Ciascun identificativo catastale è indicato separatamente, compresi quelli del terreno, dell'autorimessa e delle parti comuni, con la quota acquistata dal promissario acquirente. Si precisa a quale misura di superficie si fa riferimento e se il prezzo è convenuto a corpo o a misura.",
+      "textIt": "L'immobile è descritto con indirizzo, dati catastali, superficie e pertinenze. Ciascun identificativo catastale è indicato separatamente, compresi quelli del terreno, dell'autorimessa e delle parti comuni, con la quota acquistata dalla Parte Promissaria Acquirente. Si precisa a quale misura di superficie si fa riferimento e se il prezzo è convenuto a corpo o a misura.",
       "source": "gids 5.2.1",
       "appliesWhen": [
         "grond"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 1 en 2 (a corpo)"
+      "model": "Bijlage G, art. 1 en 2 (a corpo)",
+      "modelIt": "Quanto in oggetto viene promesso in vendita a corpo e non a misura, e comprende ogni annesso e connesso, pertinenza, servitù attive e passive se e in quanto esistenti, nonché la quota proporzionale sulle parti comuni dell'edificio, ex art. 1117 c.c., come risulta dal Regolamento di condominio allegato e parte integrante e sostanziale del presente atto.",
+      "modelNl": "Het object wordt beloofd te verkopen a corpo, als geheel tegen een vaste prijs en niet per maat, en omvat alles wat erbij hoort en mee verbonden is, aanhorigheden, actieve en passieve erfdienstbaarheden indien en voor zover aanwezig, evenals het proportionele aandeel in de gemeenschappelijke delen van het gebouw conform art. 1117 Burgerlijk Wetboek, zoals blijkt uit het bijgevoegde huishoudelijk reglement van de VvE, dat integraal en substantieel onderdeel uitmaakt van deze akte.",
+      "modelDiff": "Het model kiest vast voor a corpo (prijs voor het geheel). De gids raadt aan bewust te kiezen en elk kadastraal nummer met het aandeel apart te vermelden."
     },
     {
       "id": "eigendomstitel-vrij",
       "titleNl": "Eigendomstitel en vrije overdraagbaarheid",
       "whenNl": "Altijd.",
       "textNl": "De verkoper verwijst naar zijn eigendomstitel (de eerdere akte) en verklaart dat de woning vrij overdraagbaar is.",
-      "textIt": "Il promittente venditore indica il proprio titolo di provenienza (atto precedente) e dichiara che l'immobile è liberamente trasferibile.",
+      "textIt": "La Parte Promittente Venditrice indica il proprio titolo di provenienza (atto precedente) e dichiara che l'immobile è liberamente trasferibile.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": "Bijlage G, art. 1 (herkomst) en art. 2"
+      "model": "Bijlage G, art. 1 (herkomst) en art. 2",
+      "modelIt": "La Parte Promittente Venditrice garantisce la piena proprietà dell'immobile de quo, l'agibilità, la sua disponibilità e la sua libertà da pesi, vincoli, oneri, iscrizioni e trascrizioni pregiudizievoli (se ci sono formalità)",
+      "modelNl": "De verkopende partij garandeert het volledige eigendom van het betreffende onroerend goed, de bewoonbaarheid, de agibilità, de beschikbaarheid ervan en dat het vrij is van lasten, beperkingen, heffingen, nadelige inschrijvingen en overschrijvingen, indien er formaliteiten zijn",
+      "modelDiff": ""
     },
     {
       "id": "vrij-van-hypotheken",
       "titleNl": "Vrij van hypotheken en beslagen",
       "whenNl": "Altijd, en zeker als er een hypotheek of beslag op de woning staat.",
       "textNl": "De woning wordt geleverd vrij van hypotheken en beslagen (*pignoramenti*). De doorhaling wordt vóór of bij het *rogito* ingeschreven bij de *Conservatoria dei Registri Immobiliari*. Staat er een *ipoteca legale* of *ipoteca giudiziale*, dan regelt en betaalt de verkoper de doorhaling. De uitkomst van de *ispezione ipotecaria* wordt als bijlage aan dit contract gehecht.",
-      "textIt": "L'immobile sarà trasferito libero da ipoteche e pignoramenti. La cancellazione sarà annotata presso la Conservatoria dei Registri Immobiliari prima o contestualmente al rogito. In presenza di ipoteca legale o giudiziale, il promittente venditore provvede a propria cura e spese alla cancellazione. L'esito dell'ispezione ipotecaria è allegato al presente contratto.",
+      "textIt": "L'immobile sarà trasferito libero da ipoteche e pignoramenti. La cancellazione sarà annotata presso la Conservatoria dei Registri Immobiliari prima o contestualmente al rogito. In presenza di ipoteca legale o giudiziale, la Parte Promittente Venditrice provvede a propria cura e spese alla cancellazione. L'esito dell'ispezione ipotecaria è allegato al presente contratto.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": "Bijlage G, art. 2"
+      "model": "Bijlage G, art. 2",
+      "modelIt": "Tale ipoteca dovrà risultare cancellata per la data del definitivo a cura e spese della Parte Promittente Venditrice. È fatta in ogni caso rinuncia espressa a ogni ipoteca legale. L'immobile sopra descritto dovrà essere, al momento della stipula dell'atto notarile definitivo, a cura e spese della Parte Promittente Venditrice, reso libero se risultassero ulteriori iscrizioni ipotecarie e/o trascrizioni pregiudizievoli, oltre a essere nella piena disponibilità della Parte Promittente Venditrice.",
+      "modelNl": "Deze hypotheek dient op de datum van de definitieve akte doorgehaald te zijn op zorg en kosten van de verkopende partij. Er wordt in ieder geval uitdrukkelijk afstand gedaan van elke wettelijke hypotheek. Het hierboven beschreven onroerend goed moet, op het moment van het verlijden van de definitieve notariële akte, op zorg en kosten van de verkopende partij vrijgemaakt zijn indien er verdere hypothecaire inschrijvingen of nadelige overschrijvingen blijken te bestaan, en moet volledig ter beschikking staan van de verkopende partij.",
+      "modelDiff": "Het model hecht de uitkomst van de ispezione ipotecaria niet aan het contract."
     },
     {
       "id": "servitu",
       "titleNl": "Erfdienstbaarheden, toegangsweg en put",
       "whenNl": "Altijd, en zeker als de toegang over een gedeelde weg loopt of er een put is.",
       "textNl": "De verkoper geeft een volledige opgave van alle erfdienstbaarheden (*servitù*) op het perceel, ook de niet-geregistreerde. Loopt de toegang over een gedeelde weg, dan wordt vermeld of het een *strada privata* of een *strada vicinale* is, met de lopende bijdragen, eventuele achterstanden en wie die achterstanden betaalt. Is er een put op het terrein, dan overlegt de verkoper vóór de akte het aanmeldingsbewijs of de *concessione*.",
-      "textIt": "Il promittente venditore dichiara tutte le servitù gravanti sul fondo, comprese quelle non trascritte. Qualora l'accesso avvenga tramite strada in comune, si precisa se si tratta di strada privata o di strada vicinale, con indicazione dei contributi in corso, degli eventuali arretrati e della parte tenuta a saldarli. In presenza di un pozzo, il promittente venditore consegna prima del rogito la relativa denuncia o concessione.",
+      "textIt": "La Parte Promittente Venditrice dichiara tutte le servitù gravanti sul fondo, comprese quelle non trascritte. Qualora l'accesso avvenga tramite strada in comune, si precisa se si tratta di strada privata o di strada vicinale, con indicazione dei contributi in corso, degli eventuali arretrati e della parte tenuta a saldarli. In presenza di un pozzo, la Parte Promittente Venditrice consegna prima del rogito la relativa denuncia o concessione.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": "Bijlage G, art. 2 (alleen \"indien en voor zover aanwezig\")"
+      "model": "Bijlage G, art. 2 (alleen \"indien en voor zover aanwezig\")",
+      "modelIt": "servitù attive e passive se e in quanto esistenti",
+      "modelNl": "actieve en passieve erfdienstbaarheden indien en voor zover aanwezig",
+      "modelDiff": "Het model noemt erfdienstbaarheden alleen \"indien en voor zover aanwezig\". De gids vraagt een volledige opgave, ook van niet-geregistreerde, en de papieren van een put."
     },
     {
       "id": "geen-bezit-derden",
       "titleNl": "Geen gebruik of bezit door derden",
       "whenNl": "Vooral bij landelijke percelen en onduidelijke erfgrenzen.",
       "textNl": "De verkoper verklaart dat geen derde een deel van het perceel of van de opstallen in bezit heeft en dat er geen claim of *mediazione obbligatoria* loopt over verkrijgende verjaring (*usucapione*). Zijn er aanwijzingen voor bezit door derden, dan geldt als opschortende voorwaarde dat de situatie vóór de akte is opgehelderd.",
-      "textIt": "Il promittente venditore dichiara che nessun terzo possiede porzioni del fondo o dei fabbricati e che non sono in corso contestazioni né procedimenti di mediazione obbligatoria in materia di usucapione. In presenza di indizi di possesso da parte di terzi, il contratto è sottoposto alla condizione sospensiva che la situazione sia chiarita prima del rogito.",
+      "textIt": "La Parte Promittente Venditrice dichiara che nessun terzo possiede porzioni del fondo o dei fabbricati e che non sono in corso contestazioni né procedimenti di mediazione obbligatoria in materia di usucapione. In presenza di indizi di possesso da parte di terzi, il contratto è sottoposto alla condizione sospensiva che la situazione sia chiarita prima del rogito.",
       "source": "gids 5.2.1",
       "appliesWhen": [
         "grond"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 2 (vrij van personen)"
+      "model": "",
+      "modelIt": "",
+      "modelNl": "",
+      "modelDiff": ""
     },
     {
       "id": "vergunningen",
       "titleNl": "Verklaring over de vergunningen",
       "whenNl": "Altijd.",
       "textNl": "De verkoper verklaart dat de woning legaal is gebouwd en vermeldt de aanwezige bouwvergunningen en certificaten, zoals de bewoonbaarheidsverklaring (*agibilità*).",
-      "textIt": "Il promittente venditore dichiara che l'immobile è stato edificato legittimamente e indica i titoli edilizi e le certificazioni esistenti, tra cui l'agibilità.",
+      "textIt": "La Parte Promittente Venditrice dichiara che l'immobile è stato edificato legittimamente e indica i titoli edilizi e le certificazioni esistenti, tra cui l'agibilità.",
       "source": "gids 5.2.1",
       "appliesWhen": [
         "voor1967",
         "verbouwd"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 3"
+      "model": "Bijlage G, art. 3",
+      "modelIt": "Dichiara e garantisce da ultimo che quanto in oggetto è immune da vizi per i quali siano stati adottati provvedimenti sanzionatori ai sensi dell'art. 41 legge 1150/1942 e successive modifiche e integrazioni o per i quali dovesse richiedersi concessione o autorizzazione in sanatoria ai sensi della legge 47/1985 e successive modificazioni e integrazioni e leggi successive e che pertanto l'immobile deve ritenersi conforme e in regola con la normativa urbanistica ed edilizia.",
+      "modelNl": "De verkopende partij verklaart en garandeert tot slot dat het object vrij is van gebreken waarvoor sancties zijn getroffen conform art. 41 wet 1150/1942 en latere wijzigingen en aanvullingen, of waarvoor een vergunning of machtiging tot legalisatie, sanatoria, vereist zou zijn conform wet 47/1985 en latere wijzigingen en aanvullingen en latere wetten, en dat het onroerend goed derhalve als conform en in orde met de stedenbouwkundige en bouwregelgeving moet worden beschouwd.",
+      "modelDiff": ""
     },
     {
       "id": "kadastrale-conformiteit",
       "titleNl": "Kadastrale conformiteit op kosten van de verkoper",
       "whenNl": "Altijd. Zonder deze afspraak sta je vlak voor de akte voor de keuze tussen zelf betalen of de koop laten afketsen.",
       "textNl": "De verkoper zorgt vóór de akte voor de kadastrale conformiteit (*conformità catastale*) en draagt de kosten daarvan. Hij levert naast de *visura catastale* ook de bijgewerkte plattegrond.",
-      "textIt": "Il promittente venditore provvede, a propria cura e spese, prima del rogito, alla conformità catastale dell'immobile e consegna, oltre alla visura catastale, la planimetria catastale aggiornata.",
+      "textIt": "La Parte Promittente Venditrice provvede, a propria cura e spese, prima del rogito, alla conformità catastale dell'immobile e consegna, oltre alla visura catastale, la planimetria catastale aggiornata.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": "Bijlage G, art. 1 (plattegrond) en art. 4"
+      "model": "Bijlage G, art. 1 (plattegrond) en art. 4",
+      "modelIt": "si impegna a ottemperare a quanto necessario, ove ne ricorra il caso, per far constare la conformità allo stato di fatto dei dati catastali e delle planimetrie nonché l'allineamento degli intestatari catastali e con le risultanze dei registri immobiliari.",
+      "modelNl": "om waar nodig zorg te dragen voor de conformiteit van de kadastrale gegevens en plattegronden met de feitelijke situatie, evenals de overeenstemming van de kadastrale tenaamstellingen met de gegevens uit de registers van onroerende zaken.",
+      "modelDiff": ""
     },
     {
       "id": "prelazione-agraria",
       "titleNl": "Agrarisch voorkooprecht en usi civici",
       "whenNl": "Als je landbouwgrond of een huis met land koopt.",
       "textNl": "Vermeld wordt of er een *prelazione agraria* op de grond rust. Is er een rechthebbende, dan vindt de levering pas plaats nadat de kennisgeving is verricht en de termijn van 30 dagen ongebruikt is verstreken, of nadat hij na die kennisgeving schriftelijk afstand heeft gedaan. Als opschortende voorwaarde geldt dat het perceel vrij is van *usi civici*, of dat de verkoper de afkoop (*affrancazione*) vóór de akte regelt en betaalt.",
-      "textIt": "Si dà atto dell'esistenza o meno di diritti di prelazione agraria sul fondo. In presenza di aventi diritto, il rogito sarà stipulato solo dopo l'avvenuta notifica e il decorso infruttuoso del termine di 30 giorni, ovvero dopo la rinuncia scritta resa successivamente alla notifica. Il contratto è sottoposto alla condizione sospensiva che il fondo sia libero da usi civici, ovvero che il promittente venditore provveda a propria cura e spese all'affrancazione prima del rogito.",
+      "textIt": "Si dà atto dell'esistenza o meno di diritti di prelazione agraria sul fondo. In presenza di aventi diritto, il rogito sarà stipulato solo dopo l'avvenuta notifica e il decorso infruttuoso del termine di 30 giorni, ovvero dopo la rinuncia scritta resa successivamente alla notifica. Il contratto è sottoposto alla condizione sospensiva che il fondo sia libero da usi civici, ovvero che la Parte Promittente Venditrice provveda a propria cura e spese all'affrancazione prima del rogito.",
       "source": "gids 5.2.1",
       "appliesWhen": [
         "grond"
       ],
       "reviewed": false,
-      "model": ""
+      "model": "",
+      "modelIt": "",
+      "modelNl": "",
+      "modelDiff": ""
     },
     {
       "id": "vincoli",
@@ -2412,18 +2439,24 @@
         "monument"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 2 (vrij van lasten en beperkingen)"
+      "model": "Bijlage G, art. 2 (vrij van lasten en beperkingen)",
+      "modelIt": "la sua libertà da pesi, vincoli, oneri, iscrizioni e trascrizioni pregiudizievoli",
+      "modelNl": "dat het vrij is van lasten, beperkingen, heffingen, nadelige inschrijvingen en overschrijvingen",
+      "modelDiff": ""
     },
     {
       "id": "ape",
       "titleNl": "Energiecertificaat (APE)",
       "whenNl": "Altijd, behalve bij de uitzonderingen in 5.2.2.",
       "textNl": "De verkoper verklaart dat er een geldig energiecertificaat (*APE*) is en overhandigt de koper ruim vóór de overdracht een (digitale) kopie.",
-      "textIt": "Il promittente venditore dichiara che l'immobile è dotato di attestato di prestazione energetica (APE) in corso di validità e ne consegna copia, anche digitale, al promissario acquirente con congruo anticipo rispetto al rogito.",
+      "textIt": "La Parte Promittente Venditrice dichiara che l'immobile è dotato di attestato di prestazione energetica (APE) in corso di validità e ne consegna copia, anche digitale, alla Parte Promissaria Acquirente con congruo anticipo rispetto al rogito.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": "Bijlage G, art. 2"
+      "model": "Bijlage G, art. 2",
+      "modelIt": "La Parte Promittente Venditrice si impegna a consegnare alla Parte Promissaria Acquirente, al momento dell'atto traslativo, l'Attestato di Certificazione Energetica relativo all'immobile in oggetto prescritto dal d.lgs. 192/2005 e s.m.i.",
+      "modelNl": "De verkopende partij verbindt zich ertoe om op het moment van de overdrachtsakte het energieprestatiecertificaat, de APE, met betrekking tot het object, voorgeschreven door wetsbesluit 192/2005 en latere wijzigingen, aan de kopende partij te overhandigen.",
+      "modelDiff": "Het model levert het APE pas bij de akte. De gids raadt aan het ruim vóór de overdracht te krijgen."
     },
     {
       "id": "koopprijs",
@@ -2434,7 +2467,10 @@
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": "Bijlage G, art. 6"
+      "model": "Bijlage G, art. 6",
+      "modelIt": "Il prezzo della vendita viene convenuto e accettato dalle Parti nella somma di euro [...], ed è regolato come segue:",
+      "modelNl": "De verkoopprijs wordt door partijen overeengekomen en geaccepteerd voor het bedrag van euro [...], en wordt als volgt voldaan:",
+      "modelDiff": ""
     },
     {
       "id": "datum-rogito",
@@ -2447,7 +2483,10 @@
         "monument"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 4 (daar als fatale termijn)"
+      "model": "Bijlage G, art. 4 (daar als fatale termijn)",
+      "modelIt": "L'atto notarile definitivo di compravendita dovrà essere stipulato entro e non oltre il giorno [...] a ministero di notaio a scelta di Parte Promissaria Acquirente [...] Le Parti dichiarano che l'utilità economica del contratto e l'interesse alla stipula del medesimo andranno perduti con l'inutile decorso del termine, che dichiarano quindi essere essenziale.",
+      "modelNl": "De definitieve notariële koopakte dient uiterlijk op [...] verleden te worden ten overstaan van een door de kopende partij gekozen notaris [...] Partijen verklaren dat het economisch nut van het contract en het belang bij het sluiten ervan verloren zullen gaan bij het vruchteloos verstrijken van de termijn, die zij derhalve als essentieel, fataal, verklaren.",
+      "modelDiff": "Het model maakt de datum fataal (essenziale). De gids raadt aan bewust te kiezen of de termijn fataal is."
     },
     {
       "id": "opschortende-voorwaarden",
@@ -2458,7 +2497,10 @@
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": ""
+      "model": "",
+      "modelIt": "",
+      "modelNl": "",
+      "modelDiff": "Het model heeft geen opschortende voorwaarden en maakt in art. 8 juist van elke afspraak een ontbindende voorwaarde (clausola risolutiva espressa)."
     },
     {
       "id": "caparra",
@@ -2471,7 +2513,10 @@
         "mede-eigenaren"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 5, 6 en 7"
+      "model": "Bijlage G, art. 5, 6 en 7",
+      "modelIt": "Al momento della stipula del contratto notarile definitivo le somme versate a titolo di caparra confirmatoria saranno computate in conto prezzo dell'immobile.",
+      "modelNl": "Op het moment van het verlijden van de definitieve notariële akte zullen de bedragen die als aanbetaling, caparra confirmatoria, zijn voldaan in mindering worden gebracht op de prijs van het onroerend goed.",
+      "modelDiff": ""
     },
     {
       "id": "aanvullende-afspraken",
@@ -2482,7 +2527,10 @@
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": ""
+      "model": "",
+      "modelIt": "",
+      "modelNl": "",
+      "modelDiff": ""
     },
     {
       "id": "geplande-ingreep",
@@ -2493,7 +2541,10 @@
       "source": "gids 5.2.1",
       "appliesWhen": [],
       "reviewed": false,
-      "model": ""
+      "model": "",
+      "modelIt": "",
+      "modelNl": "",
+      "modelDiff": ""
     },
     {
       "id": "vrij-van-huur",
@@ -2506,59 +2557,74 @@
         "verhuurd"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 2"
+      "model": "Bijlage G, art. 2 (vrij van personen of huurcontract)",
+      "modelIt": "L'immobile dovrà essere altresì libero da persone anche interposte. oppure L'immobile è oggetto di un contratto di locazione con scadenza il [...].",
+      "modelNl": "Het onroerend goed dient tevens vrij te zijn van personen, ook stromannen. Of: het onroerend goed is onderwerp van een huurcontract met vervaldatum [...].",
+      "modelDiff": ""
     },
     {
       "id": "condominio",
       "titleNl": "Bijdragen en werken van de VvE",
       "whenNl": "Bij een appartement of een pand binnen een condominio.",
       "textNl": "De verkoper levert een schriftelijke verklaring van de *amministratore* dat alle bijdragen tot de leveringsdatum zijn voldaan. Oudere schulden blijven voor rekening van de verkoper. Werken die vóór de akte zijn besloten maar nog niet zijn gefactureerd, komen voor rekening van de verkoper. Het *regolamento condominiale* en de notulen van de laatste twee vergaderingen worden als bijlage aan dit contract gehecht.",
-      "textIt": "Il promittente venditore consegna dichiarazione scritta dell'amministratore attestante il pagamento di tutti i contributi condominiali fino alla data del rogito. I debiti pregressi restano a carico del promittente venditore. Le spese per lavori deliberati prima del rogito, ancorché non ancora fatturate, restano a carico del promittente venditore. Il regolamento condominiale e i verbali delle ultime due assemblee sono allegati al presente contratto.",
+      "textIt": "La Parte Promittente Venditrice consegna dichiarazione scritta dell'amministratore attestante il pagamento di tutti i contributi condominiali fino alla data del rogito. I debiti pregressi restano a carico della Parte Promittente Venditrice. Le spese per lavori deliberati prima del rogito, ancorché non ancora fatturate, restano a carico della Parte Promittente Venditrice. Il regolamento condominiale e i verbali delle ultime due assemblee sono allegati al presente contratto.",
       "source": "gids 5.2.1",
       "appliesWhen": [
         "condominio"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 2 (VvE)"
+      "model": "Bijlage G, art. 2 (VvE)",
+      "modelIt": "La Parte Promittente Venditrice dichiara che non esistono pendenze condominiali per contributi ordinari e spese straordinarie, e che non esistono liti pendenti relative a questioni condominiali; a tal uopo si conviene che sarà a carico della Parte Promittente Venditrice ogni spesa condominiale, derivante da deliberazioni assunte dall'assemblea del condominio fino alla data odierna.",
+      "modelNl": "De verkopende partij verklaart dat er geen achterstallige VvE-bijdragen zijn voor gewone en buitengewone kosten, en dat er geen lopende geschillen zijn met betrekking tot VvE-kwesties. Hiertoe wordt overeengekomen dat alle VvE-kosten voortvloeiend uit besluiten genomen door de vergadering van eigenaars tot op de datum van vandaag voor rekening van de verkopende partij komen.",
+      "modelDiff": "Het model legt alleen kosten uit besluiten tot de datum van het compromesso bij de verkoper. De gids raadt aan dat ook werken die vóór de akte worden besloten voor de verkoper blijven, en vraagt een verklaring van de amministratore."
     },
     {
       "id": "eigendomstitel",
       "titleNl": "Eigendomstitel en vererving",
       "whenNl": "Altijd, en zeker als de woning uit een erfenis of schenking komt.",
       "textNl": "De verkoper vermeldt hoe hij de woning heeft verkregen en voegt een gewaarmerkte kopie (*copia conforme*) van de eigendomstitel (*atto di provenienza*) bij. Is de woning vererfd, dan verklaart de verkoper dat de *dichiarazione di successione* is ingediend en de aanvaarding van de nalatenschap (*accettazione dell'eredità*) is ingeschreven, en zorgt hij dat de kadastrale tenaamstelling via een *voltura catastale* vóór de akte is bijgewerkt, alles op zijn kosten.",
-      "textIt": "Il promittente venditore indica il titolo di provenienza dell'immobile e ne allega copia conforme. In caso di immobile pervenuto per successione, dichiara che è stata presentata la dichiarazione di successione e che è stata trascritta l'accettazione dell'eredità, e provvede affinché la voltura catastale sia eseguita prima del rogito, il tutto a propria cura e spese.",
+      "textIt": "La Parte Promittente Venditrice indica il titolo di provenienza dell'immobile e ne allega copia conforme. In caso di immobile pervenuto per successione, dichiara che è stata presentata la dichiarazione di successione e che è stata trascritta l'accettazione dell'eredità, e provvede affinché la voltura catastale sia eseguita prima del rogito, il tutto a propria cura e spese.",
       "source": "gids 5.2.1",
       "appliesWhen": [
         "erfgenamen"
       ],
       "reviewed": false,
-      "model": "Bijlage G, art. 1 (herkomst)"
+      "model": "Bijlage G, art. 1 (herkomst)",
+      "modelIt": "PROVENIENZA: dichiara la Parte Promittente Venditrice che il diritto di piena proprietà su quanto forma oggetto di quest'atto è a essa pervenuto come segue:",
+      "modelNl": "Herkomst. De verkopende partij verklaart dat het recht van volledig eigendom op het object van deze akte als volgt is verkregen:",
+      "modelDiff": "Het model noemt de successie, maar niet de ingeschreven aanvaarding en de voltura catastale."
     },
     {
       "id": "financieringsvoorbehoud",
       "titleNl": "Financieringsvoorbehoud",
       "whenNl": "Als je een hypotheek nodig hebt en nog geen bindende financieringsofferte hebt.",
       "textNl": "De koop is onder de opschortende voorwaarde (*condizione sospensiva mutuo*) dat de koper uiterlijk op [datum] een schriftelijke hypotheektoezegging krijgt voor [bedrag], tegen een rente van maximaal [rente] en een looptijd van [looptijd], aangevraagd bij [bank of banken]. Bij afwijzing overlegt de koper een schriftelijke weigering. Treedt de voorwaarde niet in, dan wordt de *caparra* binnen [aantal] dagen volledig terugbetaald.",
-      "textIt": "Il presente contratto è sottoposto alla condizione sospensiva che il promissario acquirente ottenga, entro il [data], la delibera scritta di un mutuo di [importo], a un tasso non superiore al [tasso] e per una durata di [durata], richiesto presso [banca/banche]. In caso di diniego, il promissario acquirente ne fornisce comunicazione scritta dell'istituto. Qualora la condizione non si avveri, la caparra sarà integralmente restituita entro [numero] giorni.",
+      "textIt": "Il presente contratto è sottoposto alla condizione sospensiva che la Parte Promissaria Acquirente ottenga, entro il [data], la delibera scritta di un mutuo di [importo], a un tasso non superiore al [tasso] e per una durata di [durata], richiesto presso [banca/banche]. In caso di diniego, la Parte Promissaria Acquirente consegna il diniego scritto dell'istituto di credito. Qualora la condizione non si avveri, la caparra sarà integralmente restituita entro [numero] giorni.",
       "source": "gids 5.2.3",
       "appliesWhen": [
         "hypotheek"
       ],
       "reviewed": false,
-      "model": ""
+      "model": "",
+      "modelIt": "",
+      "modelNl": "",
+      "modelDiff": ""
     },
     {
       "id": "technische-controle",
       "titleNl": "Voorbehoud van een gunstige technische controle",
       "whenNl": "Als de controle van vergunningen, kadaster of de bouwkundige staat nog niet klaar is. Kies een termijn die de 30 dagen van de gemeente ruim dekt.",
       "textNl": "De koop is onder de opschortende voorwaarde van een gunstige uitkomst van de technische controle (bouwkundige keuring en controle van vergunningen en kadaster) uiterlijk op [datum]. Worden er gebreken of afwijkingen gevonden, dan [wordt opnieuw over de prijs onderhandeld / herstelt de verkoper ze vóór de akte / vervalt de koop met volledige teruggave van de *caparra*]. Een eventuele *sanatoria* komt voor rekening van [partij].",
-      "textIt": "Il presente contratto è sottoposto alla condizione sospensiva dell'esito favorevole della verifica tecnica (perizia tecnica e verifica di conformità urbanistica e catastale) entro il [data]. In caso di vizi o difformità, [le parti rinegozieranno il prezzo / il promittente venditore vi porrà rimedio prima del rogito / il contratto perderà efficacia con integrale restituzione della caparra]. Le spese dell'eventuale sanatoria sono a carico di [parte].",
+      "textIt": "Il presente contratto è sottoposto alla condizione sospensiva dell'esito favorevole della verifica tecnica (perizia tecnica e verifica di conformità urbanistica e catastale) entro il [data]. In caso di vizi o difformità, [le Parti rinegozieranno il prezzo / la Parte Promittente Venditrice vi porrà rimedio prima del rogito / il contratto perderà efficacia con integrale restituzione della caparra]. Le spese dell'eventuale sanatoria sono a carico di [parte].",
       "source": "gids 4.2.8, 4.2.10, 5.2.3",
       "appliesWhen": [
         "verbouwd"
       ],
       "reviewed": false,
-      "model": ""
+      "model": "",
+      "modelIt": "",
+      "modelNl": "",
+      "modelDiff": ""
     }
   ],
   "mail": {

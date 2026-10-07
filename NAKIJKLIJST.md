@@ -15,7 +15,7 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 ## 2. Niet letterlijk, graag controleren
 
 - **Clausules, Nederlandse tekst**: de gids zegt wat je moet laten vastleggen ("Laat vastleggen dat de verkoper..."). Ik heb dat omgezet in contractzinnen ("De verkoper ...") zonder nieuwe inhoud toe te voegen. Bij het financieringsvoorbehoud en de technische controle staan invulplekken tussen [haken].
-- **Clausules, Italiaanse tekst**: conceptvertalingen van mij. Bijlage G bevat alleen een Nederlandse vertaling van het model, dus er was geen Italiaanse tekst om letterlijk over te nemen. De termen sluiten aan bij de Italiaanse termen in het model (*promittente venditore*, *promissario acquirente*, *a corpo*, *caparra confirmatoria*). Alle clausules staan op `reviewed: false`.
+- **Clausules, Italiaanse tekst**: de eigen clausuleteksten zijn conceptvertalingen van mij, met de termen van het Italiaanse model. De letterlijke Italiaanse modeltekst staat er apart bij (paragraaf 5). Alle clausules staan op `reviewed: false`.
 - **Tekst van rode vlaggen**: korte waarnemingen in eigen woorden, elk gebaseerd op een concreet punt uit 4.2 of 5.2.
 - **Opvraagregels (`requestIt`) en de opvraagmail**: conceptvertaling, nog niet nagelezen.
 - **Profielvragen en antwoordopties**: nog steeds afgeleid uit de bouwbrief (`profielen-conformiteitscheck.md` ontbreekt).
@@ -123,32 +123,32 @@ Documenten die niet in de tabel staan, zijn volledig gevuld. Afkortingen: what =
 
 ## 5. Clausules
 
-Het model-_compromesso_ in bijlage G (bewaard in `bron/bijlage-g-compromesso.md`) bevat alleen Nederlandse tekst. De Italiaanse clausuleteksten blijven daarom conceptvertalingen. De kolom "In het model" zegt waar dezelfde afspraak in het model staat; leeg betekent dat het model hem niet heeft en je hem zelf moet laten opnemen.
+Bij 15 van de 22 clausules staat nu de letterlijke tekst van het standaardmodel erbij: Italiaans uit `bron/contratto-tipo-preliminare.md` (`modelIt`) en Nederlands uit bijlage G (`modelNl`), door een script gecontroleerd tegen beide bestanden. De eigen clausuletekst (`textNl`, `textIt`) volgt het advies uit de gids en gaat vaak verder dan het model; de Italiaanse versie daarvan blijft een conceptvertaling, nu met de termen van het model (_Parte Promittente Venditrice_, _Parte Promissaria Acquirente_). Waar het model afwijkt van de gids, staat dat in `modelDiff` en in de laatste kolom.
 
-| Id | Titel | Bron | In het model | Voorgesteld bij profiel |
-| --- | --- | --- | --- | --- |
-| `partijen-gegevens` | Gegevens van koper en verkoper | gids 5.2.1 | Bijlage G, aanhef (partijen) | mede-eigenaren |
-| `omschrijving-object` | Omschrijving van de woning en alle kadastrale nummers | gids 5.2.1 | Bijlage G, art. 1 en 2 (a corpo) | grond |
-| `eigendomstitel-vrij` | Eigendomstitel en vrije overdraagbaarheid | gids 5.2.1 | Bijlage G, art. 1 (herkomst) en art. 2 | altijd |
-| `vrij-van-hypotheken` | Vrij van hypotheken en beslagen | gids 5.2.1 | Bijlage G, art. 2 | altijd |
-| `servitu` | Erfdienstbaarheden, toegangsweg en put | gids 5.2.1 | Bijlage G, art. 2 (alleen "indien en voor zover aanwezig") | altijd |
-| `geen-bezit-derden` | Geen gebruik of bezit door derden | gids 5.2.1 | Bijlage G, art. 2 (vrij van personen) | grond |
-| `vergunningen` | Verklaring over de vergunningen | gids 5.2.1 | Bijlage G, art. 3 | voor1967, verbouwd |
-| `kadastrale-conformiteit` | Kadastrale conformiteit op kosten van de verkoper | gids 5.2.1 | Bijlage G, art. 1 (plattegrond) en art. 4 | altijd |
-| `prelazione-agraria` | Agrarisch voorkooprecht en usi civici | gids 5.2.1 | **niet in het model** | grond |
-| `vincoli` | Belemmeringen (vincoli) | gids 5.2.1 | Bijlage G, art. 2 (vrij van lasten en beperkingen) | vincolo, monument |
-| `ape` | Energiecertificaat (APE) | gids 5.2.1 | Bijlage G, art. 2 | altijd |
-| `koopprijs` | Koopprijs en betaling | gids 5.2.1 | Bijlage G, art. 6 | altijd |
-| `datum-rogito` | Datum van de akte | gids 5.2.1 | Bijlage G, art. 4 (daar als fatale termijn) | monument |
-| `opschortende-voorwaarden` | Opschortende, geen ontbindende voorwaarden | gids 5.2.1 | **niet in het model** | altijd |
-| `caparra` | Aanbetaling (caparra confirmatoria) | gids 5.2.1 | Bijlage G, art. 5, 6 en 7 | mede-eigenaren |
-| `aanvullende-afspraken` | Aanvullende afspraken | gids 5.2.1 | **niet in het model** | altijd |
-| `geplande-ingreep` | Geplande verbouwing is mogelijk | gids 5.2.1 | **niet in het model** | altijd |
-| `vrij-van-huur` | Levering vrij van huur en gebruik | gids 5.2.1 | Bijlage G, art. 2 | verhuurd |
-| `condominio` | Bijdragen en werken van de VvE | gids 5.2.1 | Bijlage G, art. 2 (VvE) | condominio |
-| `eigendomstitel` | Eigendomstitel en vererving | gids 5.2.1 | Bijlage G, art. 1 (herkomst) | erfgenamen |
-| `financieringsvoorbehoud` | Financieringsvoorbehoud | gids 5.2.3 | **niet in het model** | hypotheek |
-| `technische-controle` | Voorbehoud van een gunstige technische controle | gids 4.2.8, 4.2.10, 5.2.3 | **niet in het model** | verbouwd |
+| Id | Titel | In het model | Verschil met de gids |
+| --- | --- | --- | --- |
+| `partijen-gegevens` | Gegevens van koper en verkoper | Bijlage G, aanhef (partijen) |  |
+| `omschrijving-object` | Omschrijving van de woning en alle kadastrale nummers | Bijlage G, art. 1 en 2 (a corpo) | Het model kiest vast voor a corpo (prijs voor het geheel). De gids raadt aan bewust te kiezen en elk kadastraal nummer met het aandeel apart te vermelden. |
+| `eigendomstitel-vrij` | Eigendomstitel en vrije overdraagbaarheid | Bijlage G, art. 1 (herkomst) en art. 2 |  |
+| `vrij-van-hypotheken` | Vrij van hypotheken en beslagen | Bijlage G, art. 2 | Het model hecht de uitkomst van de ispezione ipotecaria niet aan het contract. |
+| `servitu` | Erfdienstbaarheden, toegangsweg en put | Bijlage G, art. 2 (alleen "indien en voor zover aanwezig") | Het model noemt erfdienstbaarheden alleen "indien en voor zover aanwezig". De gids vraagt een volledige opgave, ook van niet-geregistreerde, en de papieren van een put. |
+| `geen-bezit-derden` | Geen gebruik of bezit door derden | **niet in het model** |  |
+| `vergunningen` | Verklaring over de vergunningen | Bijlage G, art. 3 |  |
+| `kadastrale-conformiteit` | Kadastrale conformiteit op kosten van de verkoper | Bijlage G, art. 1 (plattegrond) en art. 4 |  |
+| `prelazione-agraria` | Agrarisch voorkooprecht en usi civici | **niet in het model** |  |
+| `vincoli` | Belemmeringen (vincoli) | Bijlage G, art. 2 (vrij van lasten en beperkingen) |  |
+| `ape` | Energiecertificaat (APE) | Bijlage G, art. 2 | Het model levert het APE pas bij de akte. De gids raadt aan het ruim vóór de overdracht te krijgen. |
+| `koopprijs` | Koopprijs en betaling | Bijlage G, art. 6 |  |
+| `datum-rogito` | Datum van de akte | Bijlage G, art. 4 (daar als fatale termijn) | Het model maakt de datum fataal (essenziale). De gids raadt aan bewust te kiezen of de termijn fataal is. |
+| `opschortende-voorwaarden` | Opschortende, geen ontbindende voorwaarden | **niet in het model** | Het model heeft geen opschortende voorwaarden en maakt in art. 8 juist van elke afspraak een ontbindende voorwaarde (clausola risolutiva espressa). |
+| `caparra` | Aanbetaling (caparra confirmatoria) | Bijlage G, art. 5, 6 en 7 |  |
+| `aanvullende-afspraken` | Aanvullende afspraken | **niet in het model** |  |
+| `geplande-ingreep` | Geplande verbouwing is mogelijk | **niet in het model** |  |
+| `vrij-van-huur` | Levering vrij van huur en gebruik | Bijlage G, art. 2 (vrij van personen of huurcontract) |  |
+| `condominio` | Bijdragen en werken van de VvE | Bijlage G, art. 2 (VvE) | Het model legt alleen kosten uit besluiten tot de datum van het compromesso bij de verkoper. De gids raadt aan dat ook werken die vóór de akte worden besloten voor de verkoper blijven, en vraagt een verklaring van de amministratore. |
+| `eigendomstitel` | Eigendomstitel en vererving | Bijlage G, art. 1 (herkomst) | Het model noemt de successie, maar niet de ingeschreven aanvaarding en de voltura catastale. |
+| `financieringsvoorbehoud` | Financieringsvoorbehoud | **niet in het model** |  |
+| `technische-controle` | Voorbehoud van een gunstige technische controle | **niet in het model** |  |
 
 ## 6. Profielen
 
