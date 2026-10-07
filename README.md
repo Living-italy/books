@@ -71,7 +71,7 @@ Belangrijkste onderdelen:
 | `mail` | Onderwerp, aanhef per ontvanger, inleiding en slot van de opvraagmail, in het Italiaans en het Nederlands. `{immobile}` wordt de naam van de woning met de gemeente. |
 | `process` | De stappen van het stroomschema in de pdf. |
 | `offerNext` | Het aanbod voor de volgende stap, onderaan de pdf. |
-| `clauses` | De clausulebibliotheek: `titleNl`, `whenNl` (wanneer je hem nodig hebt), `textNl`, `textIt`, `source`, `appliesWhen` (profielvlaggen waarbij de app hem voorstelt) en `reviewed`. Zolang `reviewed` op `false` staat, toont de app "concept, nog niet juridisch nagelezen". Het scherm met clausules komt in fase 2. |
+| `clauses` | De clausulebibliotheek: `titleNl`, `whenNl` (wanneer je hem nodig hebt), `textNl`, `textIt`, `source`, `model` (waar dezelfde afspraak in het model-*compromesso* van bijlage G staat, leeg als het model hem niet heeft), `appliesWhen` (profielvlaggen waarbij de app hem voorstelt) en `reviewed`. Zolang `reviewed` op `false` staat, toont de app "concept, nog niet juridisch nagelezen". Het scherm met clausules komt in fase 2. |
 
 **Een document laten vervallen of vervangen**, bijvoorbeeld bij bouw vóór 1 september 1967:
 

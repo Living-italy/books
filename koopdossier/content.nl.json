@@ -2300,7 +2300,8 @@
       "appliesWhen": [
         "mede-eigenaren"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, aanhef (partijen)"
     },
     {
       "id": "omschrijving-object",
@@ -2312,7 +2313,8 @@
       "appliesWhen": [
         "grond"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 1 en 2 (a corpo)"
     },
     {
       "id": "eigendomstitel-vrij",
@@ -2322,7 +2324,8 @@
       "textIt": "Il promittente venditore indica il proprio titolo di provenienza (atto precedente) e dichiara che l'immobile è liberamente trasferibile.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 1 (herkomst) en art. 2"
     },
     {
       "id": "vrij-van-hypotheken",
@@ -2332,7 +2335,8 @@
       "textIt": "L'immobile sarà trasferito libero da ipoteche e pignoramenti. La cancellazione sarà annotata presso la Conservatoria dei Registri Immobiliari prima o contestualmente al rogito. In presenza di ipoteca legale o giudiziale, il promittente venditore provvede a propria cura e spese alla cancellazione. L'esito dell'ispezione ipotecaria è allegato al presente contratto.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 2"
     },
     {
       "id": "servitu",
@@ -2342,7 +2346,8 @@
       "textIt": "Il promittente venditore dichiara tutte le servitù gravanti sul fondo, comprese quelle non trascritte. Qualora l'accesso avvenga tramite strada in comune, si precisa se si tratta di strada privata o di strada vicinale, con indicazione dei contributi in corso, degli eventuali arretrati e della parte tenuta a saldarli. In presenza di un pozzo, il promittente venditore consegna prima del rogito la relativa denuncia o concessione.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 2 (alleen \"indien en voor zover aanwezig\")"
     },
     {
       "id": "geen-bezit-derden",
@@ -2354,7 +2359,8 @@
       "appliesWhen": [
         "grond"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 2 (vrij van personen)"
     },
     {
       "id": "vergunningen",
@@ -2367,7 +2373,8 @@
         "voor1967",
         "verbouwd"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 3"
     },
     {
       "id": "kadastrale-conformiteit",
@@ -2377,7 +2384,8 @@
       "textIt": "Il promittente venditore provvede, a propria cura e spese, prima del rogito, alla conformità catastale dell'immobile e consegna, oltre alla visura catastale, la planimetria catastale aggiornata.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 1 (plattegrond) en art. 4"
     },
     {
       "id": "prelazione-agraria",
@@ -2389,7 +2397,8 @@
       "appliesWhen": [
         "grond"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": ""
     },
     {
       "id": "vincoli",
@@ -2402,7 +2411,8 @@
         "vincolo",
         "monument"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 2 (vrij van lasten en beperkingen)"
     },
     {
       "id": "ape",
@@ -2412,7 +2422,8 @@
       "textIt": "Il promittente venditore dichiara che l'immobile è dotato di attestato di prestazione energetica (APE) in corso di validità e ne consegna copia, anche digitale, al promissario acquirente con congruo anticipo rispetto al rogito.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 2"
     },
     {
       "id": "koopprijs",
@@ -2422,7 +2433,8 @@
       "textIt": "Sono indicati il prezzo e le modalità di pagamento, ad esempio in rate, con imputazione a prezzo della caparra già versata.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 6"
     },
     {
       "id": "datum-rogito",
@@ -2434,7 +2446,8 @@
       "appliesWhen": [
         "monument"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 4 (daar als fatale termijn)"
     },
     {
       "id": "opschortende-voorwaarden",
@@ -2444,7 +2457,8 @@
       "textIt": "Le condizioni sono pattuite come condizioni sospensive e non come condizioni risolutive. La provvigione del mediatore è dovuta solo al verificarsi della condizione.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": ""
     },
     {
       "id": "caparra",
@@ -2456,7 +2470,8 @@
       "appliesWhen": [
         "mede-eigenaren"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 5, 6 en 7"
     },
     {
       "id": "aanvullende-afspraken",
@@ -2466,7 +2481,8 @@
       "textIt": "Sono pattuite eventuali clausole aggiuntive, quali penali per il ritardo nell'adempimento o accordi relativi ai beni mobili.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": ""
     },
     {
       "id": "geplande-ingreep",
@@ -2476,7 +2492,8 @@
       "textIt": "Si dà atto che l'intervento previsto è realizzabile, ad esempio la realizzazione di una piscina o la trasformazione di un annesso in abitazione.",
       "source": "gids 5.2.1",
       "appliesWhen": [],
-      "reviewed": false
+      "reviewed": false,
+      "model": ""
     },
     {
       "id": "vrij-van-huur",
@@ -2488,7 +2505,8 @@
       "appliesWhen": [
         "verhuurd"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 2"
     },
     {
       "id": "condominio",
@@ -2500,7 +2518,8 @@
       "appliesWhen": [
         "condominio"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 2 (VvE)"
     },
     {
       "id": "eigendomstitel",
@@ -2512,7 +2531,8 @@
       "appliesWhen": [
         "erfgenamen"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": "Bijlage G, art. 1 (herkomst)"
     },
     {
       "id": "financieringsvoorbehoud",
@@ -2524,7 +2544,8 @@
       "appliesWhen": [
         "hypotheek"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": ""
     },
     {
       "id": "technische-controle",
@@ -2536,7 +2557,8 @@
       "appliesWhen": [
         "verbouwd"
       ],
-      "reviewed": false
+      "reviewed": false,
+      "model": ""
     }
   ],
   "mail": {
