@@ -7,6 +7,7 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 - **De vijf kopjes per document** komen letterlijk uit hoofdstuk 4.2 (en voor huur, verkoper en makelaar uit 5.2.1 en 5.2.3) van de gids "Huis kopen in Italië - Definitief". Een script heeft gecontroleerd dat elk van de 143 tekstfragmenten woordelijk in de gids staat. Waar een controle in de gids twee documenten dekt (*visura* en *planimetria*, *agibilità* en *APE*), zijn de zinnen over de twee documenten verdeeld. Per document staat de paragraaf in het veld `source`; de app toont die als "Bron: gids 4.2.x".
 - **De 15 checkvragen, hulpteksten, gewichten, drempels en oordeelteksten** komen letterlijk uit `bron/conformiteitscheck.php`. Alleen de drie gedachtestreepjes zijn vervangen door een komma, dubbele punt of punt. Een test vergelijkt 5000 willekeurige antwoordcombinaties met de rekenregel van de oude check: score, niveau en aantal aandachtspunten zijn steeds gelijk.
 - **Brevo** krijgt dezelfde velden en waarden als in de oude check: `RISICO_NIVEAU` als tekst ("Laag risico", "Verhoogd risico", "Hoog risico") en `BRON` = `conformiteitscheck`. Wil je in Brevo zien welke aanmeldingen uit de nieuwe tool komen, zet `bron` in `index.html` dan op een andere waarde.
+- **Concept van het voorlopig koopcontract** (*bozza del compromesso*), op verzoek van Stef toegevoegd: de vijf kopjes letterlijk uit 5.2 en 5.2.5, en elf rode vlaggen voor de punten waarop het standaardmodel (bijlage G) afwijkt van de gids. Elke vlag verwijst naar de clausule die het oplost. Bij een al getekend *compromesso* is dit document extra belangrijk.
 - **Drie nieuwe documenten** uit 4.2, die niet in de bouwbrief stonden: *Usucapione* (gebruik door derden, 4.2.4), *Perizia tecnica* (bouwkundige keuring, 4.2.10, staat niet in de opvraagmail omdat je die zelf laat doen) en de verklaring voor een pand van vóór 1967 (4.2.8, alleen bij het profiel "vóór 1 september 1967").
 - **Vóór 1967**: de gids zegt dat de verklaring de oorspronkelijke bouwtitel vervangt, maar dat latere aanbouwen wel vergund moeten zijn. Daarom vervallen de bouwvergunningen niet; de verklaring komt erbij.
 - **Naam van het rapport**: de gids noemt het rapport over bouw en kadaster de *relazione di regolarità edilizia e catastale* (*RRE*). Die naam staat nu in de app. De gids raadt aan hem vóór het bod te laten maken; de bouwbrief zet hem in de fase vóór het *compromesso*. Ik heb de fase uit de bouwbrief laten staan. Kies zelf.
@@ -18,7 +19,7 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 - **Clausules, Italiaanse tekst**: de eigen clausuleteksten zijn conceptvertalingen van mij, met de termen van het Italiaanse model. De letterlijke Italiaanse modeltekst staat er apart bij (paragraaf 5). Alle clausules staan op `reviewed: false`.
 - **Tekst van rode vlaggen**: korte waarnemingen in eigen woorden, elk gebaseerd op een concreet punt uit 4.2 of 5.2.
 - **Opvraagregels (`requestIt`) en de opvraagmail**: conceptvertaling, nog niet nagelezen.
-- **Profielvragen en antwoordopties**: nog steeds afgeleid uit de bouwbrief (`profielen-conformiteitscheck.md` ontbreekt).
+- **Profielvragen en antwoordopties**: opgesteld uit de bouwbrief en op 7 oktober 2026 door Stef akkoord bevonden, inclusief de keuze bij "weet ik niet".
 - **Profielen** (paragraaf 6): opgesteld uit de gids, omdat `profielen-conformiteitscheck.md` ontbreekt. Alle risicoteksten en acties zijn letterlijke zinnen uit de gids, op één samenvatting na. Of een profiel de juiste documenten extra belangrijk maakt, is een keuze van mij.
 - **Meetgebeurtenissen**: gelijk aan de oude check (`check_voltooid`, `generate_lead`, `ConformiteitsCheckVoltooid`, `Lead`), plus `check_gestart` en `ConformiteitsCheckGestart`. Score en niveau gaan mee; `value` bij `generate_lead` is weggelaten, omdat GA4 dat als geldbedrag telt.
 
@@ -89,6 +90,17 @@ Documenten die niet in de tabel staan, zijn volledig gevuld. Afkortingen: what =
 | Perizia tecnica | `installaties-verouderd` | Verouderde elektra zonder aardlekschakelaar, of oude loden of koperen waterleidingen | bespreken met je geometra |  |
 | Perizia tecnica | `houtaantasting` | Aantasting door houtworm of boktor in balken of dakconstructie | bespreken met je geometra |  |
 | Perizia tecnica | `asbest` | Er zijn asbesthoudende materialen (_amianto_) | eerst laten oplossen |  |
+| Bozza del compromesso | `concept-ontbindend` | Elke afspraak is een ontbindende voorwaarde (_clausola risolutiva espressa_) en er staan geen opschortende voorwaarden in | eerst laten oplossen |  |
+| Bozza del compromesso | `concept-geen-financiering` | Er staat geen financieringsvoorbehoud in, terwijl je een hypotheek nodig hebt | eerst laten oplossen |  |
+| Bozza del compromesso | `concept-geen-technische-controle` | Er staat geen voorbehoud van een gunstige technische controle in | eerst laten oplossen |  |
+| Bozza del compromesso | `concept-geen-prelazione` | Er hoort landbouwgrond bij, maar het agrarisch voorkooprecht wordt niet genoemd | eerst laten oplossen |  |
+| Bozza del compromesso | `concept-uitzondering-art2` | Bij de garanties van de verkoper staat een uitzondering, zoals een hypotheek die blijft staan of een lopend huurcontract | eerst laten oplossen |  |
+| Bozza del compromesso | `concept-datum-fataal` | De datum van de akte staat als fatale termijn (_termine essenziale_) | bespreken met je geometra |  |
+| Bozza del compromesso | `concept-a-corpo` | De woning wordt _a corpo_ verkocht, zonder elk kadastraal nummer met het aandeel apart te vermelden | bespreken met je geometra |  |
+| Bozza del compromesso | `concept-servitu` | Erfdienstbaarheden staan er alleen "indien en voor zover aanwezig" in, zonder volledige opgave | bespreken met je geometra |  |
+| Bozza del compromesso | `concept-vve-tot-vandaag` | Alleen VvE-kosten uit besluiten tot de datum van het _compromesso_ blijven voor de verkoper | bespreken met je geometra |  |
+| Bozza del compromesso | `concept-ape-bij-akte` | Het _APE_ wordt pas bij de akte overhandigd | bespreken met je geometra |  |
+| Bozza del compromesso | `concept-installaties-koper` | Het aanpassen van de installaties aan de huidige normen komt voor rekening van de koper | bespreken met je geometra |  |
 | Relazione di regolarità edilizia e catastale (RRE) | `geen-eigen-controle` | Er is nog geen onafhankelijke controle door een eigen _geometra_ | bespreken met je geometra | `geometra` |
 | Relazione di regolarità edilizia e catastale (RRE) | `afwijking-buiten-tolerantie` | Het rapport noemt afwijkingen buiten de toleranties van _Salva Casa_ | eerst laten oplossen |  |
 | Ispezione ipotecaria | `hypotheek-of-beslag` | Er staat een hypotheek, beslag of rechtsvordering ingeschreven | eerst laten oplossen | `ipoteca` |

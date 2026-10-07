@@ -1788,6 +1788,118 @@
       ]
     },
     {
+      "id": "concept-compromesso",
+      "nameIt": "Bozza del compromesso",
+      "nameNl": "Concept van het voorlopig koopcontract",
+      "phase": "compromesso",
+      "supplier": "Makelaar of verkoper; laat je notaris of advocaat meelezen",
+      "appliesWhen": [],
+      "criticalWhen": [
+        "compromesso-getekend"
+      ],
+      "dropWhen": [],
+      "source": "gids 5.2, 5.2.1, 5.2.3, 5.2.5; bijlage G",
+      "what": "Nadat een bod is geaccepteerd, sluiten koper en verkoper in de meeste gevallen een voorlopig koopcontract. In het Italiaans heet dit ook wel *contratto preliminare di compravendita* of kortweg het compromesso. Dit is een schriftelijke overeenkomst waarin alle afspraken over de verkoop definitief worden vastgelegd. Beide partijen tekenen hiervoor, waarmee zij juridisch verplicht worden de transactie onder de afgesproken voorwaarden te voltooien.",
+      "why": "Let op: de standaardformulieren van makelaars bevatten deze beschermende bepalingen vrijwel nooit. Ontbindende en opschortende voorwaarden, garanties over vergunningen en afspraken over de vindplaats van de betaling moet je zelf laten opnemen. Bedenk goed wat hier op het spel staat: wat je nu niet laat opnemen, kun je bij het passeren van de akte niet meer afdwingen. Het *compromesso* is het laatste moment waarop je onderhandelingspositie hebt.",
+      "who": "Een *compromesso* hoeft niet verplicht bij de notaris gesloten te worden - het is vaak een onderhandse overeenkomst. Toch is het verstandig om dit document juridisch waterdicht te laten opstellen of te laten controleren door een professional (makelaar, notaris of advocaat), zeker bij complexe situaties.",
+      "costTime": "Belangrijk: Het voorlopige contract moet binnen 30 dagen na ondertekening worden geregistreerd bij de *Agenzia delle Entrate* (vóór het *Decreto-legge* 73/2022 was dat 20 dagen). Bij registratie betaal je een kleine registratiebelasting (€200) en zegelrecht (ongeveer € 16 per 4 pagina's of 100 regels). De proportionele heffing van 0,5 % kan bij een flinke *caparra* oplopen tot duizenden euro's.",
+      "contract": "Het toevoegen van zulke clausules moet voor de ondertekening gebeuren, want achteraf kun je niets eenzijdig toevoegen.",
+      "requestIt": "bozza del contratto preliminare (compromesso), da esaminare prima della firma",
+      "requestNl": "het concept van het voorlopig koopcontract (*compromesso*), om vóór de ondertekening na te kijken",
+      "glossary": [],
+      "flags": [
+        {
+          "id": "concept-ontbindend",
+          "text": "Elke afspraak is een ontbindende voorwaarde (*clausola risolutiva espressa*) en er staan geen opschortende voorwaarden in",
+          "severity": "oplossen",
+          "clauses": [
+            "opschortende-voorwaarden"
+          ]
+        },
+        {
+          "id": "concept-geen-financiering",
+          "text": "Er staat geen financieringsvoorbehoud in, terwijl je een hypotheek nodig hebt",
+          "severity": "oplossen",
+          "clauses": [
+            "financieringsvoorbehoud"
+          ]
+        },
+        {
+          "id": "concept-geen-technische-controle",
+          "text": "Er staat geen voorbehoud van een gunstige technische controle in",
+          "severity": "oplossen",
+          "clauses": [
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "concept-geen-prelazione",
+          "text": "Er hoort landbouwgrond bij, maar het agrarisch voorkooprecht wordt niet genoemd",
+          "severity": "oplossen",
+          "clauses": [
+            "prelazione-agraria"
+          ]
+        },
+        {
+          "id": "concept-uitzondering-art2",
+          "text": "Bij de garanties van de verkoper staat een uitzondering, zoals een hypotheek die blijft staan of een lopend huurcontract",
+          "severity": "oplossen",
+          "clauses": [
+            "vrij-van-hypotheken",
+            "vrij-van-huur"
+          ]
+        },
+        {
+          "id": "concept-datum-fataal",
+          "text": "De datum van de akte staat als fatale termijn (*termine essenziale*)",
+          "severity": "bespreken",
+          "clauses": [
+            "datum-rogito"
+          ]
+        },
+        {
+          "id": "concept-a-corpo",
+          "text": "De woning wordt *a corpo* verkocht, zonder elk kadastraal nummer met het aandeel apart te vermelden",
+          "severity": "bespreken",
+          "clauses": [
+            "omschrijving-object"
+          ]
+        },
+        {
+          "id": "concept-servitu",
+          "text": "Erfdienstbaarheden staan er alleen \"indien en voor zover aanwezig\" in, zonder volledige opgave",
+          "severity": "bespreken",
+          "clauses": [
+            "servitu"
+          ]
+        },
+        {
+          "id": "concept-vve-tot-vandaag",
+          "text": "Alleen VvE-kosten uit besluiten tot de datum van het *compromesso* blijven voor de verkoper",
+          "severity": "bespreken",
+          "clauses": [
+            "condominio"
+          ]
+        },
+        {
+          "id": "concept-ape-bij-akte",
+          "text": "Het *APE* wordt pas bij de akte overhandigd",
+          "severity": "bespreken",
+          "clauses": [
+            "ape"
+          ]
+        },
+        {
+          "id": "concept-installaties-koper",
+          "text": "Het aanpassen van de installaties aan de huidige normen komt voor rekening van de koper",
+          "severity": "bespreken",
+          "clauses": [
+            "vergunningen"
+          ]
+        }
+      ]
+    },
+    {
       "id": "relazione-tecnica",
       "nameIt": "Relazione di regolarità edilizia e catastale (RRE)",
       "nameNl": "Rapport over vergunningen en kadaster",
