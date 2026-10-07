@@ -9,27 +9,30 @@
         "id": "laag",
         "max": 15,
         "label": "Laag risico",
-        "text": ""
+        "title": "Een geruststellend beeld",
+        "text": "Er springen weinig rode vlaggen uit. Laat tóch een onafhankelijke geometra de papieren controleren vóór je tekent. De laatste 10% zit in de details."
       },
       {
         "id": "verhoogd",
         "max": 40,
         "label": "Verhoogd risico",
-        "text": ""
+        "title": "Let op een paar punten",
+        "text": "Er zijn zaken die je echt moet uitzoeken vóór je een bod doet. Loop de aandachtspunten hieronder na en leg ze voor aan een geometra."
       },
       {
         "id": "hoog",
         "max": 100,
         "label": "Hoog risico",
-        "text": ""
+        "title": "Wees voorzichtig",
+        "text": "Dit pand vraagt om grondige controle. Zet geen onomkeerbare stappen (*compromesso*) voordat een geometra en notaris alles hebben nagelopen."
       }
     ],
     "questions": [
       {
         "id": "catastale",
         "weight": 10,
-        "text": "Klopt de kadastrale plattegrond (*planimetria catastale*) met de werkelijke indeling van het huis?",
-        "help": "De verklaring dat de feitelijke indeling overeenstemt met de gedeponeerde plattegrond is bij de akte verplicht op straffe van nietigheid, dus een afwijking moet hoe dan ook vóór het *rogito*, de notariële leveringsakte, zijn rechtgezet.",
+        "text": "Komt de kadastrale plattegrond (*planimetria catastale*) exact overeen met de werkelijke indeling van het huis?",
+        "help": "Een afwijking betekent dat een verbouwing nooit is gemeld. Dit moet kloppen vóór de notaris.",
         "documents": [
           "planimetria-catastale"
         ],
@@ -38,8 +41,8 @@
       {
         "id": "urbanistica",
         "weight": 12,
-        "text": "Is er voor elke verbouwing een vergunning?",
-        "help": "De notaris controleert dit niet. Hij verifieert of de vereiste verklaringen in de akte staan, niet of de feitelijke situatie met de vergunningen overeenkomt. Daardoor kunnen onregelmatigheden gewoon meeverkopen.",
+        "text": "Is voor élke verbouwing en aanbouw een bouwvergunning aanwezig (*permesso di costruire / SCIA / DIA*)?",
+        "help": "Onvergunde bouw (*abuso edilizio*) is de meest voorkomende en duurste valkuil op het platteland.",
         "documents": [
           "titoli-edilizi"
         ],
@@ -48,8 +51,8 @@
       {
         "id": "agibilita",
         "weight": 7,
-        "text": "Is er een geldig bewoonbaarheidscertificaat (*agibilità*)?",
-        "help": "Het document waarin de gemeente bevestigt dat een gebouw veilig, gezond en geschikt voor bewoning is. Voor gebouwen die na 1934 zijn voltooid, is een *agibilità* in beginsel verplicht. Voor oudere panden geldt die verplichting niet.",
+        "text": "Is er een geldig bewoonbaarheidscertificaat (*certificato di agibilità / abitabilità*)?",
+        "help": "Zonder dit certificaat is het huis formeel niet bewoonbaar verklaard.",
         "documents": [
           "agibilita"
         ],
@@ -58,8 +61,8 @@
       {
         "id": "eigendom",
         "weight": 7,
-        "text": "Kloppen het kadastraal uittreksel (*visura*) en de akte met de gegevens van de verkoper?",
-        "help": "De tenaamstelling geeft een eerste indicatie of de verkoper werkelijk eigenaar is, al is het kadaster geen eigendomsbewijs.",
+        "text": "Heb je de *visura catastale* én de eigendomsakte (*atto di provenienza*) gezien, en komen die overeen met de verkoper?",
+        "help": "Controleer of de verkoper ook echt de juridische eigenaar is.",
         "documents": [
           "atto-provenienza",
           "visura-catastale"
@@ -69,8 +72,8 @@
       {
         "id": "ipoteca",
         "weight": 10,
-        "text": "Is de woning vrij van hypotheek, beslag of schulden?",
-        "help": "Een hypotheek volgt het pand: de verkoper mag verkopen, maar het recht blijft erop rusten tenzij het bij de overdracht wordt afgelost en doorgehaald.",
+        "text": "Is uit de hypotheekinspectie (*ispezione ipotecaria*) gebleken dat er géén hypotheek, beslag (*pignoramento*) of schuld op het pand rust?",
+        "help": "Schulden volgen het pand, niet de verkoper. Dit moet schoon zijn.",
         "documents": [
           "ispezione-ipotecaria-compromesso",
           "ispezione-ipotecaria-rogito"
@@ -80,8 +83,8 @@
       {
         "id": "erfgenamen",
         "weight": 7,
-        "text": "Gaan alle eigenaren en erfgenamen akkoord met de verkoop?",
-        "help": "Erfenis of verdeling van een nalatenschap vraagt om drie controles. Ten eerste of alle erfgenamen hebben meegewerkt en of de nalatenschap correct is afgewikkeld, met een ingediende *dichiarazione di successione*.",
+        "text": "Staan álle eigenaren en erfgenamen achter de verkoop (vaak een issue bij geërfde huizen)?",
+        "help": "Eén ontbrekende erfgenaam kan de hele verkoop maanden of jaren blokkeren.",
         "documents": [
           "identiteit-verkoper"
         ],
@@ -90,8 +93,8 @@
       {
         "id": "meters",
         "weight": 6,
-        "text": "Kloppen de vierkante meters met het kadaster?",
-        "help": "Laat bij de oppervlakte vastleggen om welke maat het gaat, en of de prijs voor het geheel geldt of per vierkante meter.",
+        "text": "Komen de werkelijke vierkante meters overeen met de oppervlakte in het kadaster?",
+        "help": "Afwijkende m² wijzen op niet-geregistreerde wijzigingen en raken de belasting.",
         "documents": [
           "visura-catastale"
         ],
@@ -100,8 +103,8 @@
       {
         "id": "aanbouw",
         "weight": 9,
-        "text": "Zijn bijgebouwen, veranda en zwembad geregistreerd?",
-        "help": "Een pand kan dus perfect ingeschreven staan in het kadaster, een geldige *agibilità* hebben, en tegelijk een bouwovertreding bevatten.",
+        "text": "Zijn alle bijgebouwen, veranda’s, overkappingen, pergola’s en een eventueel zwembad officieel geregistreerd?",
+        "help": "Juist deze \"kleine\" toevoegingen zijn vaak nooit aangegeven.",
         "documents": [
           "titoli-edilizi"
         ],
@@ -110,8 +113,8 @@
       {
         "id": "bestemming",
         "weight": 7,
-        "text": "Klopt het gebruik van de woning met de kadastrale bestemming?",
-        "help": "Een veelvoorkomende afwijking zie je niet aan de buitenkant: ruimtes die als slaapkamer of woonkamer worden aangeboden, maar in de vergunning staan als kelder, berging of zolder.",
+        "text": "Komt het werkelijke gebruik (woonhuis) overeen met de bestemming in het kadaster, dus geen schuur of garage stiekem omgebouwd tot woonruimte?",
+        "help": "Wijziging van bestemming zonder vergunning is een serieuze onregelmatigheid.",
         "documents": [
           "visura-catastale"
         ],
@@ -120,8 +123,8 @@
       {
         "id": "impianti",
         "weight": 4,
-        "text": "Zijn er verklaringen van conformiteit voor elektra en gas?",
-        "help": "Is de conformiteitsverklaring van de elektra of het gas er niet, dan moet die installatie eerst worden gekeurd en vaak ook aangepast.",
+        "text": "Zijn er conformiteitsverklaringen voor de elektra- en gasinstallatie (*dichiarazione di conformità impianti*)?",
+        "help": "Zonder verklaring moet je installaties mogelijk volledig laten certificeren.",
         "documents": [
           "impianti"
         ],
@@ -131,7 +134,7 @@
         "id": "ape",
         "weight": 2,
         "text": "Is er een geldig energiecertificaat (*APE*)?",
-        "help": "Het *attestato di prestazione energetica*, het *APE*, moet bij de akte worden gevoegd, en in de akte moet staan dat je het hebt ontvangen.",
+        "help": "Verplicht bij verkoop; het ontbreken is een signaal van slordige administratie.",
         "documents": [
           "ape"
         ],
@@ -140,8 +143,8 @@
       {
         "id": "fognatura",
         "weight": 4,
-        "text": "Is de afvoer of septic tank in orde en gemeld?",
-        "help": "De afvoer en, in het buitengebied, de septic tank. Werkt alles naar behoren en voldoet het aan de huidige normen?",
+        "text": "Is de afvoer / septic tank (*fognatura / fossa biologica*) in orde en officieel gemeld?",
+        "help": "Op het platteland vaak niet aangesloten of niet conform: dure verrassing.",
         "documents": [
           "riolering-water"
         ],
@@ -150,8 +153,8 @@
       {
         "id": "servitu",
         "weight": 5,
-        "text": "Is de toegangsweg eigen grond, of is het recht van overpad (*servitù*) vastgelegd?",
-        "help": "Erfdienstbaarheden die door gebruik zijn ontstaan, staan niet altijd in de registers en zijn alleen ter plaatse te herkennen.",
+        "text": "Is de toegangsweg eigendom van het pand, of via een vastgelegde erfdienstbaarheid (*servitù*) geregeld?",
+        "help": "Een niet-vastgelegde toegangsweg kan je letterlijk insluiten.",
         "documents": [
           "servitu"
         ],
@@ -160,8 +163,8 @@
       {
         "id": "vincoli",
         "weight": 4,
-        "text": "Zijn de beperkingen (*vincoli*) op het pand bekend?",
-        "help": "Als het pand in een beschermd natuurgebied of UNESCO-werelderfgoedzone staat, of als de bodem archeologisch interessante objecten bevat, of als je huis een monument is, dan zullen bepaalde verbouwingen of bouwplannen mogelijk niet toegestaan zijn.",
+        "text": "Weet je of er landschaps- of monumentenbeperkingen (*vincolo paesaggistico*) of agrarische beperkingen gelden?",
+        "help": "Beperkingen kunnen verbouwen of uitbreiden onmogelijk maken.",
         "documents": [
           "vincoli"
         ],
@@ -170,8 +173,8 @@
       {
         "id": "geometra",
         "weight": 6,
-        "text": "Laat je vóór het bod een onafhankelijke controle doen door een eigen *geometra* (bouwkundig adviseur)?",
-        "help": "Plan de keuring vóór je bod als het even kan. Dan onderhandel je met het rapport in de hand, in plaats van achteraf te moeten proberen de prijs nog aangepast te krijgen.",
+        "text": "Heeft een onafhankelijke *geometra* het pand juridisch-bouwkundig gecontroleerd vóórdat je een bod doet?",
+        "help": "De geometra is je belangrijkste bondgenoot. Liever vooraf dan achteraf.",
         "documents": [
           "relazione-tecnica"
         ],

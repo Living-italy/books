@@ -17,9 +17,10 @@ const SETTINGS = {
   begrippenwijzerUrl: '',   // fase 2, bijvoorbeeld 'https://example.nl/begrippenwijzer/#{id}'
   chatbotUrl: '',           // fase 2, bijvoorbeeld 'https://example.nl/chatbot/?vraag={vraag}'
   contactUrl: '',           // fase 2, link naar de contactpagina
+  privacyUrl: '/privacy',   // privacybeleid, getoond bij de aanmelding
   ga4Id: '',                // bijvoorbeeld 'G-XXXXXXX', alleen geladen op de checkschermen
   metaPixelId: '',          // alleen geladen op de checkschermen
-  bron: 'koopdossier',      // waarde van het Brevo-veld BRON
+  bron: 'conformiteitscheck', // waarde van het Brevo-veld BRON, gelijk aan de oude check
   storageKey: 'koopdossier'
 };
 </script>
@@ -297,7 +298,8 @@ const UI = {
     sending: 'Bezig met aanmelden…',
     thanks: 'Dank je, je bent aangemeld.',
     failed: 'Aanmelden lukte niet. Je kunt het rapport wel gewoon afdrukken.',
-    invalidEmail: 'Vul een geldig e-mailadres in.'
+    invalidEmail: 'Vul een geldig e-mailadres in.',
+    privacy: 'Lees het privacybeleid.'
   },
 
   profile: {
@@ -839,7 +841,8 @@ function viewResult() {
         <div class="num">${s.score}<small> ${esc(UI.check.scoreOf)}</small></div>
         <div><span class="sr-only">${esc(UI.check.scoreLabel)}: </span><span class="level ${esc(s.level.id)}">${esc(s.level.label)}</span></div>
       </div>
-      <p style="margin-top:12px">${txt(s.level.text)}</p>
+      ${s.level.title ? `<h2 style="margin:14px 0 4px">${fmt(s.level.title)}</h2>` : ''}
+      <p style="margin-top:8px">${txt(s.level.text)}</p>
     </section>
     ${risks.length ? `<section class="card"><h2>${esc(UI.check.risks)}</h2>${risks.map((r) => `<p>${txt(r.text)}</p>`).join('')}</section>` : ''}
     <section class="card">
@@ -861,7 +864,7 @@ function signupForm(mode) {
   return `
     <form class="card" data-form="signup" data-mode="${mode}" novalidate>
       <h2 id="${mode === 'dialog' ? 'dialog-title' : 'signup-title'}">${esc(UI.signup.title)}</h2>
-      <p class="small">${esc(UI.signup.text)}</p>
+      <p class="small">${esc(UI.signup.text)}${SETTINGS.privacyUrl ? ` <a href="${esc(SETTINGS.privacyUrl)}" target="_blank" rel="noopener">${esc(UI.signup.privacy)}</a>` : ''}</p>
       <label class="field">${esc(UI.signup.firstName)}<input type="text" name="voornaam" autocomplete="given-name" maxlength="60"></label>
       <label class="field">${esc(UI.signup.email)}<input type="email" name="email" autocomplete="email" required maxlength="120"></label>
       <div class="sr-only" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
@@ -896,7 +899,7 @@ async function submitSignup(form) {
     email,
     VOORNAAM: form.voornaam.value.trim(),
     RISICO_SCORE: s.score,
-    RISICO_NIVEAU: s.level.id,
+    RISICO_NIVEAU: s.level.label,
     AANDACHTSPUNTEN: attentionPoints(answers).length,
     BRON: SETTINGS.bron
   };
@@ -1327,7 +1330,7 @@ function printReport(propId) {
     ${profileRows ? `<h3>${esc(R.profile)}</h3><table><tbody>${profileRows}</tbody></table>` : ''}
 
     <h2>${esc(R.scoreTitle)}</h2>
-    ${s.complete ? `<p><strong>${s.score} ${esc(UI.check.scoreOf)} · ${esc(s.level.label)}</strong></p><p>${txt(s.level.text)}</p>` : `<p>${esc(t(UI.woningen.checkIncomplete, { n: s.answered, total: s.total }))}</p>`}
+    ${s.complete ? `<p><strong>${s.score} ${esc(UI.check.scoreOf)} · ${esc(s.level.label)}</strong>${s.level.title ? ` · ${fmt(s.level.title)}` : ''}</p><p>${txt(s.level.text)}</p>` : `<p>${esc(t(UI.woningen.checkIncomplete, { n: s.answered, total: s.total }))}</p>`}
     ${risks.map((r) => `<p>${txt(r.text)}</p>`).join('')}
 
     <h2>${esc(R.documents)}</h2>

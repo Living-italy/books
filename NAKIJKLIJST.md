@@ -5,7 +5,8 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 ## 1. Wat uit de gids komt
 
 - **De vijf kopjes per document** komen letterlijk uit hoofdstuk 4.2 (en voor huur, verkoper en makelaar uit 5.2.1 en 5.2.3) van de gids "Huis kopen in Italië - Definitief". Een script heeft gecontroleerd dat elk van de 143 tekstfragmenten woordelijk in de gids staat. Waar een controle in de gids twee documenten dekt (*visura* en *planimetria*, *agibilità* en *APE*), zijn de zinnen over de twee documenten verdeeld. Per document staat de paragraaf in het veld `source`; de app toont die als "Bron: gids 4.2.x".
-- **De hulptekst bij de 15 checkvragen** is per vraag één of twee zinnen uit 4.2 of 5.2. `conformiteitscheck.php` is niet gevonden; vervang ze als dat bestand opduikt.
+- **De 15 checkvragen, hulpteksten, gewichten, drempels en oordeelteksten** komen letterlijk uit `bron/conformiteitscheck.php`. Alleen de drie gedachtestreepjes zijn vervangen door een komma, dubbele punt of punt. Een test vergelijkt 5000 willekeurige antwoordcombinaties met de rekenregel van de oude check: score, niveau en aantal aandachtspunten zijn steeds gelijk.
+- **Brevo** krijgt dezelfde velden en waarden als in de oude check: `RISICO_NIVEAU` als tekst ("Laag risico", "Verhoogd risico", "Hoog risico") en `BRON` = `conformiteitscheck`. Wil je in Brevo zien welke aanmeldingen uit de nieuwe tool komen, zet `bron` in `index.html` dan op een andere waarde.
 - **Drie nieuwe documenten** uit 4.2, die niet in de bouwbrief stonden: *Usucapione* (gebruik door derden, 4.2.4), *Perizia tecnica* (bouwkundige keuring, 4.2.10, staat niet in de opvraagmail omdat je die zelf laat doen) en de verklaring voor een pand van vóór 1967 (4.2.8, alleen bij het profiel "vóór 1 september 1967").
 - **Vóór 1967**: de gids zegt dat de verklaring de oorspronkelijke bouwtitel vervangt, maar dat latere aanbouwen wel vergund moeten zijn. Daarom vervallen de bouwvergunningen niet; de verklaring komt erbij.
 - **Naam van het rapport**: de gids noemt het rapport over bouw en kadaster de *relazione di regolarità edilizia e catastale* (*RRE*). Die naam staat nu in de app. De gids raadt aan hem vóór het bod te laten maken; de bouwbrief zet hem in de fase vóór het *compromesso*. Ik heb de fase uit de bouwbrief laten staan. Kies zelf.
@@ -17,11 +18,11 @@ Gegenereerd uit `koopdossier/content.nl.json` (versie 2026-10-07). Alles hierond
 - **Clausules, Italiaanse tekst**: conceptvertalingen van mij. Bijlage G (model *compromesso* met vertaling, op stefsmulders.nl) kon ik niet openen. Staat daar Italiaanse tekst voor dezelfde afspraak, dan moet die er letterlijk in. Alle clausules staan op `reviewed: false`.
 - **Tekst van rode vlaggen**: korte waarnemingen in eigen woorden, elk gebaseerd op een concreet punt uit 4.2 of 5.2.
 - **Opvraagregels (`requestIt`) en de opvraagmail**: conceptvertaling, nog niet nagelezen.
-- **Checkvragen en profielvragen**: nog steeds afgeleid uit de bouwbrief.
+- **Profielvragen en antwoordopties**: nog steeds afgeleid uit de bouwbrief (`profielen-conformiteitscheck.md` ontbreekt).
+- **Meetgebeurtenissen**: de oude check stuurde `check_voltooid` en `generate_lead` naar GA4 en `ConformiteitsCheckVoltooid` en `Lead` naar Meta, met score en niveau erbij. De nieuwe app stuurt volgens de bouwbrief `check_gestart`, `check_afgerond` en `check_aangemeld` (bij Meta `Lead`), zonder score. Pas dat aan als je rapportages op de oude namen draaien.
 
 ## 3. Lege velden
 
-- Oordeelteksten bij de risiconiveaus: `laag`, `verhoogd`, `hoog`
 - `check.riskTexts`: nog geen risicoteksten (bron: `profielen-conformiteitscheck.md`)
 - `check.actions`: nog geen acties per profiel
 - `offerNext`: aanbod voor de volgende stap in de pdf

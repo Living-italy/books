@@ -25,11 +25,11 @@ NAKIJKLIJST.md            lege velden en rode vlaggen om te controleren
    - `BREVO_API_KEY`: de API-sleutel uit Brevo (*SMTP & API > API Keys*).
    - `BREVO_LIST_ID`: het ID van de lijst van de bestaande check.
    - `ALLOWED_ORIGINS`: leeg laten als de app op hetzelfde domein staat.
-5. Controleer in Brevo dat de contactkenmerken bestaan: `VOORNAAM` (tekst), `RISICO_SCORE` (getal), `RISICO_NIVEAU` (tekst), `AANDACHTSPUNTEN` (getal) en `BRON` (tekst).
-6. Open `index.html` en vul zo nodig het blok `SETTINGS` bovenin in: `ga4Id` en `metaPixelId` voor het meten op de checkschermen. De adressen van Begrippenwijzer, chatbot en contactpagina zijn voor fase 2. Is een adres leeg, dan toont de app de knop niet.
+5. Controleer in Brevo dat de contactkenmerken bestaan: `VOORNAAM` (tekst), `RISICO_SCORE` (getal), `RISICO_NIVEAU` (tekst), `AANDACHTSPUNTEN` (getal) en `BRON` (tekst). Ze zijn gelijk aan die van de oude check: `RISICO_NIVEAU` is "Laag risico", "Verhoogd risico" of "Hoog risico", en `BRON` is `conformiteitscheck` (instelbaar via `bron` in `index.html`). Neem de API-sleutel en het lijst-ID over uit het oude `conformiteitscheck.php`.
+6. Open `index.html` en vul zo nodig het blok `SETTINGS` bovenin in: `ga4Id` en `metaPixelId` voor het meten op de checkschermen, en `privacyUrl` voor de link naar je privacybeleid bij de aanmelding (standaard `/privacy`, zoals in de oude check). De adressen van Begrippenwijzer, chatbot en contactpagina zijn voor fase 2. Is een adres leeg, dan toont de app de knop niet.
 7. Ga naar `https://jouwdomein.nl/koopdossier/?check` en doorloop de testlijst hieronder.
 
-**Het oude adres van de check doorverwijzen.** Zet bovenaan het oude `conformiteitscheck.php` (vóór alle andere uitvoer):
+**Het oude adres van de check doorverwijzen.** De originele check staat ter referentie in `bron/conformiteitscheck.php`. Vervang op de server de inhoud van het oude `conformiteitscheck.php` door alleen deze regel:
 
 ```php
 <?php header('Location: /koopdossier/?check', true, 301); exit;
@@ -58,7 +58,7 @@ Belangrijkste onderdelen:
 
 | Onderdeel | Wat het doet |
 | --- | --- |
-| `check.levels` | De drempels (tot en met 15 laag, tot en met 40 verhoogd, daarboven hoog), het label en de oordeeltekst. |
+| `check.levels` | De drempels (tot en met 15 laag, tot en met 40 verhoogd, daarboven hoog), het label, de oordeelkop (`title`) en de oordeeltekst (`text`). |
 | `check.questions` | De 15 checkvragen: `weight` (samen 100), `text`, `help`, de gekoppelde `documents` en de `flag` die bij "nee" alvast wordt aangevinkt. |
 | `check.profile` | De profielvragen. Elke antwoordoptie heeft `flags`. Die vlaggen bepalen welke documenten gelden. `"multiple": true` maakt meer antwoorden mogelijk; `"exclusive": true` is een hint voor opties als "geen" en "weet ik niet". |
 | `check.profileFlags` | Leesbare uitleg per vlag, bijvoorbeeld bij "extra belangrijk, omdat erfgenamen verkopen". |

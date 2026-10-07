@@ -71,7 +71,8 @@ $niveau = (string) ($in['RISICO_NIVEAU'] ?? '');
 $punten = filter_var($in['AANDACHTSPUNTEN'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 100]]);
 $bron = (string) ($in['BRON'] ?? '');
 
-if ($score === false || !in_array($niveau, ['laag', 'verhoogd', 'hoog'], true) || $punten === false || !preg_match('/^[a-z0-9-]{1,40}$/', $bron)) {
+// RISICO_NIVEAU is de tekst zoals in de oude check: 'Laag risico', 'Verhoogd risico' of 'Hoog risico'.
+if ($score === false || !in_array($niveau, ['Laag risico', 'Verhoogd risico', 'Hoog risico'], true) || $punten === false || !preg_match('/^[a-z0-9-]{1,40}$/', $bron)) {
     reply(422, ['ok' => false, 'error' => 'velden']);
 }
 
