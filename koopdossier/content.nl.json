@@ -5,129 +5,176 @@
     "title": "Is dit huis wel legaal?",
     "intro": "",
     "levels": [
-      { "id": "laag", "max": 15, "label": "Laag risico", "text": "" },
-      { "id": "verhoogd", "max": 40, "label": "Verhoogd risico", "text": "" },
-      { "id": "hoog", "max": 100, "label": "Hoog risico", "text": "" }
+      {
+        "id": "laag",
+        "max": 15,
+        "label": "Laag risico",
+        "text": ""
+      },
+      {
+        "id": "verhoogd",
+        "max": 40,
+        "label": "Verhoogd risico",
+        "text": ""
+      },
+      {
+        "id": "hoog",
+        "max": 100,
+        "label": "Hoog risico",
+        "text": ""
+      }
     ],
     "questions": [
       {
         "id": "catastale",
         "weight": 10,
         "text": "Klopt de kadastrale plattegrond (*planimetria catastale*) met de werkelijke indeling van het huis?",
-        "help": "",
-        "documents": ["planimetria-catastale"],
+        "help": "De verklaring dat de feitelijke indeling overeenstemt met de gedeponeerde plattegrond is bij de akte verplicht op straffe van nietigheid, dus een afwijking moet hoe dan ook vóór het *rogito*, de notariële leveringsakte, zijn rechtgezet.",
+        "documents": [
+          "planimetria-catastale"
+        ],
         "flag": "planimetria-wijkt-af"
       },
       {
         "id": "urbanistica",
         "weight": 12,
         "text": "Is er voor elke verbouwing een vergunning?",
-        "help": "",
-        "documents": ["titoli-edilizi"],
+        "help": "De notaris controleert dit niet. Hij verifieert of de vereiste verklaringen in de akte staan, niet of de feitelijke situatie met de vergunningen overeenkomt. Daardoor kunnen onregelmatigheden gewoon meeverkopen.",
+        "documents": [
+          "titoli-edilizi"
+        ],
         "flag": "verbouwing-zonder-vergunning"
       },
       {
         "id": "agibilita",
         "weight": 7,
         "text": "Is er een geldig bewoonbaarheidscertificaat (*agibilità*)?",
-        "help": "",
-        "documents": ["agibilita"],
+        "help": "Het document waarin de gemeente bevestigt dat een gebouw veilig, gezond en geschikt voor bewoning is. Voor gebouwen die na 1934 zijn voltooid, is een *agibilità* in beginsel verplicht. Voor oudere panden geldt die verplichting niet.",
+        "documents": [
+          "agibilita"
+        ],
         "flag": "agibilita-ontbreekt"
       },
       {
         "id": "eigendom",
         "weight": 7,
         "text": "Kloppen het kadastraal uittreksel (*visura*) en de akte met de gegevens van de verkoper?",
-        "help": "",
-        "documents": ["atto-provenienza", "visura-catastale"],
+        "help": "De tenaamstelling geeft een eerste indicatie of de verkoper werkelijk eigenaar is, al is het kadaster geen eigendomsbewijs.",
+        "documents": [
+          "atto-provenienza",
+          "visura-catastale"
+        ],
         "flag": "visura-naam-wijkt-af"
       },
       {
         "id": "ipoteca",
         "weight": 10,
         "text": "Is de woning vrij van hypotheek, beslag of schulden?",
-        "help": "",
-        "documents": ["ispezione-ipotecaria-compromesso", "ispezione-ipotecaria-rogito"],
+        "help": "Een hypotheek volgt het pand: de verkoper mag verkopen, maar het recht blijft erop rusten tenzij het bij de overdracht wordt afgelost en doorgehaald.",
+        "documents": [
+          "ispezione-ipotecaria-compromesso",
+          "ispezione-ipotecaria-rogito"
+        ],
         "flag": "hypotheek-of-beslag"
       },
       {
         "id": "erfgenamen",
         "weight": 7,
         "text": "Gaan alle eigenaren en erfgenamen akkoord met de verkoop?",
-        "help": "",
-        "documents": ["identiteit-verkoper"],
+        "help": "Erfenis of verdeling van een nalatenschap vraagt om drie controles. Ten eerste of alle erfgenamen hebben meegewerkt en of de nalatenschap correct is afgewikkeld, met een ingediende *dichiarazione di successione*.",
+        "documents": [
+          "identiteit-verkoper"
+        ],
         "flag": "eigenaar-tekent-niet"
       },
       {
         "id": "meters",
         "weight": 6,
         "text": "Kloppen de vierkante meters met het kadaster?",
-        "help": "",
-        "documents": ["visura-catastale"],
+        "help": "Laat bij de oppervlakte vastleggen om welke maat het gaat, en of de prijs voor het geheel geldt of per vierkante meter.",
+        "documents": [
+          "visura-catastale"
+        ],
         "flag": "meters-wijken-af"
       },
       {
         "id": "aanbouw",
         "weight": 9,
         "text": "Zijn bijgebouwen, veranda en zwembad geregistreerd?",
-        "help": "",
-        "documents": ["titoli-edilizi"],
+        "help": "Een pand kan dus perfect ingeschreven staan in het kadaster, een geldige *agibilità* hebben, en tegelijk een bouwovertreding bevatten.",
+        "documents": [
+          "titoli-edilizi"
+        ],
         "flag": "aanbouw-zonder-vergunning"
       },
       {
         "id": "bestemming",
         "weight": 7,
         "text": "Klopt het gebruik van de woning met de kadastrale bestemming?",
-        "help": "",
-        "documents": ["visura-catastale"],
+        "help": "Een veelvoorkomende afwijking zie je niet aan de buitenkant: ruimtes die als slaapkamer of woonkamer worden aangeboden, maar in de vergunning staan als kelder, berging of zolder.",
+        "documents": [
+          "visura-catastale"
+        ],
         "flag": "categorie-wijkt-af"
       },
       {
         "id": "impianti",
         "weight": 4,
         "text": "Zijn er verklaringen van conformiteit voor elektra en gas?",
-        "help": "",
-        "documents": ["impianti"],
+        "help": "Is de conformiteitsverklaring van de elektra of het gas er niet, dan moet die installatie eerst worden gekeurd en vaak ook aangepast.",
+        "documents": [
+          "impianti"
+        ],
         "flag": "impianti-ontbreken"
       },
       {
         "id": "ape",
         "weight": 2,
         "text": "Is er een geldig energiecertificaat (*APE*)?",
-        "help": "",
-        "documents": ["ape"],
+        "help": "Het *attestato di prestazione energetica*, het *APE*, moet bij de akte worden gevoegd, en in de akte moet staan dat je het hebt ontvangen.",
+        "documents": [
+          "ape"
+        ],
         "flag": "ape-ontbreekt"
       },
       {
         "id": "fognatura",
         "weight": 4,
         "text": "Is de afvoer of septic tank in orde en gemeld?",
-        "help": "",
-        "documents": ["riolering-water"],
+        "help": "De afvoer en, in het buitengebied, de septic tank. Werkt alles naar behoren en voldoet het aan de huidige normen?",
+        "documents": [
+          "riolering-water"
+        ],
         "flag": "scarico-zonder-vergunning"
       },
       {
         "id": "servitu",
         "weight": 5,
         "text": "Is de toegangsweg eigen grond, of is het recht van overpad (*servitù*) vastgelegd?",
-        "help": "",
-        "documents": ["servitu"],
+        "help": "Erfdienstbaarheden die door gebruik zijn ontstaan, staan niet altijd in de registers en zijn alleen ter plaatse te herkennen.",
+        "documents": [
+          "servitu"
+        ],
         "flag": "toegang-niet-vastgelegd"
       },
       {
         "id": "vincoli",
         "weight": 4,
         "text": "Zijn de beperkingen (*vincoli*) op het pand bekend?",
-        "help": "",
-        "documents": ["vincoli"],
+        "help": "Als het pand in een beschermd natuurgebied of UNESCO-werelderfgoedzone staat, of als de bodem archeologisch interessante objecten bevat, of als je huis een monument is, dan zullen bepaalde verbouwingen of bouwplannen mogelijk niet toegestaan zijn.",
+        "documents": [
+          "vincoli"
+        ],
         "flag": "vincoli-onbekend"
       },
       {
         "id": "geometra",
         "weight": 6,
         "text": "Laat je vóór het bod een onafhankelijke controle doen door een eigen *geometra* (bouwkundig adviseur)?",
-        "help": "",
-        "documents": ["relazione-tecnica"],
+        "help": "Plan de keuring vóór je bod als het even kan. Dan onderhandel je met het rapport in de hand, in plaats van achteraf te moeten proberen de prijs nog aangepast te krijgen.",
+        "documents": [
+          "relazione-tecnica"
+        ],
         "flag": "geen-eigen-controle"
       }
     ],
@@ -137,11 +184,33 @@
         "text": "In welke fase zit je?",
         "help": "",
         "options": [
-          { "id": "orienteren", "label": "Ik oriënteer me nog", "flags": [] },
-          { "id": "bezichtigen", "label": "Ik bezichtig woningen", "flags": [] },
-          { "id": "bod", "label": "Ik wil een bod doen of heb het al gedaan", "flags": [] },
-          { "id": "compromesso-getekend", "label": "Ik heb het *compromesso* (voorlopig koopcontract) al getekend", "flags": ["compromesso-getekend"] },
-          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+          {
+            "id": "orienteren",
+            "label": "Ik oriënteer me nog",
+            "flags": []
+          },
+          {
+            "id": "bezichtigen",
+            "label": "Ik bezichtig woningen",
+            "flags": []
+          },
+          {
+            "id": "bod",
+            "label": "Ik wil een bod doen of heb het al gedaan",
+            "flags": []
+          },
+          {
+            "id": "compromesso-getekend",
+            "label": "Ik heb het *compromesso* (voorlopig koopcontract) al getekend",
+            "flags": [
+              "compromesso-getekend"
+            ]
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": []
+          }
         ]
       },
       {
@@ -149,11 +218,35 @@
         "text": "Wat voor woning is het?",
         "help": "",
         "options": [
-          { "id": "appartement", "label": "Appartement in een gebouw met meerdere woningen", "flags": ["condominio"] },
-          { "id": "geschakeld", "label": "Rijtjeshuis of geschakelde woning", "flags": [] },
-          { "id": "vrijstaand", "label": "Vrijstaand huis of villa", "flags": [] },
-          { "id": "rustico", "label": "Boerderij, *rustico* of *casale* (landelijk huis)", "flags": [] },
-          { "id": "weet", "label": "Weet ik niet", "flags": ["condominio"] }
+          {
+            "id": "appartement",
+            "label": "Appartement in een gebouw met meerdere woningen",
+            "flags": [
+              "condominio"
+            ]
+          },
+          {
+            "id": "geschakeld",
+            "label": "Rijtjeshuis of geschakelde woning",
+            "flags": []
+          },
+          {
+            "id": "vrijstaand",
+            "label": "Vrijstaand huis of villa",
+            "flags": []
+          },
+          {
+            "id": "rustico",
+            "label": "Boerderij, *rustico* of *casale* (landelijk huis)",
+            "flags": []
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": [
+              "condominio"
+            ]
+          }
         ]
       },
       {
@@ -161,9 +254,23 @@
         "text": "Wanneer is het pand gebouwd?",
         "help": "",
         "options": [
-          { "id": "voor-1967", "label": "Vóór 1 september 1967", "flags": ["voor1967"] },
-          { "id": "na-1967", "label": "Op of na 1 september 1967", "flags": [] },
-          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+          {
+            "id": "voor-1967",
+            "label": "Vóór 1 september 1967",
+            "flags": [
+              "voor1967"
+            ]
+          },
+          {
+            "id": "na-1967",
+            "label": "Op of na 1 september 1967",
+            "flags": []
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": []
+          }
         ]
       },
       {
@@ -171,9 +278,25 @@
         "text": "Is het pand na de bouw verbouwd of uitgebreid?",
         "help": "",
         "options": [
-          { "id": "ja", "label": "Ja", "flags": ["verbouwd"] },
-          { "id": "nee", "label": "Nee", "flags": [] },
-          { "id": "weet", "label": "Weet ik niet", "flags": ["verbouwd"] }
+          {
+            "id": "ja",
+            "label": "Ja",
+            "flags": [
+              "verbouwd"
+            ]
+          },
+          {
+            "id": "nee",
+            "label": "Nee",
+            "flags": []
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": [
+              "verbouwd"
+            ]
+          }
         ]
       },
       {
@@ -182,11 +305,42 @@
         "help": "",
         "multiple": true,
         "options": [
-          { "id": "landschap", "label": "Beschermd landschap", "flags": ["vincolo"] },
-          { "id": "monument", "label": "Het pand is een beschermd monument", "flags": ["vincolo", "monument"] },
-          { "id": "usi-civici", "label": "Grond met gebruiksrechten van de gemeenschap (*usi civici*)", "flags": ["vincolo"] },
-          { "id": "geen", "label": "Nee, geen beschermd gebied", "flags": [], "exclusive": true },
-          { "id": "weet", "label": "Weet ik niet", "flags": ["vincolo"], "exclusive": true }
+          {
+            "id": "landschap",
+            "label": "Beschermd landschap",
+            "flags": [
+              "vincolo"
+            ]
+          },
+          {
+            "id": "monument",
+            "label": "Het pand is een beschermd monument",
+            "flags": [
+              "vincolo",
+              "monument"
+            ]
+          },
+          {
+            "id": "usi-civici",
+            "label": "Grond met gebruiksrechten van de gemeenschap (*usi civici*)",
+            "flags": [
+              "vincolo"
+            ]
+          },
+          {
+            "id": "geen",
+            "label": "Nee, geen beschermd gebied",
+            "flags": [],
+            "exclusive": true
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": [
+              "vincolo"
+            ],
+            "exclusive": true
+          }
         ]
       },
       {
@@ -194,11 +348,37 @@
         "text": "Wie verkoopt de woning?",
         "help": "",
         "options": [
-          { "id": "particulier", "label": "Eén particuliere eigenaar", "flags": [] },
-          { "id": "meerdere-eigenaren", "label": "Meerdere eigenaren, bijvoorbeeld een echtpaar", "flags": ["mede-eigenaren"] },
-          { "id": "erfgenamen", "label": "Erfgenamen", "flags": ["erfgenamen"] },
-          { "id": "vennootschap", "label": "Een bedrijf of vennootschap", "flags": ["vennootschap"] },
-          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+          {
+            "id": "particulier",
+            "label": "Eén particuliere eigenaar",
+            "flags": []
+          },
+          {
+            "id": "meerdere-eigenaren",
+            "label": "Meerdere eigenaren, bijvoorbeeld een echtpaar",
+            "flags": [
+              "mede-eigenaren"
+            ]
+          },
+          {
+            "id": "erfgenamen",
+            "label": "Erfgenamen",
+            "flags": [
+              "erfgenamen"
+            ]
+          },
+          {
+            "id": "vennootschap",
+            "label": "Een bedrijf of vennootschap",
+            "flags": [
+              "vennootschap"
+            ]
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": []
+          }
         ]
       },
       {
@@ -206,10 +386,33 @@
         "text": "Hoort er landbouwgrond bij de woning?",
         "help": "",
         "options": [
-          { "id": "geen", "label": "Nee, alleen een tuin of geen grond", "flags": [] },
-          { "id": "niet-bewerkt", "label": "Ja, maar die wordt niet bewerkt of verpacht", "flags": ["grond"] },
-          { "id": "bewerkt", "label": "Ja, en die wordt bewerkt of verpacht", "flags": ["grond", "grond-bewerkt"] },
-          { "id": "weet", "label": "Weet ik niet", "flags": ["grond"] }
+          {
+            "id": "geen",
+            "label": "Nee, alleen een tuin of geen grond",
+            "flags": []
+          },
+          {
+            "id": "niet-bewerkt",
+            "label": "Ja, maar die wordt niet bewerkt of verpacht",
+            "flags": [
+              "grond"
+            ]
+          },
+          {
+            "id": "bewerkt",
+            "label": "Ja, en die wordt bewerkt of verpacht",
+            "flags": [
+              "grond",
+              "grond-bewerkt"
+            ]
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": [
+              "grond"
+            ]
+          }
         ]
       },
       {
@@ -217,11 +420,41 @@
         "text": "Koop je op afstand, en kun je de akte in het Italiaans volgen?",
         "help": "",
         "options": [
-          { "id": "aanwezig-italiaans", "label": "Ik ben er zelf bij en volg de akte in het Italiaans", "flags": [] },
-          { "id": "aanwezig-geen-italiaans", "label": "Ik ben er zelf bij, maar volg de akte niet in het Italiaans", "flags": ["taal"] },
-          { "id": "afstand-italiaans", "label": "Ik koop op afstand en volg de akte in het Italiaans", "flags": ["afstand"] },
-          { "id": "afstand-geen-italiaans", "label": "Ik koop op afstand en volg de akte niet in het Italiaans", "flags": ["afstand", "taal"] },
-          { "id": "weet", "label": "Weet ik niet", "flags": ["afstand", "taal"] }
+          {
+            "id": "aanwezig-italiaans",
+            "label": "Ik ben er zelf bij en volg de akte in het Italiaans",
+            "flags": []
+          },
+          {
+            "id": "aanwezig-geen-italiaans",
+            "label": "Ik ben er zelf bij, maar volg de akte niet in het Italiaans",
+            "flags": [
+              "taal"
+            ]
+          },
+          {
+            "id": "afstand-italiaans",
+            "label": "Ik koop op afstand en volg de akte in het Italiaans",
+            "flags": [
+              "afstand"
+            ]
+          },
+          {
+            "id": "afstand-geen-italiaans",
+            "label": "Ik koop op afstand en volg de akte niet in het Italiaans",
+            "flags": [
+              "afstand",
+              "taal"
+            ]
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": [
+              "afstand",
+              "taal"
+            ]
+          }
         ]
       },
       {
@@ -229,9 +462,23 @@
         "text": "Wordt het je hoofdverblijf (*prima casa*) of een tweede huis?",
         "help": "",
         "options": [
-          { "id": "prima-casa", "label": "Hoofdverblijf (*prima casa*)", "flags": ["prima-casa"] },
-          { "id": "tweede-huis", "label": "Tweede huis", "flags": [] },
-          { "id": "weet", "label": "Weet ik niet", "flags": [] }
+          {
+            "id": "prima-casa",
+            "label": "Hoofdverblijf (*prima casa*)",
+            "flags": [
+              "prima-casa"
+            ]
+          },
+          {
+            "id": "tweede-huis",
+            "label": "Tweede huis",
+            "flags": []
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": []
+          }
         ]
       },
       {
@@ -239,9 +486,25 @@
         "text": "Hoe betaal je de woning?",
         "help": "",
         "options": [
-          { "id": "eigen-geld", "label": "Met eigen geld", "flags": [] },
-          { "id": "hypotheek", "label": "Met een hypotheek", "flags": ["hypotheek"] },
-          { "id": "weet", "label": "Weet ik niet", "flags": ["hypotheek"] }
+          {
+            "id": "eigen-geld",
+            "label": "Met eigen geld",
+            "flags": []
+          },
+          {
+            "id": "hypotheek",
+            "label": "Met een hypotheek",
+            "flags": [
+              "hypotheek"
+            ]
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": [
+              "hypotheek"
+            ]
+          }
         ]
       },
       {
@@ -249,30 +512,100 @@
         "text": "Is de woning verhuurd of bij iemand in gebruik?",
         "help": "",
         "options": [
-          { "id": "nee", "label": "Nee, de woning is vrij", "flags": [] },
-          { "id": "verhuurd", "label": "Ja, verhuurd", "flags": ["verhuurd"] },
-          { "id": "in-gebruik", "label": "Ja, iemand gebruikt de woning zonder huurcontract", "flags": ["verhuurd"] },
-          { "id": "weet", "label": "Weet ik niet", "flags": ["verhuurd"] }
+          {
+            "id": "nee",
+            "label": "Nee, de woning is vrij",
+            "flags": []
+          },
+          {
+            "id": "verhuurd",
+            "label": "Ja, verhuurd",
+            "flags": [
+              "verhuurd"
+            ]
+          },
+          {
+            "id": "in-gebruik",
+            "label": "Ja, iemand gebruikt de woning zonder huurcontract",
+            "flags": [
+              "verhuurd"
+            ]
+          },
+          {
+            "id": "weet",
+            "label": "Weet ik niet",
+            "flags": [
+              "verhuurd"
+            ]
+          }
         ]
       }
     ],
     "profileFlags": [
-      { "id": "compromesso-getekend", "label": "je hebt het *compromesso* al getekend" },
-      { "id": "condominio", "label": "de woning hoort bij een *condominio* (VvE)" },
-      { "id": "voor1967", "label": "het pand is gebouwd vóór 1 september 1967" },
-      { "id": "verbouwd", "label": "het pand is verbouwd of uitgebreid" },
-      { "id": "vincolo", "label": "het pand ligt in een beschermd gebied" },
-      { "id": "monument", "label": "het pand is een beschermd monument" },
-      { "id": "mede-eigenaren", "label": "er zijn meerdere eigenaren" },
-      { "id": "erfgenamen", "label": "erfgenamen verkopen" },
-      { "id": "vennootschap", "label": "een vennootschap verkoopt" },
-      { "id": "grond", "label": "er hoort landbouwgrond bij" },
-      { "id": "grond-bewerkt", "label": "de landbouwgrond wordt bewerkt of verpacht" },
-      { "id": "afstand", "label": "je koopt op afstand" },
-      { "id": "taal", "label": "je volgt de akte niet in het Italiaans" },
-      { "id": "prima-casa", "label": "het wordt je hoofdverblijf (*prima casa*)" },
-      { "id": "hypotheek", "label": "je financiert met een hypotheek" },
-      { "id": "verhuurd", "label": "de woning is verhuurd of in gebruik" }
+      {
+        "id": "compromesso-getekend",
+        "label": "je hebt het *compromesso* al getekend"
+      },
+      {
+        "id": "condominio",
+        "label": "de woning hoort bij een *condominio* (VvE)"
+      },
+      {
+        "id": "voor1967",
+        "label": "het pand is gebouwd vóór 1 september 1967"
+      },
+      {
+        "id": "verbouwd",
+        "label": "het pand is verbouwd of uitgebreid"
+      },
+      {
+        "id": "vincolo",
+        "label": "het pand ligt in een beschermd gebied"
+      },
+      {
+        "id": "monument",
+        "label": "het pand is een beschermd monument"
+      },
+      {
+        "id": "mede-eigenaren",
+        "label": "er zijn meerdere eigenaren"
+      },
+      {
+        "id": "erfgenamen",
+        "label": "erfgenamen verkopen"
+      },
+      {
+        "id": "vennootschap",
+        "label": "een vennootschap verkoopt"
+      },
+      {
+        "id": "grond",
+        "label": "er hoort landbouwgrond bij"
+      },
+      {
+        "id": "grond-bewerkt",
+        "label": "de landbouwgrond wordt bewerkt of verpacht"
+      },
+      {
+        "id": "afstand",
+        "label": "je koopt op afstand"
+      },
+      {
+        "id": "taal",
+        "label": "je volgt de akte niet in het Italiaans"
+      },
+      {
+        "id": "prima-casa",
+        "label": "het wordt je hoofdverblijf (*prima casa*)"
+      },
+      {
+        "id": "hypotheek",
+        "label": "je financiert met een hypotheek"
+      },
+      {
+        "id": "verhuurd",
+        "label": "de woning is verhuurd of in gebruik"
+      }
     ],
     "riskTexts": [],
     "actions": []
@@ -287,13 +620,134 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "De akte waarmee de huidige eigenaar het pand heeft verkregen, de *atto di provenienza,* ook *titolo di proprietà* genoemd. Eruit blijkt op welke datum en op welke manier hij eigenaar werd: door koop, door schenking, een *donazione*, door erfenis, of door verkrijgende verjaring, *usucapione*. Naast de akte bestaat de *nota di trascrizione*, het inschrijvingsformulier met de datum, de notaris, de partijen en het perceel. Dat is een samenvatting en geen akte, maar wel een officieel document.",
+      "why": "Zonder dit stuk kan de verkoop niet doorgaan. Je hebt het bovendien nodig bij een hypotheekaanvraag, omdat banken de herkomst van het eigendom meewegen, en bij het aanvragen van het *prima casa*-tarief. De wijze van verkrijging bepaalt daarnaast welke vervolgcontroles nodig zijn: bij een *donazione* gelden andere aandachtspunten dan bij een erfenis. De notaris reconstrueert de eigendomsketen daarna twintig jaar terug, *il ventennio*, en controleert of die ononderbroken is, de *continuità delle trascrizioni*. Het is daarom het eerste stuk dat je opvraagt.",
+      "who": "De verkoper. Als kandidaat-koper kun je de gewaarmerkte kopie, de *copia conforme* of *copia autentica*, niet zelf krijgen: die gaat alleen naar de eigenaar, naar erfgenamen die hun band kunnen aantonen, naar de notaris die de transactie doet, of naar iemand met een schriftelijke volmacht. Voor de makelaar geldt hetzelfde. Vraag dus om de akte zelf of om een volmacht. Wat je wél zelf kunt opvragen bij de *Conservatoria dei Registri Immobiliari* is de *nota di trascrizione*.",
+      "costTime": "Bij de *Conservatoria* kost een kopie enkele tientjes. Via de notaris ligt het hoger, zeker als je om extra ondersteuning vraagt. Reken op enkele dagen voor recente akten en enkele weken voor oudere. Akten van vóór 1974 zijn doorgaans niet gedigitaliseerd en moeten aan de balie worden opgevraagd. Begin er dus vroeg mee en niet pas als de notaris ernaar vraagt.",
+      "contract": "Dat de verkoper vóór de akte een gewaarmerkte kopie van de eigendomstitel levert, en bij een vererfd pand dat de aanvaarding is ingeschreven en de tenaamstelling is bijgewerkt, op zijn kosten.",
       "requestIt": "copia dell'atto di provenienza",
       "requestNl": "een kopie van de eigendomstitel (*atto di provenienza*)",
       "glossary": [],
       "flags": [
-        { "id": "verkregen-via-schenking", "text": "De verkoper heeft de woning verkregen via een schenking", "severity": "bespreken", "clauses": [] },
-        { "id": "erfenis-niet-alle-erfgenamen", "text": "De woning komt uit een erfenis en niet alle erfgenamen tekenen mee", "severity": "niet-tekenen", "clauses": [] }
+        {
+          "id": "verkregen-via-schenking",
+          "text": "De verkoper heeft de woning verkregen via een schenking (*donazione*)",
+          "severity": "bespreken",
+          "clauses": [
+            "eigendomstitel"
+          ]
+        },
+        {
+          "id": "schenking-vordering-ingeschreven",
+          "text": "Er is een vordering tot inkorting of een verzet tegen de schenking ingeschreven (*domanda di riduzione*, *opposizione alla donazione*)",
+          "severity": "oplossen",
+          "clauses": [
+            "eigendomstitel"
+          ]
+        },
+        {
+          "id": "erfenis-niet-alle-erfgenamen",
+          "text": "De woning komt uit een erfenis en niet alle erfgenamen werken mee",
+          "severity": "niet-tekenen",
+          "clauses": [
+            "eigendomstitel"
+          ]
+        },
+        {
+          "id": "aanvaarding-niet-ingeschreven",
+          "text": "De aanvaarding van de nalatenschap (*accettazione dell'eredità*) is niet ingeschreven",
+          "severity": "oplossen",
+          "clauses": [
+            "eigendomstitel"
+          ]
+        },
+        {
+          "id": "voltura-niet-bijgewerkt",
+          "text": "Het pand staat in het kadaster nog op naam van een overledene (geen *voltura catastale*)",
+          "severity": "oplossen",
+          "clauses": [
+            "eigendomstitel"
+          ]
+        },
+        {
+          "id": "meerdere-successies",
+          "text": "Er is meer dan één nalatenschap niet afgewikkeld",
+          "severity": "oplossen",
+          "clauses": [
+            "eigendomstitel"
+          ]
+        },
+        {
+          "id": "successie-onvolledig",
+          "text": "In de successieaangifte is een perceel of aandeel vergeten, zoals de grond om het huis, de oprit of de garage",
+          "severity": "oplossen",
+          "clauses": [
+            "eigendomstitel",
+            "omschrijving-object"
+          ]
+        },
+        {
+          "id": "geen-copia-conforme",
+          "text": "De verkoper levert alleen een scan van de akte, geen gewaarmerkte kopie (*copia conforme*)",
+          "severity": "bespreken",
+          "clauses": [
+            "eigendomstitel"
+          ]
+        }
+      ],
+      "source": "gids 4.2.1"
+    },
+    {
+      "id": "usucapione",
+      "nameIt": "Usucapione",
+      "nameNl": "Gebruik door derden (verkrijgende verjaring)",
+      "phase": "bod",
+      "supplier": "Je eigen *geometra* ter plaatse; de notaris controleert de registers",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "source": "gids 4.2.4",
+      "what": "Het rechtsbeginsel dat iemand eigenaar kan worden van grond of gebouwen door langdurig, onafgebroken bezit, ook zonder notariële overdracht. De hoofdregel is twintig jaar, mits het bezit openlijk, exclusief en onafgebroken is en de bezitter zich als eigenaar heeft gedragen. Bij *buona fede*, goede trouw, en een ogenschijnlijk geldige titel kan de termijn tien jaar zijn.",
+      "why": "*Usucapione* ontstaat niet vanzelf, want een rechter moet het vaststellen. Maar langdurig gebruik door derden is wel een reëel risico voor jou. Denk aan een buurman die al tientallen jaren een stuk grond gebruikt, aan een schuur, muur of hek dat op jouw grond staat, of aan een oprit of tuin die structureel door iemand anders wordt gebruikt zonder dat daar ooit bezwaar tegen is gemaakt. Dit speelt vooral bij oudere panden, landelijke percelen en onduidelijke erfgrenzen.",
+      "who": "Dit is geen document dat je opvraagt maar een beoordeling ter plaatse. De *geometra* vergelijkt het feitelijke gebruik met de kadastrale en juridische situatie; de notaris kijkt of er een vonnis of een vaststellingsovereenkomst is ingeschreven. Een claim moet eerst langs de verplichte *mediation*, de *mediazione obbligatoria*, en een daar bereikt akkoord werkt pas tegen een latere koper nadat het is ingeschreven, na de *trascrizione*.",
+      "costTime": "Deze beoordeling heeft geen eigen tarief. Ze loopt mee in de opname van de *geometra* bij het tweede bezoek: hij legt de kadastrale kaart naast wat hij ter plaatse ziet en meld je waar het gebruik afwijkt van de tekening. Daar zijn geen extra kosten aan verbonden. Wil je de grenzen echt laten vaststellen, dan is dat een aparte opdracht, een *riconfinamento*. Reken op enkele honderden euro's voor een topografische opname met terreinbezoek, en op meer bij een groot of onregelmatig perceel, bij hellend terrein of wanneer de oude grenspunten zijn verdwenen en met precisie-GPS moeten worden teruggezet. Bij een *casale* met enkele hectaren land is een orde van grootte van € 500 tot € 1500 realistisch.",
+      "contract": "Een verklaring van de verkoper dat geen derde een deel van het perceel of van de opstallen in bezit heeft en dat er geen claim loopt.",
+      "requestIt": "dichiarazione che nessun terzo possiede porzioni del terreno o dei fabbricati e che non vi sono contestazioni in corso",
+      "requestNl": "een verklaring dat geen derde een deel van het perceel of van de opstallen in bezit heeft en dat er geen claim loopt",
+      "glossary": [],
+      "flags": [
+        {
+          "id": "buurman-gebruikt-grond",
+          "text": "Een buurman gebruikt al jaren een stuk grond van het perceel",
+          "severity": "oplossen",
+          "clauses": [
+            "geen-bezit-derden"
+          ]
+        },
+        {
+          "id": "bouwwerk-van-ander",
+          "text": "Er staat een schuur, muur of hek van een ander op het perceel",
+          "severity": "bespreken",
+          "clauses": [
+            "geen-bezit-derden"
+          ]
+        },
+        {
+          "id": "oprit-door-anderen",
+          "text": "Een oprit of tuin wordt structureel door iemand anders gebruikt",
+          "severity": "bespreken",
+          "clauses": [
+            "geen-bezit-derden"
+          ]
+        },
+        {
+          "id": "grensakkoord-niet-ingeschreven",
+          "text": "Er is ooit een akkoord over de grenzen gesloten dat niet is ingeschreven",
+          "severity": "oplossen",
+          "clauses": [
+            "geen-bezit-derden"
+          ]
+        }
       ]
     },
     {
@@ -303,17 +757,70 @@
       "phase": "bod",
       "supplier": "Makelaar",
       "appliesWhen": [],
-      "criticalWhen": ["erfgenamen"],
+      "criticalWhen": [
+        "erfgenamen"
+      ],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Het kadaster registreert de fysieke eigenschappen en de fiscale waarde van het pand. De *visura catastale* geeft de kavelgegevens, de oppervlakte, de categorie, de bestemming, de *rendita catastale* en de naam van de geregistreerde eigenaar. Er zijn twee kadasters: gebouwen staan in het *catasto fabbricati*, met een *subalterno* per eenheid, en grond in het *catasto terreni*, met een *reddito dominicale* en een *reddito agrario* in plaats van een *rendita*.",
+      "why": "De *rendita* bepaalt de hoogte van je jaarlijkse belastingen, en bij grond doet het *reddito dominicale* dat. De tenaamstelling geeft een eerste indicatie of de verkoper werkelijk eigenaar is, al is het kadaster geen eigendomsbewijs. Let daarbij op de aantekening bij het *classamento*: staat de *rendita* er nog als *proposta* en niet als *validata* of *rettificata*, dan kan de Agenzia haar later alsnog hoger vaststellen, met terugwerkende kracht. Vraag de *visura* niet alleen op voor het huis, maar voor elk kadastraal nummer dat je meekoopt of nodig hebt om bij je voordeur en garage te komen.",
+      "who": "De *visura* kan iedereen opvragen die de gemeente, het *foglio* en de *particella* kent. Als buitenlander heb je meestal geen actief profiel bij *Fisconline*, de digitale omgeving van de *Agenzia delle Entrate*, dus loopt de aanvraag in de praktijk via de notaris of de *geometra*. Gaat het alleen om een tikfout of een verkeerde naam, dan volstaat een *istanza di rettifica*; is de eigendom overgegaan, dan is de *voltura* het juiste instrument.",
+      "costTime": "Een *visura* kost een klein bedrag.",
+      "contract": "Laat elk kadastraal nummer afzonderlijk opnemen, ook dat van de grond, de garage en de gemeenschappelijke delen, met bij elk het aandeel dat je verkrijgt. Laat bij de oppervlakte vastleggen om welke maat het gaat, en of de prijs voor het geheel geldt of per vierkante meter.",
       "requestIt": "visura catastale aggiornata",
       "requestNl": "een actueel kadastraal uittreksel (*visura catastale*)",
-      "glossary": ["visura-catastale"],
+      "glossary": [
+        "visura-catastale"
+      ],
       "flags": [
-        { "id": "visura-naam-wijkt-af", "text": "De naam op de *visura* is niet die van de verkoper", "severity": "oplossen", "clauses": [] },
-        { "id": "categorie-wijkt-af", "text": "De kadastrale categorie klopt niet met het werkelijke gebruik", "severity": "oplossen", "clauses": [] },
-        { "id": "meters-wijken-af", "text": "De vierkante meters kloppen niet met het kadaster", "severity": "bespreken", "clauses": [] }
-      ]
+        {
+          "id": "visura-naam-wijkt-af",
+          "text": "De naam op de *visura* is niet die van de verkoper",
+          "severity": "oplossen",
+          "clauses": [
+            "eigendomstitel",
+            "kadastrale-conformiteit"
+          ]
+        },
+        {
+          "id": "categorie-wijkt-af",
+          "text": "De kadastrale categorie klopt niet met het werkelijke gebruik",
+          "severity": "oplossen",
+          "clauses": [
+            "kadastrale-conformiteit"
+          ]
+        },
+        {
+          "id": "meters-wijken-af",
+          "text": "De vierkante meters kloppen niet met het kadaster",
+          "severity": "bespreken",
+          "clauses": [
+            "omschrijving-object"
+          ]
+        },
+        {
+          "id": "rendita-proposta",
+          "text": "De *rendita* staat nog als *proposta*, niet als *validata* of *rettificata*",
+          "severity": "bespreken",
+          "clauses": []
+        },
+        {
+          "id": "ruralita",
+          "text": "Bij een schuur, stal of hooiberg staat een aantekening van *ruralità*, of het gebouw staat in categorie D/10",
+          "severity": "bespreken",
+          "clauses": [
+            "geplande-ingreep"
+          ]
+        },
+        {
+          "id": "grond-niet-op-naam",
+          "text": "De grond, oprit of binnenplaats staat niet op naam van de verkoper, of zijn aandeel ontbreekt",
+          "severity": "oplossen",
+          "clauses": [
+            "omschrijving-object"
+          ]
+        }
+      ],
+      "source": "gids 4.2.2"
     },
     {
       "id": "planimetria-catastale",
@@ -324,13 +831,49 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "De *planimetria catastale* is de gedeponeerde plattegrond, meestal op schaal 1 op 200, met de indeling, de bijbehorende ruimtes en de *coerenze*, de grenzen met de aangrenzende eenheden. De perceelgrenzen staan op de *mappa catastale*.",
+      "why": "De verklaring dat de feitelijke indeling overeenstemt met de gedeponeerde plattegrond is bij de akte verplicht op straffe van nietigheid, dus een afwijking moet hoe dan ook vóór het *rogito*, de notariële leveringsakte, zijn rechtgezet. En bij een *mansarda* bepaalt de op de tekening vermelde binnenhoogte of de ruimte als woonruimte meetelt. En de kadastrale kaart is een fiscale kaart en geen grensvaststelling: de getekende lijn is geen juridisch bewijs van waar jouw eigendom ophoudt. Laat bij een perceel van enige omvang een *geometra* de grenzen ter plaatse verifiëren voordat je tekent, zoals ook beschreven in sectie 9.6.1.",
+      "who": "De *planimetria* is om privacyredenen beschermd: alleen de eigenaar, een mede-eigenaar, de wettelijk vertegenwoordiger van een eigenaresse-vennootschap en een schriftelijk gemachtigde derde mogen die inzien, waaronder uitdrukkelijk een *geometra*, advocaat, makelaar of erfgenaam. De praktische route is dus: vraag de verkoper om de *planimetria* of om een volmacht voor je *geometra*. Koop je via een makelaar, dan hoort hij je de kadastrale stukken vóór het voorcontract te verstrekken. Bijwerken doet uitsluitend een bevoegd technicus, via een *DOCFA* (zie sectie 9.2).",
+      "costTime": "Voor de eigenaar of zijn gemachtigde is inzage in de *planimetria* bij de *Agenzia delle Entrate* doorgaans gratis. Ga je via een commerciële tussenpersoon, dan betaal je een servicevergoeding. Wijkt de tekening af van de werkelijkheid, dan kost bijwerken driehonderd tot duizend euro aan honorarium voor opmeten, tekenen en het indienen van de *DOCFA* (zie sectie 9.2), plus ongeveer € 50 aan vaste kadastrale heffingen. Bij complexe wijzigingen ligt het honorarium hoger. Een *DOCFA* moet binnen 30 dagen worden ingediend; bij verzuim loopt de boete van € 1.032 tot € 8.264 per wooneenheid, al wordt die bij vrijwillige melding via *ravvedimento operoso* sterk verlaagd.",
+      "contract": "Dat de verkoper vóór de akte voor de kadastrale conformiteit zorgt en de kosten daarvan draagt.",
       "requestIt": "planimetria catastale aggiornata",
       "requestNl": "een actuele kadastrale plattegrond (*planimetria catastale*)",
       "glossary": [],
       "flags": [
-        { "id": "planimetria-wijkt-af", "text": "De plattegrond wijkt af van de werkelijke indeling", "severity": "oplossen", "clauses": [] }
-      ]
+        {
+          "id": "planimetria-wijkt-af",
+          "text": "De plattegrond wijkt af van de werkelijke indeling",
+          "severity": "oplossen",
+          "clauses": [
+            "kadastrale-conformiteit"
+          ]
+        },
+        {
+          "id": "planimetria-ontbreekt",
+          "text": "Er is geen *planimetria* ingeschreven",
+          "severity": "oplossen",
+          "clauses": [
+            "kadastrale-conformiteit"
+          ]
+        },
+        {
+          "id": "mansarda-hoogte",
+          "text": "Een *mansarda* of zolder wordt als woonruimte aangeboden; de binnenhoogte op de tekening bepaalt of dat klopt",
+          "severity": "bespreken",
+          "clauses": [
+            "kadastrale-conformiteit"
+          ]
+        },
+        {
+          "id": "grenzen-niet-geverifieerd",
+          "text": "De grenzen van het perceel zijn niet ter plaatse geverifieerd",
+          "severity": "bespreken",
+          "clauses": [
+            "omschrijving-object"
+          ]
+        }
+      ],
+      "source": "gids 4.2.2"
     },
     {
       "id": "titoli-edilizi",
@@ -341,14 +884,118 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "De vraag of het huis staat zoals het vergund is, de *conformità urbanistica*. Alles draait om de *stato legittimo*: de oorspronkelijke bouwtitel, het *titolo abilitativo*, plus alle latere vergunningen samen. Dat kan een oude *licenza edilizia* zijn, een *concessione edilizia*, een *permesso di costruire*, of voor lichtere werken een *SCIA*, een *DIA* of een *CILA*. Bij panden van vóór 1 september 1967 vervangt een *dichiarazione sostitutiva di atto di notorietà* de bouwtitel.",
+      "why": "De notaris controleert dit niet. Hij verifieert of de vereiste verklaringen in de akte staan, niet of de feitelijke situatie met de vergunningen overeenkomt. Daardoor kunnen onregelmatigheden gewoon meeverkopen. De gevolgen lopen sterk uiteen. Wijkt het pand af van een bestaande titel, dan is de akte geldig maar erf je een handhavingsrisico: de gemeente kan sloop of legalisatie met boete eisen, via een *sanatoria*. Ontbreekt de bouwtitel helemaal en is die ook niet te verkrijgen, dan kan de akte niet worden gepasseerd. Noemt de verkoper een titel die niet bestaat, vals is of bij een ander pand hoort, bijvoorbeeld omdat zij op een afgewezen *condono*-aanvraag berust, dan kan de akte nietig zijn. Datzelfde geldt bij een ingeschreven maatregel wegens *lottizzazione abusiva*, illegale verkaveling. Valt een kleine afwijking binnen de toleranties van het *Salva Casa*-decreet, dan is er juist geen overtreding en volstaat een *asseverazione* van een bevoegd technicus. Bovendien heb je de *stato legittimo* later zelf nodig: voor een vergunningaanvraag, voor financiering en voor de renovatiebonussen. Neem dus geen genoegen met het feit dat er een titel in de akte staat. Laat je *geometra* controleren dat die titel daadwerkelijk bestaat, bij de gemeente is terug te vinden, en op dít pand betrekking heeft. Loopt er nog een *condono*-aanvraag, laat dan nagaan of die kans van slagen heeft: een lopende aanvraag is geen legalisatie.",
+      "who": "De *geometra*, via een formeel verzoek om inzage in het bouwarchief bij de *ufficio tecnico* of de *ufficio edilizia privata* van de gemeente, de *accesso agli atti*. Dat kan aan de balie, per *PEC* of via een online portaal. Je moet daarbij een direct, concreet en actueel belang aantonen. Als kandidaat-koper doe je dat met een getekend *compromesso*, bij voorkeur met bij de notaris gelegaliseerde handtekeningen, of met een schriftelijke machtiging van de verkoper. Ken je de nummers en data van de oude vergunningen niet, dan mag de gemeente je verzoek niet als te vaag afwijzen: juist het reconstrueren van de bouwgeschiedenis is het doel van de inzage.",
+      "costTime": "De gemeente heeft 30 dagen om te reageren, maar kleine gemeenten overschrijden die termijn geregeld en bij oude panden liggen de stukken vaak nog in papieren archieven. Inzage is niet gratis: er zijn secretarieleges en kosten voor kopieën, die per gemeente verschillen, en kopieën van complete bouwdossiers zijn aanzienlijk duurder dan een enkele *visura*.",
+      "contract": "Een opschortende voorwaarde van een gunstige technische controle, met een termijn die de 30 dagen van de gemeente ruim dekt, en de afspraak wie een *sanatoria* betaalt.",
       "requestIt": "copia dei titoli edilizi e della documentazione sullo stato legittimo dell'immobile",
       "requestNl": "een kopie van de bouwvergunningen (*titoli edilizi*) en de stukken over de legale staat (*stato legittimo*)",
       "glossary": [],
       "flags": [
-        { "id": "verbouwing-zonder-vergunning", "text": "Voor een verbouwing is geen vergunning te vinden", "severity": "oplossen", "clauses": [] },
-        { "id": "aanbouw-zonder-vergunning", "text": "Een aanbouw, bijgebouw, veranda of zwembad is niet vergund of niet geregistreerd", "severity": "oplossen", "clauses": [] },
-        { "id": "condono-niet-afgerond", "text": "Er loopt een *condono* (legalisatie achteraf) die nooit is afgerond", "severity": "oplossen", "clauses": [] }
+        {
+          "id": "verbouwing-zonder-vergunning",
+          "text": "Voor een verbouwing is geen vergunning te vinden",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "aanbouw-zonder-vergunning",
+          "text": "Een aanbouw, bijgebouw, veranda, serre of zwembad staat niet in de vergunning",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "condono-niet-afgerond",
+          "text": "Er loopt nog een *condono*-aanvraag; een lopende aanvraag is geen legalisatie",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "titel-bestaat-niet",
+          "text": "De genoemde bouwtitel bestaat niet, is bij de gemeente niet terug te vinden of hoort bij een ander pand",
+          "severity": "niet-tekenen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "lottizzazione-abusiva",
+          "text": "Er is een maatregel of inschrijving wegens illegale verkaveling (*lottizzazione abusiva*)",
+          "severity": "niet-tekenen",
+          "clauses": [
+            "vergunningen"
+          ]
+        },
+        {
+          "id": "kamer-niet-vergund",
+          "text": "Een ruimte wordt als slaap- of woonkamer aangeboden, maar staat in de vergunning als kelder, berging of zolder (*taverna*, *ripostiglio*, *sottotetto*)",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "te-dicht-op-de-weg",
+          "text": "Het huis staat binnen de strook langs de weg (*fascia di rispetto stradale*) en is zo niet vergund",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "controsoffitto",
+          "text": "Een afwijking wordt alleen weggewerkt met een verlaagd plafond (*controsoffitto*)",
+          "severity": "bespreken",
+          "clauses": [
+            "technische-controle"
+          ]
+        }
+      ],
+      "source": "gids 4.2.8"
+    },
+    {
+      "id": "dichiarazione-pre-1967",
+      "nameIt": "Dichiarazione sostitutiva di atto di notorietà",
+      "nameNl": "Verklaring voor een pand van vóór 1967",
+      "phase": "bod",
+      "supplier": "Verkoper, onderbouwd door *geometra* en notaris",
+      "appliesWhen": [
+        "voor1967"
+      ],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "source": "gids 4.2.8",
+      "what": "Bij panden van vóór 1 september 1967 vervangt een *dichiarazione sostitutiva di atto di notorietà* de bouwtitel.",
+      "why": "Voor woningen waarvan de bouw vóór 1 september 1967 is begonnen, gelden andere regels. Veel van die gebouwen hebben geen formele bouwvergunning, omdat die destijds nog niet verplicht was. Buiten de bebouwde kom gold de vergunningplicht toen nog niet overal.",
+      "who": "De *geometra* en de notaris baseren zich in zulke gevallen op ander bewijs: historische luchtfoto's; oude kaarten; registraties in het kadaster. Op basis daarvan wordt een schriftelijke verklaring opgesteld waaruit blijkt dat het gebouw *legittimo pre-'67* is en sindsdien niet illegaal is uitgebreid. Dat laatste is het punt waar het meestal misgaat: niet het huis zelf, maar de aanbouw, de veranda of het bijgebouw uit de jaren tachtig. Vraag als koper altijd om die onderbouwing wanneer deze route wordt gebruikt, en neem geen genoegen met de enkele mededeling dat het huis \"oud\" is.",
+      "costTime": "",
+      "contract": "",
+      "requestIt": "dichiarazione sostitutiva di atto di notorietà sull'edificazione dell'immobile prima del 1° settembre 1967, con la documentazione a supporto",
+      "requestNl": "de verklaring dat het pand vóór 1 september 1967 is gebouwd (*dichiarazione sostitutiva di atto di notorietà*), met de onderbouwing",
+      "glossary": [],
+      "flags": [
+        {
+          "id": "pre1967-zonder-onderbouwing",
+          "text": "Alleen de mededeling dat het huis \"oud\" is, zonder onderbouwing met luchtfoto's, kaarten of kadaster",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        }
       ]
     },
     {
@@ -360,13 +1007,49 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Een document dat verplicht bij de verkoop beschikbaar moet zijn is het Energieprestatiecertificaat (*Attestato di Prestazione Energetica, APE*). Daarin staat welk label (A tot G) het huis heeft, met G = heel onzuinig, F/E/D = matig/ouderwets geïsoleerd, C/B = redelijk tot goed geïsoleerd en A1 t/m A4 zeer energiezuinig, waarbij A4 de beste, meest efficiënte klasse is.",
+      "why": "Het *attestato di prestazione energetica*, het *APE*, moet bij de akte worden gevoegd, en in de akte moet staan dat je het hebt ontvangen. De verkoper laat het opstellen. Ontbreekt het, dan is de akte niet nietig, maar zijn koper en verkoper wel allebei aansprakelijk voor een boete. Het *APE* is een voorwaarde voor de *agibilità*. Ontbreekt het bij een recent verbouwd pand, dan is dat dus een signaal dat de procedure niet is afgerond. En de energieklasse is geen formaliteit: koop je een pand dat als klasse C is aangeboden en blijkt het klasse F, dan raakt dat rechtstreeks de waarde en je stookkosten. Vraag het certificaat daarom vóór je bod op, en laat je *geometra* beoordelen of het past bij het pand dat je hebt gezien.",
+      "who": "Het APE laat de verkoper opstellen door een gecertificeerde technicus. Ook de makelaar heeft hier een plicht: als *mediatore* moet hij je al vanaf het adverteren over de energieprestatie informeren en mag hij geen informatie doorgeven die hij niet zelf heeft gecontroleerd.",
+      "costTime": "Reken op ongeveer € 150 tot € 300 voor een woning, afhankelijk van de oppervlakte en van hoe ingewikkeld de installaties zijn; bij een groot landelijk pand ligt het hoger. Daar komen de regionale registratiekosten bij, die per regio verschillen. Wees achterdochtig bij aanbiedingen van € 40 of € 50. De technicus is wettelijk verplicht het pand ter plaatse te bezichtigen, en een certificaat dat op basis van foto's of een videogesprek is opgesteld, is ongeldig. De doorlooptijd is kort: na het bezoek heb je het certificaat doorgaans binnen enkele werkdagen. Het certificaat wordt opgesteld door een gecertificeerde technicus die het pand en de installaties inspecteert, en is maximaal tien jaar geldig tenzij er ingrijpend wordt verbouwd en wanneer de voorgeschreven controle en het onderhoud van de installaties (het *libretto di impianto*) niet zijn bijgehouden.",
+      "contract": "Verklaring dat er een geldig energiecertificaat *APE* is en dat een (digitale) kopie ervan ruim voor de overdracht aan de koper wordt overhandigd (of beter: nu).",
       "requestIt": "attestato di prestazione energetica (APE) in corso di validità",
       "requestNl": "een geldig energielabel (*APE*)",
       "glossary": [],
       "flags": [
-        { "id": "ape-ontbreekt", "text": "Het energielabel ontbreekt of is verlopen", "severity": "bespreken", "clauses": [] }
-      ]
+        {
+          "id": "ape-ontbreekt",
+          "text": "Het energielabel ontbreekt of is verlopen",
+          "severity": "bespreken",
+          "clauses": [
+            "ape"
+          ]
+        },
+        {
+          "id": "ape-klasse-past-niet",
+          "text": "De energieklasse past niet bij het pand dat je hebt gezien",
+          "severity": "bespreken",
+          "clauses": [
+            "ape"
+          ]
+        },
+        {
+          "id": "ape-zonder-bezoek",
+          "text": "Het *APE* is opgesteld zonder bezoek ter plaatse, op basis van foto's of een videogesprek",
+          "severity": "oplossen",
+          "clauses": [
+            "ape"
+          ]
+        },
+        {
+          "id": "libretto-niet-bijgehouden",
+          "text": "De installatieboekjes (*libretto di impianto*) zijn niet bijgehouden",
+          "severity": "bespreken",
+          "clauses": [
+            "ape"
+          ]
+        }
+      ],
+      "source": "gids 4.2.9, 5.2.2"
     },
     {
       "id": "identiteit-verkoper",
@@ -377,13 +1060,26 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "",
+      "why": "",
+      "who": "",
+      "costTime": "",
+      "contract": "De gegevens van koper en verkoper (persoonsgegevens, fiscaal nummer, en bij gehuwden het huwelijksgoederenregime: *comunione legale* of *separazione dei beni*). De *caparra confirmatoria*: het bedrag, de betaalwijze, aan wie precies wordt betaald, de verwijzing naar de uitgeschreven cheques of overboekingen, en bij meerdere verkopers de verdeling over de mede-eigenaren.",
       "requestIt": "dati identificativi di tutti i proprietari e documentazione che ne attesti il potere di vendere",
       "requestNl": "de identiteitsgegevens van alle eigenaren en de stukken waaruit blijkt dat zij mogen verkopen",
       "glossary": [],
       "flags": [
-        { "id": "eigenaar-tekent-niet", "text": "Een echtgenoot, mede-eigenaar of erfgenaam tekent niet mee", "severity": "niet-tekenen", "clauses": [] }
-      ]
+        {
+          "id": "eigenaar-tekent-niet",
+          "text": "Een echtgenoot, mede-eigenaar of erfgenaam tekent niet mee",
+          "severity": "niet-tekenen",
+          "clauses": [
+            "partijen-gegevens",
+            "eigendomstitel"
+          ]
+        }
+      ],
+      "source": "gids 5.2.1"
     },
     {
       "id": "makelaar",
@@ -394,14 +1090,43 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "",
+      "why": "De *Corte di Cassazione* heeft geoordeeld dat een *mediatore* de koper al vanaf het moment van adverteren moet informeren over de energieprestatie en hem de documentatie moet laten inzien. Diezelfde uitspraak legt hem een tweede, minder bekende plicht op: hij mag geen informatie doorgeven die hij niet zelf heeft gecontroleerd. Verklaart de verkoper dat alles bouwkundig in orde is, dan moet de makelaar je erbij vertellen dat hij dat niet heeft geverifieerd. Schendt hij die plichten, dan kan hem dat zijn courtage kosten, ook als de koop uiteindelijk niet doorgaat.",
+      "who": "",
+      "costTime": "",
+      "contract": "Kies daarom de opschortende vorm, de *condizione sospensiva*, en controleer of het formulier van de makelaar geen eigen bepaling bevat die de provisie al bij aanvaarding van het bod opeisbaar maakt. Staat die erin, laat haar dan schrappen of laat opnemen dat de provisie pas verschuldigd is als de voorwaarde is ingetreden.",
       "requestIt": "estremi dell'iscrizione dell'agente immobiliare e conferma scritta della provvigione",
       "requestNl": "de inschrijvingsgegevens van de makelaar en een schriftelijke bevestiging van de provisie",
       "glossary": [],
       "flags": [
-        { "id": "makelaar-niet-ingeschreven", "text": "De makelaar is niet ingeschreven", "severity": "oplossen", "clauses": [] },
-        { "id": "provisie-niet-op-papier", "text": "De provisie van de makelaar staat niet op papier", "severity": "bespreken", "clauses": [] }
-      ]
+        {
+          "id": "makelaar-niet-ingeschreven",
+          "text": "De makelaar is niet ingeschreven",
+          "severity": "oplossen",
+          "clauses": []
+        },
+        {
+          "id": "provisie-niet-op-papier",
+          "text": "De provisie van de makelaar staat niet op papier",
+          "severity": "bespreken",
+          "clauses": []
+        },
+        {
+          "id": "provisie-bij-bod",
+          "text": "Het formulier van de makelaar maakt de provisie al opeisbaar bij aanvaarding van het bod",
+          "severity": "bespreken",
+          "clauses": [
+            "opschortende-voorwaarden"
+          ]
+        },
+        {
+          "id": "makelaar-niet-geverifieerd",
+          "text": "De makelaar geeft informatie door die hij niet zelf heeft gecontroleerd",
+          "severity": "bespreken",
+          "clauses": []
+        }
+      ],
+      "source": "gids 4.2.9, 5.2.3"
     },
     {
       "id": "huur-gebruik",
@@ -409,34 +1134,146 @@
       "nameNl": "Huur of gebruik",
       "phase": "bod",
       "supplier": "Verkoper",
-      "appliesWhen": ["verhuurd"],
+      "appliesWhen": [
+        "verhuurd"
+      ],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "",
+      "why": "Is er een lopende huurovereenkomst, dan neem jij die als koper over: koop breekt naar Italiaans recht geen huur. Bij een geregistreerd huurcontract met vaste datum kun je de huurder niet zomaar buiten de deur zetten.",
+      "who": "Vraag om een kopie van het contract en van de registratie, en laat in het *compromesso* vastleggen wanneer en in welke staat het pand wordt opgeleverd.",
+      "costTime": "",
+      "contract": "Een verklaring of het pand vrij van huur en gebruik wordt geleverd.",
       "requestIt": "copia di eventuali contratti di locazione o comodato in corso",
       "requestNl": "een kopie van lopende huur- of gebruikscontracten (*locazione*, *comodato*)",
       "glossary": [],
       "flags": [
-        { "id": "contract-loopt-door", "text": "Er loopt een huur- of gebruikscontract dat niet eindigt vóór de overdracht", "severity": "oplossen", "clauses": [] }
+        {
+          "id": "contract-loopt-door",
+          "text": "Er loopt een huur- of gebruikscontract dat niet eindigt vóór de overdracht",
+          "severity": "oplossen",
+          "clauses": [
+            "vrij-van-huur"
+          ]
+        },
+        {
+          "id": "geregistreerd-huurcontract",
+          "text": "Er is een geregistreerd huurcontract met vaste datum",
+          "severity": "bespreken",
+          "clauses": [
+            "vrij-van-huur"
+          ]
+        }
+      ],
+      "source": "gids 5.2.1"
+    },
+    {
+      "id": "perizia-tecnica",
+      "nameIt": "Perizia tecnica",
+      "nameNl": "Bouwkundige keuring",
+      "phase": "bod",
+      "supplier": "Je eigen *geometra* of architect",
+      "appliesWhen": [],
+      "criticalWhen": [],
+      "dropWhen": [],
+      "source": "gids 4.2.10",
+      "inMail": false,
+      "what": "Een inspectie door een onafhankelijk bouwkundig expert, een geometra of architect, die eindigt in een schriftelijk rapport, de *perizia tecnica*, over de staat van de woning, de gebreken en de indicatieve herstelkosten. Gekeken wordt naar de constructie, het dak, vocht, de installaties, de riolering en eventuele septic tank, houtaantasting, asbest, in het Italiaans *amianto*, en de staat van ramen, deuren en kozijnen.",
+      "why": "In Italië is zo'n keuring niet verplicht, en met de gebruikelijke clausule *visto e piaciuto* koop je het huis zoals je het hebt gezien, inclusief alle zichtbare gebreken. Met een rapport in handen sta je bovendien sterker in de prijsonderhandeling. Twee dingen dekt die clausule niet: verborgen gebreken en kwade trouw van de verkoper. Voor verborgen gebreken, de *vizi occulti*, moet je de verkoper binnen 8 dagen na ontdekking formeel op de hoogte stellen. De vordering zelf verjaart één jaar na de levering.",
+      "who": "Jij, en niet de verkoper of de makelaar. Neem de expert bij voorkeur mee bij het tweede bezoek, zodat hij ter plaatse een eerste oordeel kan geven voordat je een bod uitbrengt. Meld een gebrek daarna per *PEC* of aangetekend, en niet per gewone e-mail.",
+      "costTime": "Een eenvoudige inspectie met rapport door een geometra kost enkele honderden euro's. Een uitgebreide *perizia* met structurele berekeningen kost meer, en bij een groot of oud landelijk pand loopt dat op naar ruim boven de duizend euro. Vraag vooraf of het bedrag ook het schriftelijke rapport omvat of alleen het bezoek, want dat verschilt per kantoor. De doorlooptijd is korter dan bij de meeste andere controles, omdat er geen instantie aan te pas komt. Het bezoek kost een halve tot een hele dag. Reken daarna op ongeveer een week tot twee weken voor het rapport.",
+      "contract": "Een voorbehoud van een gunstige uitkomst van de *perizia*, met een termijn, en wat er gebeurt als er gebreken worden gevonden.",
+      "requestIt": "",
+      "requestNl": "",
+      "glossary": [],
+      "flags": [
+        {
+          "id": "scheuren-fundering",
+          "text": "Scheuren in dragende muren, verzakkingen of aanwijzingen van aardbevingsschade",
+          "severity": "oplossen",
+          "clauses": [
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "dak-slecht",
+          "text": "Het dak is verzakt of lekt",
+          "severity": "bespreken",
+          "clauses": [
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "vocht",
+          "text": "Vochtplekken, optrekkend vocht of slechte afwatering rondom het huis",
+          "severity": "bespreken",
+          "clauses": [
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "installaties-verouderd",
+          "text": "Verouderde elektra zonder aardlekschakelaar, of oude loden of koperen waterleidingen",
+          "severity": "bespreken",
+          "clauses": [
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "houtaantasting",
+          "text": "Aantasting door houtworm of boktor in balken of dakconstructie",
+          "severity": "bespreken",
+          "clauses": [
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "asbest",
+          "text": "Er zijn asbesthoudende materialen (*amianto*)",
+          "severity": "oplossen",
+          "clauses": [
+            "technische-controle"
+          ]
+        }
       ]
     },
     {
       "id": "relazione-tecnica",
-      "nameIt": "Relazione tecnica di conformità",
-      "nameNl": "Rapport over bouw en kadaster",
+      "nameIt": "Relazione di regolarità edilizia e catastale (RRE)",
+      "nameNl": "Rapport over vergunningen en kadaster",
       "phase": "compromesso",
       "supplier": "Je eigen *geometra* of architect",
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
-      "requestIt": "relazione tecnica di conformità urbanistica e catastale",
-      "requestNl": "een rapport over de overeenstemming met bouwvergunningen en kadaster (*relazione tecnica di conformità*)",
+      "what": "Er is één document dat het geheel in kaart brengt: de *relazione di regolarità edilizia e catastale*, kortweg *RRE*. Het is een technisch dossier met de bouwgeschiedenis van het pand: de verkregen bouwtitels, de wijzigingen die het in de loop der tijd heeft ondergaan, en de beperkingen die erop rusten. Het documenteert dat de feitelijke situatie overeenstemt met zowel de kadastrale plattegrond als het bij de gemeente gedeponeerde project, en is daarmee een momentopname van de *stato legittimo*. De *RRE* attesteert dus zowel de kadastrale als de urbanistische conformiteit, terwijl de kadastrale plattegrond alleen de fiscale kant dekt en geen enkele garantie geeft dat er geen bouwovertredingen zijn.",
+      "why": "Wettelijk verplicht is hij niet. Er zijn drie redenen om de *RRE* toch te willen hebben. De verklaring in de akte kan afwijken van de werkelijkheid, en dat komt vaak pas boven wanneer jij als nieuwe eigenaar een vergunning aanvraagt, want daarvoor moet de *stato legittimo* worden aangetoond. De *stato legittimo* is bovendien voorwaarde voor toegang tot financiering en tot de renovatiebonussen uit sectie 9.5. En de *RRE* is het instrument waarmee je berekent welke kleine afwijkingen onder de toleranties van art. 34-bis vallen, zoals gewijzigd door *Salva Casa*, en dus geen overtreding zijn. Laat hem dus opstellen vóór je bod, niet erna. Dat is dezelfde uitgave die je later toch moet doen, alleen op het moment dat je er nog iets mee kunt.",
+      "who": "Hij wordt opgesteld door een bevoegd beroepsbeoefenaar, een architect, ingenieur of *geometra*, die daarmee de verantwoordelijkheid op zich neemt voor wat erin staat. Doorgaans betaalt de verkoper de *RRE*, omdat hij belang heeft bij het aantonen dat zijn pand in orde is. Je kunt daar ook anders over afspreken. Wil je zekerheid vóór je bod, dan zul je hem waarschijnlijk zelf moeten betalen.",
+      "costTime": "Voor de *RRE* betaal je het honorarium van de technicus. Er is geen vast tarief, want het is geen wettelijk voorgeschreven document. Voor een gewoon appartement waarbij één of twee bouwdossiers moeten worden nagelopen, zijn bedragen vanaf ongeveer € 300 exclusief btw gebruikelijk; in sommige provincies hebben de beroepsverenigingen met het notariaat een richtprijs afgesproken die daar iets boven ligt. Bij een oud landelijk pand met bijgebouwen, meerdere vergunningen uit verschillende decennia en misschien een *condono*-dossier loopt dat op naar vele honderden euro's tot ruim boven de duizend. Bepalend zijn de omvang van het pand, het aantal na te lopen bouwdossiers en de tijd die het archiefwerk kost. Reken voor de doorlooptijd op enkele weken vanaf het moment dat de gemeente inzage geeft: het terreinbezoek en het opmeten kosten een dagdeel, het vergelijken met de dossiers en het opstellen van het rapport aanzienlijk meer. Tel dat bij de 30 dagen van de *accesso agli atti* op, dan zit je al snel op zes tot acht weken tussen de opdracht en het rapport.",
+      "contract": "Een opschortende voorwaarde van een gunstige technische controle, met een termijn die de 30 dagen van de gemeente ruim dekt, en de afspraak wie een *sanatoria* betaalt.",
+      "requestIt": "relazione di regolarità edilizia e catastale (RRE)",
+      "requestNl": "een rapport over vergunningen en kadaster (*relazione di regolarità edilizia e catastale*, *RRE*)",
       "glossary": [],
       "flags": [
-        { "id": "geen-eigen-controle", "text": "Er is nog geen onafhankelijke controle door een eigen *geometra*", "severity": "bespreken", "clauses": [] },
-        { "id": "afwijking-buiten-tolerantie", "text": "Het rapport noemt afwijkingen buiten de wettelijke toleranties", "severity": "oplossen", "clauses": [] }
-      ]
+        {
+          "id": "geen-eigen-controle",
+          "text": "Er is nog geen onafhankelijke controle door een eigen *geometra*",
+          "severity": "bespreken",
+          "clauses": [
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "afwijking-buiten-tolerantie",
+          "text": "Het rapport noemt afwijkingen buiten de toleranties van *Salva Casa*",
+          "severity": "oplossen",
+          "clauses": [
+            "technische-controle",
+            "vergunningen"
+          ]
+        }
+      ],
+      "source": "gids 4.2.8"
     },
     {
       "id": "ispezione-ipotecaria-compromesso",
@@ -447,13 +1284,33 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Een inzage in het hypothekenregister, de *ispezione ipotecaria*, ook wel *visura ipotecaria* genoemd. Het rapport toont alle inschrijvingen die het pand raken: eigendomsoverdrachten, hypotheken en pandrechten, en annotaties zoals doorhalingen en beslagen, de *pignoramenti*.",
+      "why": "Je wilt weten of het pand vrij overdraagbaar is. Een hypotheek volgt het pand: de verkoper mag verkopen, maar het recht blijft erop rusten tenzij het bij de overdracht wordt afgelost en doorgehaald. Het ingeschreven bedrag kan bovendien hoger zijn dan de werkelijke schuld, er kunnen er meerdere zijn in rangorde, en ook na betaling blijft de inschrijving staan tot er een formele doorhaling volgt. Waar de last vandaan komt bepaalt hoe makkelijk hij van tafel gaat. Een *ipoteca volontaria* komt uit een overeenkomst, meestal een banklening, en is voorzienbaar. Een *ipoteca legale* ontstaat rechtstreeks uit de wet. Een *ipoteca giudiziale* volgt uit een rechterlijke uitspraak en is de lastigste, omdat er een geschil achter zit waarvan jij de omvang niet kent.",
+      "who": "In theorie kun je het zelf online doen bij de *Agenzia delle Entrate* met een Nederlandse of Belgische digitale identiteit via *eIDAS*. In de praktijk lukt dat zelden zonder actief profiel bij *Fisconline*, dus laat je het lopen via de notaris of de *geometra*. Er zijn ook commerciële websites die deze dienst leveren; vergelijk daar wat ze precies leveren. De notaris doet hoe dan ook zijn eigen controle, ongeacht wat jij al hebt laten uitzoeken.",
+      "costTime": "Voor de eigenaar is de inzage gratis. Wie eigendom of een ander zakelijk recht op het pand heeft, ook maar voor een deel, raadpleegt de gegevens kosteloos. Vraag de verkoper er dus eerst om voordat je zelf gaat betalen. Als buitenstaander betaal je de *tasse ipotecarie*: enkele euro's tot ongeveer € 10 per zoekopdracht, per persoon of per pand, met een korting bij digitale aanvraag en een toeslag als er meer dan dertig formaliteiten in de lijst staan. Laat je het via je *geometra* of een *visura*-bureau lopen, wat als buitenlander zonder *Fisconline*-profiel de gebruikelijke route is, reken dan op enkele tientjes per pand. Online krijg je het resultaat direct als pdf. Eén beperking telt bij oude panden: digitaal gaat de raadpleging alleen terug tot het moment waarop die *Conservatoria* werd geautomatiseerd, en dat verschilt per kantoor. Oudere gegevens zijn alleen ter plaatse in te zien, net als alles in de gebieden met het *sistema tavolare*. Moet de keten twintig jaar terug, reken dan op een kantoorbezoek en enkele dagen extra.",
+      "contract": "Dat het pand vrij van hypotheken en beslagen wordt geleverd en dat de doorhaling vóór of bij het *rogito* is ingeschreven.",
       "requestIt": "ispezione ipotecaria aggiornata",
       "requestNl": "een actueel overzicht van hypotheken en beslagen (*ispezione ipotecaria*)",
       "glossary": [],
       "flags": [
-        { "id": "hypotheek-of-beslag", "text": "Er staat een hypotheek, beslag of rechtsvordering ingeschreven", "severity": "oplossen", "clauses": [] }
-      ]
+        {
+          "id": "hypotheek-of-beslag",
+          "text": "Er staat een hypotheek, beslag of rechtsvordering ingeschreven",
+          "severity": "oplossen",
+          "clauses": [
+            "vrij-van-hypotheken"
+          ]
+        },
+        {
+          "id": "ipoteca-giudiziale",
+          "text": "Er staat een *ipoteca giudiziale* of *ipoteca legale* ingeschreven",
+          "severity": "oplossen",
+          "clauses": [
+            "vrij-van-hypotheken"
+          ]
+        }
+      ],
+      "source": "gids 4.2.3"
     },
     {
       "id": "ispezione-ipotecaria-rogito",
@@ -464,13 +1321,33 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Een inzage in het hypothekenregister, de *ispezione ipotecaria*, ook wel *visura ipotecaria* genoemd. Het rapport toont alle inschrijvingen die het pand raken: eigendomsoverdrachten, hypotheken en pandrechten, en annotaties zoals doorhalingen en beslagen, de *pignoramenti*.",
+      "why": "Je wilt weten of het pand vrij overdraagbaar is. Een hypotheek volgt het pand: de verkoper mag verkopen, maar het recht blijft erop rusten tenzij het bij de overdracht wordt afgelost en doorgehaald. Het ingeschreven bedrag kan bovendien hoger zijn dan de werkelijke schuld, er kunnen er meerdere zijn in rangorde, en ook na betaling blijft de inschrijving staan tot er een formele doorhaling volgt. Waar de last vandaan komt bepaalt hoe makkelijk hij van tafel gaat. Een *ipoteca volontaria* komt uit een overeenkomst, meestal een banklening, en is voorzienbaar. Een *ipoteca legale* ontstaat rechtstreeks uit de wet. Een *ipoteca giudiziale* volgt uit een rechterlijke uitspraak en is de lastigste, omdat er een geschil achter zit waarvan jij de omvang niet kent.",
+      "who": "In theorie kun je het zelf online doen bij de *Agenzia delle Entrate* met een Nederlandse of Belgische digitale identiteit via *eIDAS*. In de praktijk lukt dat zelden zonder actief profiel bij *Fisconline*, dus laat je het lopen via de notaris of de *geometra*. Er zijn ook commerciële websites die deze dienst leveren; vergelijk daar wat ze precies leveren. De notaris doet hoe dan ook zijn eigen controle, ongeacht wat jij al hebt laten uitzoeken.",
+      "costTime": "Voor de eigenaar is de inzage gratis. Wie eigendom of een ander zakelijk recht op het pand heeft, ook maar voor een deel, raadpleegt de gegevens kosteloos. Vraag de verkoper er dus eerst om voordat je zelf gaat betalen. Als buitenstaander betaal je de *tasse ipotecarie*: enkele euro's tot ongeveer € 10 per zoekopdracht, per persoon of per pand, met een korting bij digitale aanvraag en een toeslag als er meer dan dertig formaliteiten in de lijst staan. Laat je het via je *geometra* of een *visura*-bureau lopen, wat als buitenlander zonder *Fisconline*-profiel de gebruikelijke route is, reken dan op enkele tientjes per pand. Online krijg je het resultaat direct als pdf. Eén beperking telt bij oude panden: digitaal gaat de raadpleging alleen terug tot het moment waarop die *Conservatoria* werd geautomatiseerd, en dat verschilt per kantoor. Oudere gegevens zijn alleen ter plaatse in te zien, net als alles in de gebieden met het *sistema tavolare*. Moet de keten twintig jaar terug, reken dan op een kantoorbezoek en enkele dagen extra.",
+      "contract": "Dat het pand vrij van hypotheken en beslagen wordt geleverd en dat de doorhaling vóór of bij het *rogito* is ingeschreven.",
       "requestIt": "ispezione ipotecaria aggiornata alla data del rogito",
       "requestNl": "een overzicht van hypotheken en beslagen (*ispezione ipotecaria*), bijgewerkt tot de datum van de *rogito*",
       "glossary": [],
       "flags": [
-        { "id": "hypotheek-of-beslag-rogito", "text": "Er staat een hypotheek, beslag of rechtsvordering ingeschreven", "severity": "niet-tekenen", "clauses": [] }
-      ]
+        {
+          "id": "hypotheek-of-beslag-rogito",
+          "text": "Er staat een hypotheek, beslag of rechtsvordering ingeschreven",
+          "severity": "niet-tekenen",
+          "clauses": [
+            "vrij-van-hypotheken"
+          ]
+        },
+        {
+          "id": "doorhaling-ontbreekt",
+          "text": "Een afgeloste hypotheek staat nog ingeschreven omdat de doorhaling ontbreekt",
+          "severity": "oplossen",
+          "clauses": [
+            "vrij-van-hypotheken"
+          ]
+        }
+      ],
+      "source": "gids 4.2.3"
     },
     {
       "id": "agibilita",
@@ -481,13 +1358,34 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Het document waarin de gemeente bevestigt dat een gebouw veilig, gezond en geschikt voor bewoning is. Het oude *certificato di agibilità* is vervangen door de *Segnalazione Certificata di Agibilità*, de *SCA*: een verklaring die de eigenaar of zijn technisch adviseur zelf indient. In advertenties wordt nog steeds over *agibilità* gesproken; bedoeld is altijd een geldige *SCA* of een eerder afgegeven certificaat.",
+      "why": "Formeel is het niet altijd vereist om de akte te kunnen passeren, maar het ontbreken ervan is een signaal: technische problemen, niet-geregistreerde werken, onvoltooide procedures of ontbrekende keuringen. Voor gebouwen die na 1934 zijn voltooid, is een *agibilità* in beginsel verplicht. Voor oudere panden geldt die verplichting niet. Let op wat het certificaat níét doet. Het bevestigt niet dat het pand urbanistisch in orde is en het belet de gemeente niet om later alsnog de rechtmatigheid van de werken te toetsen. Een huis kan dus een geldige *agibilità* hebben en tegelijk een bouwovertreding bevatten.",
+      "who": "De verkoper. Vraag hem of er een certificaat bestaat, wanneer het voor het laatst is afgegeven, en of er verbouwingen zijn geweest waarvoor een nieuwe verklaring nodig was. Bestaat het niet, laat de *geometra* dan achterhalen waarom; soms is het na een verbouwing simpelweg nooit aangevraagd en kan hij het alsnog regelen.",
+      "costTime": "De technicus moet de bouwtitels, de kadastrale situatie en de keuringen van de installaties bij elkaar brengen, en pas als die compleet zijn kan hij de verklaring indienen. Het honorarium loopt daardoor van enkele honderden euro's bij een eenvoudig dossier tot ruim boven de duizend euro bij een verbouwd of oud pand. Daar bovenop komen de gemeentelijke leges en zegelrechten. Reken daarom niet op weken maar op maanden zodra de *agibilità* echt ontbreekt bij een pand waaraan is gesleuteld.",
+      "contract": "Dat de verkoper de *agibilità* of *SCA* vóór de akte overlegt, als opschortende voorwaarde, en dat het *APE* bij de akte wordt gevoegd.",
       "requestIt": "certificato di agibilità o segnalazione certificata di agibilità (SCA)",
       "requestNl": "het bewijs van gebruiksgeschiktheid (*agibilità* of *SCA*)",
       "glossary": [],
       "flags": [
-        { "id": "agibilita-ontbreekt", "text": "De *agibilità* ontbreekt of is nooit aangevraagd", "severity": "oplossen", "clauses": [] }
-      ]
+        {
+          "id": "agibilita-ontbreekt",
+          "text": "De *agibilità* ontbreekt of is nooit aangevraagd",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen",
+            "technische-controle"
+          ]
+        },
+        {
+          "id": "sca-niet-geactualiseerd",
+          "text": "Na een verbouwing is de verklaring niet geactualiseerd",
+          "severity": "oplossen",
+          "clauses": [
+            "vergunningen"
+          ]
+        }
+      ],
+      "source": "gids 4.2.9"
     },
     {
       "id": "impianti",
@@ -498,13 +1396,25 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "",
+      "why": "Is de conformiteitsverklaring van de elektra of het gas er niet, dan moet die installatie eerst worden gekeurd en vaak ook aangepast.",
+      "who": "",
+      "costTime": "",
+      "contract": "",
       "requestIt": "dichiarazioni di conformità degli impianti elettrico, gas e di riscaldamento",
       "requestNl": "de verklaringen van conformiteit voor elektra, gas en verwarming (*dichiarazioni di conformità degli impianti*)",
       "glossary": [],
       "flags": [
-        { "id": "impianti-ontbreken", "text": "Verklaringen voor elektra, gas of verwarming ontbreken", "severity": "bespreken", "clauses": [] }
-      ]
+        {
+          "id": "impianti-ontbreken",
+          "text": "Verklaringen voor elektra, gas of verwarming ontbreken",
+          "severity": "bespreken",
+          "clauses": [
+            "vergunningen"
+          ]
+        }
+      ],
+      "source": "gids 4.2.9"
     },
     {
       "id": "destinazione-urbanistica",
@@ -512,16 +1422,60 @@
       "nameNl": "Bestemming van de grond",
       "phase": "compromesso",
       "supplier": "Verkoper, via de gemeente",
-      "appliesWhen": ["grond"],
+      "appliesWhen": [
+        "grond"
+      ],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Elke gemeente heeft een bestemmingsplan, het *Piano Regolatore Generale* of het *Piano di Governo del Territorio*, waarin staat in welke zone een pand ligt en welke functies daar zijn toegestaan. Het *Certificato di Destinazione Urbanistica*, de *CDU*, koppelt die regels aan één concreet perceel met zijn kadastrale gegevens. De *CDU* toont de bestemming, de bebouwingsindicatoren zoals de *indice di edificabilità*, en eventuele beperkingen, de *vincoli*, zoals landschapsbescherming via een *vincolo paesaggistico*, archeologische zones of hydrogeologische risico's.",
+      "why": "Bij verkoop van grond moet de *CDU* in beginsel bij de akte worden gevoegd, op straffe van nietigheid. Die verplichting vervalt alleen als het terrein een *pertinenza* is van een in het kadaster geregistreerd gebouw én samen kleiner is dan 5.000 vierkante meter. Verder voorkomt het document teleurstellingen achteraf: dat het perceel deels landbouwgrond blijkt, dat een landschapsbeperking uitbreiden vrijwel onmogelijk maakt, of dat de bebouwingsindex te laag is voor je plannen. Let op wat de *CDU* níét doet: over de legaliteit van bestaande gebouwen zegt hij niets, dat valt onder de *conformità urbanistica* van 4.2.8.",
+      "who": "De gemeente geeft hem af, bij de *ufficio tecnico* of de afdeling *urbanistica*. In de praktijk vraagt de *geometra* hem aan, of jij zelf via een formulier. Voor appartementen is een *CDU* meestal overbodig.",
+      "costTime": "Meestal € 30 tot € 100, afhankelijk van de gemeente, met een levertijd van 7 tot 30 dagen. Een *CDU* is één jaar geldig vanaf de afgifte, zolang het bestemmingsplan in de tussentijd niet wijzigt. Als er veel tijd zit tussen het *compromesso* en het *rogito*, is er mogelijk een nieuwe *CDU* nodig, of een verklaring van de verkoper dat het plan niet is gewijzigd.",
+      "contract": "Dat de verkoper een geldige *CDU* levert, of verklaart dat het bestemmingsplan sinds de afgifte niet is gewijzigd.",
       "requestIt": "certificato di destinazione urbanistica dei terreni",
       "requestNl": "het bestemmingscertificaat van de grond (*certificato di destinazione urbanistica*)",
       "glossary": [],
       "flags": [
-        { "id": "bestemming-blokkeert-plannen", "text": "De bestemming van de grond blokkeert je plannen", "severity": "bespreken", "clauses": [] }
-      ]
+        {
+          "id": "bestemming-blokkeert-plannen",
+          "text": "De bestemming van de grond blokkeert je plannen",
+          "severity": "bespreken",
+          "clauses": [
+            "geplande-ingreep"
+          ]
+        },
+        {
+          "id": "deels-landbouwgrond",
+          "text": "Het perceel is (deels) landbouwgrond, dus geen nieuwbouw mogelijk",
+          "severity": "bespreken",
+          "clauses": [
+            "geplande-ingreep"
+          ]
+        },
+        {
+          "id": "risicozone",
+          "text": "De grond ligt in een risicozone",
+          "severity": "bespreken",
+          "clauses": [
+            "geplande-ingreep"
+          ]
+        },
+        {
+          "id": "bebouwingsindex-te-laag",
+          "text": "De bebouwingsindex is te laag voor je plannen",
+          "severity": "bespreken",
+          "clauses": [
+            "geplande-ingreep"
+          ]
+        },
+        {
+          "id": "cdu-verlopen",
+          "text": "De *CDU* is ouder dan een jaar, of het bestemmingsplan is sindsdien gewijzigd",
+          "severity": "oplossen",
+          "clauses": []
+        }
+      ],
+      "source": "gids 4.2.7"
     },
     {
       "id": "vincoli",
@@ -532,14 +1486,51 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "In sommige gevallen kan er bij de koop sprake zijn van landschappelijke of andere restricties, de zogenaamde *vincoli*. Als het pand in een beschermd natuurgebied of UNESCO-werelderfgoedzone staat, of als de bodem archeologisch interessante objecten bevat, of als je huis een monument is, dan zullen bepaalde verbouwingen of bouwplannen mogelijk niet toegestaan zijn. Hierover moet uiterlijk bij het compromesso duidelijkheid zijn.",
+      "why": "Het *vincolo paesaggistico* beschermt het landschap en raakt vooral wat je mag verbouwen, niet de verkoop zelf. Is het pand daarentegen bij besluit aangewezen als *bene culturale*, dan raakt dat de overdracht rechtstreeks. Elke eigendomsovergang moet binnen 30 dagen worden gemeld bij de *soprintendenza*, in de praktijk door de notaris. Vanaf die melding hebben het ministerie, de regio en de gemeente 60 dagen om hun voorkooprecht uit te oefenen en het pand tegen dezelfde prijs zelf te kopen. In die periode is de koop wel geldig maar nog niet werkzaam, en mag de verkoper je de sleutels niet geven. Is de melding achterwege gebleven, te laat of onvolledig, dan rekt die termijn op tot 180 dagen, en een overdracht die de voorschriften helemaal negeert is nietig: het eigendom gaat dan niet over. Het aanwijzingsbesluit werkt bovendien ook als het niet is ingeschreven. Grond met *usi civici* is van rechtswege landschappelijk beschermd, zodat elke bouwactiviteit langs de *soprintendenza* moet. Let op de belangrijkste uitzondering. Op panden die op grond van *D.Lgs*. 42/2004 beschermd zijn, geldt het tolerantieregime niet. Daar moet elke afwijking langs de gewone weg worden rechtgezet.",
+      "who": "Vraag dus vroeg of er een aanwijzing bestaat, kijk in de akte en in de registers, en houd rekening met die 60 dagen in je planning. Wat je moet doen: vraag de gemeente om een verklaring over de aanwezigheid van *usi civici* op de betrokken *particelle*, en laat de notaris dit uitdrukkelijk nagaan. De informatie staat niet altijd in het kadaster en niet altijd in het hypotheekregister. In sommige regio's bestaat een aparte inventaris. Wil je bouwen terwijl er belemmeringen zijn dan heb je toestemming nodig van de *soprintendenza*, de territoriale dienst van het Italiaanse ministerie van Cultuur.",
+      "costTime": "Wil je van een *uso civico* af, dan is een afkoopprocedure nodig, de *affrancazione*, en die kost geld en tijd.",
+      "contract": "Beschrijving van de eventuele belemmeringen (*vincoli*) ten gevolge van landschapsbescherming, monumenteneisen of archeologische kwesties. Eventueel neem je een opschortende voorwaarde die je beschermt tegen belemmeringen die in het compromesso niet of niet voldoende vermeld zijn.",
       "requestIt": "informazioni su eventuali vincoli paesaggistici, storico-artistici o usi civici",
       "requestNl": "informatie over eventuele beperkingen voor landschap, monument of *usi civici*",
       "glossary": [],
       "flags": [
-        { "id": "vincoli-onbekend", "text": "Het is niet bekend welke beperkingen op het pand rusten", "severity": "bespreken", "clauses": [] },
-        { "id": "monument-voorkooprecht", "text": "Het pand is een beschermd monument met voorkooprecht van de staat", "severity": "bespreken", "clauses": [] }
-      ]
+        {
+          "id": "vincoli-onbekend",
+          "text": "Het is niet bekend welke beperkingen op het pand rusten",
+          "severity": "bespreken",
+          "clauses": [
+            "vincoli"
+          ]
+        },
+        {
+          "id": "monument-voorkooprecht",
+          "text": "Het pand is aangewezen als beschermd monument (*bene culturale*), met voorkooprecht van ministerie, regio en gemeente",
+          "severity": "bespreken",
+          "clauses": [
+            "vincoli",
+            "datum-rogito"
+          ]
+        },
+        {
+          "id": "usi-civici",
+          "text": "Op de grond rust een oud collectief gebruiksrecht (*uso civico*)",
+          "severity": "oplossen",
+          "clauses": [
+            "prelazione-agraria"
+          ]
+        },
+        {
+          "id": "landschap-blokkeert-verbouwing",
+          "text": "Een landschapsbeperking (*vincolo paesaggistico*) maakt je verbouwplannen onmogelijk",
+          "severity": "bespreken",
+          "clauses": [
+            "vincoli",
+            "geplande-ingreep"
+          ]
+        }
+      ],
+      "source": "gids 4.2.6, 4.2.7, 5.2.2"
     },
     {
       "id": "prelazione-agraria",
@@ -547,16 +1538,46 @@
       "nameNl": "Voorkooprecht bij landbouwgrond",
       "phase": "compromesso",
       "supplier": "Verkoper, de notaris controleert",
-      "appliesWhen": ["grond"],
+      "appliesWhen": [
+        "grond"
+      ],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "De *prelazione agraria* is het recht van bepaalde personen om landbouwgrond te kopen tegen dezelfde prijs en voorwaarden als jij. Het komt in de eerste plaats toe aan de pachter, de *affittuario* die het land al minstens twee jaar als *coltivatore diretto* bewerkt. Zit er geen pachter op, dan komt het toe aan de eigenaar van een aangrenzend perceel, mits hij landbouwer is: *coltivatore diretto* of *imprenditore agricolo professionale*. Een buurman die geen landbouwer is, heeft het recht niet.",
+      "why": "Is de rechthebbende niet of niet correct geïnformeerd, dan kan hij tot één jaar na de inschrijving van de koopakte de koop betwisten en het perceel tegen dezelfde prijs opeisen. Dat is het *diritto di riscatto*, ook *retratto* genoemd. Je kunt het perceel dus achteraf kwijtraken. Het voorkooprecht kent geen minimumoppervlakte. Een strook landbouwgrond die een vorige eigenaar bij de tuin heeft getrokken, valt eronder zolang zij een agrarische bestemming heeft en te bewerken is, en zolang de buurman landbouwer is. Het recht herleeft bovendien bij elke volgende verkoop: een buurman die nu afziet, doet dat alleen voor deze verkoop.",
+      "who": "De notaris brengt de kring van mogelijke rechthebbenden in kaart en stelt per *particella* vast wat geldt. De bestemming van de grond blijkt uit het *Certificato di Destinazione Urbanistica*, dat je bij de gemeente opvraagt; is het perceel bestemd voor bebouwing, industrie of toerisme, dan geldt het voorkooprecht niet.",
+      "costTime": "De kennisgeving aan de rechthebbende gaat per aangetekende brief, met het voorlopige koopcontract erbij. Vanaf ontvangst heeft hij 30 dagen om te reageren. Reageert hij niet, dan vervalt zijn recht. Reken die 30 dagen dus in je planning mee, bovenop de 7 tot 30 dagen voor de *CDU*.",
+      "contract": "Dat de levering pas plaatsvindt nadat de kennisgeving is verricht en de termijn van 30 dagen is verstreken, en dat het perceel vrij is van *usi civici*. Een verklaring vooraf, zonder kennisgeving, is nietig.",
       "requestIt": "informazioni sugli aventi diritto di prelazione agraria ed eventuali rinunce",
       "requestNl": "informatie over wie een voorkooprecht op de landbouwgrond heeft (*prelazione agraria*) en eventuele afstandsverklaringen",
       "glossary": [],
       "flags": [
-        { "id": "geen-afstandsverklaring", "text": "Er is geen afstandsverklaring van de rechthebbenden", "severity": "oplossen", "clauses": [] }
-      ]
+        {
+          "id": "geen-afstandsverklaring",
+          "text": "Er is geen kennisgeving gedaan aan de rechthebbenden, of geen schriftelijke afstand na die kennisgeving",
+          "severity": "oplossen",
+          "clauses": [
+            "prelazione-agraria"
+          ]
+        },
+        {
+          "id": "pachter-of-boer-buurman",
+          "text": "Er zit een pachter op het land, of de buurman met een aangrenzend perceel is landbouwer",
+          "severity": "bespreken",
+          "clauses": [
+            "prelazione-agraria"
+          ]
+        },
+        {
+          "id": "strook-landbouwgrond",
+          "text": "Bij de tuin hoort een strook landbouwgrond",
+          "severity": "bespreken",
+          "clauses": [
+            "prelazione-agraria"
+          ]
+        }
+      ],
+      "source": "gids 4.2.6"
     },
     {
       "id": "servitu",
@@ -567,13 +1588,41 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Rechten van anderen op jouw perceel, de *servitù*: recht van overpad, een waterleiding door je grond of een gedeelde toegangsweg. Ze ontstaan niet alleen door registratie, maar ook door langdurig gebruik, als *servitù apparenti*, en door een beschikking van een vorige eigenaar, de *destinazione del padre di famiglia*.",
+      "why": "Erfdienstbaarheden die door gebruik zijn ontstaan, staan niet altijd in de registers en zijn alleen ter plaatse te herkennen. Een *strada privata* is eigendom van de aanliggenden, die het onderhoud onderling regelen. Bij een *strada vicinale* is de weg privé-eigendom met openbaar gebruik, en bestaat er een wettelijke bijdrageplicht aan het onderhoud, in veel gemeenten georganiseerd via een *consorzio* met een jaarlijkse omslag.",
+      "who": "De notaris levert het overzicht van de geregistreerde *servitù*. De *geometra* beoordeelt ter plaatse het feitelijke gebruik van wegen, waterleidingen en toegangen. De gemeente vertelt je om welke wegcategorie het gaat en of er bijdragen of achterstanden zijn.",
+      "costTime": "De controle zelf kost bijna niets. De geregistreerde *servitù* komen mee uit de inzage in het hypotheekregister uit 4.2.3, en het beoordelen van het feitelijke gebruik van wegen, leidingen en toegangen loopt mee in de opname van de *geometra*. De gemeente om de wegcategorie vragen is gratis, al kan een schriftelijk antwoord enkele weken duren. Vraag dan meteen ook naar de lopende bijdragen en achterstanden.",
+      "contract": "Een volledige opgave van alle erfdienstbaarheden, ook de niet-geregistreerde, en dat de verkoper de papieren van de put vóór de akte overlegt.",
       "requestIt": "informazioni su servitù esistenti (accesso, pozzo, condutture)",
       "requestNl": "informatie over bestaande erfdienstbaarheden (*servitù*): toegang, put, leidingen",
       "glossary": [],
       "flags": [
-        { "id": "toegang-niet-vastgelegd", "text": "De toegangsweg loopt over andermans grond zonder vastgelegd recht", "severity": "oplossen", "clauses": [] }
-      ]
+        {
+          "id": "toegang-niet-vastgelegd",
+          "text": "De toegangsweg loopt over andermans grond zonder vastgelegd recht",
+          "severity": "oplossen",
+          "clauses": [
+            "servitu"
+          ]
+        },
+        {
+          "id": "servitu-door-gebruik",
+          "text": "Anderen gebruiken een pad, leiding of toegang over het perceel dat niet in de registers staat",
+          "severity": "bespreken",
+          "clauses": [
+            "servitu"
+          ]
+        },
+        {
+          "id": "strada-vicinale",
+          "text": "De toegangsweg is een *strada vicinale* met bijdrageplicht, of er zijn achterstanden",
+          "severity": "bespreken",
+          "clauses": [
+            "servitu"
+          ]
+        }
+      ],
+      "source": "gids 4.2.5"
     },
     {
       "id": "condominio",
@@ -581,17 +1630,62 @@
       "nameNl": "Stukken van de VvE",
       "phase": "compromesso",
       "supplier": "Verkoper, via de *amministratore* (beheerder)",
-      "appliesWhen": ["condominio"],
+      "appliesWhen": [
+        "condominio"
+      ],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "Bij een appartement koop je een aandeel in een gemeenschap, het *condominio*. De stukken die je nodig hebt zijn het huishoudelijk reglement, het *regolamento di condominio* of *regolamento condominiale*, de notulen van de laatste jaarvergaderingen, de begroting en het meerjarig onderhoudsplan, en het financiële overzicht. Bij gebouwen met een gemeenschappelijke garage, stookruimte of technische ruimte hoort daar ook de brandveiligheidsdocumentatie bij, met de REI-certificering van deuren, wanden, vloeren en trappenhuizen.",
+      "why": "In het reglement staat wat wel en niet mag, inclusief eventuele beperkingen op korte verhuur. Uit de notulen en de begroting blijkt of er grote werken zijn goedgekeurd, want die kosten worden over de eigenaren verdeeld en jij draait er als nieuwe eigenaar deels voor op. Datzelfde geldt voor ontbrekende *REI*-certificering: besluit de vergadering tot aanpassingswerkzaamheden, dan komen die naar rato voor rekening van de eigenaren. En je bent samen met de verkoper aansprakelijk voor achterstallige bijdragen over het lopende en het vorige boekjaar.",
+      "who": "De verkoper en de beheerder, de *amministratore*. Vraag beide om een schriftelijke verklaring dat alle bijdragen tot een genoemde datum zijn betaald.",
+      "costTime": "De stukken zelf zijn gratis. Het reglement, de notulen en de begroting horen bij het appartement, en de verkoper kan ze zonder kosten aan je doorgeven. Voor de verklaring over de betaalde bijdragen ligt het anders. De *amministratore* is wettelijk verplicht die af te geven, maar hij mag er wel een vergoeding voor rekenen, en dat doet hij meestal ook. Reken op ongeveer € 50 tot € 200, afhankelijk van de beheerder en van de omvang van het gebouw. Die kosten zijn voor de verkoper, want hij is degene die de verklaring aanvraagt. Let op één beperking die kopers vaak verrast. De *amministratore* mag deze informatie alleen aan de eigenaar zelf verstrekken of aan iemand die de eigenaar daarvoor heeft aangewezen. Jij kunt haar dus niet zelf opvragen, en de makelaar evenmin. De aanvraag loopt hoe dan ook via de verkoper. Vraag de verklaring één tot twee weken vóór de akte aan, en niet later. In de praktijk heeft een beheerder enkele werkdagen tot twee weken nodig, en bij een groot gebouw of een wisseling van beheerder loopt dat op. Ontbreekt de verklaring op de dag van de akte, dan wil de notaris meestal niet passeren.",
+      "contract": "Een verklaring van de *amministratore* dat alle bijdragen zijn voldaan, en dat oudere schulden en al besloten werken voor rekening van de verkoper blijven.",
       "requestIt": "documentazione del condominio, con la situazione dei pagamenti e le delibere su lavori straordinari",
       "requestNl": "de stukken van de VvE (*condominio*), met de stand van de betalingen en de besluiten over grote werken",
       "glossary": [],
       "flags": [
-        { "id": "achterstallige-bijdragen", "text": "Er zijn achterstallige bijdragen aan de VvE", "severity": "oplossen", "clauses": [] },
-        { "id": "grote-werken-besloten", "text": "De VvE heeft al grote werken besloten", "severity": "bespreken", "clauses": [] }
-      ]
+        {
+          "id": "achterstallige-bijdragen",
+          "text": "Er zijn achterstallige bijdragen aan de VvE",
+          "severity": "oplossen",
+          "clauses": [
+            "condominio"
+          ]
+        },
+        {
+          "id": "grote-werken-besloten",
+          "text": "De VvE heeft al grote werken besloten",
+          "severity": "bespreken",
+          "clauses": [
+            "condominio"
+          ]
+        },
+        {
+          "id": "rei-ontbreekt",
+          "text": "De brandveiligheidscertificering (*REI*) ontbreekt",
+          "severity": "bespreken",
+          "clauses": [
+            "condominio"
+          ]
+        },
+        {
+          "id": "reglement-beperkt-verhuur",
+          "text": "Het reglement beperkt korte verhuur",
+          "severity": "bespreken",
+          "clauses": [
+            "condominio"
+          ]
+        },
+        {
+          "id": "geen-verklaring-amministratore",
+          "text": "Er is geen verklaring van de *amministratore* dat alle bijdragen zijn betaald",
+          "severity": "oplossen",
+          "clauses": [
+            "condominio"
+          ]
+        }
+      ],
+      "source": "gids 4.2.11"
     },
     {
       "id": "riolering-water",
@@ -602,16 +1696,268 @@
       "appliesWhen": [],
       "criticalWhen": [],
       "dropWhen": [],
-      "what": "", "why": "", "who": "", "costTime": "", "contract": "",
+      "what": "",
+      "why": "Een niet-aangemelde put wordt na de koop jouw probleem, met boetes van € 1.500 tot € 6.000.",
+      "who": "De papieren van de put, het aanmeldingsbewijs of de *concessione*, vraag je aan de verkoper.",
+      "costTime": "De put is het punt waar het geld en de tijd zitten. Water uit eigen grond oppompen voor het huishouden is vrij en vraagt alleen een melding, tegen een klein bedrag aan leges en zegelrecht. Gebruik je het water voor irrigatie, een zwembad of een agriturismo, dan is een *concessione* nodig, en dat is een echte vergunningsprocedure: instructiekosten, een waarborgsom, registratie, een jaarlijkse *canone* en een technicus die de aanvraag opstelt. Reken op vele honderden tot enkele duizenden euro's. De bedragen verschillen sterk per regio en provincie, want daar ligt de bevoegdheid. Belangrijker dan het bedrag is de doorlooptijd. Die wordt in maanden gerekend en kan oplopen tot anderhalf jaar.",
+      "contract": "Is er een put op het terrein, laat dan opnemen dat de verkoper het aanmeldingsbewijs of de concessie vóór de akte overlegt. Ontbreken de papieren van de put, laat de regularisatie dan niet aan jezelf over na de levering, maar leg vast dat de verkoper het vóór de akte regelt. Kan dat niet binnen de leveringstermijn, spreek dan af wie het doet, wie het betaalt en wat er gebeurt als de vergunning wordt geweigerd.",
       "requestIt": "autorizzazione allo scarico e, se presente, documentazione del pozzo",
       "requestNl": "de vergunning voor de afvoer (*autorizzazione allo scarico*) en, als er een put is, de stukken van de put (*pozzo*)",
       "glossary": [],
       "flags": [
-        { "id": "scarico-zonder-vergunning", "text": "Septic tank of put zonder vergunning of melding", "severity": "oplossen", "clauses": [] }
-      ]
+        {
+          "id": "scarico-zonder-vergunning",
+          "text": "Septic tank of put zonder vergunning of melding",
+          "severity": "oplossen",
+          "clauses": [
+            "servitu"
+          ]
+        },
+        {
+          "id": "put-zonder-concessione",
+          "text": "Het water van de put wordt gebruikt voor irrigatie, zwembad of agriturismo zonder *concessione*",
+          "severity": "oplossen",
+          "clauses": [
+            "servitu"
+          ]
+        }
+      ],
+      "source": "gids 4.2.5"
     }
   ],
-  "clauses": [],
+  "clauses": [
+    {
+      "id": "partijen-gegevens",
+      "titleNl": "Gegevens van koper en verkoper",
+      "whenNl": "Altijd. Bij gehuwden hoort het huwelijksgoederenregime erbij.",
+      "textNl": "Koper en verkoper worden vermeld met hun persoonsgegevens en fiscaal nummer (*codice fiscale*). Bij gehuwden wordt het huwelijksgoederenregime vermeld: *comunione legale* of *separazione dei beni*.",
+      "textIt": "Le parti sono indicate con i rispettivi dati anagrafici e codice fiscale. Per le parti coniugate è indicato il regime patrimoniale: comunione legale o separazione dei beni.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "omschrijving-object",
+      "titleNl": "Omschrijving van de woning en alle kadastrale nummers",
+      "whenNl": "Altijd, en zeker als er grond, een garage of gemeenschappelijke delen bij horen.",
+      "textNl": "De woning wordt omschreven met adres, kadastrale gegevens, oppervlakte en bijgebouwen. Elk kadastraal nummer wordt afzonderlijk vermeld, ook dat van de grond, de garage en de gemeenschappelijke delen, met bij elk het aandeel dat de koper verkrijgt. Vermeld wordt om welke oppervlaktemaat het gaat en of de prijs voor het geheel geldt of per vierkante meter.",
+      "textIt": "L'immobile è descritto con indirizzo, dati catastali, superficie e pertinenze. Ciascun identificativo catastale è indicato separatamente, compresi quelli del terreno, dell'autorimessa e delle parti comuni, con la quota acquistata dal promissario acquirente. Si precisa a quale misura di superficie si fa riferimento e se il prezzo è convenuto a corpo o a misura.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "eigendomstitel-vrij",
+      "titleNl": "Eigendomstitel en vrije overdraagbaarheid",
+      "whenNl": "Altijd.",
+      "textNl": "De verkoper verwijst naar zijn eigendomstitel (de eerdere akte) en verklaart dat de woning vrij overdraagbaar is.",
+      "textIt": "Il promittente venditore indica il proprio titolo di provenienza (atto precedente) e dichiara che l'immobile è liberamente trasferibile.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "vrij-van-hypotheken",
+      "titleNl": "Vrij van hypotheken en beslagen",
+      "whenNl": "Altijd, en zeker als er een hypotheek of beslag op de woning staat.",
+      "textNl": "De woning wordt geleverd vrij van hypotheken en beslagen (*pignoramenti*). De doorhaling wordt vóór of bij het *rogito* ingeschreven bij de *Conservatoria dei Registri Immobiliari*. Staat er een *ipoteca legale* of *ipoteca giudiziale*, dan regelt en betaalt de verkoper de doorhaling. De uitkomst van de *ispezione ipotecaria* wordt als bijlage aan dit contract gehecht.",
+      "textIt": "L'immobile sarà trasferito libero da ipoteche e pignoramenti. La cancellazione sarà annotata presso la Conservatoria dei Registri Immobiliari prima o contestualmente al rogito. In presenza di ipoteca legale o giudiziale, il promittente venditore provvede a propria cura e spese alla cancellazione. L'esito dell'ispezione ipotecaria è allegato al presente contratto.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "servitu",
+      "titleNl": "Erfdienstbaarheden, toegangsweg en put",
+      "whenNl": "Altijd, en zeker als de toegang over een gedeelde weg loopt of er een put is.",
+      "textNl": "De verkoper geeft een volledige opgave van alle erfdienstbaarheden (*servitù*) op het perceel, ook de niet-geregistreerde. Loopt de toegang over een gedeelde weg, dan wordt vermeld of het een *strada privata* of een *strada vicinale* is, met de lopende bijdragen, eventuele achterstanden en wie die achterstanden betaalt. Is er een put op het terrein, dan overlegt de verkoper vóór de akte het aanmeldingsbewijs of de *concessione*.",
+      "textIt": "Il promittente venditore dichiara tutte le servitù gravanti sul fondo, comprese quelle non trascritte. Qualora l'accesso avvenga tramite strada in comune, si precisa se si tratta di strada privata o di strada vicinale, con indicazione dei contributi in corso, degli eventuali arretrati e della parte tenuta a saldarli. In presenza di un pozzo, il promittente venditore consegna prima del rogito la relativa denuncia o concessione.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "geen-bezit-derden",
+      "titleNl": "Geen gebruik of bezit door derden",
+      "whenNl": "Vooral bij landelijke percelen en onduidelijke erfgrenzen.",
+      "textNl": "De verkoper verklaart dat geen derde een deel van het perceel of van de opstallen in bezit heeft en dat er geen claim of *mediazione obbligatoria* loopt over verkrijgende verjaring (*usucapione*). Zijn er aanwijzingen voor bezit door derden, dan geldt als opschortende voorwaarde dat de situatie vóór de akte is opgehelderd.",
+      "textIt": "Il promittente venditore dichiara che nessun terzo possiede porzioni del fondo o dei fabbricati e che non sono in corso contestazioni né procedimenti di mediazione obbligatoria in materia di usucapione. In presenza di indizi di possesso da parte di terzi, il contratto è sottoposto alla condizione sospensiva che la situazione sia chiarita prima del rogito.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "vergunningen",
+      "titleNl": "Verklaring over de vergunningen",
+      "whenNl": "Altijd.",
+      "textNl": "De verkoper verklaart dat de woning legaal is gebouwd en vermeldt de aanwezige bouwvergunningen en certificaten, zoals de bewoonbaarheidsverklaring (*agibilità*).",
+      "textIt": "Il promittente venditore dichiara che l'immobile è stato edificato legittimamente e indica i titoli edilizi e le certificazioni esistenti, tra cui l'agibilità.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "kadastrale-conformiteit",
+      "titleNl": "Kadastrale conformiteit op kosten van de verkoper",
+      "whenNl": "Altijd. Zonder deze afspraak sta je vlak voor de akte voor de keuze tussen zelf betalen of de koop laten afketsen.",
+      "textNl": "De verkoper zorgt vóór de akte voor de kadastrale conformiteit (*conformità catastale*) en draagt de kosten daarvan. Hij levert naast de *visura catastale* ook de bijgewerkte plattegrond.",
+      "textIt": "Il promittente venditore provvede, a propria cura e spese, prima del rogito, alla conformità catastale dell'immobile e consegna, oltre alla visura catastale, la planimetria catastale aggiornata.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "prelazione-agraria",
+      "titleNl": "Agrarisch voorkooprecht en usi civici",
+      "whenNl": "Als je landbouwgrond of een huis met land koopt.",
+      "textNl": "Vermeld wordt of er een *prelazione agraria* op de grond rust. Is er een rechthebbende, dan vindt de levering pas plaats nadat de kennisgeving is verricht en de termijn van 30 dagen ongebruikt is verstreken, of nadat hij na die kennisgeving schriftelijk afstand heeft gedaan. Als opschortende voorwaarde geldt dat het perceel vrij is van *usi civici*, of dat de verkoper de afkoop (*affrancazione*) vóór de akte regelt en betaalt.",
+      "textIt": "Si dà atto dell'esistenza o meno di diritti di prelazione agraria sul fondo. In presenza di aventi diritto, il rogito sarà stipulato solo dopo l'avvenuta notifica e il decorso infruttuoso del termine di 30 giorni, ovvero dopo la rinuncia scritta resa successivamente alla notifica. Il contratto è sottoposto alla condizione sospensiva che il fondo sia libero da usi civici, ovvero che il promittente venditore provveda a propria cura e spese all'affrancazione prima del rogito.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [
+        "grond"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "vincoli",
+      "titleNl": "Belemmeringen (vincoli)",
+      "whenNl": "Als het pand in een beschermd gebied ligt, een monument is of als de bodem archeologisch interessant is.",
+      "textNl": "De eventuele belemmeringen (*vincoli*) door landschapsbescherming, monumenteneisen of archeologische kwesties worden beschreven.",
+      "textIt": "Sono descritti gli eventuali vincoli paesaggistici, storico-artistici o archeologici gravanti sull'immobile.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [
+        "vincolo",
+        "monument"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "ape",
+      "titleNl": "Energiecertificaat (APE)",
+      "whenNl": "Altijd, behalve bij de uitzonderingen in 5.2.2.",
+      "textNl": "De verkoper verklaart dat er een geldig energiecertificaat (*APE*) is en overhandigt de koper ruim vóór de overdracht een (digitale) kopie.",
+      "textIt": "Il promittente venditore dichiara che l'immobile è dotato di attestato di prestazione energetica (APE) in corso di validità e ne consegna copia, anche digitale, al promissario acquirente con congruo anticipo rispetto al rogito.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "koopprijs",
+      "titleNl": "Koopprijs en betaling",
+      "whenNl": "Altijd.",
+      "textNl": "De koopprijs en de wijze van betaling worden vermeld, bijvoorbeeld in termijnen, met de al betaalde *caparra* als deel van de prijs.",
+      "textIt": "Sono indicati il prezzo e le modalità di pagamento, ad esempio in rate, con imputazione a prezzo della caparra già versata.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "datum-rogito",
+      "titleNl": "Datum van de akte",
+      "whenNl": "Altijd. Of de datum fataal is, bepaalt wat er gebeurt als iemand te laat is.",
+      "textNl": "De datum voor de notariële akte (*rogito*) wordt vermeld, met de uitdrukkelijke vermelding of dat een fatale termijn (*termine essenziale*) is.",
+      "textIt": "È indicata la data per la stipula dell'atto notarile (rogito), con espressa indicazione se tale termine è da considerarsi essenziale.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "opschortende-voorwaarden",
+      "titleNl": "Opschortende, geen ontbindende voorwaarden",
+      "whenNl": "Bij elke voorwaarde. Bij een ontbindende voorwaarde blijft de makelaarscourtage verschuldigd als de koop vervalt.",
+      "textNl": "Voorwaarden worden opgenomen als opschortende voorwaarde (*condizione sospensiva*), niet als ontbindende voorwaarde. De provisie van de makelaar is pas verschuldigd als de voorwaarde is ingetreden.",
+      "textIt": "Le condizioni sono pattuite come condizioni sospensive e non come condizioni risolutive. La provvigione del mediatore è dovuta solo al verificarsi della condizione.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "caparra",
+      "titleNl": "Aanbetaling (caparra confirmatoria)",
+      "whenNl": "Altijd. Bij meerdere verkopers ook de verdeling over de mede-eigenaren.",
+      "textNl": "De *caparra confirmatoria* wordt vastgelegd met het bedrag, de betaalwijze, aan wie precies wordt betaald en de verwijzing naar de uitgeschreven cheques of overboekingen. Bij meerdere verkopers wordt de verdeling over de mede-eigenaren vermeld.",
+      "textIt": "La caparra confirmatoria è indicata con l'importo, le modalità di pagamento, il beneficiario e gli estremi degli assegni o dei bonifici. In caso di più promittenti venditori è indicata la ripartizione tra i comproprietari.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "aanvullende-afspraken",
+      "titleNl": "Aanvullende afspraken",
+      "whenNl": "Als je boetes bij te late uitvoering of afspraken over roerende zaken wilt vastleggen.",
+      "textNl": "Aanvullende afspraken worden vastgelegd, zoals boetes bij te late uitvoering of afspraken over roerende zaken.",
+      "textIt": "Sono pattuite eventuali clausole aggiuntive, quali penali per il ritardo nell'adempimento o accordi relativi ai beni mobili.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "geplande-ingreep",
+      "titleNl": "Geplande verbouwing is mogelijk",
+      "whenNl": "Als je iets wilt bouwen of verbouwen, bijvoorbeeld een zwembad of een schuur ombouwen tot woonruimte.",
+      "textNl": "Vermeld wordt dat de geplande ingreep mogelijk is, bijvoorbeeld een zwembad of het ombouwen van een schuur tot woonruimte.",
+      "textIt": "Si dà atto che l'intervento previsto è realizzabile, ad esempio la realizzazione di una piscina o la trasformazione di un annesso in abitazione.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "vrij-van-huur",
+      "titleNl": "Levering vrij van huur en gebruik",
+      "whenNl": "Altijd, en zeker als de woning verhuurd of in gebruik is. Koop breekt naar Italiaans recht geen huur.",
+      "textNl": "Vermeld wordt of de woning vrij van huur en gebruik wordt geleverd. Is er een lopende huurovereenkomst, dan worden een kopie van het contract en van de registratie bijgevoegd en wordt vastgelegd wanneer en in welke staat de woning wordt opgeleverd.",
+      "textIt": "Si dichiara se l'immobile sarà consegnato libero da locazioni e da occupanti. In presenza di un contratto di locazione in corso, se ne allega copia unitamente agli estremi di registrazione e si stabilisce quando e in quale stato l'immobile sarà consegnato.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [],
+      "reviewed": false
+    },
+    {
+      "id": "condominio",
+      "titleNl": "Bijdragen en werken van de VvE",
+      "whenNl": "Bij een appartement of een pand binnen een condominio.",
+      "textNl": "De verkoper levert een schriftelijke verklaring van de *amministratore* dat alle bijdragen tot de leveringsdatum zijn voldaan. Oudere schulden blijven voor rekening van de verkoper. Werken die vóór de akte zijn besloten maar nog niet zijn gefactureerd, komen voor rekening van de verkoper. Het *regolamento condominiale* en de notulen van de laatste twee vergaderingen worden als bijlage aan dit contract gehecht.",
+      "textIt": "Il promittente venditore consegna dichiarazione scritta dell'amministratore attestante il pagamento di tutti i contributi condominiali fino alla data del rogito. I debiti pregressi restano a carico del promittente venditore. Le spese per lavori deliberati prima del rogito, ancorché non ancora fatturate, restano a carico del promittente venditore. Il regolamento condominiale e i verbali delle ultime due assemblee sono allegati al presente contratto.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [
+        "condominio"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "eigendomstitel",
+      "titleNl": "Eigendomstitel en vererving",
+      "whenNl": "Altijd, en zeker als de woning uit een erfenis of schenking komt.",
+      "textNl": "De verkoper vermeldt hoe hij de woning heeft verkregen en voegt een gewaarmerkte kopie (*copia conforme*) van de eigendomstitel (*atto di provenienza*) bij. Is de woning vererfd, dan verklaart de verkoper dat de *dichiarazione di successione* is ingediend en de aanvaarding van de nalatenschap (*accettazione dell'eredità*) is ingeschreven, en zorgt hij dat de kadastrale tenaamstelling via een *voltura catastale* vóór de akte is bijgewerkt, alles op zijn kosten.",
+      "textIt": "Il promittente venditore indica il titolo di provenienza dell'immobile e ne allega copia conforme. In caso di immobile pervenuto per successione, dichiara che è stata presentata la dichiarazione di successione e che è stata trascritta l'accettazione dell'eredità, e provvede affinché la voltura catastale sia eseguita prima del rogito, il tutto a propria cura e spese.",
+      "source": "gids 5.2.1",
+      "appliesWhen": [
+        "erfgenamen"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "financieringsvoorbehoud",
+      "titleNl": "Financieringsvoorbehoud",
+      "whenNl": "Als je een hypotheek nodig hebt en nog geen bindende financieringsofferte hebt.",
+      "textNl": "De koop is onder de opschortende voorwaarde (*condizione sospensiva mutuo*) dat de koper uiterlijk op [datum] een schriftelijke hypotheektoezegging krijgt voor [bedrag], tegen een rente van maximaal [rente] en een looptijd van [looptijd], aangevraagd bij [bank of banken]. Bij afwijzing overlegt de koper een schriftelijke weigering. Treedt de voorwaarde niet in, dan wordt de *caparra* binnen [aantal] dagen volledig terugbetaald.",
+      "textIt": "Il presente contratto è sottoposto alla condizione sospensiva che il promissario acquirente ottenga, entro il [data], la delibera scritta di un mutuo di [importo], a un tasso non superiore al [tasso] e per una durata di [durata], richiesto presso [banca/banche]. In caso di diniego, il promissario acquirente ne fornisce comunicazione scritta dell'istituto. Qualora la condizione non si avveri, la caparra sarà integralmente restituita entro [numero] giorni.",
+      "source": "gids 5.2.3",
+      "appliesWhen": [
+        "hypotheek"
+      ],
+      "reviewed": false
+    },
+    {
+      "id": "technische-controle",
+      "titleNl": "Voorbehoud van een gunstige technische controle",
+      "whenNl": "Als de controle van vergunningen, kadaster of de bouwkundige staat nog niet klaar is. Kies een termijn die de 30 dagen van de gemeente ruim dekt.",
+      "textNl": "De koop is onder de opschortende voorwaarde van een gunstige uitkomst van de technische controle (bouwkundige keuring en controle van vergunningen en kadaster) uiterlijk op [datum]. Worden er gebreken of afwijkingen gevonden, dan [wordt opnieuw over de prijs onderhandeld / herstelt de verkoper ze vóór de akte / vervalt de koop met volledige teruggave van de *caparra*]. Een eventuele *sanatoria* komt voor rekening van [partij].",
+      "textIt": "Il presente contratto è sottoposto alla condizione sospensiva dell'esito favorevole della verifica tecnica (perizia tecnica e verifica di conformità urbanistica e catastale) entro il [data]. In caso di vizi o difformità, [le parti rinegozieranno il prezzo / il promittente venditore vi porrà rimedio prima del rogito / il contratto perderà efficacia con integrale restituzione della caparra]. Le spese dell'eventuale sanatoria sono a carico di [parte].",
+      "source": "gids 4.2.8, 4.2.10, 5.2.3",
+      "appliesWhen": [],
+      "reviewed": false
+    }
+  ],
   "mail": {
     "reviewed": false,
     "subjectIt": "Richiesta documenti per l'immobile {immobile}",
@@ -619,9 +1965,24 @@
     "locationIt": " a {comune}",
     "locationNl": " in {comune}",
     "recipients": [
-      { "id": "makelaar", "label": "Makelaar", "greetingIt": "Spettabile agenzia,", "greetingNl": "Geachte makelaar," },
-      { "id": "verkoper", "label": "Verkoper", "greetingIt": "Gentile Signora, gentile Signore,", "greetingNl": "Geachte mevrouw, geachte heer," },
-      { "id": "geometra", "label": "Geometra", "greetingIt": "Gentile geometra,", "greetingNl": "Geachte geometra," }
+      {
+        "id": "makelaar",
+        "label": "Makelaar",
+        "greetingIt": "Spettabile agenzia,",
+        "greetingNl": "Geachte makelaar,"
+      },
+      {
+        "id": "verkoper",
+        "label": "Verkoper",
+        "greetingIt": "Gentile Signora, gentile Signore,",
+        "greetingNl": "Geachte mevrouw, geachte heer,"
+      },
+      {
+        "id": "geometra",
+        "label": "Geometra",
+        "greetingIt": "Gentile geometra,",
+        "greetingNl": "Geachte geometra,"
+      }
     ],
     "introIt": "sono interessato/a all'immobile {immobile}. Per poter valutare l'acquisto con attenzione, Le chiedo cortesemente di inviarmi i seguenti documenti:",
     "introNl": "ik heb belangstelling voor de woning {immobile}. Om de aankoop zorgvuldig te kunnen beoordelen, vraag ik u vriendelijk mij de volgende documenten te sturen:",
