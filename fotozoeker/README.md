@@ -23,10 +23,15 @@ eerste keer worden de modellen gedownload (ongeveer 1 GB).
    5 tot 15 minuten (ongeveer 1,5 GB downloaden). Daarna staat **Fotozoeker** op je
    bureaublad en start de app vanzelf.
 
-Heb je nog geen Python? Op Windows probeert het installatiebestand Python zelf te
-installeren. Lukt dat niet, of zit je op een Mac, dan opent de downloadpagina van
-python.org. Installeer Python 3.12 (op Windows "Add python.exe to PATH" aanvinken)
-en dubbelklik daarna nog een keer op het installatiebestand.
+Heb je nog geen Python? Dan downloadt het installatiebestand de Python-installatie
+(Windows) of opent het de downloadpagina van python.org (Mac). Installeer Python 3.12,
+vink op Windows "Add python.exe to PATH" aan, en dubbelklik daarna nog een keer op het
+installatiebestand.
+
+**Windows: staat het .bat-bestand niet in de map na het uitpakken?** Dan heeft de
+virusscanner het weggehaald. Kijk in Windows-beveiliging > Bescherming tegen virussen
+en bedreigingen > Beveiligingsgeschiedenis. Zie je een blauw venster "Windows heeft uw
+pc beschermd", klik dan op **Meer informatie** en **Toch uitvoeren**.
 
 **Mac: "kan niet worden geopend"?** macOS blokkeert bestanden van internet. Klik met
 de rechtermuisknop (of ctrl-klik) op het installatiebestand en kies **Open**, en
@@ -49,7 +54,7 @@ of Documenten, klik dan op **Sta toe**.
 ## Gebruik via de terminal (optioneel)
 
 Alles kan ook zonder venster. Activeer eerst de omgeving
-(`source venv/bin/activate` op Mac, `venv\Scripts\activate` op Windows):
+(`source venv/bin/activate` op Mac, `%LOCALAPPDATA%\Fotozoeker\venv\Scripts\activate` op Windows):
 
 ```
 python fotozoeker.py index ~/Pictures "D:\Foto's 2019"
@@ -78,10 +83,12 @@ De terminal opent de treffers als pagina in je browser.
 
 - De index: `~/.fotozoeker/index.sqlite` (een paar MB per 10.000 foto's)
 - De gekozen fotomappen: `~/.fotozoeker/instellingen.json`
-- De programmaonderdelen en AI-modellen: de map `venv` hier en `~/.cache/huggingface`
+- De programmaonderdelen: op Windows `%LOCALAPPDATA%\Fotozoeker\venv` (buiten OneDrive),
+  op de Mac de map `venv` hier
+- De AI-modellen: `~/.cache/huggingface`
 
 Verwijderen: gooi het icoon op je bureaublad, deze map, de map `.fotozoeker` in je
-gebruikersmap en `~/.cache/huggingface` weg.
+gebruikersmap, `~/.cache/huggingface` en op Windows `%LOCALAPPDATA%\Fotozoeker` weg.
 
 Ondersteunde formaten: JPG, PNG, WebP, HEIC (iPhone), GIF, BMP, TIFF.
 RAW-bestanden (.CR2, .NEF, .ARW) worden niet gelezen.

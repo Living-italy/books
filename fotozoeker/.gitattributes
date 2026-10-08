@@ -2,3 +2,5 @@
 *.command text eol=lf
 *.icns binary
 *.ico binary
+.gitattributes export-ignore
+.gitignore export-ignore

@@ -3,3 +3,4 @@ torch
 pillow
 pillow-heif
 numpy
+pywin32; sys_platform == "win32"

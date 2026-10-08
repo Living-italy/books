@@ -2,13 +2,16 @@
 setlocal
 cd /d "%~dp0"
 title Fotozoeker installeren
-set "FZ=%CD%"
+
+rem De programmaonderdelen (ongeveer 1,5 GB) komen buiten OneDrive te staan.
+set "VENV=%LOCALAPPDATA%\Fotozoeker\venv"
+
 echo.
 echo  Fotozoeker installeren
 echo  ======================
 echo.
 
-rem Zoek een geschikte Python (met tkinter, versie 3.10 t/m 3.14)
+rem Zoek Python 3.10 t/m 3.14 met tkinter (niet de Microsoft Store-versie)
 set "PY="
 for %%v in (3.12 3.13 3.11 3.10 3.14) do (
   if not defined PY (
@@ -16,55 +19,50 @@ for %%v in (3.12 3.13 3.11 3.10 3.14) do (
   )
 )
 if not defined PY (
-  python -c "import sys, tkinter; sys.exit(0 if (3,10) <= sys.version_info[:2] <= (3,14) else 1)" >nul 2>&1 && set "PY=python"
+  python -c "import sys, tkinter; sys.exit(0 if (3,10) <= sys.version_info[:2] <= (3,14) and 'WindowsApps' not in sys.executable else 1)" >nul 2>&1 && set "PY=python"
 )
 if not defined PY goto geenpython
 
 echo  Python gevonden. De onderdelen worden nu geinstalleerd.
 echo  De eerste keer duurt dit 5 tot 15 minuten (ongeveer 1,5 GB downloaden).
 echo.
-if not exist "venv\Scripts\pythonw.exe" (
-  %PY% -m venv venv || goto fout
+if not exist "%VENV%\Scripts\pythonw.exe" (
+  %PY% -m venv "%VENV%" || goto fout
 )
-"venv\Scripts\python.exe" -m pip install --upgrade pip --quiet
-"venv\Scripts\python.exe" -m pip install -r requirements.txt || goto fout
+"%VENV%\Scripts\python.exe" -m pip install --upgrade pip --quiet
+"%VENV%\Scripts\python.exe" -m pip install -r requirements.txt || goto fout
 
 echo.
 echo  AI-modellen downloaden...
-"venv\Scripts\python.exe" -c "import fotozoeker as f; f.laad_model(f.BEELDMODEL); f.laad_model(f.TEKSTMODEL)" || goto fout
+"%VENV%\Scripts\python.exe" -c "import fotozoeker as f; f.laad_model(f.BEELDMODEL); f.laad_model(f.TEKSTMODEL)" || goto fout
 
 echo.
 echo  Snelkoppeling op het bureaublad maken...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=[Environment]::GetFolderPath('Desktop'); $s=(New-Object -ComObject WScript.Shell).CreateShortcut((Join-Path $d 'Fotozoeker.lnk')); $s.TargetPath=Join-Path $env:FZ 'venv\Scripts\pythonw.exe'; $s.Arguments=[char]34 + (Join-Path $env:FZ 'app.py') + [char]34; $s.WorkingDirectory=$env:FZ; $s.IconLocation=Join-Path $env:FZ 'icoon.ico'; $s.Description='Zoek foto''s op inhoud'; $s.Save()" || goto fout
+"%VENV%\Scripts\python.exe" snelkoppeling.py || goto fout
 
 echo.
 echo  Klaar! Je vindt Fotozoeker nu op je bureaublad. De app wordt gestart.
-start "" "venv\Scripts\pythonw.exe" "app.py"
+start "" "%VENV%\Scripts\pythonw.exe" app.py
 timeout /t 5 >nul
 exit /b 0
 
 :geenpython
-echo  Python staat nog niet op deze computer. Ik probeer het nu te installeren...
+echo  Python staat nog niet op deze computer.
 echo.
-winget install -e --id Python.Python.3.12 --scope user --accept-package-agreements --accept-source-agreements
-if errorlevel 1 (
-  echo.
-  echo  Dat lukte niet automatisch. Installeer Python 3.12 via de website die nu opent.
-  echo  Vink bij de installatie "Add python.exe to PATH" aan.
-  start "" "https://www.python.org/downloads/windows/"
-) else (
-  echo.
-  echo  Python is geinstalleerd.
-)
-echo  Dubbelklik daarna nog een keer op dit bestand om verder te gaan.
+echo  De installatie van Python 3.12 wordt nu gedownload via je browser.
+echo  1. Open het gedownloade bestand python-3.12.10-amd64.exe
+echo  2. Vink onderaan "Add python.exe to PATH" aan
+echo  3. Klik op "Install Now" en wacht tot het klaar is
+echo  4. Dubbelklik daarna nog een keer op dit installatiebestand
 echo.
+start "" "https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe"
 pause
 exit /b 1
 
 :fout
 echo.
 echo  Er ging iets mis tijdens het installeren. Zie de meldingen hierboven.
-echo  Controleer je internetverbinding en probeer het nog een keer.
+echo  Maak een foto of screenshot van dit venster en stuur die naar Claude.
 echo.
 pause
 exit /b 1
