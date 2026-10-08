@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fotozoeker: doorzoek je fotomappen op inhoud, in gewone taal.
 
-Voorbeelden:
+De app (app.py) gebruikt de functies hieronder. Je kunt ook de terminal gebruiken:
     python fotozoeker.py index ~/Pictures "D:/Foto's"
     python fotozoeker.py zoek "mensen die aan tafel eten"
     python fotozoeker.py zoek "hond op het strand" --top 50 --kopieer ~/Desktop/honden
@@ -42,10 +42,13 @@ EXTENSIES = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".gif", ".tif", ".tiff"}
 if HEIC:
     EXTENSIES |= {".heic", ".heif"}
 
-STANDAARD_INDEX = Path.home() / ".fotozoeker" / "index.sqlite"
+MAP = Path.home() / ".fotozoeker"
+STANDAARD_INDEX = MAP / "index.sqlite"
+
+_modellen = {}
 
 
-def open_db(pad):
+def open_db(pad=STANDAARD_INDEX):
     pad = Path(pad)
     pad.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(pad)
@@ -56,18 +59,20 @@ def open_db(pad):
     return db
 
 
-def laad_model(naam):
-    from sentence_transformers import SentenceTransformer
+def laad_model(naam, melding=print):
+    if naam not in _modellen:
+        from sentence_transformers import SentenceTransformer
 
-    print(f"Model laden: {naam} (de eerste keer wordt het gedownload)...")
-    return SentenceTransformer(naam)
+        melding("AI-model laden (de eerste keer wordt het gedownload)...")
+        _modellen[naam] = SentenceTransformer(naam)
+    return _modellen[naam]
 
 
-def vind_fotos(mappen):
+def vind_fotos(mappen, melding=print):
     for map_ in mappen:
         map_ = Path(map_).expanduser()
         if not map_.is_dir():
-            print(f"Let op: map bestaat niet: {map_}")
+            melding(f"Let op: map bestaat niet: {map_}")
             continue
         for root, dirs, files in os.walk(map_):
             dirs[:] = [d for d in dirs if not d.startswith(".")]
@@ -78,37 +83,50 @@ def vind_fotos(mappen):
 
 def open_foto(pad, max_zijde=None):
     img = Image.open(pad)
+    if max_zijde:
+        # Bij JPEG direct op lagere resolutie decoderen, dat is veel sneller.
+        img.draft("RGB", (max_zijde, max_zijde))
     img = ImageOps.exif_transpose(img).convert("RGB")
     if max_zijde:
         img.thumbnail((max_zijde, max_zijde))
     return img
 
 
-def cmd_index(args):
-    db = open_db(args.index)
+def indexeer(db, mappen, voortgang=None, melding=print, batch=16, stoppen=None):
+    """Analyseer nieuwe of gewijzigde foto's. Geeft het aantal verwerkte foto's terug.
+
+    voortgang(klaar, totaal, foto's per seconde) wordt na elke batch aangeroepen;
+    stoppen() mag True teruggeven om netjes af te breken.
+    """
     bekend = {
         r[0]: (r[1], r[2]) for r in db.execute("SELECT pad, mtime, grootte FROM fotos")
     }
 
+    melding("Fotomappen doorlopen...")
     te_doen = []
     gezien = 0
-    for pad in vind_fotos(args.mappen):
+    for pad in vind_fotos(mappen, melding):
         gezien += 1
-        st = pad.stat()
+        try:
+            st = pad.stat()
+        except OSError:
+            continue
         sleutel = str(pad.resolve())
         if bekend.get(sleutel) == (st.st_mtime, st.st_size):
             continue
         te_doen.append((sleutel, st.st_mtime, st.st_size))
 
-    print(f"{gezien} foto's gevonden, {len(te_doen)} nieuw of gewijzigd.")
+    melding(f"{gezien} foto's gevonden, {len(te_doen)} nieuw of gewijzigd.")
     if not te_doen:
-        return
+        return 0
 
-    model = laad_model(BEELDMODEL)
+    model = laad_model(BEELDMODEL, melding)
     start = time.time()
     klaar = 0
-    for i in range(0, len(te_doen), args.batch):
-        blok = te_doen[i : i + args.batch]
+    for i in range(0, len(te_doen), batch):
+        if stoppen and stoppen():
+            break
+        blok = te_doen[i : i + batch]
         beelden, geldig = [], []
         for item in blok:
             try:
@@ -116,13 +134,11 @@ def cmd_index(args):
                 beelden.append(open_foto(item[0], max_zijde=448))
                 geldig.append(item)
             except Exception as e:
-                print(f"  overgeslagen ({e.__class__.__name__}): {item[0]}")
+                melding(f"Overgeslagen ({e.__class__.__name__}): {item[0]}")
                 # Zonder vector opslaan, zodat het niet elke keer opnieuw geprobeerd wordt.
                 db.execute("INSERT OR REPLACE INTO fotos VALUES (?, ?, ?, NULL)", item)
         if beelden:
-            vectoren = model.encode(
-                beelden, batch_size=args.batch, normalize_embeddings=True
-            )
+            vectoren = model.encode(beelden, batch_size=batch, normalize_embeddings=True)
             db.executemany(
                 "INSERT OR REPLACE INTO fotos VALUES (?, ?, ?, ?)",
                 [
@@ -130,23 +146,58 @@ def cmd_index(args):
                     for (p, m, g), v in zip(geldig, vectoren)
                 ],
             )
-            db.commit()
+        db.commit()
         klaar += len(blok)
-        tempo = klaar / max(time.time() - start, 1e-6)
-        rest = (len(te_doen) - klaar) / max(tempo, 1e-6)
-        print(
-            f"  {klaar}/{len(te_doen)}  ({tempo:.1f} foto's/s, nog ~{rest / 60:.0f} min)",
-            end="\r",
-        )
-    print(f"\nKlaar. Index: {args.index}")
+        if voortgang:
+            voortgang(klaar, len(te_doen), klaar / max(time.time() - start, 1e-6))
+    return klaar
 
 
-def cmd_opruimen(args):
-    db = open_db(args.index)
+def opruimen(db):
+    """Haal foto's die niet meer bestaan uit de index."""
     weg = [r[0] for r in db.execute("SELECT pad FROM fotos") if not Path(r[0]).exists()]
     db.executemany("DELETE FROM fotos WHERE pad = ?", [(p,) for p in weg])
     db.commit()
-    print(f"{len(weg)} verdwenen foto's uit de index gehaald.")
+    return len(weg)
+
+
+def aantal_in_index(db):
+    return db.execute("SELECT COUNT(*) FROM fotos WHERE vector IS NOT NULL").fetchone()[0]
+
+
+def zoek(db, vraag, top=40, niet=None, binnen_map=None, min_score=-1.0, melding=print):
+    """Geeft een lijst van (score, pad) terug, beste treffer eerst."""
+    rijen = db.execute(
+        "SELECT pad, vector FROM fotos WHERE vector IS NOT NULL"
+    ).fetchall()
+    if binnen_map:
+        prefix = str(Path(binnen_map).expanduser().resolve())
+        rijen = [r for r in rijen if r[0].startswith(prefix)]
+    if not rijen:
+        return []
+
+    paden = [r[0] for r in rijen]
+    matrix = np.frombuffer(b"".join(r[1] for r in rijen), dtype=np.float32)
+    matrix = matrix.reshape(len(rijen), -1)
+
+    model = laad_model(TEKSTMODEL, melding)
+    scores = matrix @ model.encode([vraag], normalize_embeddings=True)[0]
+    if niet:
+        scores = scores - 0.5 * (matrix @ model.encode([niet], normalize_embeddings=True)[0])
+
+    volgorde = np.argsort(-scores)[:top]
+    return [(float(scores[i]), paden[i]) for i in volgorde if scores[i] >= min_score]
+
+
+def kopieer(resultaten, doel):
+    doel = Path(doel).expanduser()
+    doel.mkdir(parents=True, exist_ok=True)
+    for n, (_, pad) in enumerate(resultaten, 1):
+        shutil.copy2(pad, doel / f"{n:03d}_{Path(pad).name}")
+    return doel
+
+
+# ---------------------------------------------------------------- terminal
 
 
 def thumbnail_data_uri(pad):
@@ -186,42 +237,30 @@ def schrijf_html(vraag, resultaten, uitvoer):
     Path(uitvoer).write_text(pagina, encoding="utf-8")
 
 
+def cmd_index(args):
+    def voortgang(klaar, totaal, tempo):
+        rest = (totaal - klaar) / max(tempo, 1e-6)
+        print(f"  {klaar}/{totaal}  ({tempo:.1f} foto's/s, nog ~{rest / 60:.0f} min)", end="\r")
+
+    indexeer(open_db(args.index), args.mappen, voortgang, batch=args.batch)
+    print(f"\nKlaar. Index: {args.index}")
+
+
+def cmd_opruimen(args):
+    print(f"{opruimen(open_db(args.index))} verdwenen foto's uit de index gehaald.")
+
+
 def cmd_zoek(args):
     db = open_db(args.index)
-    rijen = db.execute(
-        "SELECT pad, vector FROM fotos WHERE vector IS NOT NULL"
-    ).fetchall()
-    if args.map:
-        prefix = str(Path(args.map).expanduser().resolve())
-        rijen = [r for r in rijen if r[0].startswith(prefix)]
-    if not rijen:
+    if not aantal_in_index(db):
         sys.exit("De index is leeg. Draai eerst: python fotozoeker.py index <map>")
-
-    paden = [r[0] for r in rijen]
-    matrix = np.frombuffer(b"".join(r[1] for r in rijen), dtype=np.float32)
-    matrix = matrix.reshape(len(rijen), -1)
-
-    model = laad_model(TEKSTMODEL)
-    vraag_vec = model.encode([args.vraag], normalize_embeddings=True)[0]
-    scores = matrix @ vraag_vec
-
-    if args.niet:
-        niet_vec = model.encode([args.niet], normalize_embeddings=True)[0]
-        scores = scores - 0.5 * (matrix @ niet_vec)
-
-    volgorde = np.argsort(-scores)[: args.top]
-    resultaten = [
-        (float(scores[i]), paden[i]) for i in volgorde if scores[i] >= args.min_score
-    ]
+    resultaten = zoek(db, args.vraag, args.top, args.niet, args.map, args.min_score)
 
     for score, pad in resultaten:
         print(f"{score:.3f}  {pad}")
 
     if args.kopieer:
-        doel = Path(args.kopieer).expanduser()
-        doel.mkdir(parents=True, exist_ok=True)
-        for n, (_, pad) in enumerate(resultaten, 1):
-            shutil.copy2(pad, doel / f"{n:03d}_{Path(pad).name}")
+        doel = kopieer(resultaten, args.kopieer)
         print(f"{len(resultaten)} foto's gekopieerd naar {doel}")
 
     if not args.geen_html:
