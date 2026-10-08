@@ -16,22 +16,20 @@ eerste keer worden de modellen gedownload (ongeveer 1 GB).
 
 1. Zet deze map **fotozoeker** op een vaste plek, bijvoorbeeld in Documenten.
    Het icoon op je bureaublad verwijst naar deze map, dus verplaats hem daarna niet meer.
-2. Dubbelklik op het installatiebestand:
-   - **Windows:** `Fotozoeker installeren (Windows).bat`
+2. Installeer Python 3.12 als je dat nog niet hebt:
+   - **Windows:** download [python-3.12.10-amd64.exe](https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe),
+     open het, vink onderaan **Add python.exe to PATH** aan en klik op **Install Now**.
+   - **Mac:** download de "macOS 64-bit universal2 installer" van
+     [python.org](https://www.python.org/downloads/macos/) en installeer die.
+3. Dubbelklik op het installatiebestand:
+   - **Windows:** `Fotozoeker installeren (Windows).py`
    - **Mac:** `Fotozoeker installeren (Mac).command`
-3. Er opent een zwart venster dat alles installeert. De eerste keer duurt dat
+4. Er opent een zwart venster dat alles installeert. De eerste keer duurt dat
    5 tot 15 minuten (ongeveer 1,5 GB downloaden). Daarna staat **Fotozoeker** op je
    bureaublad en start de app vanzelf.
 
-Heb je nog geen Python? Dan downloadt het installatiebestand de Python-installatie
-(Windows) of opent het de downloadpagina van python.org (Mac). Installeer Python 3.12,
-vink op Windows "Add python.exe to PATH" aan, en dubbelklik daarna nog een keer op het
-installatiebestand.
-
-**Windows: staat het .bat-bestand niet in de map na het uitpakken?** Dan heeft de
-virusscanner het weggehaald. Kijk in Windows-beveiliging > Bescherming tegen virussen
-en bedreigingen > Beveiligingsgeschiedenis. Zie je een blauw venster "Windows heeft uw
-pc beschermd", klik dan op **Meer informatie** en **Toch uitvoeren**.
+**Windows: opent het .py-bestand in een teksteditor?** Klik er met de rechtermuisknop
+op, kies **Openen met** en dan **Python**.
 
 **Mac: "kan niet worden geopend"?** macOS blokkeert bestanden van internet. Klik met
 de rechtermuisknop (of ctrl-klik) op het installatiebestand en kies **Open**, en
