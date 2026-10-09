@@ -16,14 +16,11 @@
    ========================================================================== */
 const SETTINGS = {
   contentFile: 'content.nl.json',
-  apiUrl: 'api.php',
   begrippenwijzerUrl: '',   // fase 2, bijvoorbeeld 'https://example.nl/begrippenwijzer/#{id}'
   chatbotUrl: '',           // fase 2, bijvoorbeeld 'https://example.nl/chatbot/?vraag={vraag}'
   contactUrl: '',           // fase 2, link naar de contactpagina
-  privacyUrl: '/privacy',   // privacybeleid, getoond bij de aanmelding
   ga4Id: '',                // bijvoorbeeld 'G-XXXXXXX', alleen geladen op de checkschermen
   metaPixelId: '',          // alleen geladen op de checkschermen
-  bron: 'conformiteitscheck', // waarde van het Brevo-veld BRON, gelijk aan de oude check
   storageKey: 'koopdossier'
 };
 </script>
@@ -347,21 +344,6 @@ const UI = {
     printReport: 'Rapport afdrukken of als pdf bewaren',
     backToDossier: 'Terug naar het dossier',
     incomplete: 'Nog niet alle vragen zijn beantwoord.'
-  },
-
-  signup: {
-    title: 'Ontvang je rapport als pdf',
-    text: 'Vul je voornaam en e-mailadres in. Je krijgt het rapport en af en toe een mail met tips over kopen in Italië. Afmelden kan altijd. Alleen je voornaam, e-mailadres, score, risiconiveau en het aantal aandachtspunten worden verstuurd. Je antwoorden en je dossier blijven op dit apparaat.',
-    firstName: 'Voornaam',
-    email: 'E-mailadres',
-    submit: 'Aanmelden en pdf maken',
-    skip: 'Overslaan',
-    skipPrint: 'Overslaan en pdf maken',
-    sending: 'Bezig met aanmelden…',
-    thanks: 'Dank je, je bent aangemeld.',
-    failed: 'Aanmelden lukte niet. Je kunt het rapport wel gewoon afdrukken.',
-    invalidEmail: 'Vul een geldig e-mailadres in.',
-    privacy: 'Lees het privacybeleid.'
   },
 
   profile: {
@@ -779,8 +761,7 @@ function loadAnalytics() {
 // Score en niveau mogen mee; antwoorden nooit. Geen 'value': GA4 leest dat als geldbedrag.
 const EVENTS = {
   gestart: { ga: 'check_gestart', meta: ['trackCustom', 'ConformiteitsCheckGestart'] },
-  afgerond: { ga: 'check_voltooid', meta: ['trackCustom', 'ConformiteitsCheckVoltooid'] },
-  aangemeld: { ga: 'generate_lead', meta: ['track', 'Lead', { content_name: 'conformiteitscheck' }] }
+  afgerond: { ga: 'check_voltooid', meta: ['trackCustom', 'ConformiteitsCheckVoltooid'] }
 };
 function track(key, params) {
   const ev = EVENTS[key];
@@ -936,7 +917,6 @@ function viewResult() {
   if (!prop && !s.complete) return viewCheckIncomplete();
   const risks = riskTexts(prop ? prop.flags : [], answers);
   const points = attentionPoints(answers);
-  const showSignup = !prop && !state.prefs.emailAsked;
   return `
     <h1>${esc(UI.check.resultTitle)}</h1>
     <section class="card" aria-live="polite">
@@ -952,7 +932,6 @@ function viewResult() {
       <h2>${esc(UI.check.points)}</h2>
       ${points.length ? `<ul class="points">${points.map((x) => `<li>${x.html}</li>`).join('')}</ul>` : `<p>${esc(UI.check.noPoints)}</p>`}
     </section>
-    ${showSignup ? signupForm('inline') : ''}
     <div class="actions">
       ${prop ? `<a class="btn" href="#dossier/${prop.id}">${esc(UI.check.backToDossier)}</a>` : `<button class="btn" data-action="make-dossier">${esc(UI.check.makeDossier)}</button>`}
       <button class="btn secondary" data-action="print" data-prop="${prop ? prop.id : ''}">${esc(UI.check.printReport)}</button>
@@ -961,68 +940,6 @@ function viewResult() {
 }
 function viewCheckIncomplete() {
   return `<h1>${esc(UI.check.resultTitle)}</h1><p>${esc(UI.check.incomplete)}</p><a class="btn" href="#check">${esc(UI.check.resume)}</a>`;
-}
-
-function signupForm(mode) {
-  return `
-    <form class="card" data-form="signup" data-mode="${mode}" novalidate>
-      <h2 id="${mode === 'dialog' ? 'dialog-title' : 'signup-title'}">${esc(UI.signup.title)}</h2>
-      <p class="small">${esc(UI.signup.text)}${SETTINGS.privacyUrl ? ` <a href="${esc(SETTINGS.privacyUrl)}" target="_blank" rel="noopener">${esc(UI.signup.privacy)}</a>` : ''}</p>
-      <label class="field">${esc(UI.signup.firstName)}<input type="text" name="voornaam" autocomplete="given-name" maxlength="60"></label>
-      <label class="field">${esc(UI.signup.email)}<input type="email" name="email" autocomplete="email" required maxlength="120"></label>
-      <div class="sr-only" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
-      <p class="small" data-role="msg" role="status" aria-live="polite"></p>
-      <div class="actions" style="margin-bottom:0">
-        <button class="btn" type="submit">${esc(UI.signup.submit)}</button>
-        <button class="btn ghost" type="button" data-action="signup-skip" data-mode="${mode}">${esc(mode === 'dialog' ? UI.signup.skipPrint : UI.signup.skip)}</button>
-      </div>
-    </form>`;
-}
-
-let pendingPrint = null;   // id van de woning (of '' voor de losse check) die na de aanmelding wordt afgedrukt
-
-function requestPrint(propId) {
-  if (state.prefs.emailAsked) { printReport(propId); return; }
-  pendingPrint = propId;
-  const dlg = $('#dialog');
-  dlg.innerHTML = signupForm('dialog').replace('class="card"', 'class=""');
-  dlg.showModal();
-}
-
-async function submitSignup(form) {
-  const msg = form.querySelector('[data-role=msg]');
-  const email = form.email.value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = UI.signup.invalidEmail; form.email.focus(); return; }
-  const mode = form.dataset.mode;
-  const propId = mode === 'dialog' ? pendingPrint : '';
-  const prop = propId && getProp(propId);
-  const answers = prop ? effectiveAnswers(prop) : state.lastCheck;
-  const s = scoreOf(answers);
-  const body = {
-    email,
-    VOORNAAM: form.voornaam.value.trim(),
-    RISICO_SCORE: s.score,
-    RISICO_NIVEAU: s.level.label,
-    AANDACHTSPUNTEN: attentionPoints(answers).length,
-    BRON: SETTINGS.bron
-  };
-  if (form.website.value) body.website = form.website.value;
-  msg.textContent = UI.signup.sending;
-  form.querySelector('button[type=submit]').disabled = true;
-  let ok = false;
-  try {
-    const res = await fetch(SETTINGS.apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    const data = await res.json().catch(() => ({}));
-    ok = res.ok && data.ok;
-  } catch (e) { ok = false; }
-  state.prefs.emailAsked = true;
-  saveState();
-  if (ok) track('aangemeld', scoreParams(s));
-  msg.textContent = ok ? UI.signup.thanks : UI.signup.failed;
-  toast(ok ? UI.signup.thanks : UI.signup.failed);
-  if (mode === 'dialog') $('#dialog').close();
-  printReport(propId);
-  render();
 }
 
 /* ==========================================================================
@@ -1717,12 +1634,7 @@ const actions = {
     if (state.prefs.current === p.id) delete state.prefs.current;
     saveState(); render();
   },
-  print(el) { requestPrint(el.dataset.prop || ''); },
-  'signup-skip'(el) {
-    state.prefs.emailAsked = true; saveState();
-    if (el.dataset.mode === 'dialog') { $('#dialog').close(); printReport(pendingPrint); }
-    render();
-  },
+  print(el) { printReport(el.dataset.prop || ''); },
   async 'mail-copy'(el) {
     const p = getProp(el.dataset.prop);
     const m = buildMail(p, state.prefs.recipient || C.mail.recipients[0].id, state.prefs.sender || '');
@@ -1839,7 +1751,6 @@ document.addEventListener('submit', (ev) => {
   const form = ev.target.closest('form[data-form]');
   if (!form) return;
   ev.preventDefault();
-  if (form.dataset.form === 'signup') submitSignup(form);
   if (form.dataset.form === 'profile-step') submitProfileStep(form);
 });
 window.addEventListener('hashchange', navigate);

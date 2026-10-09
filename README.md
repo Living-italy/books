@@ -10,7 +10,6 @@ Stand: **fase 2** (het oordeel). Fase 1 (check en kern) en fase 2 (rode vlaggen,
 koopdossier/              deze map upload je naar de server
   index.html              de hele app: opmaak, stijl en script
   content.nl.json         alle inhoud, los van de code
-  api.php                 geeft de aanmelding na de check door aan Brevo
   sw.js                   service worker voor offline gebruik
   manifest.webmanifest    installeren op het beginscherm
   icons/                  app-iconen
@@ -24,14 +23,9 @@ NAKIJKLIJST.md            lege velden en rode vlaggen om te controleren
 
 1. Open in DirectAdmin **Bestandsbeheer** (File Manager) en ga naar `public_html` (of de map van het juiste domein).
 2. Maak een map aan, bijvoorbeeld `koopdossier`.
-3. Upload de inhoud van de lokale map `koopdossier/`: `index.html`, `content.nl.json`, `api.php`, `sw.js`, `manifest.webmanifest`, `.htaccess` en de mappen `fonts/` en `icons/` met alle bestanden erin. Een zip uploaden en in DirectAdmin uitpakken kan ook. `.htaccess` begint met een punt; zet in Bestandsbeheer zo nodig "verborgen bestanden tonen" aan.
-4. Open `api.php` in de editor van DirectAdmin en vul bovenin in:
-   - `BREVO_API_KEY`: de API-sleutel uit Brevo (*SMTP & API > API Keys*).
-   - `BREVO_LIST_ID`: het ID van de lijst van de bestaande check.
-   - `ALLOWED_ORIGINS`: leeg laten als de app op hetzelfde domein staat.
-5. Controleer in Brevo dat de contactkenmerken bestaan: `VOORNAAM` (tekst), `RISICO_SCORE` (getal), `RISICO_NIVEAU` (tekst), `AANDACHTSPUNTEN` (getal) en `BRON` (tekst). Ze zijn gelijk aan die van de oude check: `RISICO_NIVEAU` is "Laag risico", "Verhoogd risico" of "Hoog risico", en `BRON` is `conformiteitscheck` (instelbaar via `bron` in `index.html`). Neem de API-sleutel en het lijst-ID over uit het oude `conformiteitscheck.php`.
-6. Open `index.html` en vul zo nodig het blok `SETTINGS` bovenin in: `ga4Id` en `metaPixelId` voor het meten op de checkschermen, en `privacyUrl` voor de link naar je privacybeleid bij de aanmelding (standaard `/privacy`, zoals in de oude check). Vul ook de adressen van Begrippenwijzer, chatbot en contactpagina in. `{id}` in het adres van de Begrippenwijzer wordt het lemma (bijvoorbeeld `visura-catastale`), `{vraag}` in het adres van de chatbot wordt de vooringevulde vraag. Is een adres leeg, dan toont de app de knop niet.
-7. Ga naar `https://jouwdomein.nl/koopdossier/?check` en doorloop de testlijst hieronder.
+3. Upload de inhoud van de lokale map `koopdossier/`: `index.html`, `content.nl.json`, `sw.js`, `manifest.webmanifest`, `.htaccess` en de mappen `fonts/` en `icons/` met alle bestanden erin. Een zip uploaden en in DirectAdmin uitpakken kan ook. `.htaccess` begint met een punt; zet in Bestandsbeheer zo nodig "verborgen bestanden tonen" aan.
+4. Open `index.html` en vul zo nodig het blok `SETTINGS` bovenin in: `ga4Id` en `metaPixelId` voor het meten op de checkschermen. Vul ook de adressen van Begrippenwijzer, chatbot en contactpagina in. `{id}` in het adres van de Begrippenwijzer wordt het lemma (bijvoorbeeld `visura-catastale`), `{vraag}` in het adres van de chatbot wordt de vooringevulde vraag. Is een adres leeg, dan toont de app de knop niet.
+5. Ga naar `https://jouwdomein.nl/koopdossier/?check` en doorloop de testlijst hieronder.
 
 **Het oude adres van de check doorverwijzen.** De originele check staat ter referentie in `bron/conformiteitscheck.php`. Vervang op de server de inhoud van het oude `conformiteitscheck.php` door alleen deze regel:
 
@@ -45,7 +39,7 @@ of zet in `.htaccess` van die map:
 Redirect 301 /conformiteitscheck.php /koopdossier/?check
 ```
 
-De server heeft PHP met cURL nodig. Node, een database of een build-stap zijn niet nodig. Offline gebruik werkt alleen via https (of op localhost).
+De app is volledig statisch: PHP, Node, een database of een build-stap zijn niet nodig. Alleen de doorverwijzing van het oude adres hierboven gebruikt PHP of `.htaccess`. Offline gebruik werkt alleen via https (of op localhost).
 
 ## Inhoud bijwerken (`content.nl.json`)
 
@@ -103,28 +97,27 @@ Interfaceteksten (knoppen, kopjes, meldingen) staan in het object `UI` in `index
 ## Privacy
 
 - Dossiergegevens (namen, adressen, antwoorden, notities) blijven in de browser, onder de sleutel `koopdossier` in `localStorage`.
-- Alleen als de gebruiker zelf een e-mailadres invult, gaan e-mailadres, voornaam, score, risiconiveau en het aantal aandachtspunten naar `api.php` en van daar naar Brevo.
+- De app verstuurt geen gegevens naar een server en vraagt nergens om een e-mailadres. Er is geen koppeling met Brevo of een andere maildienst.
 - GA4 en Meta Pixel laden alleen op de checkschermen en alleen als hun ID is ingevuld. De namen zijn gelijk aan die van de oude check, zodat rapporten doorlopen. Score en niveau gaan mee, antwoorden nooit.
 
   | Moment | GA4 | Meta |
   | --- | --- | --- |
   | Check begonnen | `check_gestart` | `ConformiteitsCheckGestart` |
   | Check af | `check_voltooid` met `score` en `niveau` | `ConformiteitsCheckVoltooid` met `score` en `niveau` |
-  | Aangemeld | `generate_lead` met `score` en `niveau` (geen `value`) | `Lead` met `content_name: conformiteitscheck` |
 - Zet geen sessie-opnames (zoals Microsoft Clarity) op deze pagina's, of maskeer alle invoervelden.
 
 ## Testlijst fase 1
 
 Test op een telefoon (of in de browser op 360 px breed) en op een computer.
 
-1. Open `/koopdossier/?check`. De check opent direct. Beantwoord vraag 1 met nee, vraag 2 met weet ik niet en de rest met ja. De uitkomst is **18, verhoogd risico** met twee aandachtspunten. Dit zie je zonder e-mailadres.
+1. Open `/koopdossier/?check`. De check opent direct. Beantwoord vraag 1 met nee, vraag 2 met weet ik niet en de rest met ja. De uitkomst is **18, verhoogd risico** met twee aandachtspunten. De app vraagt nergens om een e-mailadres.
 2. Controleer met dezelfde antwoorden in de oude check dat score en niveau gelijk zijn.
-3. Open het netwerktabblad van de browser (F12). Vul voornaam en e-mailadres in en kies "Aanmelden en pdf maken". Er gaat één POST naar `api.php` met alleen het e-mailadres en de vijf Brevo-velden. Het contact staat daarna in Brevo.
+3. Open het netwerktabblad van de browser (F12) en doorloop de app. Er gaat geen enkel verzoek met gegevens naar een server (alleen GA4 en Meta Pixel op de checkschermen, als hun ID is ingevuld).
 4. Kies "Maak hier een dossier van" en beantwoord de profielvragen (appartement, geen grond, niet verhuurd). Het dossier toont de *planimetria catastale* bovenaan met "aandachtspunt uit de check" en een aangevinkte rode vlag, en de bouwvergunningen met "eerst opvragen". Het *condominio* staat erin, *prelazione agraria* en huur niet.
 5. Open een document, zet de status op ontvangen, schrijf een notitie en zet het antwoord op de checkvraag op ja. De score op de woningkaart daalt.
 6. Sluit de browser, open hem opnieuw. Status, notitie en vlag staan er nog.
 7. Ga naar Exporteren. De opvraagmail bevat precies de documenten op "niet gevraagd", in het Italiaans, met de Nederlandse vertaling eronder. Kopieer de mail en bevestig: de documenten staan daarna op "gevraagd" met de datum van vandaag.
-8. Kies "Afdrukken of pdf maken". De eerste keer vraagt de app om het e-mailadres (overslaan mag). De pdf is leesbaar op A4 en eindigt met disclaimer en inhoudsversie.
+8. Kies "Afdrukken of pdf maken". Het afdrukvenster opent direct. De pdf is leesbaar op A4 en eindigt met disclaimer en inhoudsversie.
 9. Download een back-up, kies "Alles wissen", zet de back-up terug. Het dossier is identiek.
 10. Loop alle schermen door met alleen de Tab-toets en Enter. Alles is bereikbaar en de focus is zichtbaar. Er is nergens horizontaal scrollen op 360 px.
 11. Lege teksten tonen "[nog invullen]".
