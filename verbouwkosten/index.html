@@ -363,7 +363,7 @@ footer p { max-width: 80ch; }
   <!-- 5. Technici en gemeente -->
   <section class="card" aria-labelledby="h5">
     <h2 id="h5"><span class="step">5</span>Technici en gemeente</h2>
-    <p class="src">Gids 9.2.2, 9.2.4 en 9.4</p>
+    <p class="src">Gids 9.2.2, 9.2.4, 9.4 en 9.6.3; leges: tarieven van Milaan, Rome, Padua en Modena (2023 tot 2026)</p>
 
     <fieldset>
       <legend>Honorarium van geometra, architect of ingenieur</legend>
@@ -394,17 +394,40 @@ footer p { max-width: 80ch; }
     <p class="help">De <em>cassa previdenza</em> is de pensioenbijdrage van de technicus, 4 tot 5 % over het honorarium. Daarover komt 22 % btw.</p>
 
     <div class="field">
-      <label for="leges">Gemeentelijke leges en <em>oneri di urbanizzazione</em></label>
-      <p class="help">Vraag dit na bij je geometra of het <em>Sportello Unico per l'Edilizia</em> van de gemeente. Bij een <em>permesso di costruire</em> komen er bijdragen voor wegen, riool en voorzieningen bij; bij een volledige nieuwbouwwoning is dat € 15.000 tot € 30.000 of meer. Bij een CILA of SCIA gaat het meestal om leges.</p>
-      <div class="money"><input id="leges" name="leges" type="number" min="0" step="50" inputmode="numeric" value="500"></div>
+      <label for="leges">Gemeentelijke leges (<em>diritti di segreteria</em>) en zegels</label>
+      <p class="help">Elke gemeente heeft een eigen tarief, te vinden bij het <em>Sportello Unico per l'Edilizia</em>. Grote steden vragen voor een CILA € 50 tot € 300, voor een SCIA € 150 tot € 500 en voor een <em>permesso di costruire</em> € 300 tot € 600. Het bedrag volgt vanzelf de bouwtitel uit stap 2, tot je het zelf aanpast.</p>
+      <div class="money"><input id="leges" name="leges" type="number" min="0" step="10" inputmode="numeric" value="150"></div>
+      <input type="hidden" id="legesAuto" name="legesAuto" value="1">
       <span class="hint" id="legesHint"></span>
+    </div>
+
+    <div id="fOneri" hidden>
+      <h3>Bijdrage aan de gemeente (<em>contributo di costruzione</em>)</h3>
+      <p class="help">Bij extra volume, een andere bestemming of een <em>permesso di costruire</em> betaal je naast de leges een bijdrage. Die bestaat uit de <em>oneri di urbanizzazione</em> (wegen, riool, voorzieningen), per m³ volgens de tabel van de gemeente, en de <em>costo di costruzione</em>, een percentage van de bouwkosten (wettelijk 5 tot 20 %, vaak rond 8 %). Bij een gewone CILA of SCIA voor onderhoud betaal je dit niet. Ter vergelijking: bij een hele nieuwbouwwoning is het € 15.000 tot € 30.000 of meer.</p>
+      <div class="row three">
+        <div class="field">
+          <label for="oneriM3">Nieuw of van bestemming gewijzigd volume</label>
+          <div class="unit" data-unit="m³"><input id="oneriM3" name="oneriM3" type="number" min="0" step="10" inputmode="numeric" value="0"></div>
+        </div>
+        <div class="field">
+          <label for="oneriTarief">Oneri per m³</label>
+          <p class="help">Voorbeelden: € 20 tot € 30 per m³ voor primaire plus secundaire voorzieningen samen ongeveer € 45 tot € 50.</p>
+          <div class="money"><input id="oneriTarief" name="oneriTarief" type="number" min="0" step="1" inputmode="numeric" value="45"></div>
+        </div>
+        <div class="field">
+          <label for="oneriBouw">Costo di costruzione, kosten van het nieuwe deel</label>
+          <p class="help">De bouwkosten van alleen het nieuwe of omgebouwde deel. De module rekent er 8 % over.</p>
+          <div class="money"><input id="oneriBouw" name="oneriBouw" type="number" min="0" step="1000" inputmode="numeric" value="0"></div>
+        </div>
+      </div>
+      <span class="hint" id="oneriHint"></span>
     </div>
   </section>
 
   <!-- 6. Legalisatie -->
   <section class="card" aria-labelledby="h6">
     <h2 id="h6"><span class="step">6</span>Klopt de huidige situatie?</h2>
-    <p class="src">Gids 9.2.3, 9.2.5, 4.2.6 en 4.2.10</p>
+    <p class="src">Gids 9.2.3, 9.2.5, 4.2.6 en 4.2.10; DPR 380/2001 art. 6-bis, 36, 36-bis en 37 na Salva Casa (L. 105/2024)</p>
     <p class="help">Een nieuwe bouwtitel helpt niet als de huidige situatie afwijkt van wat ooit is vergund. Laat je geometra eerst de <em>stato legittimo</em> reconstrueren, vóór je een bod uitbrengt.</p>
 
     <fieldset>
@@ -418,10 +441,10 @@ footer p { max-width: 80ch; }
     </fieldset>
 
     <div id="fTardiva" hidden>
-      <div class="row two">
+      <div class="row three">
         <div class="field">
           <label for="tardTech">Honorarium technicus CILA <em>tardiva</em></label>
-          <p class="help">Bij complexere situaties € 800 tot € 1.500.</p>
+          <p class="help">Eenvoudig € 500 tot € 1.000, bij complexere situaties € 800 tot € 1.500.</p>
           <div class="money"><input id="tardTech" name="tardTech" type="number" min="0" step="50" inputmode="numeric" value="1150"></div>
         </div>
         <div class="field">
@@ -429,12 +452,51 @@ footer p { max-width: 80ch; }
           <p class="help">Wettelijk € 1.000. Meld je het zelf terwijl het werk nog loopt, dan ongeveer € 333.</p>
           <label class="check"><input type="checkbox" id="tardLoopt" name="tardLoopt"><span>Het werk loopt nog en ik meld het uit eigen beweging</span></label>
         </div>
+        <div class="field">
+          <label for="tardLeges">Leges CILA in sanatoria</label>
+          <p class="help">Vaak anderhalf tot twee keer het gewone tarief, bijvoorbeeld € 100 in Padua en € 340 in Modena.</p>
+          <div class="money"><input id="tardLeges" name="tardLeges" type="number" min="0" step="10" inputmode="numeric" value="250"></div>
+        </div>
       </div>
     </div>
-    <div class="field" id="fSanatoria" hidden>
-      <label for="sanBedrag">Geschatte kosten <em>sanatoria</em> (technicus plus sanctie)</label>
-      <p class="help">De gids noemt hier geen vast bedrag: het honorarium ligt hoger dan bij een CILA <em>tardiva</em> en de sanctie hangt af van de aard van het werk. Vraag je geometra om een schatting.</p>
-      <div class="money"><input id="sanBedrag" name="sanBedrag" type="number" min="0" step="100" inputmode="numeric" value="5000"></div>
+    <div id="fSanatoria" hidden>
+      <fieldset>
+        <legend>Welke <em>sanatoria</em> is het?</legend>
+        <p class="help">Je geometra stelt vast welke route geldt. De boete (<em>oblazione</em>) staat in de wet (DPR 380/2001, artikelen 36 en 36-bis na Salva Casa). Het verschil zit vooral in de vraag of het werk zowel bij de bouw als nu aan de regels voldoet: de dubbele conformiteit.</p>
+        <div class="choices cols-3">
+          <label class="choice"><input type="radio" name="sanType" value="sciadc" checked><strong>SCIA, dubbele conformiteit</strong><span>Werk zonder of afwijkend van een SCIA dat toen en nu aan de regels voldoet. Boete € 516 tot € 5.164.</span></label>
+          <label class="choice"><input type="radio" name="sanType" value="scia"><strong>SCIA, voldoet alleen nu</strong><span>Werk zonder of afwijkend van een SCIA. Boete € 1.032 tot € 10.328.</span></label>
+          <label class="choice"><input type="radio" name="sanType" value="pdc"><strong>Permesso in sanatoria</strong><span>Aanbouw, extra volume of andere bestemming zonder vergunning. Boete 2 × de <em>contributo di costruzione</em>.</span></label>
+        </div>
+      </fieldset>
+      <div class="row three">
+        <div class="field" id="fSanSanctie">
+          <label for="sanSanctie">Boete (<em>oblazione</em>)</label>
+          <p class="help" id="sanSanctieHelp">Twee keer de waardestijging van het huis volgens de Agenzia delle Entrate, binnen de wettelijke grenzen. Zonder waardestijging geldt het minimum.</p>
+          <div class="money"><input id="sanSanctie" name="sanSanctie" type="number" min="0" step="100" inputmode="numeric" value="516"></div>
+        </div>
+        <div class="field" id="fSanContributo" hidden>
+          <label for="sanContributo">Contributo di costruzione van het werk</label>
+          <p class="help">Wat de gemeente voor dit werk had gevraagd als je het netjes had aangevraagd: oneri per m³ plus costo di costruzione. De boete is het dubbele. Was het werk vrij van bijdrage, dan geldt het bedrag uit art. 16, bij een gedeeltelijke afwijking plus 20 %.</p>
+          <div class="money"><input id="sanContributo" name="sanContributo" type="number" min="0" step="500" inputmode="numeric" value="5000"></div>
+        </div>
+        <div class="field">
+          <label for="sanTech">Honorarium technicus</label>
+          <p class="help" id="sanTechHelp">SCIA in sanatoria: eenvoudig € 1.500 tot € 2.500, gemiddeld € 2.500 tot € 3.500, complex (vincolo, constructie, bestemming) vanaf € 3.500.</p>
+          <div class="money"><input id="sanTech" name="sanTech" type="number" min="0" step="100" inputmode="numeric" value="2000"></div>
+        </div>
+        <div class="field">
+          <label for="sanLeges">Leges sanatoria</label>
+          <p class="help">Vaak anderhalf tot twee keer het gewone tarief: SCIA in sanatoria € 300 tot € 355 in Padua en Modena.</p>
+          <div class="money"><input id="sanLeges" name="sanLeges" type="number" min="0" step="10" inputmode="numeric" value="450"></div>
+        </div>
+      </div>
+      <div class="field" id="fSanPaes" hidden>
+        <label for="sanPaes">Landschapsboete, schatting</label>
+        <p class="help">Ligt het huis in beschermd landschap, dan beoordeelt ook de <em>soprintendenza</em> het werk, en haar advies is bindend. Keurt ze het goed, dan betaal je het hoogste van de schade en de winst die het werk opleverde, vastgesteld met een taxatie (<em>perizia di stima</em>). Een vaste bandbreedte is er niet. Wijst ze het af, dan moet het werk weg.</p>
+        <div class="money"><input id="sanPaes" name="sanPaes" type="number" min="0" step="500" inputmode="numeric" value="0"></div>
+      </div>
+      <span class="hint" id="sanHint"></span>
     </div>
 
     <label class="check"><input type="checkbox" id="docfa" name="docfa" checked><span><strong>De indeling verandert, dus het kadaster moet worden bijgewerkt (DOCFA)</strong><br><span class="small muted">Nodig bij een andere indeling, een badkamer erbij of eraf, splitsen, samenvoegen, uitbreiden of een andere bestemming. Binnen 30 dagen na afronding.</span></span></label>
@@ -656,6 +718,17 @@ const REGIO = {
 
 const BUFFER = { goed: 10, ouder: 15, slecht: 25 };
 
+// Leges per bouwtitel: richtwaarden uit de tarieven van Milaan, Rome, Padua en Modena.
+const LEGES = { libera: 0, cila: 150, scia: 300, pdc: 450 };
+
+// Sanatoria na Salva Casa: wettelijke boete (DPR 380/2001 art. 36 en 36-bis) en marktprijzen technicus.
+const SANATORIA = {
+  sciadc: { min: 516,  max: 5164,  tech: 2000, leges: 450, label: 'SCIA in sanatoria, dubbele conformiteit' },
+  scia:   { min: 1032, max: 10328, tech: 2500, leges: 450, label: 'SCIA in sanatoria' },
+  pdc:    { tech: 4000, leges: 800, label: 'Permesso in sanatoria' }
+};
+const ONERI_COSTO = 0.08;
+
 // Snel toevoegen, bandbreedtes uit gids 9.6.3 (nieuwbouw), ook bruikbaar bij renovatie.
 const PRESETS = [
   { name: 'Asbest laten verwijderen', amount: 0, note: 'Gids 4.2: gespecialiseerd bedrijf met werkplan bij de ASL, een flinke kostenpost. Vraag een offerte.' },
@@ -768,7 +841,7 @@ function scenario(bouwBasis, v) {
   const honBtw = (hon + cassa) * v.honBtw;
   const honTot = hon + cassa + honBtw;
   const buffer = (bouwsom + btw.btw) * v.buffer;
-  const totaal = bouwsom + btw.btw + honTot + v.leges + v.legalTot + v.docfaTot + v.keuring + buffer + v.overbrugging + v.mobili;
+  const totaal = bouwsom + btw.btw + honTot + v.leges + v.oneri + v.legalTot + v.docfaTot + v.keuring + buffer + v.overbrugging + v.mobili;
   return { bouwsom, btw, hon, cassa, honBtw, honTot, buffer, totaal };
 }
 
@@ -782,7 +855,9 @@ function read() {
     btwCat: radio('btwCat'), beni: num('beni'), zelfMat: num('zelfMat'),
     honMode: radio('honMode'), honPct: num('honPct') / 100, honVast: num('honVast'), cassa: num('cassa') / 100, honBtw: num('honBtw') / 100,
     leges: num('leges'), legal: radio('legal'),
-    tardTech: num('tardTech'), tardLoopt: $('tardLoopt').checked, sanBedrag: num('sanBedrag'),
+    tardTech: num('tardTech'), tardLoopt: $('tardLoopt').checked, tardLeges: num('tardLeges'),
+    sanType: radio('sanType'), sanSanctie: num('sanSanctie'), sanContributo: num('sanContributo'), sanTech: num('sanTech'), sanLeges: num('sanLeges'), sanPaes: num('sanPaes'),
+    oneriM3: num('oneriM3'), oneriTarief: num('oneriTarief'), oneriBouw: num('oneriBouw'),
     docfa: $('docfa').checked, docfaHon: num('docfaHon'), docfaUnits: Math.max(1, Math.round(num('docfaUnits')) || 1),
     keuring: num('keuring'), buffer: num('buffer') / 100,
     maanden: num('maanden'), huur: num('huur'),
@@ -793,7 +868,12 @@ function read() {
   };
   v.extraTotaal = extras.reduce((s, x) => s + (parseFloat(x.amount) || 0), 0);
   v.sanctie = v.tardLoopt ? 333 : 1000;
-  v.legalTot = v.legal === 'tardiva' ? v.tardTech + v.sanctie : v.legal === 'sanatoria' ? v.sanBedrag : 0;
+  v.sanOblazione = v.sanType === 'pdc' ? 2 * v.sanContributo : v.sanSanctie;
+  v.sanPaesTot = v.vincolo ? v.sanPaes : 0;
+  v.legalTot = v.legal === 'tardiva' ? v.tardTech + v.sanctie + v.tardLeges
+    : v.legal === 'sanatoria' ? v.sanOblazione + v.sanTech + v.sanLeges + v.sanPaesTot : 0;
+  v.oneriNodig = v.q[2] || v.q[3];
+  v.oneri = v.oneriNodig ? v.oneriM3 * v.oneriTarief + v.oneriBouw * ONERI_COSTO : 0;
   v.docfaTot = v.docfa ? v.docfaHon + 70 * v.docfaUnits : 0;
   v.overbrugging = v.maanden * v.huur;
   return v;
@@ -801,10 +881,10 @@ function read() {
 
 function bouwtitel(v) {
   const [dragend, gevel, sagoma, bestemming, binnen] = v.q;
-  if (sagoma || bestemming) return { naam: 'Permesso di costruire', cls: 'pdc', tekst: 'Je verandert de buitenvorm, het volume of de bestemming. Dan is een formele bouwvergunning van de gemeente nodig; een melding volstaat niet. De procedure duurt doorgaans 30 tot 75 dagen en de gemeente kan voorwaarden en bijdragen (<em>oneri di urbanizzazione</em>) opleggen.' };
-  if (dragend || gevel) return { naam: 'SCIA', cls: 'zwaar', tekst: 'Je raakt dragende delen of de gevel. Een SCIA is een zwaardere melding met statische berekeningen, een veiligheidsplan en meer documentatie. Je mag vaak direct starten, maar de gemeente kan ingrijpen als er iets niet klopt.' };
-  if (binnen) return { naam: 'CILA', cls: '', tekst: 'Alleen de binnenkant verandert, zonder dragende delen. Een technicus dient een melding met tekeningen in bij het <em>Sportello Unico per l\'Edilizia</em> en verklaart dat alles aan de regels voldoet. Meestal kun je meteen beginnen.' };
-  return { naam: 'Edilizia libera of CILA', cls: '', tekst: 'Je werk valt onder geen van de vragen. Dan is het vaak vergunningvrij (<em>edilizia libera</em>), soms een CILA. Laat je geometra bevestigen dat jouw werk op de nationale lijst staat. Ook dan gelden het bestemmingsplan en de regels van de VvE.' };
+  if (sagoma || bestemming) return { key: 'pdc', naam: 'Permesso di costruire', cls: 'pdc', tekst: 'Je verandert de buitenvorm, het volume of de bestemming. Dan is een formele bouwvergunning van de gemeente nodig; een melding volstaat niet. De procedure duurt doorgaans 30 tot 75 dagen en de gemeente kan voorwaarden en bijdragen (<em>oneri di urbanizzazione</em>) opleggen.' };
+  if (dragend || gevel) return { key: 'scia', naam: 'SCIA', cls: 'zwaar', tekst: 'Je raakt dragende delen of de gevel. Een SCIA is een zwaardere melding met statische berekeningen, een veiligheidsplan en meer documentatie. Je mag vaak direct starten, maar de gemeente kan ingrijpen als er iets niet klopt.' };
+  if (binnen) return { key: 'cila', naam: 'CILA', cls: '', tekst: 'Alleen de binnenkant verandert, zonder dragende delen. Een technicus dient een melding met tekeningen in bij het <em>Sportello Unico per l\'Edilizia</em> en verklaart dat alles aan de regels voldoet. Meestal kun je meteen beginnen.' };
+  return { key: 'libera', naam: 'Edilizia libera of CILA', cls: '', tekst: 'Je werk valt onder geen van de vragen. Dan is het vaak vergunningvrij (<em>edilizia libera</em>), soms een CILA. Laat je geometra bevestigen dat jouw werk op de nationale lijst staat. Ook dan gelden het bestemmingsplan en de regels van de VvE.' };
 }
 
 function bonus(v, s) {
@@ -845,6 +925,10 @@ function bonus(v, s) {
 }
 
 function update() {
+  if ($('legesAuto').value === '1') {
+    const t = bouwtitel({ q: [1, 2, 3, 4, 5].map((i) => radio('q' + i) === 'ja') });
+    $('leges').value = LEGES[t.key];
+  }
   const v = read();
   const niv = NIVEAUS[v.niveau];
 
@@ -856,6 +940,15 @@ function update() {
   $('fHonVast').hidden = v.honMode !== 'vast';
   $('fTardiva').hidden = v.legal !== 'tardiva';
   $('fSanatoria').hidden = v.legal !== 'sanatoria';
+  $('fSanSanctie').hidden = v.sanType === 'pdc';
+  $('fSanContributo').hidden = v.sanType !== 'pdc';
+  $('fSanPaes').hidden = !v.vincolo;
+  $('fOneri').hidden = !v.oneriNodig;
+  $('sanTechHelp').textContent = v.sanType === 'pdc'
+    ? 'Permesso in sanatoria: een volledig dossier met opmeting, inzage in het bouwarchief en tekeningen. Ruwweg vanaf € 3.500, bij complexe gevallen meer.'
+    : 'SCIA in sanatoria: eenvoudig € 1.500 tot € 2.500, gemiddeld € 2.500 tot € 3.500, complex (vincolo, constructie, bestemming) vanaf € 3.500.';
+  const sr = SANATORIA[v.sanType];
+  if (sr && sr.min) $('sanSanctieHelp').textContent = `Twee keer de waardestijging van het huis volgens de Agenzia delle Entrate, wettelijk ${fmt(sr.min)} tot ${fmt(sr.max)}. Zonder waardestijging geldt het minimum.`;
   $('fDocfa').hidden = !v.docfa;
   $('fEco').hidden = v.bonusType !== 'eco';
   $('fSisma').hidden = v.bonusType !== 'sisma';
@@ -884,8 +977,19 @@ function update() {
   else { bh.textContent = ''; }
 
   const lh = $('legesHint');
-  if (titel.cls === 'pdc' && v.leges < 2000) { lh.className = 'hint warn'; lh.textContent = 'Bij een permesso di costruire komen er oneri di urbanizzazione en vaak een costo di costruzione bij. Vraag de gemeente wat dat bij jouw project is.'; }
-  else lh.textContent = '';
+  if ($('legesAuto').value === '1') { lh.className = 'hint'; lh.innerHTML = `Richtwaarde voor een ${esc(titel.naam)}. Pas aan zodra je het tarief van jouw gemeente kent.`; }
+  else { lh.className = 'hint'; lh.innerHTML = `Eigen bedrag. Richtwaarde voor een ${esc(titel.naam)}: ${fmt(LEGES[titel.key])}. <button type="button" class="chip" id="legesReset">Gebruik richtwaarde</button>`; }
+
+  const oh = $('oneriHint');
+  if (v.oneriNodig && !v.oneriM3 && !v.oneriBouw) { oh.className = 'hint warn'; oh.textContent = 'Vul het volume of de kosten van het nieuwe deel in, of vraag de gemeente om een berekening. Nu rekent de module geen bijdrage mee.'; }
+  else if (v.oneriNodig) { oh.className = 'hint'; oh.textContent = `Oneri ${fmt(v.oneriM3 * v.oneriTarief)} plus costo di costruzione ${fmt(v.oneriBouw * ONERI_COSTO)}: samen ${fmt(v.oneri)}.`; }
+  else oh.textContent = '';
+
+  const sh = $('sanHint');
+  if (v.legal === 'sanatoria' && sr && sr.min && (v.sanSanctie < sr.min || v.sanSanctie > sr.max)) { sh.className = 'hint bad'; sh.textContent = `De wettelijke boete voor deze route ligt tussen ${fmt(sr.min)} en ${fmt(sr.max)}.`; }
+  else if (v.legal === 'sanatoria' && v.sanType === 'pdc' && v.oneriNodig && v.oneri && v.sanContributo !== v.oneri) { sh.className = 'hint'; sh.innerHTML = `Ter vergelijking: de bijdrage voor je nieuwe werk in stap 5 is ${fmt(v.oneri)}. Gebruik dezelfde gemeentelijke tabel.`; }
+  else if (v.legal === 'sanatoria') { sh.className = 'hint warn'; sh.textContent = `Totaal sanatoria: ${fmt(v.legalTot)}. Andere bronnen noemen gemiddeld € 3.000 tot € 15.000 voor een legalisatie inclusief boete. Wordt de aanvraag afgewezen, dan volgt een boete van drie keer de waardestijging (minimaal € 1.032) of afbraak.`; }
+  else sh.textContent = '';
 
   const bfh = $('bufferHint');
   const adv = BUFFER[v.staat];
@@ -916,9 +1020,16 @@ function update() {
   if (btwParts.length) row(btwParts.join(', '), '', 'sub');
   row('Technici: honorarium, cassa en btw', fmt(s.honTot));
   row(`${fmt(s.hon)} + cassa ${fmt(s.cassa)} + btw ${fmt(s.honBtw)}`, '', 'sub');
-  if (v.leges) row('Gemeente: leges en oneri', fmt(v.leges));
-  if (v.legal === 'tardiva') row('CILA tardiva: technicus en sanctie', fmt(v.legalTot));
-  if (v.legal === 'sanatoria') row('Sanatoria (schatting)', fmt(v.legalTot));
+  if (v.leges) row('Gemeente: leges', fmt(v.leges));
+  if (v.oneri) row('Gemeente: contributo di costruzione', fmt(v.oneri));
+  if (v.legal === 'tardiva') {
+    row('CILA tardiva', fmt(v.legalTot));
+    row(`Sanctie ${fmt(v.sanctie)} + technicus ${fmt(v.tardTech)} + leges ${fmt(v.tardLeges)}`, '', 'sub');
+  }
+  if (v.legal === 'sanatoria') {
+    row(SANATORIA[v.sanType].label, fmt(v.legalTot));
+    row(`Boete ${fmt(v.sanOblazione)} + technicus ${fmt(v.sanTech)} + leges ${fmt(v.sanLeges)}${v.sanPaesTot ? ' + landschap ' + fmt(v.sanPaesTot) : ''}`, '', 'sub');
+  }
   if (v.docfa) row(`Kadaster bijwerken (DOCFA), ${v.docfaUnits} ${v.docfaUnits === 1 ? 'eenheid' : 'eenheden'}`, fmt(v.docfaTot));
   if (v.keuring) row('Bouwkundige keuring', fmt(v.keuring));
   row(`Buffer ${pct(v.buffer)}`, fmt(s.buffer));
@@ -944,6 +1055,7 @@ function update() {
   const pts = [];
   const pt = (t, cls) => pts.push(`<li${cls ? ` class="${cls}"` : ''}>${t}</li>`);
   if (v.legal === 'onbekend') pt('<strong>Laat eerst de huidige situatie controleren.</strong> Zijn er niet-gelegaliseerde overtredingen, dan kun je niet verbouwen en geen bonussen krijgen. Doe dit vóór het bod: de uitkomst bepaalt of je kunt verbouwen, wat het extra kost en wat het huis waard is.', 'bad');
+  if (v.legal === 'sanatoria' && v.vincolo) pt('<strong>Sanatoria in beschermd landschap:</strong> de soprintendenza kan altijd negatief adviseren, en bij absoluut bouwverbod is legaliseren niet mogelijk. De landschapsboete volgt pas uit een taxatie.', 'bad');
   if (v.legal === 'sanatoria') pt('<strong>Een sanatoria is een oordeel van de gemeente, geen formaliteit.</strong> De uitkomst staat niet vast. Laat de verkoper het vóór de akte oplossen, of neem een opschortende voorwaarde (<em>condizione sospensiva</em>) op in het voorcontract.', 'bad');
   if (v.legal === 'tardiva') pt('Interne verbouwingen zonder melding zijn te herstellen. Gebruik de offerte van je geometra als onderhandelingspunt bij de prijs.');
   if (v.vincolo) pt('<strong>Beschermd pand of gebied:</strong> vaak extra toestemming van de <em>soprintendenza</em> nodig, ook voor werk dat elders vergunningvrij is. Daken, ramen, kleuren en materialen zijn aan regels gebonden. Reken op extra tijd en op een mogelijke afwijzing.', 'warn');
@@ -994,12 +1106,27 @@ function load() {
 }
 
 /* ---------- koppelingen ---------- */
-form.addEventListener('input', update);
+form.addEventListener('input', (e) => {
+  if (e.target.id === 'leges') $('legesAuto').value = '0';
+  update();
+});
+form.addEventListener('click', (e) => {
+  if (e.target.id !== 'legesReset') return;
+  $('legesAuto').value = '1';
+  update();
+  $('leges').focus();
+});
 form.addEventListener('change', (e) => {
   const n = e.target.name;
   if (n === 'regio') $('factor').value = REGIO[e.target.value].factor;
   if (n === 'niveau' && NIVEAUS[e.target.value]) $('prijsM2').value = NIVEAUS[e.target.value].mid;
   if (n === 'staat') $('buffer').value = BUFFER[e.target.value];
+  if (n === 'sanType') {
+    const sr = SANATORIA[e.target.value];
+    if (sr.min) $('sanSanctie').value = sr.min;
+    $('sanTech').value = sr.tech;
+    $('sanLeges').value = sr.leges;
+  }
   update();
 });
 $('printBtn').addEventListener('click', () => window.print());

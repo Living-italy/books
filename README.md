@@ -152,11 +152,18 @@ Waar de bedragen vandaan komen:
 | Btw 4/10/22 % en de regel voor *beni significativi* | 9.4 | `btwOver()` |
 | Honorarium 8-12 % (klein 15 %), cassa 4-5 %, btw 22 % | 9.4 | stap 5 |
 | CILA *tardiva* (sanctie € 1.000 of € 333, technicus € 800-1.500), DOCFA (€ 300-1.000 plus € 70 per eenheid) | 9.2.3, 4.2.6 | stap 6 |
+| Leges per bouwtitel: CILA € 150, SCIA € 300, permesso € 450 (bandbreedte grote steden: € 50-300, € 150-500, € 300-600); in sanatoria anderhalf tot twee keer | tarieven Milaan (2026), Rome (2025), Padua (2023), Modena | `LEGES` |
+| Sanatoria SCIA: boete 2 × waardestijging, € 516-5.164 bij dubbele conformiteit, anders € 1.032-10.328 | DPR 380/2001 art. 36-bis lid 5 b, na L. 105/2024 | `SANATORIA` |
+| Permesso in sanatoria: boete 2 × *contributo di costruzione*; landschap: hoogste van schade en winst, via taxatie | DPR 380/2001 art. 36 en 36-bis lid 4 en 5 a | `SANATORIA`, stap 6 |
+| Honorarium sanatoria: SCIA € 1.500-3.500+, permesso vanaf € 3.500 | marktprijzen van Italiaanse studio's | `SANATORIA` |
+| *Contributo di costruzione*: oneri per m³ (voorbeeld € 45) plus 8 % *costo di costruzione* (wettelijk 5-20 %) | gemeentelijke tabellen (Grosseto, Casalpusterlengo), art. 16 DPR 380/2001 | `ONERI_COSTO`, stap 5 |
 | Buffer 10-15 %, oud en slecht onderhouden 20-30 % | 9.4 | `BUFFER` |
 | Snelknoppen extra posten (nutsaansluitingen, septic tank, linea vita, steigers) | 9.6.3 | `PRESETS` |
 | Bonus Ristrutturazioni per jaar van betaling (2026 50/36 % max. € 96.000 tot 2034+ 36 % max. € 48.000) | 9.5 | `BONUS_JAAR` |
 | Ecobonus-maxima, Sismabonus € 96.000 of € 136.000, Bonus Mobili | 9.5 | `bonus()` |
 | Plafond hoge inkomens (€ 14.000 of € 8.000 × gezinscoëfficiënt) | voetnoot 42 | `bonus()` |
+
+De leges, de honoraria en de oneri per m³ zijn richtwaarden: elke gemeente heeft een eigen tarief. De boetes voor de sanatoria staan in de wet. In sommige bronnen staat nog € 30.984 als maximum: dat was de tekst van het decreet vóór de omzetting in wet en geldt niet meer.
 
 Wijzigt de begrotingswet een percentage of plafond, pas dan de constanten bovenin het script aan en de bijbehorende uitleg in het formulier.
 
