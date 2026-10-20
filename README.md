@@ -15,6 +15,9 @@ koopdossier/              deze map upload je naar de server
   icons/                  app-iconen
   .htaccess               juiste bestandstype voor het manifest, geen cache op sw.js en inhoud
   fonts/                  Playfair Display en DM Sans (OFL-licentie)
+verbouwkosten/            rekenmodule verbouwkosten, los te uploaden
+  index.html              de hele module: opmaak, stijl, script en bedragen
+  fonts/                  Playfair Display en DM Sans (OFL-licentie)
 bron/                     bronbestanden voor de inhoud (oude check, model-compromesso), niet uploaden
 NAKIJKLIJST.md            lege velden en rode vlaggen om te controleren
 ```
@@ -132,6 +135,30 @@ Test op een telefoon (of in de browser op 360 px breed) en op een computer.
 5. Vul de adressen van Begrippenwijzer en chatbot in. Op een documentscherm staan dan de knoppen "Begrippenwijzer: …" en "Vraag het de chatbot".
 6. Open de app één keer met verbinding, zet de telefoon in vliegtuigmodus en open de app opnieuw. De check, de woningen en de dossiers werken. Kies in de browser "Toevoegen aan beginscherm": de app krijgt een eigen icoon.
 7. Verhoog `version` in `content.nl.json`. Bij het volgende bezoek met verbinding toont de voettekst de nieuwe datum, ook daarna offline.
+
+## Rekenmodule verbouwkosten
+
+`verbouwkosten/index.html` is een losse pagina die de kosten van een verbouwing of renovatie doorrekent, op basis van hoofdstuk 9 van de gids. Upload de map `verbouwkosten/` (met `fonts/`) naar bijvoorbeeld `public_html/verbouwkosten` en open `https://jouwdomein.nl/verbouwkosten/`. Er is geen server, database of build-stap nodig.
+
+De gebruiker vult in negen stappen in: de woning (oppervlakte, regio, staat, *vincolo*, *condominio*, bouwjaar), wat er gebeurt (niveau van de renovatie en vijf vragen naar de bouwtitel), extra posten, de btw, technici en gemeente, de huidige situatie (CILA *tardiva*, *sanatoria*, DOCFA, keuring), de buffer, tijdelijk wonen en de fiscale aftrek. De samenvatting toont het totaal met bandbreedte, de bouwtitel, de netto kosten na aftrek en de aandachtspunten. Invoer blijft in `localStorage` onder de sleutel `verbouwkosten`.
+
+Waar de bedragen vandaan komen:
+
+| Onderdeel | Bron in de gids | Waar in de code |
+| --- | --- | --- |
+| Prijs per m² (licht € 300-700, zwaar € 700-1.500, ingrijpend € 1.200-2.000+) | 9.4 | `NIVEAUS` |
+| Regiofactor (Noord +20-40 %, de module rekent met 30 %) | voetnoot 41 | `REGIO` |
+| Zuid en eilanden 0,85: **aanname**, de gids zegt alleen "duidelijk lager" | voetnoot 41 | `REGIO.zuid` |
+| Btw 4/10/22 % en de regel voor *beni significativi* | 9.4 | `btwOver()` |
+| Honorarium 8-12 % (klein 15 %), cassa 4-5 %, btw 22 % | 9.4 | stap 5 |
+| CILA *tardiva* (sanctie € 1.000 of € 333, technicus € 800-1.500), DOCFA (€ 300-1.000 plus € 70 per eenheid) | 9.2.3, 4.2.6 | stap 6 |
+| Buffer 10-15 %, oud en slecht onderhouden 20-30 % | 9.4 | `BUFFER` |
+| Snelknoppen extra posten (nutsaansluitingen, septic tank, linea vita, steigers) | 9.6.3 | `PRESETS` |
+| Bonus Ristrutturazioni per jaar van betaling (2026 50/36 % max. € 96.000 tot 2034+ 36 % max. € 48.000) | 9.5 | `BONUS_JAAR` |
+| Ecobonus-maxima, Sismabonus € 96.000 of € 136.000, Bonus Mobili | 9.5 | `bonus()` |
+| Plafond hoge inkomens (€ 14.000 of € 8.000 × gezinscoëfficiënt) | voetnoot 42 | `bonus()` |
+
+Wijzigt de begrotingswet een percentage of plafond, pas dan de constanten bovenin het script aan en de bijbehorende uitleg in het formulier.
 
 ## Lettertypen
 
