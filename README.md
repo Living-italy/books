@@ -140,7 +140,7 @@ Test op een telefoon (of in de browser op 360 px breed) en op een computer.
 
 `verbouwkosten/index.html` is een losse pagina die de kosten van een verbouwing of renovatie doorrekent, op basis van hoofdstuk 9 van de gids. Upload de map `verbouwkosten/` (met `fonts/`) naar bijvoorbeeld `public_html/verbouwkosten` en open `https://jouwdomein.nl/verbouwkosten/`. Er is geen server, database of build-stap nodig.
 
-De gebruiker vult in negen stappen in: de woning (oppervlakte, regio, staat, *vincolo*, *condominio*, bouwjaar), wat er gebeurt (niveau van de renovatie en vijf vragen naar de bouwtitel), extra posten, de btw, technici en gemeente, de huidige situatie (CILA *tardiva*, *sanatoria*, DOCFA, keuring), de buffer, tijdelijk wonen en de fiscale aftrek. De samenvatting toont het totaal met bandbreedte, de bouwtitel, de netto kosten na aftrek en de aandachtspunten. Invoer blijft in `localStorage` onder de sleutel `verbouwkosten`.
+De uitkomsten (totaal, bandbreedte, terug via aftrek en netto) staan afgerond op € 5.000; de posten zelf en de optelsom blijven exact. De gebruiker vult in negen stappen in: de woning (oppervlakte, regio, staat, *vincolo*, *condominio*, bouwjaar), wat er gebeurt (niveau van de renovatie en vijf vragen naar de bouwtitel), extra posten, de btw, technici en gemeente, de huidige situatie (CILA *tardiva*, *sanatoria*, DOCFA, keuring), de buffer, tijdelijk wonen en de fiscale aftrek. De samenvatting toont het totaal met bandbreedte, de bouwtitel, de netto kosten na aftrek en de aandachtspunten. Invoer blijft in `localStorage` onder de sleutel `verbouwkosten`.
 
 Waar de bedragen vandaan komen:
 
