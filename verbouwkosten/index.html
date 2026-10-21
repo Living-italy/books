@@ -755,10 +755,12 @@ const $ = (id) => document.getElementById(id);
 const form = $('calc');
 const eur = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 const fmt = (n) => eur.format(Math.round(n || 0));
-// Uitkomsten tonen we afgerond op € 5.000: de module geeft een orde van grootte, geen offerte.
-const STAP = 5000;
-const rond = (n) => (n > 0 ? Math.max(STAP, Math.round(n / STAP) * STAP) : 0);
-const rondAf = (n) => Math.round(Math.max(0, n) / STAP) * STAP;
+// Uitkomsten tonen we afgerond: de module geeft een orde van grootte, geen offerte.
+// Kleine projecten (totaal onder € 50.000) op € 1.000, de rest op € 5.000.
+const KLEIN = 50000;
+const stapVoor = (totaal) => (totaal < KLEIN ? 1000 : 5000);
+const rond = (n, stap) => (n > 0 ? Math.max(stap, Math.round(n / stap) * stap) : 0);
+const rondAf = (n, stap) => Math.round(Math.max(0, n) / stap) * stap;
 const pct = (n) => (Math.round(n * 1000) / 10).toLocaleString('nl-NL') + ' %';
 
 let extras = [];
@@ -1007,9 +1009,10 @@ function update() {
   else mh.textContent = '';
 
   // samenvatting
-  $('sTotal').textContent = fmt(rond(s.totaal));
-  $('mTotal').textContent = fmt(rond(s.totaal));
-  $('sRange').textContent = (lo ? `Bandbreedte ${fmt(rond(lo.totaal))} tot ${fmt(rond(hi.totaal))}${niv.plus ? ' of meer' : ''}, met de laagste en hoogste prijs per m².` : 'Op basis van jouw offerte.') + ' Afgerond op € 5.000.';
+  const stap = stapVoor(s.totaal);
+  $('sTotal').textContent = fmt(rond(s.totaal, stap));
+  $('mTotal').textContent = fmt(rond(s.totaal, stap));
+  $('sRange').textContent = (lo ? `Bandbreedte ${fmt(rond(lo.totaal, stap))} tot ${fmt(rond(hi.totaal, stap))}${niv.plus ? ' of meer' : ''}, met de laagste en hoogste prijs per m².` : 'Op basis van jouw offerte.') + ` Afgerond op ${fmt(stap)}.`;
 
   const rows = [];
   const row = (l, n, cls) => rows.push(`<tr${cls ? ` class="${cls}"` : ''}><td>${l}</td><td>${n}</td></tr>`);
@@ -1039,8 +1042,7 @@ function update() {
   row(`Buffer ${pct(v.buffer)}`, fmt(s.buffer));
   if (v.overbrugging) row(`Tijdelijk wonen, ${v.maanden} ${v.maanden === 1 ? 'maand' : 'maanden'}`, fmt(v.overbrugging));
   if (v.mobili) row('Meubels en apparaten', fmt(v.mobili));
-  row('Totaal te betalen, afgerond', fmt(rond(s.totaal)), 'sum');
-  row(`Optelsom van de posten: ${fmt(s.totaal)}`, '', 'sub');
+  row('Totaal te betalen, afgerond', fmt(rond(s.totaal, stap)), 'sum');
 
   if (v.bonusType !== 'geen') {
     const naam = { ristr: 'Bonus Ristrutturazioni', eco: 'Ecobonus', sisma: 'Sismabonus' }[v.bonusType];
@@ -1048,9 +1050,9 @@ function update() {
     row(`Aftrekbare kosten ${fmt(b.basis)}, plafond ${fmt(b.cap)}. Per jaar ${fmt(b.per)} gedurende 10 jaar.`, '', 'sub');
     if (b.mobiliPer) row('Bonus Mobili: 50 % over max. € 5.000', fmt(b.mobiliPer * 10), 'minus');
     const terug = v.irpefStatus === 'weet' ? b.totaal + b.mobiliPer * 10 : b.benutTotaal;
-    row(v.irpefStatus === 'weet' ? 'Terug via aftrek, maximaal, afgerond' : 'Terug via aftrek, echt te benutten, afgerond', terug > 0 && !rondAf(terug) ? 'minder dan € 2.500' : '− ' + fmt(rondAf(terug)), 'minus');
+    row(v.irpefStatus === 'weet' ? 'Terug via aftrek, maximaal, afgerond' : 'Terug via aftrek, echt te benutten, afgerond', terug > 0 && !rondAf(terug, stap) ? 'minder dan ' + fmt(stap / 2) : '− ' + fmt(rondAf(terug, stap)), 'minus');
     if (v.irpefStatus !== 'weet') row(`${fmt(b.benut)} per jaar${b.verloren > 0 ? `, ${fmt(b.verloren)} vervalt` : ''}`, '', 'sub');
-    row('Netto na aftrek, over 10 jaar', fmt(Math.max(0, rond(s.totaal) - rondAf(terug))), 'net');
+    row('Netto na aftrek, over 10 jaar', fmt(Math.max(0, rond(s.totaal, stap) - rondAf(terug, stap))), 'net');
   }
   $('sLines').innerHTML = rows.join('');
 
