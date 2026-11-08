@@ -16,13 +16,13 @@
 
 <!-- Canvas Theme CSS (voor header/menu) -->
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Poppins:300,400,500,600,700|PT+Serif:400,400i&display=swap" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
-<link rel="stylesheet" href="style.css" type="text/css" />
-<link rel="stylesheet" href="css/dark.css" type="text/css" />
-<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
-<link rel="stylesheet" href="css/animate.css" type="text/css" />
-<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-<link rel="stylesheet" href="css/custom.css" type="text/css" />
+<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/dark.css" type="text/css" />
+<link rel="stylesheet" href="/css/font-icons.css" type="text/css" />
+<link rel="stylesheet" href="/css/animate.css" type="text/css" />
+<link rel="stylesheet" href="/css/magnific-popup.css" type="text/css" />
+<link rel="stylesheet" href="/css/custom.css" type="text/css" />
 
 <!-- Calculator eigen fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -638,7 +638,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; }
 				<div class="header-row">
 					<!-- Logo -->
 					<div id="logo">
-						<a href="index.php" class="retina-logo" data-dark-logo="Afbeeldingen/logo@2x.png"><img src="Afbeeldingen/logo@2x.png" alt="Stef Smulders"></a>
+						<a href="/index.php" class="retina-logo" data-dark-logo="/Afbeeldingen/logo@2x.png"><img src="/Afbeeldingen/logo@2x.png" alt="Stef Smulders"></a>
 					</div><!-- #logo end -->
 
 					<div class="primary-menu-trigger">
@@ -647,9 +647,9 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; }
 						</button>
 					</div>
 					<!-- Primary Navigation -->
-					<?php require_once 'Code-snippets/Menu.php';?>
+					<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/Code-snippets/Menu.php';?>
 
-					<form class="top-search-form" action="search.html" method="get">
+					<form class="top-search-form" action="/search.html" method="get">
 						<input type="text" name="q" class="form-control" value="" placeholder="Scrivi e premi Invio..." autocomplete="off">
 					</form>
 				</div>
@@ -1205,7 +1205,7 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; }
 		<div class="cta-banner">
 			<h3 style="color:white;">Vuoi capire esattamente che cosa significano tutti questi importi,<br>e come risparmiare migliaia di euro?</h3>
 			<p>Il calcolo qui sopra è solo l'inizio. Nella guida &ldquo;Een Huis kopen in Itali&euml;&rdquo; leggi come funziona esattamente il sistema del <em>prezzo-valore</em>, quando hai diritto e quando no alle agevolazioni <em>prima casa</em>, quanto capitale proprio devi mettere a disposizione e molto altro.</p>
-			<img src="Afbeeldingen/3d-boeken/3dhuiskopen.png" alt="Een Huis kopen in Italië">
+			<img src="/Afbeeldingen/3d-boeken/3dhuiskopen.png" alt="Een Huis kopen in Italië">
 			<p style="color:white;"><a href="https://stefsmulders.nl/Huis-kopen-Italie.php" class="cta-button">&#x1F4D6; Ordina la guida</a></p>
 			<div class="cta-sub"></div>
 		</div>
@@ -2229,9 +2229,9 @@ calculate();
 </script>
 
 <!-- JavaScripts (voor Canvas theme header/menu) -->
-<script src="js/jquery.js"></script>
-<script src="js/plugins.min.js"></script>
-<script src="js/functions.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.min.js"></script>
+<script src="/js/functions.js"></script>
 	<!-- Default Statcounter code for StefSmulders
 http://www.stefsmulders.nl -->
 <script type="text/javascript">
