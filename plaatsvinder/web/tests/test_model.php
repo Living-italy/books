@@ -33,6 +33,8 @@ check(!in_array($ercolano, $ids, true), 'Ercolano (rode zone Vesuvius) valt stan
 $ids = array_column(scoor(['profiel' => 'tweede_huis', 'filters' => ['rode_zone_uit' => false]], $c, 100000)['top'], 'istat');
 check(in_array($ercolano, $ids, true), 'Ercolano komt terug als het filter uit staat');
 
+$n = scoor(['profiel' => 'gepensioneerde', 'ligging' => ['heuvel']], $c, 1)['aantal'];
+check($n > 1000, "ligging heuvel + gepensioneerde geeft plaatsen ($n)");
 check(totaal(['a' => 80, 'b' => null], ['a' => 50, 'b' => 50]) === 80.0, 'ontbrekende data: gewicht gaat naar de andere criteria');
 
 $alle = scoor(['profiel' => 'gezin'], $c, 100000)['top'];

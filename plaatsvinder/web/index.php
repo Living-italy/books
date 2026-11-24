@@ -3,8 +3,14 @@ declare(strict_types=1);
 require __DIR__ . '/lib/data.php';
 $lang = 'nl';
 $t = taal($lang);
+$cfg = [];
+foreach (['criteria', 'profielen', 'bronnen', 'aandachtspunten', 'regime7', 'trends'] as $n) {
+    $cfg[$n] = json_decode((string)file_get_contents(__DIR__ . "/config/$n.json"), true);
+}
+$cfg['bron_van'] = meta()['bron_van'] ?? [];
 $v = @filemtime(__DIR__ . '/data/comuni-lite.json') ?: time();
 $e = fn(string $s) => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+$j = fn($x) => json_encode($x, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);
 ?><!doctype html>
 <html lang="<?= $e($lang) ?>">
 <head>
@@ -16,20 +22,18 @@ $e = fn(string $s) => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 </head>
 <body>
 <main id="app" class="pv" aria-live="polite">
-  <header class="pv-kop">
-    <h1><?= $e($t['meta']['titel']) ?></h1>
-    <p class="pv-sub"><?= $e($t['meta']['ondertitel']) ?></p>
-  </header>
+  <header class="pv-kop"><h1><?= $e($t['meta']['titel']) ?></h1></header>
   <p class="pv-laden"><?= $e($t['meta']['laden']) ?></p>
   <noscript><p>Deze plaatsvinder heeft JavaScript nodig.</p></noscript>
 </main>
 <script>
 window.PV = {
-  taal: <?= json_encode($t, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) ?>,
-  lang: <?= json_encode($lang) ?>,
+  taal: <?= $j($t) ?>,
+  cfg: <?= $j($cfg) ?>,
+  lang: <?= $j($lang) ?>,
   lite: "data/comuni-lite.json?v=<?= (int)$v ?>",
   score: "score.php",
-  zoek: "zoek.php"
+  gemeente: "gemeente.php"
 };
 </script>
 <script src="assets/app.js?v=<?= (int)@filemtime(__DIR__ . '/assets/app.js') ?>"></script>

@@ -140,7 +140,7 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
     compact = []
     for o in rijen:
         compact.append({k: o[k] for k in ["istat", "naam", "prov", "regio", "regio_code", "lat", "lon", "inwoners",
-                                          "hoogte_m", "trend"]} | {"s": o["s"], "tw": o["t"]["winter"], "tt": o["t"]["tachtig"],
+                                          "hoogte_m", "trend"] + LIGGING} | {"s": o["s"], "tw": o["t"]["winter"], "tt": o["t"]["tachtig"],
                        "w": {k: o["w"].get(k) for k in SCORE_W if o["w"].get(k) is not None}})
     (web / "score.json").write_text(json.dumps({"meta": {"gemaakt": meta["gemaakt"], "aantal": len(compact)},
                                                 "comuni": compact}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

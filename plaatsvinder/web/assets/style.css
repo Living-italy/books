@@ -124,3 +124,58 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 }
 .pv-chip.aan { border-color: var(--pv-accent); background: var(--pv-accent); color: var(--pv-vlak); font-weight: 600; }
 .pv-chip.aan::before { content: "✓ "; }
+
+/* ---- versie 2: profielen, schuifjes, filters, gemeentepagina, vergelijken ---- */
+.pv-kop h1 a { color: inherit; text-decoration: none; }
+.pv-noot { font-size: .85rem; color: var(--pv-zacht); margin: 4px 0 12px; }
+.pv-som { font-weight: 600; margin: 0 0 8px; }
+.pv-schuifjes { display: flex; flex-direction: column; gap: 14px; margin-bottom: 12px; }
+.pv-schuif { background: var(--pv-vlak); border: 1px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 12px 14px; }
+.pv-schuif.uit { opacity: .6; }
+.pv-schuif-kop { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-weight: 600; }
+.pv-schuif input[type=range] { width: 100%; accent-color: var(--pv-accent); min-height: 32px; }
+.pv-schuif-uitleg { font-size: .85rem; color: var(--pv-zacht); margin: 2px 0 0; }
+.pv-gewicht { font-variant-numeric: tabular-nums; min-width: 2.5em; text-align: right; color: var(--pv-accent); }
+.pv-basis { display: inline-block; font-size: .72rem; border-radius: 999px; padding: 1px 8px; margin-left: 2px;
+  background: var(--pv-bg); border: 1px solid var(--pv-lijn); color: var(--pv-zacht); white-space: nowrap; }
+.pv-basis-E { border-style: dashed; }
+.pv-vinkje { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; }
+.pv-vinkje input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--pv-accent); flex: 0 0 auto; }
+.pv-groep { border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 10px 14px 0; margin: 0 0 16px; }
+.pv-groep legend { font-weight: 600; padding: 0 4px; }
+.pv-knop-klein { flex: 0 0 auto; min-height: 40px; padding: 8px 14px; text-decoration: none; display: inline-flex; align-items: center; }
+.pv-knoprij .pv-vinkje { margin: 0; align-items: center; }
+.pv-balk { display: inline-block; flex: 1; height: 8px; background: var(--pv-lijn); border-radius: 4px; overflow: hidden; min-width: 60px; }
+.pv-balk span { display: block; height: 100%; background: var(--pv-accent); }
+.pv-punten li { display: flex; gap: 8px; align-items: center; list-style: none; margin-left: -18px; }
+.pv-punten li > span:first-child { flex: 0 0 45%; }
+.pv-getal { font-variant-numeric: tabular-nums; min-width: 2.2em; text-align: right; font-size: .9rem; }
+.pv-tests { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.pv-chip { font-size: .85rem; border: 1px solid var(--pv-lijn); border-radius: 999px; padding: 3px 10px; background: var(--pv-bg); }
+.pv-chip.laag { border-color: var(--pv-zwak); color: var(--pv-zwak); }
+.pv-badge-trend { display: inline-block; font-size: .75rem; background: var(--pv-zwak-zacht); color: var(--pv-zwak); border-radius: 999px; padding: 2px 8px; margin-top: 4px; }
+.pv-gemeente h2 { margin-top: 12px; }
+.pv-criteria, .pv-waarden, .pv-delen { list-style: none; padding: 0; margin: 0; }
+.pv-criterium { background: var(--pv-vlak); border: 1px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 12px 14px; margin-bottom: 10px; }
+.pv-criterium.leeg { opacity: .7; }
+.pv-criterium-kop { display: flex; align-items: center; gap: 10px; }
+.pv-criterium-kop strong { flex: 0 0 45%; }
+.pv-waarde { padding: 6px 0; border-top: 1px solid var(--pv-lijn); display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.pv-waarde-label { flex: 1 1 60%; }
+.pv-bronregel { flex: 1 1 100%; font-size: .75rem; color: var(--pv-zacht); }
+.pv-risico, .pv-blok, .pv-testkaart { background: var(--pv-vlak); border: 1px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 12px 14px; margin: 14px 0; }
+.pv-risico { border-left: 4px solid var(--pv-zwak); }
+.pv-risico h3, .pv-blok h3, .pv-testkaart h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.pv-tests-groot { display: grid; gap: 12px; }
+@media (min-width: 640px) { .pv-tests-groot { grid-template-columns: 1fr 1fr; } }
+.pv-testkaart { margin: 0; }
+.pv-testscore { margin: 4px 0 8px; }
+.pv-testscore strong { font-size: 1.6rem; color: var(--pv-accent); }
+.pv-delen li { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: .9rem; }
+.pv-delen li > span:first-child { flex: 0 0 50%; }
+.pv-checklist { padding-left: 20px; }
+.pv-tabelrol { overflow-x: auto; margin: 12px 0; }
+.pv-tabel { border-collapse: collapse; width: 100%; font-size: .9rem; }
+.pv-tabel th, .pv-tabel td { border-bottom: 1px solid var(--pv-lijn); padding: 8px 6px; text-align: left; vertical-align: top; }
+.pv-tabel thead th { position: sticky; top: 0; background: var(--pv-bg); }
+.pv-totaalrij td strong { font-size: 1.2rem; color: var(--pv-accent); }

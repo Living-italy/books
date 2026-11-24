@@ -1,8 +1,7 @@
 {
   "meta": {
-    "lang": "nl",
     "titel": "Plaatsvinder Italië",
-    "ondertitel": "Vind in acht stappen de Italiaanse plaatsen die bij je passen.",
+    "ondertitel": "Vind de Italiaanse gemeenten die bij je passen, met open data en eerlijke uitleg.",
     "laden": "Gegevens laden…",
     "fout_laden": "De gegevens konden niet worden geladen. Probeer het later opnieuw."
   },
@@ -10,13 +9,18 @@
     "start": "Begin",
     "volgende": "Volgende",
     "vorige": "Vorige",
-    "overslaan": "Overslaan",
     "resultaat": "Toon mijn top 25",
     "opnieuw": "Opnieuw beginnen",
     "aanpassen": "Antwoorden aanpassen",
-    "wissen": "Wissen",
     "alles_aan": "Alles aan",
-    "alles_uit": "Alles uit"
+    "alles_uit": "Alles uit",
+    "terug_lijst": "Terug naar de lijst",
+    "bekijk": "Bekijk gemeente",
+    "vergelijk": "Vergelijk",
+    "vergelijk_n": "Vergelijk ({n})",
+    "wis_vergelijk": "Wis keuze",
+    "startwaarden": "Terug naar de startwaarden",
+    "overslaan": "Overslaan"
   },
   "teller": {
     "een": "Nog 1 plaats over",
@@ -26,6 +30,17 @@
   },
   "stap": "Stap {n} van {totaal}",
   "stappen": {
+    "profiel": {
+      "titel": "Wie bent u?",
+      "uitleg": "Uw profiel bepaalt de startgewichten. Die kunt u in stap 4 aanpassen.",
+      "uitleg_per_profiel": {
+        "gepensioneerde": "Zorg, voorzieningen, klimaat en prijs wegen zwaar.",
+        "tweede_huis": "Bereikbaarheid, natuur en prijs wegen zwaar.",
+        "gezin": "Voorzieningen, scholen, internet en levendigheid wegen zwaar.",
+        "remote_worker": "Snel internet en bereikbaarheid wegen zwaar.",
+        "investeerder": "Toerisme, herverkoopbaarheid en prijs wegen zwaar."
+      }
+    },
     "ligging": {
       "titel": "Waar wil je wonen?",
       "uitleg": "Kies één of meer. Geen keuze betekent: alles is goed.",
@@ -78,76 +93,41 @@
         ]
       }
     },
-    "profiel": {
-      "titel": "Wie ben je?",
-      "uitleg": "Dit verschuift het gewicht van een paar punten. Er valt geen plaats af.",
-      "opties": {
-        "gepensioneerd": [
-          "Gepensioneerd",
-          "Zorg en apotheek tellen zwaarder"
-        ],
-        "thuiswerker": [
-          "Thuiswerker",
-          "Snel internet telt zwaarder"
-        ],
-        "forens": [
-          "Forens",
-          "Treinstation en afstand tot je werk tellen zwaarder"
-        ],
-        "werkzoekend": [
-          "Op zoek naar werk",
-          "Economie telt zwaarder"
-        ],
-        "anders": [
-          "Iets anders",
-          "Geen extra gewicht"
-        ]
-      }
+    "gewichten": {
+      "titel": "Wat vindt u belangrijk?",
+      "uitleg": "De gewichten tellen samen op tot 100. Schuift u er één omhoog, dan zakken de andere naar verhouding.",
+      "expertoordeel": "Startwaarden op basis van expertoordeel.",
+      "geen_data": "nog geen data",
+      "geen_data_uitleg": "Voor dit criterium is nog geen open bron beschikbaar; het telt niet mee.",
+      "som": "Totaal: {n}",
+      "expats_titel": "Andere Nederlanders, Belgen, Duitsers en Britten in de buurt?"
     },
-    "top": {
-      "titel": "Wat vind je het belangrijkst?",
-      "uitleg": "Kies je top 3, in volgorde. Je eerste keuze telt het zwaarst.",
-      "gekozen": "Keuze {n}"
-    },
-    "extra": {
-      "titel": "Wat telt daarnaast ook mee?",
-      "uitleg": "Optioneel. Elke keuze telt flink mee, maar minder dan je top 3. Niets kiezen kan ook.",
-      "scholen_titel": "Welke scholen zoek je?",
-      "scholen_uitleg": "We kijken of er binnen 5 km een school van dat niveau is.",
-      "scholen": {
-        "basis": "Basisschool (scuola primaria)",
-        "midden": "Middenschool (scuola secondaria di primo grado)",
-        "hoog": "Middelbare school (liceo of istituto)"
-      },
-      "jouw_top": "Jouw top 3",
-      "top_aanpassen": "Top 3 aanpassen",
-      "ook_meetellen": "Ook belangrijk"
-    },
-    "bereik": {
-      "titel": "Hoe bereikbaar moet het zijn?",
-      "uitleg": "Maximale rijtijd met de auto.",
-      "luchthaven": "Naar een luchthaven",
-      "station": "Naar een treinstation",
-      "geen_limiet": "Maakt niet uit",
+    "filters": {
+      "titel": "Wat is voor u een harde eis?",
+      "uitleg": "Een gemeente die hier niet aan voldoet, valt af.",
+      "max_prijs": "Maximale prijs per m² (koop, OMI)",
+      "max_luchthaven": "Maximale rijtijd naar een luchthaven met vluchten het hele jaar",
+      "max_luchthaven_noot": "Welke luchthavens het hele jaar vluchten naar Nederland, België of Duitsland hebben, is een voorlopige inschatting.",
+      "max_ziekenhuis": "Maximale rijtijd naar een ziekenhuis met spoedeisende hulp",
+      "max_uur": "Maximale rijtijd naar huis",
+      "stad": "Naar",
+      "uren": "{n} uur",
+      "zone1": "Gemeenten in seismische zone 1 (hoogste aardbevingsgevaar) uitsluiten",
+      "rode_zone": "Gemeenten in de rode zone van de Vesuvius of de Campi Flegrei uitsluiten",
+      "min_glasvezel": "Minimaal aandeel huishoudens met glasvezel",
+      "regime7": "Alleen gemeenten met het 7%-regime voor buitenlandse pensioenen",
+      "geen_limiet": "Geen eis",
       "minuten": "{n} minuten",
-      "werk": "Werkplek (optioneel)",
-      "werk_plaats": "Plaats van je werk",
-      "werk_zoek": "Typ een plaatsnaam",
-      "werk_straal": "Maximaal hemelsbreed",
-      "km": "{n} km",
-      "werk_geen": "Geen plaats gevonden"
-    },
-    "budget": {
-      "titel": "Wat is je budget?",
-      "uitleg": "We rekenen met de officiële woningwaarden van OMI. Vraagprijzen liggen vaak hoger.",
+      "pct": "{n}%",
+      "euro": "€ {n}",
+      "budget_titel": "Budget (optioneel)",
       "soort": "Ik wil",
       "huren": "huren",
       "kopen": "kopen",
       "geen": "geen budget opgeven",
       "max_koop": "Maximale koopprijs (€)",
       "max_huur": "Maximale huur per maand (€)",
-      "m2": "Woninggrootte (m²)",
-      "geen_omi": "Let op: er zijn nog geen OMI-prijzen geladen. Het budget filtert daarom nog niets."
+      "m2": "Woninggrootte (m²)"
     },
     "regio": {
       "titel": "Waar in Italië?",
@@ -160,6 +140,12 @@
       "provs_uitleg": "Geen provincie gekozen betekent: de hele regio.",
       "alleen_leeg": "Kies minstens één regio, anders zoeken we in heel Italië."
     }
+  },
+  "steden": {
+    "utrecht": "Utrecht",
+    "brussel": "Brussel",
+    "keulen": "Keulen",
+    "munchen": "München"
   },
   "regios": {
     "1": "Piemonte",
@@ -183,108 +169,136 @@
     "19": "Sicilia",
     "20": "Sardegna"
   },
-  "prioriteiten": {
-    "betaalbaar": [
-      "Betaalbaar wonen",
-      "Lage woningprijzen (OMI)"
-    ],
-    "zorg": [
-      "Zorg dichtbij",
-      "Ziekenhuis en apotheek"
-    ],
-    "economie": [
-      "Economie",
-      "Gemiddeld inkomen"
-    ],
-    "internet": [
-      "Snel internet",
-      "Glasvezel tot in huis"
-    ],
-    "lucht": [
-      "Schone lucht",
-      "Weinig fijnstof"
-    ],
-    "milieu": [
-      "Milieu",
-      "Afval gescheiden ingezameld"
-    ],
-    "trein": [
-      "Treinstation",
-      "Station dichtbij"
-    ],
-    "luchthaven": [
-      "Luchthaven",
-      "Snel op het vliegveld"
-    ],
-    "voorzieningen": [
-      "Voorzieningen",
-      "Winkels en horeca op loopafstand"
-    ],
-    "internationaal": [
-      "Internationale gemeenschap",
-      "Veel inwoners uit het buitenland"
-    ],
-    "groei": [
-      "Groeiende plaats",
-      "Bevolking groeit"
-    ],
-    "scholen": [
-      "Scholen",
-      "Scholen binnen 5 km"
-    ]
+  "basis": {
+    "D": "op basis van enquêtes onder kopers",
+    "DE": "deels enquêtes, deels expertoordeel",
+    "E": "expertoordeel"
   },
   "uitslag": {
-    "titel": "Jouw top 25",
-    "uitleg": "Score van 0 tot 100: hoe deze plaats scoort op wat jij belangrijk vindt, vergeleken met alle andere plaatsen.",
+    "titel": "Uw top 25",
+    "uitleg": "Score van 0 tot 100: hoe de gemeente scoort op wat u belangrijk vindt, vergeleken met alle gemeenten in Italië.",
+    "aantal": "{n} gemeenten voldoen aan uw eisen.",
+    "leeg": "Geen gemeenten gevonden. Maak een eis ruimer.",
+    "bezig": "Bezig met rekenen…",
+    "fout": "Er ging iets mis bij het berekenen. Probeer het opnieuw.",
     "score": "Score",
     "sterk": "Sterk",
     "zwak": "Minder sterk",
-    "geen_data": "Geen gegevens over: {lijst}",
-    "provinciecijfer": "provinciecijfer",
-    "leeg": "Geen plaatsen gevonden met deze antwoorden.",
-    "aantal": "{n} plaatsen voldoen aan je filters.",
-    "bezig": "Bezig met rekenen…",
-    "fout": "Er ging iets mis bij het berekenen. Probeer het opnieuw.",
+    "geen_data": "Geen data: {lijst}",
     "inwoners": "{n} inwoners",
     "hoogte": "{n} m hoogte",
-    "bronnen": "Bronnen: ISTAT, Agenzia delle Entrate – OMI (CC BY 4.0; officiële waarden, vraagprijzen liggen vaak hoger), ISPRA Catasto Rifiuti, European Environment Agency (EEA), MIM, MEF, AGCOM, Ministero della Salute. Kaartdata en rijtijden:",
-    "osm": "© OpenStreetMap-bijdragers (ODbL)",
-    "osm_link": "https://www.openstreetmap.org/copyright",
-    "woonlast_kopen": "Geschatte koopprijs: € {prijs} voor {m2} m² (€ {m2_prijs} per m²)",
-    "woonlast_huren": "Geschatte huur: € {prijs} per maand voor {m2} m² (€ {m2_prijs} per m²)",
-    "woonlast_onder": "{pct}% onder je budget",
-    "woonlast_rond": "rond je budget",
-    "woonlast_geen": "Geen prijsgegevens voor deze plaats",
-    "woonlast_bron": "officiële OMI-waarde; vraagprijzen liggen vaak hoger"
+    "winter": "Wintertest",
+    "tachtig": "80-jarentest",
+    "trend": "In opkomst bij buitenlanders",
+    "vergelijk_max": "U kunt maximaal 3 gemeenten vergelijken.",
+    "woonlast_kopen": "Geschatte koopprijs € {prijs} voor {m2} m²",
+    "woonlast_huren": "Geschatte huur € {prijs} per maand voor {m2} m²",
+    "woonlast_onder": "{pct}% onder uw budget",
+    "woonlast_rond": "rond uw budget",
+    "woonlast_geen": "Geen prijsgegevens"
   },
-  "zinnen": {
-    "betaalbaar": "woningen rond € {koop} per m² (officiële waarde)",
-    "betaalbaar_huur": "huur rond € {huur} per m² per maand (officiële waarde)",
-    "betaalbaar_budget": "geschat € {prijs}, {pct}% onder je budget",
-    "betaalbaar_budget_krap": "geschat € {prijs}, net binnen je budget",
-    "zorg": "ziekenhuis op {min} rijden, {apotheek}",
-    "zorg_geen_rit": "{apotheek}",
-    "apotheek_0": "geen apotheek in de plaats",
-    "apotheek_1": "apotheek in de plaats",
-    "apotheek_n": "{n} apotheken in de plaats",
-    "economie": "gemiddeld belastbaar inkomen € {inkomen} per jaar",
-    "internet": "glasvezel voor {pct}% van de huishoudens",
-    "lucht": "fijnstof (PM2,5) {pm25} µg/m³ per jaar",
-    "milieu": "{pct}% van het afval gescheiden ingezameld",
-    "trein": "treinstation {naam} op {min}",
-    "luchthaven": "luchthaven {naam} op {min}",
-    "minuten": "{n} min",
-    "ver": "meer dan 4 uur",
-    "voorzieningen_0": "geen winkels of horeca binnen 800 m van het centrum",
-    "voorzieningen": "{n} winkels en horecazaken binnen 800 m van het centrum",
-    "internationaal": "{pct}% inwoners met een buitenlandse nationaliteit",
-    "groei": "bevolking {pct}% in 2025",
-    "scholen_alle": "{lijst} binnen 5 km",
-    "scholen_mist": "geen {lijst} binnen 5 km",
-    "school_basis": "basisschool",
-    "school_midden": "middenschool",
-    "school_hoog": "middelbare school",
-    "werk": "{km} km hemelsbreed van je werk",
-    "en": "en"
-  }
+  "gemeente": {
+    "deelscores": "Score per criterium",
+    "totaal": "Totaalscore met uw gewichten",
+    "gewicht": "gewicht {n}",
+    "risico_titel": "Natuurrisico's",
+    "risico_uitleg": "Altijd tonen, ook als risico in uw profiel weinig weegt. Controleer het perceel zelf in IdroGEO.",
+    "idrogeo_link": "Bekijk het perceel in IdroGEO",
+    "seismisch": "Seismische zone",
+    "seismisch_zone": "zone {z} ({tekst})",
+    "zones": {
+      "1": "hoogste gevaar",
+      "2": "middelhoog gevaar",
+      "3": "laag gevaar",
+      "4": "zeer laag gevaar"
+    },
+    "frane": "Inwoners in aardverschuivingszone (P3+P4)",
+    "alluvioni": "Inwoners in overstromingsgebied (P2)",
+    "bosbrand": "Afgebrand oppervlak sinds 2016",
+    "vulkaan": "Vulkaan",
+    "vulkaan_geen": "niet in een rode zone",
+    "vulkaan_geheel": "in de rode zone van de {v}",
+    "vulkaan_deels": "deels in de rode zone van de {v}",
+    "winter_titel": "Wintertest: hoe is het hier in januari?",
+    "winter_uitleg": "Meet of de plaats ook buiten het seizoen leeft: diensten in de buurt, bevolking, vergrijzing, winkels en hoe sterk het toerisme in de zomer piekt.",
+    "winter_delen": {
+      "snai": "Afstand tot diensten (SNAI)",
+      "groei_10j": "Bevolkingsontwikkeling over 10 jaar",
+      "65plus": "Aandeel 65-plussers (lager is beter)",
+      "basis_lopen": "Supermarkt, apotheek en bar binnen 800 m",
+      "zomerpiek": "Zomerpiek toerisme (lager is beter)",
+      "winter_hoogte": "Hoogteligging (benadering voor sneeuw en vorst)"
+    },
+    "tachtig_titel": "80-jarentest: kunt u hier oud worden?",
+    "tachtig_uitleg": "Meet hoe goed zorg en dagelijkse dingen bereikbaar zijn als autorijden lastiger wordt.",
+    "tachtig_delen": {
+      "ziekenhuis": "Rijtijd naar spoedeisende hulp",
+      "apotheek_huisarts": "Apotheek en huisarts",
+      "supermarkt_lopen": "Supermarkt op loopafstand",
+      "ov": "Treinstation in de buurt",
+      "lea": "Kwaliteit regionale zorg (LEA)"
+    },
+    "regime7_titel": "7%-regime voor buitenlandse pensioenen",
+    "regime7": {
+      "ja": "Komt in aanmerking.",
+      "nee": "Komt niet in aanmerking.",
+      "te_verifieren": "Controleer de actuele wettekst."
+    },
+    "herverkoop_titel": "Herverkoop",
+    "herverkoop_geen": "Nog geen data over verkochte woningen (OMI-transacties).",
+    "herverkoop": "{n} verkopen per 100 woningen per jaar.",
+    "checklist_titel": "Altijd doen voordat u koopt",
+    "niet_in_score": "Niet in de score, wel belangrijk: {lijst}.",
+    "alternatieven_titel": "Vergelijkbare gemeenten met een hogere score",
+    "alternatieven_uitleg": "Zelfde grootte, vergelijkbaar profiel. Kopers vergelijken zelden met regio's die ze niet kennen; deze plaatsen zijn het bekijken waard.",
+    "bron": "Bron: {bron}",
+    "peildatum": "peildatum {p}",
+    "schaal": "niveau: {s}",
+    "provinciecijfer": "provinciecijfer",
+    "geen_data": "geen data",
+    "terug": "Terug",
+    "onbekend": "Gemeente niet gevonden.",
+    "waarde_ja": "ja",
+    "waarde_nee": "nee"
+  },
+  "vergelijk": {
+    "titel": "Vergelijken",
+    "criterium": "Criterium",
+    "leeg": "Kies eerst gemeenten in de lijst (maximaal 3)."
+  },
+  "waarden": {
+    "koop_m2": "€ {v} per m²",
+    "huur_m2": "€ {v} per m² per maand",
+    "koop_laagste_zone": "€ {v} per m² (goedkoopste zone)",
+    "natuur_5km_pct": "{v}%",
+    "dichtheid": "{v} inwoners per km²",
+    "hoogteverschil_m": "{v} m",
+    "cultuur_5km": "{v}",
+    "min_luchthaven_jaarrond": "{v} min",
+    "min_station": "{v} min",
+    "uur_naar_huis": "{v} uur",
+    "voorzieningen_800m": "{v}",
+    "basis_800m": "{v} van de 3",
+    "min_ziekenhuis": "{v} min",
+    "min_apotheek": "{v} min",
+    "lea": "{v} van 300",
+    "glasvezel_pct": "{v}%",
+    "regime7": "{v}",
+    "addizionale_irpef_pct": "{v}%",
+    "snai_score": "{v}",
+    "groei_10j_pct": "{v}%",
+    "aandeel_65plus": "{v}%",
+    "seismische_zone": "zone {v}",
+    "frane_pop_pct": "{v}%",
+    "alluvioni_pop_pct": "{v}%",
+    "bosbrand_pct": "{v}%",
+    "delitti_100k": "{v}",
+    "expats_per_1000": "{v} per 1.000",
+    "bedden_per_inw": "{v}",
+    "ntn_per_100": "{v}"
+  },
+  "bronnen_voet": "Bronnen: ISTAT, Agenzia delle Entrate – OMI (CC BY 4.0; officiële waarden, vraagprijzen liggen vaak hoger), ISPRA, European Environment Agency (EEA), EFFIS (Copernicus), Protezione Civile, Ministero della Salute, MIM, MEF, AGCOM, Assaeroporti. Kaartdata en rijtijden:",
+  "osm": "© OpenStreetMap-bijdragers (ODbL)",
+  "osm_link": "https://www.openstreetmap.org/copyright",
+  "disclaimer": "Deze plaatsvinder gebruikt open data en een eigen weging. Het is een hulpmiddel om plaatsen te ontdekken, geen advies."
 }

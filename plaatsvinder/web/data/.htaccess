@@ -1,5 +1,5 @@
 # Alleen het lichte bestand is publiek; de rest leest PHP zelf.
-<FilesMatch "^(comuni\.json|comuni\.cache\.php.*)$">
+<FilesMatch "^(score\.json|meta\.json|score\.cache\.php.*)$">
   Require all denied
 </FilesMatch>
 <FilesMatch "\.json$">
