@@ -58,6 +58,7 @@ INDICATOREN = {
     "expats_per_1000":      (True,  False, "expats"),
     "bedden_per_inw":       (True,  False, "bedden"),
     "seizoen_pct":          (False, False, "seizoen"),
+    "ntn_per_100":          (True,  False, "verkopen"),
     "scholen_basis_20min":  (True,  False, "school_basis_20"),
     "scholen_hoog_20min":   (True,  False, "school_hoog_20"),
 }

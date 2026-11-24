@@ -51,7 +51,7 @@
       "licentie": "CC BY 4.0"
     },
     "istat_abitazioni": {
-      "bron": "ISTAT, censimento permanente, abitazioni",
+      "bron": "ISTAT, censimento permanente 2021, abitazioni (woningvoorraad)",
       "url": "https://esploradati.istat.it/",
       "peildatum": "2021",
       "schaalniveau": "gemeente",

@@ -257,6 +257,27 @@ def woningen() -> pd.DataFrame:
     return pd.DataFrame({"istat": d["REF_AREA"], "woningen": pd.to_numeric(d["OBS_VALUE"], errors="coerce")})
 
 
+def verkopen(basis: pd.DataFrame) -> pd.DataFrame:
+    """OMI, volumi delle compravendite: verkochte woningen (NTN) per comune, nieuwste jaar.
+    Handmatig in data/raw/omi_ntn/ (bestand *VALORI-RES.csv), gekoppeld op kadastercode."""
+    bestanden = sorted((RAW / "omi_ntn").glob("*VALORI-RES*.csv"))
+    if not bestanden:
+        print("  ! geen OMI-transacties in data/raw/omi_ntn: herverkoopbaarheid blijft leeg")
+        return pd.DataFrame(columns=["istat", "ntn", "ntn_jaar"])
+    f = bestanden[-1]
+    d = pd.read_csv(f, sep=";", dtype=str, encoding="latin-1")
+    jaar = re.search(r"_(20\d\d)_", f.name).group(1)
+    kol = f"NTN_{jaar}"
+    code = [c for c in d.columns if c.endswith("_CodCom")][0]
+    kat = dict(zip(basis.catastale, basis.istat))
+    ntn = pd.to_numeric(d[kol].str.replace(",", ".", regex=False), errors="coerce")
+    out = pd.DataFrame({"istat": d[code].str.strip().map(kat), "ntn": ntn.round(1), "ntn_jaar": jaar})
+    los = out["istat"].isna().sum()
+    if los:
+        print(f"  ! OMI-transacties: {los} kadastercodes niet gevonden")
+    return out.dropna(subset=["istat"])
+
+
 # ---------------------------------------------------------------- fiscaal
 def addizionale(basis: pd.DataFrame) -> pd.DataFrame:
     d = pd.read_csv(RAW / "mef/addcom_2025.csv", sep=";", dtype=str, encoding="latin-1")

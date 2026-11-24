@@ -30,7 +30,7 @@ EXTRA = ["koop_m2", "huur_m2", "koop_laagste_zone", "omi_semester", "glasvezel_p
          "natuur_5km_pct", "dichtheid", "hoogteverschil_m", "cultuur_5km", "voorzieningen_800m",
          "supermarkt_800m", "apotheek_800m", "bar_800m", "huisarts_800m", "basis_800m",
          "scholen_basis_5km", "scholen_midden_5km", "scholen_hoog_5km", "scholen_basis_20min", "scholen_hoog_20min",
-         "woningen", "apotheken_n"]
+         "woningen", "apotheken_n", "ntn", "ntn_jaar"]
 # waarden die score.php nodig heeft voor filters en korte teksten
 SCORE_W = ["koop_m2", "huur_m2", "min_luchthaven_jaarrond", "luchthaven_jaarrond_naam", "min_ziekenhuis", "min_station",
            "glasvezel_pct", "uur_utrecht", "uur_brussel", "uur_keulen", "uur_munchen", "seismische_zone", "vulkaan_deel",
@@ -85,7 +85,7 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
                      "snai_klasse": "snai", "glasvezel_pct": "agcom", "regime7_status": "regime7", "krater": "regime7",
                      "inw_nl": "istat_cittadinanza", "inw_be": "istat_cittadinanza", "inw_de": "istat_cittadinanza",
                      "inw_gb": "istat_cittadinanza", "bedden": "istat_ricettivi", "seizoen_pct": "istat_turismo_maand",
-                     "woningen": "istat_abitazioni", "apotheken_n": "salute_farmacie", "voorzieningen_800m": "osm",
+                     "woningen": "istat_abitazioni", "ntn": "omi_ntn", "ntn_jaar": "omi_ntn", "apotheken_n": "salute_farmacie", "voorzieningen_800m": "osm",
                      "supermarkt_800m": "osm", "apotheek_800m": "osm", "bar_800m": "osm", "huisarts_800m": "osm",
                      "scholen_basis_5km": "mim_scuole", "scholen_midden_5km": "mim_scuole", "scholen_hoog_5km": "mim_scuole",
                      "scholen_basis_20min": "mim_scuole", "scholen_hoog_20min": "mim_scuole",

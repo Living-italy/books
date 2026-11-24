@@ -34,4 +34,4 @@ Gemaakt op 2026-11-24. Totaal: 7894 comuni.
 | Andere buitenlanders in de gemeente | Nederlanders, Belgen, Duitsers en Britten per 1.000 inwoners | ISTAT, popolazione residente per cittadinanza | 2025-01-01 | gemeente | 7894 | 100.0 |
 | Hitte en droogte | Toename hete dagen | Copernicus ERA5-Land | geen | raster | 0 | 0.0 |
 | Verhuurpotentieel en toerisme | Toeristische bedden per inwoner | ISTAT, capacità degli esercizi ricettivi | 2025 | gemeente | 7894 | 100.0 |
-| Herverkoopbaarheid | Verkopen per 100 woningen per jaar | Agenzia delle Entrate – OMI, volumi delle compravendite (NTN) | 2025 | gemeente | 0 | 0.0 |
+| Herverkoopbaarheid | Verkopen per 100 woningen per jaar | Agenzia delle Entrate – OMI, volumi delle compravendite (NTN) | 2025 | gemeente | 7551 | 95.7 |

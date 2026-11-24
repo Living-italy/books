@@ -59,6 +59,8 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
     t = t.merge(bv.delitti_provincie(koppel), on="prov_oud", how="left")
     t = _merge(t, bv.woningen(), "woningen", harmoniseer, som=("woningen",))
 
+    t = t.merge(bv.verkopen(basis), on="istat", how="left")
+    t["ntn_per_100"] = (t["ntn"] / t["woningen"] * 100).round(2)
     t = t.merge(bv.addizionale(basis), on="istat", how="left")
     t = t.merge(bv.lea_per_comune(basis), on="istat", how="left")
     t = t.merge(bv.kratergemeenten(basis), on="istat", how="left")

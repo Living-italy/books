@@ -417,7 +417,7 @@
     {
       "id": "liquiditeit",
       "label": "Herverkoopbaarheid",
-      "uitleg": "Verkochte woningen per 100 woningen per jaar.",
+      "uitleg": "Verkochte woningen per 100 woningen in 2025 (OMI-transacties gedeeld door de woningvoorraad uit de census van 2021).",
       "rang": 19,
       "basis": "E",
       "richting": "hoger_beter",

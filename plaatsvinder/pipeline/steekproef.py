@@ -38,6 +38,8 @@ def ruw(istat: str, catastale: str) -> dict:
     o = pd.concat([pd.read_csv(f, sep=";", skiprows=1, dtype=str, encoding="latin-1") for f in (RAW / "omi").glob("*VALORI*.csv")])
     o = o[(o.Comune_amm.str.strip() == catastale) & o.Descr_Tipologia.str.strip().str.lower().isin(
         ["abitazioni civili", "abitazioni di tipo economico", "ville e villini", "abitazioni signorili"]) & (o.Stato.str.strip() == "NORMALE")]
+    v = pd.read_csv(sorted((RAW / "omi_ntn").glob("*VALORI-RES*.csv"))[-1], sep=";", dtype=str, encoding="latin-1")
+    r["ntn"] = v.loc[v.iloc[:, 3].str.strip() == catastale].iloc[:, -1].tolist()
     r["omi_zones_koop"] = sorted(set((o.Fascia + o.Zona + ":" + o.Compr_min + "-" + o.Compr_max).tolist()))
     return r
 
@@ -76,6 +78,8 @@ def schrijf() -> None:
         regel("Inwoners NL+BE+DE+GB", int(g.inw_nl + g.inw_be + g.inw_de + g.inw_gb), f"{som} {r['inw_nl_be_de_gb']}",
               som == int(g.inw_nl + g.inw_be + g.inw_de + g.inw_gb))
         regel("OMI koop €/m² (mediaan van zonemiddens)", g.koop_m2, "; ".join(r["omi_zones_koop"]) or "geen notering", True)
+        nb = float(r["ntn"][0].replace(",", ".")) if r["ntn"] else None
+        regel("Verkochte woningen (NTN)", g.ntn, nb, nb is not None and abs(nb - g.ntn) < 0.06)
         lea = json.loads((bv.CONFIG / "lea_2023.json").read_text())["regios"]
         regel("LEA regio", g.lea, [x["totaal"] for x in lea if x["regio_code"] == g.regio_code], True)
         regels.append("")

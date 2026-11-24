@@ -7,7 +7,7 @@
 | Bron | Waarom handmatig | Waar neerzetten |
 |---|---|---|
 | OMI, Quotazioni immobiliari (fornitura nazionale, nieuwste semester): `QI_..._VALORI.csv` en `QI_..._ZONE.csv` | gratis account bij de Agenzia delle Entrate | `data/raw/omi/` |
-| OMI, Volumi delle compravendite (NTN) per comune | idem | `data/raw/omi_ntn/` (nog niet aangeleverd; criterium herverkoopbaarheid blijft leeg) |
+| OMI, Volumi delle compravendite (NTN), fornitura nazionale: `VCN_..._VALORI-RES.csv` | idem | `data/raw/omi_ntn/` |
 | Ministero della Salute, "Strutture di ricovero attive" (xlsx) | salute.gov.it blokkeert geautomatiseerde downloads | `data/raw/salute/` |
 | Copernicus ERA5-Land | account en API-sleutel nodig | nog niet aangeleverd; klimaat en klimaatverandering blijven leeg |
 
