@@ -211,3 +211,48 @@ Stop en meld het als:
 - de voorwaarden van een bron hergebruik verbieden;
 - de inwonersgrens voor kratergemeenten niet uit de wettekst vast te stellen is;
 - de LEA-waarden in het ministeriële document afwijken van de tabel in sectie 3.
+
+## 12. Aanvullingen uit de gids "Huis kopen in Italië"
+
+De tool moet aansluiten op de gids (stefsmulders.nl). Neem onderstaande punten mee. Verwerk 12a en 12d in fase 1 tot en met 4; 12b en 12c mogen in een tweede versie, maar zet ze wel in `criteria.json` met `status: "gepland"`.
+
+### 12a. Belangrijke aanvullingen
+
+| Onderdeel | Wat | Bron | Niveau | Gebruik |
+|---|---|---|---|---|
+| Hoogteligging | Hoogte van het centrum van de gemeente als zichtbaar kenmerk, plus filter "maximale hoogte" (standaard uit) | ISTAT, principali statistiche geografiche sui comuni | gemeente | Kenmerk, filter en onderdeel van klimaat. Uitleg: per 100 m ongeveer 0,6 graad kouder, meer sneeuw en kans op afsluiting |
+| Klimaatdetails | Gemiddelde temperatuur januari en juli, zonuren per dag, jaarlijkse neerslag, mistdagen, dagen met vorst | Copernicus ERA5-Land (zonuren via straling of CM SAF) | raster, waarde op centroïde | Deelscores binnen klimaat; de gebruiker kiest "zachte winter" of "vier seizoenen" en de richting draait mee |
+| Luchtkwaliteit | Jaargemiddelde PM2,5, PM10 en NO2 | Copernicus CAMS of EEA; controleer of het bouwplan dit al heeft | raster | Nieuw criterium `lucht` (basis E). Standaardgewicht 3 bij gepensioneerde en gezin, af te trekken van natuur |
+| Georganiseerde misdaad | Gemeenteraad ontbonden wegens maffia-infiltratie (laatste 10 jaar) | Ministero dell'Interno, lijst consigli comunali sciolti | gemeente | Alleen label met jaartal en link, geen score. Tekst uit de gids: bij kopen via normale kanalen is het risico klein, maar wees extra kritisch |
+| Trein | Rijtijd naar het dichtstbijzijnde station met hogesnelheidstreinen (Frecce, Italo) en naar een station met nachttrein naar het noorden | Stationslijsten Trenitalia en Italo, OSRM | gemeente | Onderdeel van bereikbaarheid (gewicht binnen bereikbaarheid: luchthaven 50, auto naar huis 30, trein 20) |
+| Vluchten naar NL en BE | Gebruik Bijlage A van de gids als basislijst: per luchthaven de directe verbindingen met Amsterdam, Eindhoven, Rotterdam, Brussel Zaventem en Charleroi, met markering seizoensgebonden | Bijlage A (handmatig in `config/luchthavens.json`, met peildatum) | luchthaven | Vervangt de handmatige lijst uit sectie 2. Duitse verbindingen (Keulen, Düsseldorf, München) apart toevoegen als veld |
+| Qualità della vita, deelranglijsten | De zes hoofdkenmerken (welvaart, economie en werk, justitie en veiligheid, demografie en gezondheid, milieu en voorzieningen, cultuur en vrije tijd) | Il Sole 24 Ore | provincie | Alleen als de voorwaarden hergebruik toestaan (zie sectie 11). Dan per profiel: gepensioneerde gebruikt gezondheid en veiligheid, gezin gebruikt voorzieningen en werk. Toon de waarschuwing uit de gids: zuidelijke provincies staan laag door werk en economie, maar scoren vaak goed op klimaat en vrije tijd |
+
+### 12b. Kleinere aanvullingen
+
+- **Huisdieren.** Vraag "Neemt u een hond mee?" Bij ja: waarschuwing per regio voor leishmania (gebied volgens kaart C.11 van de gids, regioniveau), hartworm en processierupsen, met verwijzing naar 1.1.1e en 8.6. Geen score.
+- **Wild.** Label als de gemeente in een beperkingszone voor Afrikaanse varkenspest ligt (lijst van gemeenten in de bijlagen van EU-uitvoeringsverordening 2023/594, actuele versie). Wolven en beren alleen als informatieregel, nooit als score, in lijn met de gids: "geen reden om van een regio af te zien".
+- **Droogte.** Er is geen landelijke bron per gemeente gevonden voor waterbeperkingen. Toon een waarschuwing op regioniveau (kaart C.12 van de gids) met de tip: controleer of het huis een *cisterna* heeft of op het *acquedotto* is aangesloten. Meld het als je een bron per gemeente vindt.
+- **Laadpalen.** Aantal openbare laadpunten binnen 10 km, uit de Piattaforma Unica Nazionale (PUN). Informatief, met de tip uit de gids over verzwaring van de aansluiting naar 6 kW.
+- **Aardgas.** Zoek uit of er per gemeente data bestaat over aansluiting op het gasnet (*metanizzazione*, bijvoorbeeld via ARERA). Zo ja: kenmerk "aardgas aanwezig", met de uitleg dat LPG twee tot drie keer duurder is. Zo nee: melden.
+- **Gezin.** Voeg internationale scholen binnen 45 minuten toe aan voorzieningen voor het profiel Gezin (bron: handmatige lijst of open data van het ministerie; meld wat je vindt).
+- **Investeerder.** Voeg toe: toeristenbelasting (*imposta di soggiorno*) ja/nee per gemeente en een link naar de regionale regels voor B&B en korte verhuur. Verwijs naar hoofdstuk 10 van de gids.
+- **Nieuwe inwoners.** Label "programma voor nieuwe inwoners" of "1-eurohuizen" per gemeente (handmatige lijst met bron en jaar), altijd met de waarschuwing uit 1.2.2 van de gids (renovatieplicht, borgsom, lastige doorverkoop).
+
+### 12c. Seismische subzones
+
+Sommige regio's werken met subzones (2A, 2B). Bewaar de zone zoals de regio die publiceert in een apart veld `zona_sismica_detail`, naast de hoofdzone 1 tot 4.
+
+### 12d. Koppeling tussen tool en gids
+
+1. **Start met de wensenlijst uit 1.3.** Laat de gebruiker na de profielkeuze drie dealbreakers, drie must-haves en drie nice-to-haves kiezen uit de criteria. Dealbreakers worden harde filters, must-haves krijgen 1,5 keer hun gewicht, nice-to-haves 1,2 keer; daarna opnieuw normaliseren naar 100. Kijk of de bestaande wensenlijst-wizard van unsognodicasa.it (eigen multi-scherm wizard) als basis kan dienen en meld wat je hergebruikt.
+2. **Zelfde termen als de gids.** Gebruik in de profielkeuze de termen uit de tabel in 1.2.1: "permanente bewoning (hoofdwoning)" en "tweede huis (vakantie, af en toe)".
+3. **Verwijzingen per uitslag.** Elke gemeentepagina krijgt een blok "Meer hierover in de gids" met verwijzingen naar: de regiobeschrijving (1.1.2 of Bijlage B), natuurrisico's (1.1.1c), het 7%-regime (hoofdstuk 7), verhuur (hoofdstuk 10) en de kaarten van Bijlage C (https://stefsmulders.nl/Downloads/Bijlage-C.html). Zet de verwijzingen in `config/gids_links.json`, zodat ze bij een nieuwe druk eenvoudig aan te passen zijn.
+4. **Prijzen consistent.** Toon bij een regio ook de €/m² die de gids noemt, met de vermelding "volgens de gids" en de OMI-waarde ernaast, zodat verschillen zichtbaar zijn. Zet de gidswaarden in `config/gids_prijzen.json`.
+
+### 12e. Extra acceptatiecriteria
+
+- De wensenlijststap werkt: een dealbreaker "internet" met minimaal 50 % adressen met 100 Mbit/s verwijdert alle gemeenten die daar niet aan voldoen.
+- Gewichten blijven na must-have en nice-to-have optellen tot 100.
+- Elke gemeentepagina toont minstens één werkende verwijzing naar de gids.
+- Labels (maffia, varkenspest, 1-eurohuizen, trend) beïnvloeden de score niet; test dit.
