@@ -110,15 +110,18 @@
       "gekozen": "Keuze {n}"
     },
     "extra": {
-      "titel": "Wat vind je verder nog belangrijk?",
-      "uitleg": "Kies zoveel als je wilt. Elke keuze telt flink mee.",
+      "titel": "Wat telt daarnaast ook mee?",
+      "uitleg": "Optioneel. Elke keuze telt flink mee, maar minder dan je top 3. Niets kiezen kan ook.",
       "scholen_titel": "Welke scholen zoek je?",
       "scholen_uitleg": "We kijken of er binnen 5 km een school van dat niveau is.",
       "scholen": {
         "basis": "Basisschool (scuola primaria)",
         "midden": "Middenschool (scuola secondaria di primo grado)",
         "hoog": "Middelbare school (liceo of istituto)"
-      }
+      },
+      "jouw_top": "Jouw top 3",
+      "top_aanpassen": "Top 3 aanpassen",
+      "ook_meetellen": "Ook belangrijk"
     },
     "bereik": {
       "titel": "Hoe bereikbaar moet het zijn?",

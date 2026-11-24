@@ -119,10 +119,19 @@
 
   function schermExtra() {
     var P = T.prioriteiten, st = T.stappen.extra;
-    var raster = el("div", { class: "pv-raster" }, Object.keys(P).filter(function (k) { return S.top.indexOf(k) < 0; }).map(function (k) {
-      return kaart(P[k][0], P[k][1], S.extra.indexOf(k) >= 0, function () { toggle(S.extra, k); teken(); });
-    }));
-    var delen = [raster];
+    // samenvatting van de top 3 uit stap 4
+    var top = el("div", { class: "pv-top3" }, [
+      el("p", { class: "pv-label", text: st.jouw_top }),
+      el("ol", {}, S.top.map(function (k) { return el("li", { text: P[k][0] }); })),
+      el("button", { type: "button", class: "pv-link", text: st.top_aanpassen, onclick: function () { S.stap--; teken(); } })
+    ]);
+    var chips = el("div", { class: "pv-chips", role: "group", "aria-label": st.titel },
+      Object.keys(P).filter(function (k) { return S.top.indexOf(k) < 0; }).map(function (k) {
+        var aan = S.extra.indexOf(k) >= 0;
+        return el("button", { type: "button", class: "pv-chip" + (aan ? " aan" : ""), "aria-pressed": aan ? "true" : "false",
+          title: P[k][1], text: P[k][0], onclick: function () { toggle(S.extra, k); teken(); } });
+      }));
+    var delen = [top, el("p", { class: "pv-label", text: st.ook_meetellen }), chips];
     if (S.top.indexOf("scholen") >= 0 || S.extra.indexOf("scholen") >= 0) {
       delen.push(el("h3", { class: "pv-sub-kop", text: st.scholen_titel }), el("p", { class: "pv-uitleg", text: st.scholen_uitleg }),
         el("div", { class: "pv-raster" }, Object.keys(st.scholen).map(function (k) {
@@ -282,7 +291,7 @@
       teller(),
       el("div", { class: "pv-nav-knoppen" }, [
         el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.vorige, onclick: function () { S.stap--; teken(); } }),
-        el("button", { type: "button", class: "pv-knop pv-knop-hoofd", disabled: !magVerder, text: laatste ? T.knoppen.resultaat : T.knoppen.volgende,
+        el("button", { type: "button", class: "pv-knop pv-knop-hoofd", disabled: !magVerder, text: laatste ? T.knoppen.resultaat : (sleutel === "extra" && !S.extra.length ? T.knoppen.overslaan : T.knoppen.volgende),
           onclick: function () { if (laatste) { S.stap = STAPPEN.length; uitslag(); } else { S.stap++; teken(); } } })
       ])
     ]);

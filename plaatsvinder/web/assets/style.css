@@ -115,3 +115,12 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-fout { color: var(--pv-zwak); }
 .pv-woonlast { margin: 10px 0 0; padding: 8px 12px; border: 1px solid var(--pv-lijn); border-radius: 10px; font-size: .95rem; }
 .pv-woonlast small { color: var(--pv-zacht); }
+.pv-top3 { background: var(--pv-accent-zacht); border-radius: var(--pv-radius); padding: 10px 14px; margin: 0 0 16px; }
+.pv-top3 ol { margin: 4px 0 2px; padding-left: 22px; font-weight: 600; }
+.pv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 8px; }
+.pv-chip {
+  font: inherit; font-size: .95rem; color: inherit; background: var(--pv-vlak); cursor: pointer;
+  border: 1.5px solid var(--pv-lijn); border-radius: 999px; padding: 8px 14px; min-height: 44px;
+}
+.pv-chip.aan { border-color: var(--pv-accent); background: var(--pv-accent); color: var(--pv-vlak); font-weight: 600; }
+.pv-chip.aan::before { content: "✓ "; }
