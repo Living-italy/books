@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": [
+    "regios"
+  ],
+  "properties": {
+    "regios": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -10,7 +10,7 @@ from jsonschema import Draft202012Validator
 
 CONFIG = Path(__file__).resolve().parent.parent / "config"
 BESTANDEN = ["criteria", "profielen", "lea_2023", "regime7", "kratergemeenten", "zona_rossa",
-             "luchthavens", "trends", "bronnen", "aandachtspunten"]
+             "luchthavens", "trends", "bronnen", "aandachtspunten", "gids_links", "gids_prijzen"]
 
 
 def laad(naam: str) -> dict:
@@ -45,6 +45,10 @@ def controleer() -> list[str]:
                     g = dict(p["gewichten"]); g.update(o["effect"])
                     if sum(g.values()) != 100:
                         fouten.append(f"profielen.json: '{p['id']}', optie '{o['id']}' telt op tot {sum(g.values())}")
+    for c in cfg["criteria"]["criteria"]:
+        w = [i.get("gewicht") for i in c["indicatoren"]]
+        if any(x is not None for x in w) and sum(x or 0 for x in w) != 100:
+            fouten.append(f"criteria.json: gewichten binnen '{c['id']}' tellen niet op tot 100")
     for r in cfg["lea_2023"]["regios"]:
         if r["prevenzione"] + r["distrettuale"] + r["ospedaliera"] != r["totaal"]:
             fouten.append(f"lea_2023.json: totaal van {r['gebied']} klopt niet")

@@ -30,7 +30,8 @@ EXTRA = ["koop_m2", "huur_m2", "koop_laagste_zone", "omi_semester", "glasvezel_p
          "natuur_5km_pct", "dichtheid", "hoogteverschil_m", "cultuur_5km", "voorzieningen_800m",
          "supermarkt_800m", "apotheek_800m", "bar_800m", "huisarts_800m", "basis_800m",
          "scholen_basis_5km", "scholen_midden_5km", "scholen_hoog_5km", "scholen_basis_20min", "scholen_hoog_20min",
-         "woningen", "apotheken_n", "ntn", "ntn_jaar", "neerslag_mm"]
+         "woningen", "apotheken_n", "ntn", "ntn_jaar", "neerslag_mm", "station_hs_naam", "station_nacht_naam",
+         "sciolto_mafia_jaar"]
 # waarden die score.php nodig heeft voor filters en korte teksten
 SCORE_W = ["koop_m2", "huur_m2", "min_luchthaven_jaarrond", "luchthaven_jaarrond_naam", "min_ziekenhuis", "min_station",
            "glasvezel_pct", "uur_utrecht", "uur_brussel", "uur_keulen", "uur_munchen", "seismische_zone", "vulkaan_deel",
@@ -64,7 +65,7 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
     crit = json.loads((ROOT / "config/criteria.json").read_text(encoding="utf-8"))
     ind_kol = [i["kolom"] for c in crit["criteria"] for i in c["indicatoren"]]
     waarden = list(dict.fromkeys(ind_kol + EXTRA))
-    s_cols = [f"s_{c['id']}" for c in crit["criteria"]]
+    s_cols = [f"s_{c['id']}" for c in crit["criteria"]] + ["s_klimaat_seizoenen"]
     rijen = []
     for _, r in t.iterrows():
         o = {c: _schoon(r.get(c)) for c in BASIS}
@@ -85,13 +86,16 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
                      "snai_klasse": "snai", "glasvezel_pct": "agcom", "regime7_status": "regime7", "krater": "regime7",
                      "inw_nl": "istat_cittadinanza", "inw_be": "istat_cittadinanza", "inw_de": "istat_cittadinanza",
                      "inw_gb": "istat_cittadinanza", "bedden": "istat_ricettivi", "seizoen_pct": "istat_turismo_maand",
-                     "woningen": "istat_abitazioni", "ntn": "omi_ntn", "ntn_jaar": "omi_ntn", "neerslag_mm": "era5", "apotheken_n": "salute_farmacie", "voorzieningen_800m": "osm",
+                     "woningen": "istat_abitazioni", "ntn": "omi_ntn", "ntn_jaar": "omi_ntn", "neerslag_mm": "era5", "pm25": "eea_pm25",
+                     "min_station_hs": "treinstations", "min_station_nacht": "treinstations", "sciolto_mafia_jaar": "sciolti_mafia",
+                     "hoogte_m": "istat_hoogte", "apotheken_n": "salute_farmacie", "voorzieningen_800m": "osm",
                      "supermarkt_800m": "osm", "apotheek_800m": "osm", "bar_800m": "osm", "huisarts_800m": "osm",
                      "scholen_basis_5km": "mim_scuole", "scholen_midden_5km": "mim_scuole", "scholen_hoog_5km": "mim_scuole",
                      "scholen_basis_20min": "mim_scuole", "scholen_hoog_20min": "mim_scuole",
                      "uur_utrecht": "osrm_publiek", "uur_brussel": "osrm_publiek", "uur_keulen": "osrm_publiek",
                      "uur_munchen": "osrm_publiek"})
     zonder_data = [c["id"] for c in crit["criteria"] if t[f"s_{c['id']}"].isna().all()]
+    labels = {"sciolto_mafia_jaar": "label, geen score", "trend": "label, geen score"}
     meta = {"gemaakt": date.today().isoformat(), "zonder_data": zonder_data, "aantal": len(rijen), "provincie": provincie,
             "percentielen_over": f"provincie {provincie}" if provincie else "heel Italië",
             "bron_van": bron_van, "downloads": bronnen_downloads}
@@ -122,13 +126,13 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
         "lig": [sum(1 << i for i, c in enumerate(LIGGING) if bool(r.get(c))) for _, r in t.iterrows()],
         "f": vlag,
         "lh": kol("min_luchthaven_jaarrond"), "st": kol("min_station"), "zh": kol("min_ziekenhuis"),
-        "gv": kol("glasvezel_pct"),
+        "gv": kol("glasvezel_pct", lambda v: None if _schoon(v) is None else int(round(_schoon(v) * 10))),   # x10
         "uu": kol("uur_utrecht", halfuur), "ub": kol("uur_brussel", halfuur),
         "uk": kol("uur_keulen", halfuur), "um": kol("uur_munchen", halfuur),
         "koop": kol("koop_m2", lambda v: None if pd.isna(v) else int(round(v / 10))),
         "huur": kol("huur_m2", lambda v: None if pd.isna(v) else int(round(v * 10))),
-        "lat": kol("lat", lambda v: int(round(v * 100))), "lon": kol("lon", lambda v: int(round(v * 100))),
-        "eenheden": "uu/ub/uk/um: halve uren; lat/lon: graden x 100; koop: euro/m2 gedeeld door 10; huur: euro/m2 x 10; regio = provincies[pv][2]",
+        "hm": kol("hoogte_m"),
+        "eenheden": "uu/ub/uk/um: halve uren; hm: hoogte centrum in m; gv: glasvezel-% x 10; koop: euro/m2 gedeeld door 10; huur: euro/m2 x 10; regio = provincies[pv][2]",
     }
     OUT_LITE.write_text(json.dumps(lite, separators=(",", ":")), encoding="utf-8")
     t.drop(columns=["geometry"], errors="ignore").to_csv(OUT_CSV, index=False)
@@ -155,7 +159,8 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
     # configuratie voor de site
     doel = ROOT / "web" / "config"
     doel.mkdir(exist_ok=True)
-    for naam in ["criteria", "profielen", "bronnen", "lea_2023", "regime7", "trends", "aandachtspunten", "luchthavens"]:
+    for naam in ["criteria", "profielen", "bronnen", "lea_2023", "regime7", "trends", "aandachtspunten", "luchthavens",
+                 "gids_links", "gids_prijzen", "sciolti_mafia"]:
         shutil.copy2(ROOT / "config" / f"{naam}.json", doel / f"{naam}.json")
     print(f"  {OUT_FULL.name}: {OUT_FULL.stat().st_size/1e6:.2f} MB, {OUT_LITE.name}: "
           f"{OUT_LITE.stat().st_size/1e3:.0f} kB, {len(rijen)} comuni")

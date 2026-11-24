@@ -4,7 +4,7 @@ require __DIR__ . '/lib/data.php';
 $lang = 'nl';
 $t = taal($lang);
 $cfg = [];
-foreach (['criteria', 'profielen', 'bronnen', 'aandachtspunten', 'regime7', 'trends'] as $n) {
+foreach (['criteria', 'profielen', 'bronnen', 'aandachtspunten', 'regime7', 'trends', 'gids_links', 'gids_prijzen', 'sciolti_mafia'] as $n) {
     $cfg[$n] = json_decode((string)file_get_contents(__DIR__ . "/config/$n.json"), true);
 }
 $cfg['bron_van'] = meta()['bron_van'] ?? [];

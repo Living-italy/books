@@ -60,6 +60,12 @@ INDICATOREN = {
     "seizoen_pct":          (False, False, "seizoen"),
     "ntn_per_100":          (True,  False, "verkopen"),
     "dagen_boven_32":       (False, False, "hitte"),
+    "temp_jan":             (True,  False, "temp_jan"),
+    "temp_jul":             (False, False, "temp_jul"),
+    "zon_kwh":              (True,  False, "zon"),
+    "neerslag_mm":          (False, False, "neerslag"),
+    "min_station_hs":       (False, False, "station_hs"),
+    "min_station_nacht":    (False, False, "station_nacht"),
     "vorstdagen":           (False, False, "vorst"),
     "trend_hete_dagen":     (False, False, "hitte_trend"),
     "neerslag_trend_pct":   (True,  False, "neerslag_trend"),
@@ -312,6 +318,7 @@ def bouw(provincie: str | None = None, met_osrm: bool = True) -> pd.DataFrame:
         lv = bv.luchthavens(poi)
         doelen["luchthaven_jaarrond"] = lv[lv["heel_jaar"] == True]   # noqa: E712
         doelen["apotheek"] = poi[(poi.cat == "voorziening") & (poi["sub"] == "pharmacy")]
+        doelen.update(bv.treinstations(poi))
         for over, c in bv.cfg("grens_naar_huis")["grensovergangen"].items():
             doelen[f"grens_{over}"] = pd.DataFrame([{"lat": c["lat"], "lon": c["lon"], "naam": over}])
         doelen = {k: v[["lat", "lon", "naam"]].fillna("").astype({"lat": float, "lon": float}) for k, v in doelen.items()}

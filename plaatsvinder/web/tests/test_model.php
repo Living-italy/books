@@ -45,5 +45,49 @@ foreach ($r['alternatieven'] as $alt) {
     check($alt['score'] >= $doel['score'], "alternatief {$alt['naam']} ({$alt['score']}) scoort minstens zo hoog als {$doel['naam']} ({$doel['score']})");
 }
 
+// sectie 12e
+$r = scoor(['profiel' => 'gezin', 'wensen' => ['dealbreakers' => ['internet']]], $c, 100000);
+$onder = array_filter($r['top'], function ($x) use ($c) {
+    static $idx = null;
+    $idx ??= array_column($c, null, 'istat');
+    $gv = $idx[$x['istat']]['w']['glasvezel_pct'] ?? null;
+    return $gv !== null && $gv < 50;
+});
+check(count($onder) === 0, "dealbreaker internet: geen gemeente onder 50% glasvezel ({$r['aantal']} over)");
+$zonder = scoor(['profiel' => 'gezin'], $c, 1)['aantal'];
+check($r['aantal'] < $zonder, "dealbreaker internet haalt gemeenten weg ($zonder naar {$r['aantal']})");
+
+foreach (cfg('profielen')['profielen'] as $p) {
+    $a = antwoorden(['profiel' => $p['id'], 'wensen' => ['must' => ['prijs', 'zorg', 'natuur'], 'nice' => ['cultuur', 'rust', 'klimaat']]]);
+    check(array_sum($a['gewichten']) === 100, "profiel {$p['id']}: gewichten na must/nice tellen op tot 100");
+}
+$basis = antwoorden(['profiel' => 'gepensioneerde'])['gewichten'];
+$met = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['must' => ['prijs']]])['gewichten'];
+check($met['prijs'] > $basis['prijs'], "must-have prijs weegt zwaarder ({$basis['prijs']} naar {$met['prijs']})");
+$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['must' => ['prijs', 'zorg', 'natuur', 'cultuur']]]);
+check(array_sum($a['gewichten']) === 100, 'meer dan drie must-haves: alleen de eerste drie tellen, som 100');
+$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['internet']], 'filters' => ['min_glasvezel' => 75]]);
+check($a['min_glasvezel'] == 75, 'een strengere eigen eis blijft staan naast de dealbreaker');
+
+$gl = array_filter(cfg('gids_links')['verwijzingen'], fn($v) => !empty($v['url']));
+check(count($gl) >= 1, 'gemeentepagina: minstens één gids-link met url (' . implode(', ', array_column($gl, 'paragraaf')) . ')');
+$bijlageC = array_filter($gl, fn($v) => $v['id'] === 'kaarten');
+check(count($bijlageC) === 1 && str_starts_with(array_values($bijlageC)[0]['url'], 'https://'), 'gids-link naar Bijlage C staat erin');
+
+// labels (maffia, trend) veranderen de score niet
+$x = $c[100];
+$a = antwoorden(['profiel' => 'gepensioneerde']);
+$s1 = totaal(deelscores($x, $a), $a['gewichten']);
+$x['w']['sciolto_mafia_jaar'] = 2020;
+$x['trend'] = !($x['trend'] ?? false);
+check(totaal(deelscores($x, $a), $a['gewichten']) === $s1, 'labels (maffia, trend) veranderen de score niet');
+
+$h = scoor(['profiel' => 'gepensioneerde', 'filters' => ['max_hoogte' => 500]], $c, 100000)['top'];
+check(max(array_map(fn($k) => $k['hoogte_m'] ?? 0, $h)) <= 500, 'filter maximale hoogte 500 m werkt');
+$z = antwoorden(['profiel' => 'gepensioneerde', 'klimaat' => 'seizoenen']);
+$x = $c[100];
+check(deelscores($x, $z)['klimaat'] === ($x['s']['klimaat_seizoenen'] ?? $x['s']['klimaat']) && !array_key_exists('klimaat_seizoenen', deelscores($x, $z)),
+    'klimaatvoorkeur vier seizoenen gebruikt de omgedraaide klimaatscore');
+
 echo $fout ? "\n$fout test(s) mislukt\n" : "\nalle tests geslaagd\n";
 exit($fout ? 1 : 0);

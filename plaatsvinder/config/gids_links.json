@@ -1,0 +1,36 @@
+{
+  "_uitleg": "Verwijzingen naar de gids 'Huis kopen in Italië'. Pas aan bij een nieuwe druk. Een verwijzing zonder url wordt niet getoond.",
+  "gids": "Huis kopen in Italië",
+  "verwijzingen": [
+    {
+      "id": "regio",
+      "label": "Beschrijving van de regio",
+      "paragraaf": "1.1.2 en Bijlage B",
+      "url": null
+    },
+    {
+      "id": "natuurrisico",
+      "label": "Natuurrisico's",
+      "paragraaf": "1.1.1c",
+      "url": null
+    },
+    {
+      "id": "regime7",
+      "label": "Het 7%-regime",
+      "paragraaf": "hoofdstuk 7",
+      "url": null
+    },
+    {
+      "id": "verhuur",
+      "label": "Verhuur",
+      "paragraaf": "hoofdstuk 10",
+      "url": null
+    },
+    {
+      "id": "kaarten",
+      "label": "Kaarten (Bijlage C)",
+      "paragraaf": "Bijlage C",
+      "url": "https://stefsmulders.nl/Downloads/Bijlage-C.html"
+    }
+  ]
+}

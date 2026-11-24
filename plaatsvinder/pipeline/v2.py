@@ -73,6 +73,8 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
     t["regime7_reden"] = [u["reden"] for u in uit]
     t["regime7"] = t["regime7_status"].map({"ja": 1, "nee": 0})     # te_verifieren = null
 
+    sm = {g["istat"]: g["jaar"] for g in bv.cfg("sciolti_mafia")["gemeenten"]}
+    t["sciolto_mafia_jaar"] = t["istat"].map(sm)
     tr = bv.cfg("trends")
     t["trend"] = t["regio_code"].isin(tr["regio_codes"]) | t["prov"].isin(tr["provincies"])
 
@@ -107,7 +109,8 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
         t = t.merge(era5.per_comune(t), on="istat", how="left")
     else:
         print("  ! ERA5-Land ontbreekt (python pipeline/era5.py download): klimaat blijft leeg")
-        for c in ["dagen_boven_32", "vorstdagen", "trend_hete_dagen", "neerslag_mm", "neerslag_trend_pct"]:
+        for c in ["dagen_boven_32", "vorstdagen", "trend_hete_dagen", "neerslag_mm", "neerslag_trend_pct",
+                  "temp_jan", "temp_jul", "zon_kwh"]:
             t[c] = np.nan
 
     # scholen binnen ca. 20 minuten (15 km hemelsbreed), zoals scholen binnen 5 km in versie 1

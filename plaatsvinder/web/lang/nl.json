@@ -41,6 +41,18 @@
         "investeerder": "Toerisme, herverkoopbaarheid en prijs wegen zwaar."
       }
     },
+    "wensen": {
+      "titel": "Uw wensenlijst",
+      "uitleg": "Kies uit de criteria maximaal drie dealbreakers, drie must-haves en drie nice-to-haves, zoals in paragraaf 1.3 van de gids. U mag dit ook overslaan.",
+      "dealbreakers": "Dealbreakers",
+      "dealbreakers_uitleg": "Wordt een harde eis: een gemeente die er niet aan voldoet, valt af.",
+      "must": "Must-haves",
+      "must_uitleg": "Telt anderhalf keer zo zwaar mee.",
+      "nice": "Nice-to-haves",
+      "nice_uitleg": "Telt 1,2 keer zo zwaar mee.",
+      "gekozen": "{n} van {max} gekozen",
+      "vol": "U hebt er al {max} gekozen. Haal er eerst een weg."
+    },
     "ligging": {
       "titel": "Waar wil je wonen?",
       "uitleg": "Kies één of meer. Geen keuze betekent: alles is goed.",
@@ -100,7 +112,8 @@
       "geen_data": "nog geen data",
       "geen_data_uitleg": "Voor dit criterium is nog geen open bron beschikbaar; het telt niet mee.",
       "som": "Totaal: {n}",
-      "expats_titel": "Andere Nederlanders, Belgen, Duitsers en Britten in de buurt?"
+      "expats_titel": "Andere Nederlanders, Belgen, Duitsers en Britten in de buurt?",
+      "klimaat_vraag": "Wat voor winter wilt u?"
     },
     "filters": {
       "titel": "Wat is voor u een harde eis?",
@@ -127,7 +140,11 @@
       "geen": "geen budget opgeven",
       "max_koop": "Maximale koopprijs (€)",
       "max_huur": "Maximale huur per maand (€)",
-      "m2": "Woninggrootte (m²)"
+      "m2": "Woninggrootte (m²)",
+      "max_hoogte": "Maximale hoogte van het centrum",
+      "max_hoogte_noot": "Per 100 meter hoger is het gemiddeld ongeveer 0,6 °C koeler. Boven 600 tot 800 meter kan het in de winter flink sneeuwen.",
+      "meter": "{n} m",
+      "dealbreakers_actief": "Uit uw wensenlijst gelden ook deze eisen: {lijst}."
     },
     "regio": {
       "titel": "Waar in Italië?",
@@ -195,7 +212,8 @@
     "woonlast_huren": "Geschatte huur € {prijs} per maand voor {m2} m²",
     "woonlast_onder": "{pct}% onder uw budget",
     "woonlast_rond": "rond uw budget",
-    "woonlast_geen": "Geen prijsgegevens"
+    "woonlast_geen": "Geen prijsgegevens",
+    "dealbreakers": "Harde eisen uit uw wensenlijst: {lijst}."
   },
   "gemeente": {
     "deelscores": "Score per criterium",
@@ -259,7 +277,16 @@
     "terug": "Terug",
     "onbekend": "Gemeente niet gevonden.",
     "waarde_ja": "ja",
-    "waarde_nee": "nee"
+    "waarde_nee": "nee",
+    "hoogte_uitleg": "Het centrum ligt op {n} m. Per 100 meter hoger is het gemiddeld ongeveer 0,6 °C koeler.",
+    "gids_titel": "Meer hierover in de gids",
+    "gids_paragraaf": "paragraaf {p}",
+    "gidsprijs": "Volgens de gids: gemiddeld € {v} per m² in {regio}.",
+    "maffia_titel": "Gemeenteraad ontbonden",
+    "maffia": "De gemeenteraad is in {jaar} ontbonden wegens maffia-infiltratie.",
+    "maffia_link": "Bron: Ministero dell'Interno",
+    "station_hs": "Dichtstbijzijnde station met hogesnelheidstreinen: {naam}",
+    "station_nacht": "Dichtstbijzijnde station met nachttrein: {naam}"
   },
   "vergelijk": {
     "titel": "Vergelijken",
@@ -299,7 +326,14 @@
     "dagen_boven_32": "{v} dagen",
     "vorstdagen": "{v} dagen",
     "trend_hete_dagen": "{v} dagen",
-    "neerslag_trend_pct": "{v}%"
+    "neerslag_trend_pct": "{v}%",
+    "temp_jan": "{v} °C",
+    "temp_jul": "{v} °C",
+    "zon_kwh": "{v} kWh per m² per dag",
+    "neerslag_mm": "{v} mm",
+    "min_station_hs": "{v} min",
+    "min_station_nacht": "{v} min",
+    "pm25": "{v} µg/m³"
   },
   "bronnen_voet": "Bronnen: ISTAT, Agenzia delle Entrate – OMI (CC BY 4.0; officiële waarden, vraagprijzen liggen vaak hoger), ISPRA, European Environment Agency (EEA), EFFIS (Copernicus), Protezione Civile, Ministero della Salute, MIM, MEF, AGCOM, Assaeroporti. Kaartdata en rijtijden:",
   "osm": "© OpenStreetMap-bijdragers (ODbL)",

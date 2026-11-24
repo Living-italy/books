@@ -38,11 +38,22 @@ def _aanvragen():
         "time": ["00:00"], "area": GEBIED, "data_format": "netcdf", "download_format": "unarchived"})
 
 
+MAAND_KLIMAAT = MAP / "maand_klimaat.nc"
+
+
+def _aanvragen_maand():
+    yield (MAAND_KLIMAAT, "reanalysis-era5-land-monthly-means", {
+        "product_type": ["monthly_averaged_reanalysis"],
+        "variable": ["2m_temperature", "surface_solar_radiation_downwards"],
+        "year": [str(j) for j in RECENT], "month": [f"{m:02d}" for m in range(1, 13)],
+        "time": ["00:00"], "area": GEBIED, "data_format": "netcdf", "download_format": "unarchived"})
+
+
 def download(parallel: int = 1) -> None:
     """De CDS staat maar een beperkt aantal aanvragen per dataset tegelijk toe: standaard na elkaar."""
     import cdsapi
     MAP.mkdir(parents=True, exist_ok=True)
-    taken = [a for a in _aanvragen() if not a[0].exists()]
+    taken = [a for a in list(_aanvragen_maand()) + list(_aanvragen()) if not a[0].exists()]
     print(f"ERA5: {len(taken)} aanvragen")
 
     def een(taak):
@@ -62,7 +73,8 @@ def download(parallel: int = 1) -> None:
 
 
 def beschikbaar() -> bool:
-    return all(p.exists() for p, _, _ in _aanvragen())
+    """Minstens één deel van de klimaatdata is binnen; per_comune rekent wat er is."""
+    return any(p.exists() for p, _, _ in list(_aanvragen()) + list(_aanvragen_maand()))
 
 
 def _open(pad: Path):
@@ -83,35 +95,52 @@ def _punten(da, lat, lon):
 
 
 def per_comune(t: pd.DataFrame) -> pd.DataFrame:
-    """Klimaatindicatoren op het middelpunt van elke comune."""
+    """Klimaatindicatoren op het middelpunt van elke comune; onderdelen zonder bestand blijven leeg."""
+    import xarray as xr
     lat, lon = t["lat"].values, t["lon"].values
+    out = pd.DataFrame({"istat": t["istat"].values})
+    leeg = np.full(len(t), np.nan)
 
     def dagen(naam, jaren, cond):
+        paden = [MAP / f"{naam}_{j}.nc" for j in jaren]
+        if not all(p.exists() for p in paden):
+            return None
         tellingen = []
-        for j in jaren:
-            da = _open(MAP / f"{naam}_{j}.nc") - 273.15
-            v = _punten(da, lat, lon)
-            tellingen.append(cond(v).sum("tijd").values.astype(float))
+        for p in paden:
+            v = _punten(_open(p) - 273.15, lat, lon)
+            tellingen.append(cond(v).sum("tijd").where(v.notnull().any("tijd")).values.astype(float))
         return np.nanmean(np.vstack(tellingen), axis=0)
 
     heet_recent = dagen("tmax", RECENT, lambda v: v > HEET)
     heet_vroeg = dagen("tmax", VROEG, lambda v: v > HEET)
     vorst = dagen("tmin", RECENT, lambda v: v < VORST)
+    out["dagen_boven_32"] = np.round(heet_recent, 1) if heet_recent is not None else leeg
+    out["vorstdagen"] = np.round(vorst, 1) if vorst is not None else leeg
+    out["trend_hete_dagen"] = np.round(heet_recent - heet_vroeg, 1) if heet_recent is not None and heet_vroeg is not None else leeg
 
-    p = _open(MAP / "neerslag_maand.nc")                       # m per dag, maandgemiddelde
-    dagen_in_maand = p["tijd"].dt.days_in_month
-    jaar = (_punten(p, lat, lon) * dagen_in_maand * 1000).groupby("tijd.year").sum("tijd")
-    recent = jaar.sel(year=RECENT).mean("year").values
-    vroeg = jaar.sel(year=VROEG).mean("year").values
-    out = pd.DataFrame({
-        "istat": t["istat"].values,
-        "dagen_boven_32": np.round(heet_recent, 1),
-        "vorstdagen": np.round(vorst, 1),
-        "trend_hete_dagen": np.round(heet_recent - heet_vroeg, 1),
-        "neerslag_mm": np.round(recent, 0),
-        "neerslag_trend_pct": np.round((recent - vroeg) / vroeg * 100, 1),
-    })
-    # cellen zonder landdata (zee) geven NaN; die blijven leeg
+    if (MAP / "neerslag_maand.nc").exists():
+        p = _open(MAP / "neerslag_maand.nc")                   # m per dag, maandgemiddelde
+        jaar = (_punten(p, lat, lon) * p["tijd"].dt.days_in_month * 1000).groupby("tijd.year").sum("tijd")
+        recent, vroeg = jaar.sel(year=RECENT).mean("year").values, jaar.sel(year=VROEG).mean("year").values
+        out["neerslag_mm"] = np.round(recent, 0)
+        out["neerslag_trend_pct"] = np.round((recent - vroeg) / vroeg * 100, 1)
+    else:
+        out["neerslag_mm"] = leeg
+        out["neerslag_trend_pct"] = leeg
+
+    if MAAND_KLIMAAT.exists():
+        ds = xr.open_dataset(MAAND_KLIMAAT)
+        tijd = "valid_time" if "valid_time" in ds.dims else "time"
+        ds = ds.rename({tijd: "tijd"})
+        tm = _punten(ds["t2m"] - 273.15, lat, lon)
+        maand = tm.groupby("tijd.month").mean("tijd")
+        out["temp_jan"] = np.round(maand.sel(month=1).values, 1)
+        out["temp_jul"] = np.round(maand.sel(month=7).values, 1)
+        zon = _punten(ds["ssrd"], lat, lon).mean("tijd") / 3.6e6       # J/m² per dag -> kWh/m² per dag
+        out["zon_kwh"] = np.round(zon.values, 2)
+    else:
+        for c in ["temp_jan", "temp_jul", "zon_kwh"]:
+            out[c] = leeg
     return out
 
 

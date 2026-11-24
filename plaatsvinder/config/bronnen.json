@@ -245,6 +245,20 @@
       "peildatum": "2024",
       "schaalniveau": "provincie",
       "licentie": "CC BY 4.0"
+    },
+    "treinstations": {
+      "bron": "Stations met hogesnelheidstreinen (handmatige lijst, Trenitalia en Italo) en nachttreinen (OpenStreetMap)",
+      "url": "config/treinstations.json",
+      "peildatum": "2026",
+      "schaalniveau": "station",
+      "licentie": "eigen tabel; OSM ODbL"
+    },
+    "sciolti_mafia": {
+      "bron": "Ministero dell'Interno, gemeenteraden ontbonden wegens maffia-infiltratie",
+      "url": "https://www.interno.gov.it/it/temi/territorio/sistema-autonomie",
+      "peildatum": "te vullen",
+      "schaalniveau": "gemeente",
+      "licentie": "open (overheid)"
     }
   }
 }

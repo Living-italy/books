@@ -8,12 +8,17 @@ Gemaakt op 2026-11-24. Totaal: 7894 comuni.
 | Natuur, landschap, rust en ruimte | Aandeel beschermd natuurgebied binnen 5 km | © OpenStreetMap-bijdragers | 2026-11-23 | punt | 7894 | 100.0 |
 | Natuur, landschap, rust en ruimte | Inwoners per km² | ISTAT, bilancio demografico en popolazione per età (demo.istat.it) | 2025-12-31 | gemeente | 7894 | 100.0 |
 | Natuur, landschap, rust en ruimte | Hoogteverschil binnen de gemeente | ISTAT, Altimetria dei comuni | 2021-12-31 | gemeente | 7888 | 99.9 |
-| Klimaat (winter en zomerhitte) | Dagen per jaar boven 32 °C (2016-2025) | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
-| Klimaat (winter en zomerhitte) | Vorstdagen per jaar (2016-2025) | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Klimaat (winter en zomerhitte) | Dagen per jaar boven 32 °C | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Klimaat (winter en zomerhitte) | Gemiddelde temperatuur januari | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Klimaat (winter en zomerhitte) | Vorstdagen per jaar | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Klimaat (winter en zomerhitte) | Gemiddelde temperatuur juli | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Klimaat (winter en zomerhitte) | Zoninstraling (kWh per m² per dag; maat voor zonuren) | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Klimaat (winter en zomerhitte) | Jaarlijkse neerslag | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
 | Cultuur, eten, wijn, authenticiteit | Historische objecten en musea binnen 5 km | © OpenStreetMap-bijdragers | 2026-11-23 | punt | 7894 | 100.0 |
 | Luchthaven en rijafstand naar huis | Rijtijd naar luchthaven met vluchten het hele jaar | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
-| Luchthaven en rijafstand naar huis | Rijtijd naar treinstation | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
 | Luchthaven en rijafstand naar huis | Rijtijd naar Utrecht, Brussel, Keulen of München (kortste) | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
+| Luchthaven en rijafstand naar huis | Rijtijd naar station met hogesnelheidstreinen (Frecciarossa, Italo) | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
+| Luchthaven en rijafstand naar huis | Rijtijd naar station met nachttrein naar het noorden | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
 | Dagelijkse voorzieningen | Winkels en horeca binnen 800 m van het centrum | © OpenStreetMap-bijdragers | 2026-11-23 | punt | 7894 | 100.0 |
 | Dagelijkse voorzieningen | Supermarkt, apotheek en bar binnen 800 m (aantal van de drie) | © OpenStreetMap-bijdragers | 2026-11-23 | punt | 7894 | 100.0 |
 | Gezondheidszorg | Rijtijd naar ziekenhuis met spoedeisende hulp | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
@@ -36,3 +41,4 @@ Gemaakt op 2026-11-24. Totaal: 7894 comuni.
 | Hitte en droogte | Verandering jaarlijkse neerslag t.o.v. 1991-2000 | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
 | Verhuurpotentieel en toerisme | Toeristische bedden per inwoner | ISTAT, capacità degli esercizi ricettivi | 2025 | gemeente | 7894 | 100.0 |
 | Herverkoopbaarheid | Verkopen per 100 woningen per jaar | Agenzia delle Entrate – OMI, volumi delle compravendite (NTN) | 2025 | gemeente | 7551 | 95.7 |
+| Luchtkwaliteit | Fijnstof PM2,5, jaargemiddelde 2023 | EEA, PM2,5 interpolated air quality data | 2023 | raster 1 km | 7894 | 100.0 |

@@ -32,12 +32,30 @@ def gewogen(delen: pd.DataFrame, gewichten: dict) -> pd.Series:
     return (som / totaal_w.replace(0, np.nan)).round(0)
 
 
+def _gewogen_percentielen(t, indicatoren, omdraaien=()):
+    delen, w = {}, {}
+    for i in indicatoren:
+        k = KORT.get(i["kolom"])
+        if k is None or f"p_{k}" not in t:
+            continue
+        v = t[f"p_{k}"]
+        delen[k] = 100 - v if i["kolom"] in omdraaien else v
+        w[k] = i.get("gewicht", 1)
+    if not delen:
+        return pd.Series(np.nan, index=t.index)
+    return gewogen(pd.DataFrame(delen), w)
+
+
 def criteria_scores(t: pd.DataFrame) -> pd.DataFrame:
+    """Deelscore per criterium: (gewogen) gemiddelde van de percentielen met data.
+    Klimaat ook in de variant 'vier seizoenen': winterkenmerken met omgedraaide richting."""
     crit = json.loads((ROOT / "config/criteria.json").read_text(encoding="utf-8"))["criteria"]
     t = t.copy()
     for c in crit:
-        cols = [f"p_{KORT[i['kolom']]}" for i in c["indicatoren"] if i["kolom"] in KORT and f"p_{KORT[i['kolom']]}" in t]
-        t[f"s_{c['id']}"] = t[cols].mean(axis=1, skipna=True).round(0) if cols else np.nan
+        t[f"s_{c['id']}"] = _gewogen_percentielen(t, c["indicatoren"])
+        if c["id"] == "klimaat":
+            winter = [i["kolom"] for i in c["indicatoren"] if i.get("winter")]
+            t["s_klimaat_seizoenen"] = _gewogen_percentielen(t, c["indicatoren"], omdraaien=winter)
     return t
 
 

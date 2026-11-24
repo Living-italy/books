@@ -24,7 +24,12 @@
           "richting": "lager_beter",
           "bron": "omi"
         }
-      ]
+      ],
+      "dealbreaker": {
+        "filter": "max_prijs_m2",
+        "waarde": 1500,
+        "tekst": "maximaal € 1.500 per m²"
+      }
     },
     {
       "id": "natuur",
@@ -63,7 +68,7 @@
     {
       "id": "klimaat",
       "label": "Klimaat (winter en zomerhitte)",
-      "uitleg": "Weinig hete dagen (boven 32 °C) en weinig vorstdagen, gemiddeld over 2016 tot en met 2025 (ERA5-Land, raster van ongeveer 9 km).",
+      "uitleg": "Zomerhitte, winter, zon en neerslag (ERA5-Land, 2016-2025). Kies of u een zachte winter wilt of juist vier seizoenen. Per 100 m hoger is het ongeveer 0,6 graad kouder, met meer sneeuw en soms afgesloten wegen.",
       "rang": 3,
       "basis": "D",
       "richting": "hoger_beter",
@@ -74,17 +79,62 @@
       "indicatoren": [
         {
           "kolom": "dagen_boven_32",
-          "label": "Dagen per jaar boven 32 °C (2016-2025)",
+          "label": "Dagen per jaar boven 32 °C",
           "richting": "lager_beter",
           "bron": "era5"
         },
         {
+          "kolom": "temp_jan",
+          "label": "Gemiddelde temperatuur januari",
+          "richting": "hoger_beter",
+          "bron": "era5",
+          "winter": true
+        },
+        {
           "kolom": "vorstdagen",
-          "label": "Vorstdagen per jaar (2016-2025)",
+          "label": "Vorstdagen per jaar",
+          "richting": "lager_beter",
+          "bron": "era5",
+          "winter": true
+        },
+        {
+          "kolom": "temp_jul",
+          "label": "Gemiddelde temperatuur juli",
+          "richting": "lager_beter",
+          "bron": "era5"
+        },
+        {
+          "kolom": "zon_kwh",
+          "label": "Zoninstraling (kWh per m² per dag; maat voor zonuren)",
+          "richting": "hoger_beter",
+          "bron": "era5"
+        },
+        {
+          "kolom": "neerslag_mm",
+          "label": "Jaarlijkse neerslag",
           "richting": "lager_beter",
           "bron": "era5"
         }
-      ]
+      ],
+      "voorkeur": {
+        "vraag": "Wat voor winter wilt u?",
+        "opties": [
+          {
+            "id": "zacht",
+            "label": "Een zachte winter"
+          },
+          {
+            "id": "seizoenen",
+            "label": "Vier seizoenen, met een echte winter"
+          }
+        ],
+        "uitleg": "Bij 'vier seizoenen' draait de richting van de wintertemperatuur en de vorstdagen om."
+      },
+      "dealbreaker": {
+        "filter": "max_hoogte",
+        "waarde": 800,
+        "tekst": "centrum niet hoger dan 800 m"
+      }
     },
     {
       "id": "cultuur",
@@ -109,7 +159,7 @@
     {
       "id": "bereikbaarheid",
       "label": "Luchthaven en rijafstand naar huis",
-      "uitleg": "Rijtijd naar een luchthaven met vluchten het hele jaar, naar een treinstation, en naar Nederland, België of Duitsland.",
+      "uitleg": "Luchthaven met vluchten het hele jaar (50%), rijtijd naar Nederland, België of Duitsland (30%) en trein (20%): station met hogesnelheidstreinen of nachttrein naar het noorden.",
       "rang": 5,
       "basis": "DE",
       "richting": "hoger_beter",
@@ -124,21 +174,36 @@
           "kolom": "min_luchthaven_jaarrond",
           "label": "Rijtijd naar luchthaven met vluchten het hele jaar",
           "richting": "lager_beter",
-          "bron": "osrm"
-        },
-        {
-          "kolom": "min_station",
-          "label": "Rijtijd naar treinstation",
-          "richting": "lager_beter",
-          "bron": "osrm"
+          "bron": "osrm",
+          "gewicht": 50
         },
         {
           "kolom": "uur_naar_huis",
           "label": "Rijtijd naar Utrecht, Brussel, Keulen of München (kortste)",
           "richting": "lager_beter",
-          "bron": "osrm"
+          "bron": "osrm",
+          "gewicht": 30
+        },
+        {
+          "kolom": "min_station_hs",
+          "label": "Rijtijd naar station met hogesnelheidstreinen (Frecciarossa, Italo)",
+          "richting": "lager_beter",
+          "bron": "osrm",
+          "gewicht": 10
+        },
+        {
+          "kolom": "min_station_nacht",
+          "label": "Rijtijd naar station met nachttrein naar het noorden",
+          "richting": "lager_beter",
+          "bron": "osrm",
+          "gewicht": 10
         }
-      ]
+      ],
+      "dealbreaker": {
+        "filter": "max_luchthaven",
+        "waarde": 90,
+        "tekst": "luchthaven met vluchten het hele jaar binnen 90 minuten"
+      }
     },
     {
       "id": "voorzieningen",
@@ -200,7 +265,12 @@
           "richting": "hoger_beter",
           "bron": "lea_2023"
         }
-      ]
+      ],
+      "dealbreaker": {
+        "filter": "max_ziekenhuis",
+        "waarde": 45,
+        "tekst": "spoedeisende hulp binnen 45 minuten"
+      }
     },
     {
       "id": "internet",
@@ -220,7 +290,12 @@
           "richting": "hoger_beter",
           "bron": "agcom"
         }
-      ]
+      ],
+      "dealbreaker": {
+        "filter": "min_glasvezel",
+        "waarde": 50,
+        "tekst": "minimaal 50% van de huishoudens met glasvezel"
+      }
     },
     {
       "id": "fiscaal",
@@ -247,7 +322,12 @@
           "richting": "lager_beter",
           "bron": "mef_addizionale"
         }
-      ]
+      ],
+      "dealbreaker": {
+        "filter": "alleen_regime7",
+        "waarde": true,
+        "tekst": "alleen gemeenten met het 7%-regime"
+      }
     },
     {
       "id": "levendigheid",
@@ -332,7 +412,12 @@
           "richting": "lager_beter",
           "bron": "effis"
         }
-      ]
+      ],
+      "dealbreaker": {
+        "filter": "zone1_uit",
+        "waarde": true,
+        "tekst": "geen seismische zone 1 en geen rode zone"
+      }
     },
     {
       "id": "veiligheid",
@@ -440,6 +525,26 @@
           "bron": "omi_ntn"
         }
       ]
+    },
+    {
+      "id": "lucht",
+      "label": "Luchtkwaliteit",
+      "uitleg": "Jaargemiddelde fijnstof (PM2,5); PM10 en NO2 volgen zodra de EEA-bestanden binnen zijn.",
+      "rang": 23,
+      "basis": "E",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "eea_pm25"
+      ],
+      "schaalniveau": "raster",
+      "indicatoren": [
+        {
+          "kolom": "pm25",
+          "label": "Fijnstof PM2,5, jaargemiddelde 2023",
+          "richting": "lager_beter",
+          "bron": "eea_pm25"
+        }
+      ]
     }
   ],
   "niet_gescoord": [
@@ -462,6 +567,68 @@
     {
       "rang": 22,
       "label": "Subsidies en 1-euro-huizen"
+    }
+  ],
+  "wensenlijst": {
+    "aantal": 3,
+    "factor_must": 1.5,
+    "factor_nice": 1.2,
+    "uitleg": "Kies uit de criteria drie dealbreakers, drie must-haves en drie nice-to-haves (gids, paragraaf 1.3). Dealbreakers worden harde eisen, must-haves tellen 1,5 keer, nice-to-haves 1,2 keer; daarna tellen de gewichten weer op tot 100."
+  },
+  "gepland": [
+    {
+      "id": "huisdieren",
+      "label": "Huisdieren (leishmania, hartworm, processierupsen)",
+      "status": "gepland",
+      "bron": "gids, kaart C.11"
+    },
+    {
+      "id": "wild",
+      "label": "Wild: beperkingszone Afrikaanse varkenspest; wolven en beren als informatie",
+      "status": "gepland",
+      "bron": "EU-uitvoeringsverordening 2023/594"
+    },
+    {
+      "id": "droogte",
+      "label": "Droogte en waterbeperkingen (regio)",
+      "status": "gepland",
+      "bron": "gids, kaart C.12"
+    },
+    {
+      "id": "laadpalen",
+      "label": "Openbare laadpunten binnen 10 km",
+      "status": "gepland",
+      "bron": "Piattaforma Unica Nazionale (PUN)"
+    },
+    {
+      "id": "aardgas",
+      "label": "Aansluiting op het gasnet (metanizzazione)",
+      "status": "gepland",
+      "bron": "ARERA (te onderzoeken)"
+    },
+    {
+      "id": "internationale_scholen",
+      "label": "Internationale scholen binnen 45 minuten",
+      "status": "gepland",
+      "bron": "te onderzoeken"
+    },
+    {
+      "id": "toeristenbelasting",
+      "label": "Toeristenbelasting (imposta di soggiorno) en regionale regels voor verhuur",
+      "status": "gepland",
+      "bron": "te onderzoeken"
+    },
+    {
+      "id": "nieuwe_inwoners",
+      "label": "Programma voor nieuwe inwoners en 1-eurohuizen",
+      "status": "gepland",
+      "bron": "handmatige lijst"
+    },
+    {
+      "id": "zona_sismica_detail",
+      "label": "Seismische subzones (2A, 2B)",
+      "status": "gebouwd",
+      "bron": "Protezione Civile"
     }
   ]
 }

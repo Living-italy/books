@@ -349,3 +349,51 @@ def luchthavens(poi: pd.DataFrame) -> pd.DataFrame:
     l["heel_jaar_bron"] = l["iata"].map(lambda i: "gecontroleerd" if i in c["heel_jaar"] else
                                         ("voorlopig" if i in c["heel_jaar_voorlopig"] else "onbekend"))
     return l
+
+
+# ---------------------------------------------------------------- treinen
+def treinstations(poi: pd.DataFrame) -> dict:
+    """Stations met hogesnelheidstreinen (handmatige lijst) en met nachttreinen naar het noorden (OSM-routes)."""
+    import osmium
+    cfgt = cfg("treinstations")
+    st = poi[poi.cat == "station"].copy()
+    st["n"] = st["naam"].fillna("").map(norm)
+    hs_namen = {norm(n) for n in cfgt["hogesnelheid"]}
+    hs = st[st["n"].isin(hs_namen)].drop_duplicates("n")
+    mis = hs_namen - set(hs["n"])
+    if mis:
+        print(f"  ! hogesnelheidsstations niet gevonden in OSM: {sorted(mis)}")
+    pbf = RAW.parent / "work" / "treinroutes.osm.pbf"
+    if not pbf.exists():
+        import subprocess
+        subprocess.run(["osmium", "tags-filter", "-O", str(RAW / "osm/italy-latest.osm.pbf"), "r/route=train", "-o", str(pbf)], check=True)
+    nacht_re = re.compile(r"notte|nightjet|euronight|night|sleeper|\bEN\b|\bNJ\b", re.I)
+
+    class H(osmium.SimpleHandler):
+        def __init__(s):
+            super().__init__()
+            s.ids = set()
+
+        def relation(s, r):
+            t = dict(r.tags)
+            tekst = " ".join(t.get(k, "") for k in ["name", "ref", "brand", "operator", "service"])
+            if t.get("service") == "night" or nacht_re.search(tekst):
+                s.ids |= {m.ref for m in r.members if m.type == "n" and m.role.startswith("stop")}
+
+    h = H()
+    h.apply_file(str(pbf))
+
+    class N(osmium.SimpleHandler):
+        def __init__(s, ids):
+            super().__init__()
+            s.ids, s.rijen = ids, []
+
+        def node(s, n):
+            if n.id in s.ids and n.location.valid():
+                s.rijen.append({"lat": n.location.lat, "lon": n.location.lon, "naam": n.tags.get("name", "")})
+
+    nn = N(h.ids)
+    nn.apply_file(str(pbf), locations=True)
+    nacht = pd.DataFrame(nn.rijen)
+    print(f"  treinstations: {len(hs)} met hogesnelheid, {len(nacht)} haltes van nachttreinen")
+    return {"station_hs": hs[["lat", "lon", "naam"]], "station_nacht": nacht}

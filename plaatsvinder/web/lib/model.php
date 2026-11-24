@@ -53,6 +53,57 @@ function startgewichten(string $profiel, ?string $verblijf = null): array
     return $g;
 }
 
+/** Gewichten naar een som van precies 100 (grootste-rest-methode). */
+function normaliseer(array $g): array
+{
+    $som = array_sum($g);
+    if ($som <= 0) {
+        return $g;
+    }
+    $exact = array_map(fn($v) => $v * 100 / $som, $g);
+    $uit = array_map('floor', $exact);
+    $rest = $exact;
+    foreach ($rest as $k => $v) {
+        $rest[$k] = $v - $uit[$k];
+    }
+    arsort($rest);
+    foreach (array_slice(array_keys($rest), 0, 100 - (int)array_sum($uit)) as $k) {
+        $uit[$k]++;
+    }
+    return array_map('intval', $uit);
+}
+
+/** Wensenlijst (gids 1.3): must-haves x1,5, nice-to-haves x1,2, daarna weer samen 100. */
+function pas_wensen_toe(array $g, array $must, array $nice): array
+{
+    $w = cfg('criteria')['wensenlijst'];
+    foreach ($must as $c) {
+        if (isset($g[$c])) {
+            $g[$c] *= $w['factor_must'];
+        }
+    }
+    foreach ($nice as $c) {
+        if (isset($g[$c])) {
+            $g[$c] *= $w['factor_nice'];
+        }
+    }
+    return normaliseer($g);
+}
+
+/** Zet een filter op de strengste van de eigen waarde en de dealbreaker-waarde. */
+function streng(array $f, string $k, $waarde): array
+{
+    $eigen = $f[$k] ?? null;
+    if (is_bool($waarde)) {
+        $f[$k] = $waarde || (bool)$eigen;
+    } elseif (!is_numeric($eigen) || $eigen <= 0) {
+        $f[$k] = $waarde;
+    } else {
+        $f[$k] = str_starts_with($k, 'min_') ? max($eigen, $waarde) : min($eigen, $waarde);
+    }
+    return $f;
+}
+
 /** Controleert en normaliseert de antwoorden. */
 function antwoorden(array $in): array
 {
@@ -70,11 +121,27 @@ function antwoorden(array $in): array
             }
         }
     }
+    $wensen = (array)($in['wensen'] ?? []);
+    $kies = fn($k) => array_slice(array_values(array_intersect((array)($wensen[$k] ?? []), $crit)), 0, cfg('criteria')['wensenlijst']['aantal']);
+    $dealbreakers = $kies('dealbreakers');
     $expats = in_array($in['expats'] ?? '', ['veel', 'maakt_niet_uit', 'weinig'], true) ? $in['expats'] : 'maakt_niet_uit';
     if ($expats === 'maakt_niet_uit') {
         $g['expats'] = 0;
     }
+    if (!is_array($in['gewichten'] ?? null)) {
+        $g = pas_wensen_toe($g, $kies('must'), $kies('nice'));
+    }
     $f = (array)($in['filters'] ?? []);
+    // dealbreakers worden harde eisen (drempel uit criteria.json); een strengere eigen eis blijft staan
+    foreach (cfg('criteria')['criteria'] as $c) {
+        if (!in_array($c['id'], $dealbreakers, true) || !isset($c['dealbreaker'])) {
+            continue;
+        }
+        $f = streng($f, $c['dealbreaker']['filter'], $c['dealbreaker']['waarde']);
+        if ($c['id'] === 'risico') {
+            $f['rode_zone_uit'] = true;
+        }
+    }
     $standaard = profiel($profiel)['filters_standaard'] ?? [];
     $budget = null;
     if (!empty($in['budget']) && in_array($in['budget']['soort'] ?? '', ['huren', 'kopen'], true)
@@ -103,6 +170,9 @@ function antwoorden(array $in): array
         'rode_zone_uit' => $bool('rode_zone_uit', true),
         'min_glasvezel' => array_key_exists('min_glasvezel', $f) ? $num($f['min_glasvezel']) : ($standaard['min_glasvezel_pct'] ?? null),
         'alleen_regime7' => $bool('alleen_regime7', false),
+        'max_hoogte' => $num($f['max_hoogte'] ?? null),
+        'klimaat' => ($in['klimaat'] ?? '') === 'seizoenen' ? 'seizoenen' : 'zacht',
+        'dealbreakers' => $dealbreakers,
     ];
 }
 
@@ -161,6 +231,9 @@ function voldoet(array $c, array $a, array $regiosMetProv = []): bool
     if ($a['min_glasvezel'] !== null && isset($w['glasvezel_pct']) && $w['glasvezel_pct'] < $a['min_glasvezel']) {
         return false;
     }
+    if ($a['max_hoogte'] !== null && ($c['hoogte_m'] ?? null) !== null && $c['hoogte_m'] > $a['max_hoogte']) {
+        return false;
+    }
     if ($a['alleen_regime7'] && ($w['regime7_status'] ?? '') !== 'ja') {
         return false;
     }
@@ -177,7 +250,11 @@ function voldoet(array $c, array $a, array $regiosMetProv = []): bool
 function deelscores(array $c, array $a): array
 {
     $s = $c['s'];
-    if ($a['expats'] === 'weinig' && $s['expats'] !== null) {
+    if ($a['klimaat'] === 'seizoenen' && array_key_exists('klimaat_seizoenen', $s)) {
+        $s['klimaat'] = $s['klimaat_seizoenen'];
+    }
+    unset($s['klimaat_seizoenen']);
+    if ($a['expats'] === 'weinig' && ($s['expats'] ?? null) !== null) {
         $s['expats'] = 100 - $s['expats'];
     }
     return $s;
@@ -291,7 +368,7 @@ function scoor(array $invoer, array $comuni, int $n = 25): array
 {
     $a = antwoorden($invoer);
     $kand = kandidaten($comuni, $a);
-    $uit = ['aantal' => count($kand), 'gewichten' => $a['gewichten'],
+    $uit = ['aantal' => count($kand), 'gewichten' => $a['gewichten'], 'dealbreakers' => $a['dealbreakers'],
             'top' => array_map(fn($k) => samenvatting($k, $a), array_slice($kand, 0, $n))];
     if (!empty($invoer['alternatieven_voor'])) {
         $uit['alternatieven'] = array_map(fn($k) => samenvatting($k, $a), alternatieven($kand, (string)$invoer['alternatieven_voor']));

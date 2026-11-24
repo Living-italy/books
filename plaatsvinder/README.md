@@ -155,3 +155,17 @@ Overige bronnen (open, vermelding netjes maar zonder extra voorwaarden):
 | OpenStreetMap Italië | https://download.geofabrik.de/europe/italy-latest.osm.pbf (uitwijk: download.openstreetmap.fr) | ODbL |
 
 Niet in versie 1: schoolkwaliteit (INVALSI), ziekenhuiskwaliteit (AGENAS), klimaat (ERA5) en luchtkwaliteit per maand (CAMS).
+
+## Sectie 12: aanvullingen uit de gids
+
+Plan: `docs/plan-aanpassingen-12.md`.
+
+- **Wensenlijst** (stap 2, gids 1.3): maximaal drie dealbreakers, must-haves en nice-to-haves. Dealbreakers worden harde eisen met de drempel uit `criteria.json` (`dealbreaker`); een strengere eigen eis blijft staan. Must-haves tellen 1,5 keer, nice-to-haves 1,2 keer, daarna weer samen 100.
+- **Hoogte**: hoogte van het centrum bij elke gemeente, filter "maximale hoogte" (standaard uit), uitleg 0,6 °C per 100 m.
+- **Klimaat**: temperatuur januari en juli, vorstdagen, zoninstraling (benadering van zonuren), neerslag uit ERA5-Land; keuze "zachte winter" of "vier seizoenen". Leeg zolang `python pipeline/era5.py download` niet klaar is.
+- **Luchtkwaliteit**: nieuw criterium (PM2,5, EEA 2023).
+- **Trein**: rijtijd naar station met hogesnelheidstreinen en naar station met nachttrein, binnen bereikbaarheid (luchthaven 50, naar huis 30, trein 10 + 10).
+- **Labels zonder score**: ontbonden gemeenteraad (`config/sciolti_mafia.json`, nog te vullen).
+- **Gids**: blok "Meer hierover in de gids" (`config/gids_links.json`, alleen verwijzingen met url) en gidsprijs per regio (`config/gids_prijzen.json`, nog te vullen).
+- **Gepland** (12b): staat in `criteria.json` onder `gepland`.
+- Niet opgenomen: Qualità della vita (Il Sole 24 Ore), hergebruik niet toegestaan.

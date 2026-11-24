@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "required": [
+    "verwijzingen"
+  ],
+  "properties": {
+    "verwijzingen": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
