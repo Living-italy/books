@@ -1,18 +1,19 @@
-Plaatsvinder Italië – installatie op de webserver
-==================================================
+Plaatsvinder Italië: installatie op de webserver
+=================================================
 
-1. Zet de hele map (inclusief de submappen assets, data, lang en lib) op de server,
+1. Zet de hele map web/ (met assets, config, data, lang en lib) op de server,
    bijvoorbeeld als https://stefsmulders.nl/plaatsvinder/
-2. Eisen: PHP 8.1 of hoger, met de extensies json en iconv (standaard aanwezig),
-   en een memory_limit van minstens 128 MB.
+2. Eisen: PHP 8.1 of hoger met json, en een memory_limit van minstens 128 MB
+   (een uitslag kost ongeveer 45 MB en 0,1 seconde).
 3. Maak de map data/ schrijfbaar voor PHP (alleen nodig als opcache aanstaat;
-   dan wordt daar comuni.cache.php aangemaakt voor snelheid).
-4. Apache: data/.htaccess schermt comuni.json af. Op nginx zelf blokkeren:
-     location ~ /data/(comuni\.json|comuni\.cache\.php) { deny all; }
+   dan wordt daar score.cache.php aangemaakt voor snelheid).
+4. Apache: de .htaccess-bestanden in data/, data/detail/ en config/ schermen de
+   tabellen af. Op nginx zelf blokkeren:
+     location ~ /(data/(score|meta)\.json|data/detail/|config/) { deny all; }
 5. Open index.php in de browser.
 
-Gegevens verversen: vervang alleen data/comuni.json en data/comuni-lite.json
-door de nieuwe bestanden uit de pipeline. Verwijder daarna data/comuni.cache.php
-als dat bestand bestaat.
+Gegevens verversen: vervang data/score.json, data/meta.json, data/comuni-lite.json,
+de map data/detail/ en de map config/ door de nieuwe versies uit de pipeline.
+Verwijder daarna data/score.cache.php als dat bestand bestaat.
 
-Teksten aanpassen: lang/nl.json. Kleuren: bovenaan assets/style.css.
+Teksten: lang/nl.json. Kleuren: bovenaan assets/style.css.
