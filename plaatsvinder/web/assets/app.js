@@ -11,12 +11,12 @@
   var STAPPEN = ["profiel", "ligging", "grootte", "gewichten", "filters", "regio"];
   var CRIT = C.criteria.criteria.slice().sort(function (a, b) { return a.rang - b.rang; });
   var BRONNEN = C.bronnen.bronnen;
-  var GEEN_DATA_BRON = { era5: 1, omi_ntn: 1 };
+  var ZONDER_DATA = C.zonder_data || [];
   var MAX_VERGELIJK = 3;
   var LEEG = T.gemeente.geen_data;
 
   function zonderData(c) {
-    return !c.indicatoren.length || c.indicatoren.every(function (i) { return GEEN_DATA_BRON[i.bron]; });
+    return !c.indicatoren.length || ZONDER_DATA.indexOf(c.id) >= 0;
   }
   function profiel(id) { return C.profielen.profielen.filter(function (p) { return p.id === id; })[0]; }
 

@@ -52,7 +52,9 @@ def tests(t: pd.DataFrame) -> pd.DataFrame:
         "65plus": p("65plus"),
         "basis_lopen": t["basis_800m"] / 3 * 100,                 # supermarkt, apotheek, bar binnen 800 m
         "zomerpiek": zomerpiek,                                   # hoge zomerpiek t.o.v. inwoners is slechter
-        "winter_hoogte": percentiel(t["hoogte_m"], hoger_beter=False),   # geen sneeuw/vorstdata: hoogte als benadering
+        # vorstdagen (ERA5-Land); zonder klimaatdata de hoogte als benadering
+        "winter_hoogte": (percentiel(t["vorstdagen"], hoger_beter=False) if t["vorstdagen"].notna().any()
+                          else percentiel(t["hoogte_m"], hoger_beter=False)),
     })
     t["test_winter"] = gewogen(winter, WINTERTEST)
     for k in WINTERTEST:

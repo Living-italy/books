@@ -63,7 +63,7 @@
     {
       "id": "klimaat",
       "label": "Klimaat (winter en zomerhitte)",
-      "uitleg": "Zachte winters en weinig extreme hitte.",
+      "uitleg": "Weinig hete dagen (boven 32 °C) en weinig vorstdagen, gemiddeld over 2016 tot en met 2025 (ERA5-Land, raster van ongeveer 9 km).",
       "rang": 3,
       "basis": "D",
       "richting": "hoger_beter",
@@ -74,13 +74,13 @@
       "indicatoren": [
         {
           "kolom": "dagen_boven_32",
-          "label": "Dagen per jaar boven 32 °C",
+          "label": "Dagen per jaar boven 32 °C (2016-2025)",
           "richting": "lager_beter",
           "bron": "era5"
         },
         {
           "kolom": "vorstdagen",
-          "label": "Vorstdagen per jaar",
+          "label": "Vorstdagen per jaar (2016-2025)",
           "richting": "lager_beter",
           "bron": "era5"
         }
@@ -377,7 +377,7 @@
     {
       "id": "klimaatverandering",
       "label": "Hitte en droogte",
-      "uitleg": "Toename van hete dagen en afname van neerslag.",
+      "uitleg": "Hoeveel hete dagen erbij zijn gekomen en hoe de neerslag veranderde: 2016-2025 vergeleken met 1991-2000.",
       "rang": 17,
       "basis": "E",
       "richting": "hoger_beter",
@@ -388,8 +388,14 @@
       "indicatoren": [
         {
           "kolom": "trend_hete_dagen",
-          "label": "Toename hete dagen",
+          "label": "Extra hete dagen per jaar t.o.v. 1991-2000",
           "richting": "lager_beter",
+          "bron": "era5"
+        },
+        {
+          "kolom": "neerslag_trend_pct",
+          "label": "Verandering jaarlijkse neerslag t.o.v. 1991-2000",
+          "richting": "hoger_beter",
           "bron": "era5"
         }
       ]

@@ -227,7 +227,7 @@
       "65plus": "Aandeel 65-plussers (lager is beter)",
       "basis_lopen": "Supermarkt, apotheek en bar binnen 800 m",
       "zomerpiek": "Zomerpiek toerisme (lager is beter)",
-      "winter_hoogte": "Hoogteligging (benadering voor sneeuw en vorst)"
+      "winter_hoogte": "Vorstdagen (zonder klimaatdata: hoogteligging)"
     },
     "tachtig_titel": "80-jarentest: kunt u hier oud worden?",
     "tachtig_uitleg": "Meet hoe goed zorg en dagelijkse dingen bereikbaar zijn als autorijden lastiger wordt.",
@@ -295,7 +295,11 @@
     "delitti_100k": "{v}",
     "expats_per_1000": "{v} per 1.000",
     "bedden_per_inw": "{v}",
-    "ntn_per_100": "{v}"
+    "ntn_per_100": "{v}",
+    "dagen_boven_32": "{v} dagen",
+    "vorstdagen": "{v} dagen",
+    "trend_hete_dagen": "{v} dagen",
+    "neerslag_trend_pct": "{v}%"
   },
   "bronnen_voet": "Bronnen: ISTAT, Agenzia delle Entrate – OMI (CC BY 4.0; officiële waarden, vraagprijzen liggen vaak hoger), ISPRA, European Environment Agency (EEA), EFFIS (Copernicus), Protezione Civile, Ministero della Salute, MIM, MEF, AGCOM, Assaeroporti. Kaartdata en rijtijden:",
   "osm": "© OpenStreetMap-bijdragers (ODbL)",

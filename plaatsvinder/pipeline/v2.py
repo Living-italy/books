@@ -100,6 +100,16 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
         t[f"{naam}_800m"] = [len(x) > 0 for x in boom.query_ball_point(c_xy, M_800)]
     t["basis_800m"] = t[["supermarkt_800m", "apotheek_800m", "bar_800m"]].sum(axis=1)
 
+    # klimaat (ERA5-Land), alleen als de bestanden er zijn
+    import era5
+    if era5.beschikbaar():
+        print("  ERA5-Land: klimaat per comune")
+        t = t.merge(era5.per_comune(t), on="istat", how="left")
+    else:
+        print("  ! ERA5-Land ontbreekt (python pipeline/era5.py download): klimaat blijft leeg")
+        for c in ["dagen_boven_32", "vorstdagen", "trend_hete_dagen", "neerslag_mm", "neerslag_trend_pct"]:
+            t[c] = np.nan
+
     # scholen binnen ca. 20 minuten (15 km hemelsbreed), zoals scholen binnen 5 km in versie 1
     return t
 

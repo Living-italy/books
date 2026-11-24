@@ -59,6 +59,10 @@ INDICATOREN = {
     "bedden_per_inw":       (True,  False, "bedden"),
     "seizoen_pct":          (False, False, "seizoen"),
     "ntn_per_100":          (True,  False, "verkopen"),
+    "dagen_boven_32":       (False, False, "hitte"),
+    "vorstdagen":           (False, False, "vorst"),
+    "trend_hete_dagen":     (False, False, "hitte_trend"),
+    "neerslag_trend_pct":   (True,  False, "neerslag_trend"),
     "scholen_basis_20min":  (True,  False, "school_basis_20"),
     "scholen_hoog_20min":   (True,  False, "school_hoog_20"),
 }

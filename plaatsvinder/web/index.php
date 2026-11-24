@@ -8,6 +8,7 @@ foreach (['criteria', 'profielen', 'bronnen', 'aandachtspunten', 'regime7', 'tre
     $cfg[$n] = json_decode((string)file_get_contents(__DIR__ . "/config/$n.json"), true);
 }
 $cfg['bron_van'] = meta()['bron_van'] ?? [];
+$cfg['zonder_data'] = meta()['zonder_data'] ?? [];
 $v = @filemtime(__DIR__ . '/data/comuni-lite.json') ?: time();
 $e = fn(string $s) => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 $j = fn($x) => json_encode($x, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP);

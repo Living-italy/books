@@ -149,11 +149,11 @@
       "licentie": "CC BY 4.0"
     },
     "era5": {
-      "bron": "Copernicus ERA5-Land",
-      "url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means",
-      "peildatum": "geen",
-      "schaalniveau": "raster",
-      "licentie": "account nodig"
+      "bron": "Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden)",
+      "url": "https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics",
+      "peildatum": "1991-2025",
+      "schaalniveau": "raster 0,1° (ongeveer 9 km)",
+      "licentie": "CC BY 4.0"
     },
     "lea_2023": {
       "bron": "Ministero della Salute, NSG/LEA 2023",
