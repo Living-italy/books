@@ -1,0 +1,117 @@
+/* Plaatsvinder Italië – mobiel eerst. Kleuren als variabelen, zodat de huisstijl makkelijk over te nemen is. */
+:root {
+  --pv-bg: #faf8f4;
+  --pv-vlak: #ffffff;
+  --pv-tekst: #1f2328;
+  --pv-zacht: #5b6470;
+  --pv-lijn: #e3ded5;
+  --pv-accent: #1f6f5c;
+  --pv-accent-zacht: #e4f1ec;
+  --pv-zwak: #a3541b;
+  --pv-zwak-zacht: #fbefe5;
+  --pv-radius: 12px;
+  --pv-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pv-bg: #16181b; --pv-vlak: #1f2226; --pv-tekst: #ecebe8; --pv-zacht: #a3a9b1; --pv-lijn: #33373d;
+    --pv-accent: #5cc3a5; --pv-accent-zacht: #1d332d; --pv-zwak: #e7a36d; --pv-zwak-zacht: #3a2a1d;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1.5 var(--pv-font); }
+.pv { max-width: 720px; margin: 0 auto; padding: 16px 16px 140px; }
+.pv h1 { font-size: 1.15rem; margin: 0; letter-spacing: .01em; }
+.pv h2 { font-size: 1.5rem; line-height: 1.25; margin: 8px 0 4px; outline: none; }
+.pv-kop { padding: 4px 0 12px; border-bottom: 1px solid var(--pv-lijn); margin-bottom: 16px; }
+.pv-sub, .pv-uitleg { color: var(--pv-zacht); margin: 0 0 16px; }
+.pv-intro { padding: 24px 0; }
+.pv-intro .pv-sub { font-size: 1.2rem; color: var(--pv-tekst); }
+.pv-stapnr { margin: 0; font-size: .85rem; color: var(--pv-zacht); }
+.pv-voortgang { height: 4px; background: var(--pv-lijn); border-radius: 2px; overflow: hidden; margin: 6px 0 12px; }
+.pv-voortgang span { display: block; height: 100%; background: var(--pv-accent); transition: width .2s; }
+
+.pv-raster { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.pv-raster-klein { grid-template-columns: 1fr 1fr; }
+@media (min-width: 560px) { .pv-raster { grid-template-columns: 1fr 1fr; } .pv-raster-klein { grid-template-columns: 1fr 1fr 1fr; } }
+.pv-kaart {
+  position: relative; display: flex; flex-direction: column; gap: 2px; text-align: left; width: 100%;
+  padding: 14px 44px 14px 14px; min-height: 56px; border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius);
+  background: var(--pv-vlak); color: inherit; font: inherit; cursor: pointer; transition: border-color .15s, background .15s;
+}
+.pv-kaart:hover { border-color: var(--pv-accent); }
+.pv-kaart.aan { border-color: var(--pv-accent); background: var(--pv-accent-zacht); }
+.pv-kaart::after {
+  content: ""; position: absolute; right: 14px; top: 50%; width: 20px; height: 20px; margin-top: -10px;
+  border: 1.5px solid var(--pv-lijn); border-radius: 50%; background: var(--pv-vlak);
+}
+.pv-kaart.aan::after { border-color: var(--pv-accent); background: var(--pv-accent); box-shadow: inset 0 0 0 4px var(--pv-vlak); }
+.pv-kaart-titel { font-weight: 600; }
+.pv-kaart-uitleg { color: var(--pv-zacht); font-size: .9rem; }
+.pv-badge {
+  position: absolute; right: 12px; top: 50%; margin-top: -12px; width: 24px; height: 24px; border-radius: 50%; z-index: 1;
+  background: var(--pv-accent); color: var(--pv-vlak); font-weight: 700; font-size: .85rem; display: grid; place-items: center;
+}
+.pv-sub-kop { margin: 24px 0 4px; font-size: 1.1rem; }
+
+.pv-veld { display: flex; flex-direction: column; gap: 4px; margin: 0 0 16px; }
+.pv-veld label, .pv-label, .pv-werk label { font-weight: 600; margin: 0; }
+.pv select, .pv input[type=number], .pv input[type=search] {
+  font: inherit; color: inherit; background: var(--pv-vlak); border: 1.5px solid var(--pv-lijn); border-radius: 10px;
+  padding: 12px; width: 100%; min-height: 48px;
+}
+.pv select:focus, .pv input:focus, .pv button:focus-visible { outline: 3px solid var(--pv-accent); outline-offset: 2px; }
+.pv-werk { border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 12px 14px 4px; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.pv-werk legend { font-weight: 600; padding: 0 4px; }
+.pv-suggesties { list-style: none; margin: 0; padding: 0; }
+.pv-suggesties button { width: 100%; text-align: left; font: inherit; color: inherit; background: none; border: 0; border-bottom: 1px solid var(--pv-lijn); padding: 10px 4px; cursor: pointer; }
+.pv-suggesties .pv-geen { color: var(--pv-zacht); padding: 8px 4px; }
+.pv-segment { display: flex; border: 1.5px solid var(--pv-lijn); border-radius: 10px; overflow: hidden; margin: 4px 0 16px; }
+.pv-segment button { flex: 1; font: inherit; color: inherit; background: var(--pv-vlak); border: 0; padding: 12px 6px; cursor: pointer; }
+.pv-segment button + button { border-left: 1.5px solid var(--pv-lijn); }
+.pv-segment .aan { background: var(--pv-accent); color: var(--pv-vlak); font-weight: 600; }
+.pv-let-op { background: var(--pv-zwak-zacht); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+
+.pv-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; background: var(--pv-vlak); border-top: 1px solid var(--pv-lijn);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); box-shadow: 0 -4px 16px rgba(0,0,0,.06);
+}
+.pv-nav > * { max-width: 688px; margin-left: auto; margin-right: auto; }
+.pv-teller { margin: 0 auto 8px; font-size: .95rem; }
+.pv-teller span { color: var(--pv-zacht); }
+.pv-teller.nul strong { color: var(--pv-zwak); }
+.pv-nav-knoppen, .pv-knoprij { display: flex; gap: 10px; }
+.pv-knoprij { margin: 8px 0 16px; flex-wrap: wrap; }
+.pv-knop {
+  flex: 1; font: inherit; font-weight: 600; min-height: 48px; padding: 10px 16px; border-radius: 10px; cursor: pointer;
+  border: 1.5px solid var(--pv-accent); background: var(--pv-vlak); color: var(--pv-accent);
+}
+.pv-knop-hoofd { background: var(--pv-accent); color: var(--pv-vlak); }
+.pv-knop-hoofd[disabled] { opacity: .45; cursor: not-allowed; }
+.pv-knop-terug { flex: 0 0 auto; }
+.pv-intro .pv-knop { width: 100%; max-width: 320px; }
+.pv-link { font: inherit; color: var(--pv-accent); background: none; border: 0; padding: 6px 0; text-decoration: underline; cursor: pointer; align-self: flex-start; }
+
+.pv-lijst { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.pv-plaats { background: var(--pv-vlak); border: 1px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 14px; }
+.pv-plaats-kop { display: flex; gap: 12px; align-items: flex-start; }
+.pv-rang { flex: 0 0 28px; height: 28px; border-radius: 50%; background: var(--pv-bg); border: 1px solid var(--pv-lijn); display: grid; place-items: center; font-weight: 700; font-size: .85rem; }
+.pv-plaats-naam { flex: 1; min-width: 0; }
+.pv-plaats-naam h3 { margin: 0; font-size: 1.1rem; }
+.pv-plaats-naam a { color: inherit; }
+.pv-plaats-naam p { margin: 0; color: var(--pv-zacht); font-size: .85rem; }
+.pv-score { text-align: right; line-height: 1; }
+.pv-score strong { display: block; font-size: 1.6rem; color: var(--pv-accent); }
+.pv-score span { font-size: .75rem; color: var(--pv-zacht); }
+.pv-punten { margin-top: 10px; border-radius: 10px; padding: 8px 12px; }
+.pv-punten.sterk { background: var(--pv-accent-zacht); }
+.pv-punten.zwak { background: var(--pv-zwak-zacht); }
+.pv-punten h4 { margin: 0 0 2px; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--pv-zacht); }
+.pv-punten ul { margin: 0; padding-left: 18px; }
+.pv-punten li { font-size: .95rem; }
+.pv-geen-data { font-size: .85rem; color: var(--pv-zacht); margin: 8px 0 0; }
+.pv-bronnen { font-size: .8rem; color: var(--pv-zacht); }
+.pv-fout { color: var(--pv-zwak); }
+.pv-woonlast { margin: 10px 0 0; padding: 8px 12px; border: 1px solid var(--pv-lijn); border-radius: 10px; font-size: .95rem; }
+.pv-woonlast small { color: var(--pv-zacht); }

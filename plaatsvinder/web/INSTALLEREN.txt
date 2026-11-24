@@ -1,0 +1,18 @@
+Plaatsvinder Italië – installatie op de webserver
+==================================================
+
+1. Zet de hele map (inclusief de submappen assets, data, lang en lib) op de server,
+   bijvoorbeeld als https://stefsmulders.nl/plaatsvinder/
+2. Eisen: PHP 8.1 of hoger, met de extensies json en iconv (standaard aanwezig),
+   en een memory_limit van minstens 128 MB.
+3. Maak de map data/ schrijfbaar voor PHP (alleen nodig als opcache aanstaat;
+   dan wordt daar comuni.cache.php aangemaakt voor snelheid).
+4. Apache: data/.htaccess schermt comuni.json af. Op nginx zelf blokkeren:
+     location ~ /data/(comuni\.json|comuni\.cache\.php) { deny all; }
+5. Open index.php in de browser.
+
+Gegevens verversen: vervang alleen data/comuni.json en data/comuni-lite.json
+door de nieuwe bestanden uit de pipeline. Verwijder daarna data/comuni.cache.php
+als dat bestand bestaat.
+
+Teksten aanpassen: lang/nl.json. Kleuren: bovenaan assets/style.css.

@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "lang": "nl",
+    "titel": "Plaatsvinder Italië",
+    "ondertitel": "Vind in acht stappen de Italiaanse plaatsen die bij je passen.",
+    "laden": "Gegevens laden…",
+    "fout_laden": "De gegevens konden niet worden geladen. Probeer het later opnieuw."
+  },
+  "knoppen": {
+    "start": "Begin",
+    "volgende": "Volgende",
+    "vorige": "Vorige",
+    "overslaan": "Overslaan",
+    "resultaat": "Toon mijn top 25",
+    "opnieuw": "Opnieuw beginnen",
+    "aanpassen": "Antwoorden aanpassen",
+    "wissen": "Wissen",
+    "alles_aan": "Alles aan",
+    "alles_uit": "Alles uit"
+  },
+  "teller": {
+    "een": "Nog 1 plaats over",
+    "meer": "Nog {n} plaatsen over",
+    "geen": "Geen plaatsen meer over. Maak een filter ruimer.",
+    "van": "van {totaal}"
+  },
+  "stap": "Stap {n} van {totaal}",
+  "stappen": {
+    "ligging": {
+      "titel": "Waar wil je wonen?",
+      "uitleg": "Kies één of meer. Geen keuze betekent: alles is goed.",
+      "opties": {
+        "kust": [
+          "Aan de kust",
+          "Binnen 30 minuten rijden van zwemwater aan zee"
+        ],
+        "meer": [
+          "Bij een meer",
+          "Binnen 30 minuten rijden van zwemwater aan een meer"
+        ],
+        "heuvel": [
+          "In de heuvels",
+          "Tussen 300 en 600 meter, of heuvelland met flinke hoogteverschillen"
+        ],
+        "berg": [
+          "In de bergen",
+          "Boven 600 meter of binnen 20 minuten van een skigebied"
+        ],
+        "vlakte": [
+          "In de vlakte",
+          "Onder 300 meter, vlak en niet aan de kust"
+        ]
+      }
+    },
+    "grootte": {
+      "titel": "Hoe groot mag de plaats zijn?",
+      "uitleg": "Kies één of meer groottes.",
+      "opties": {
+        "0": [
+          "Heel klein",
+          "Minder dan 1.000 inwoners"
+        ],
+        "1": [
+          "Klein",
+          "1.000 tot 5.000 inwoners"
+        ],
+        "2": [
+          "Middelgroot",
+          "5.000 tot 20.000 inwoners"
+        ],
+        "3": [
+          "Groot",
+          "20.000 tot 100.000 inwoners"
+        ],
+        "4": [
+          "Stad",
+          "Meer dan 100.000 inwoners"
+        ]
+      }
+    },
+    "profiel": {
+      "titel": "Wie ben je?",
+      "uitleg": "Dit verschuift het gewicht van een paar punten. Er valt geen plaats af.",
+      "opties": {
+        "gepensioneerd": [
+          "Gepensioneerd",
+          "Zorg en apotheek tellen zwaarder"
+        ],
+        "thuiswerker": [
+          "Thuiswerker",
+          "Snel internet telt zwaarder"
+        ],
+        "forens": [
+          "Forens",
+          "Treinstation en afstand tot je werk tellen zwaarder"
+        ],
+        "werkzoekend": [
+          "Op zoek naar werk",
+          "Economie telt zwaarder"
+        ],
+        "anders": [
+          "Iets anders",
+          "Geen extra gewicht"
+        ]
+      }
+    },
+    "top": {
+      "titel": "Wat vind je het belangrijkst?",
+      "uitleg": "Kies je top 3, in volgorde. Je eerste keuze telt het zwaarst.",
+      "gekozen": "Keuze {n}"
+    },
+    "extra": {
+      "titel": "Wat vind je verder nog belangrijk?",
+      "uitleg": "Kies zoveel als je wilt. Elke keuze telt flink mee.",
+      "scholen_titel": "Welke scholen zoek je?",
+      "scholen_uitleg": "We kijken of er binnen 5 km een school van dat niveau is.",
+      "scholen": {
+        "basis": "Basisschool (scuola primaria)",
+        "midden": "Middenschool (scuola secondaria di primo grado)",
+        "hoog": "Middelbare school (liceo of istituto)"
+      }
+    },
+    "bereik": {
+      "titel": "Hoe bereikbaar moet het zijn?",
+      "uitleg": "Maximale rijtijd met de auto.",
+      "luchthaven": "Naar een luchthaven",
+      "station": "Naar een treinstation",
+      "geen_limiet": "Maakt niet uit",
+      "minuten": "{n} minuten",
+      "werk": "Werkplek (optioneel)",
+      "werk_plaats": "Plaats van je werk",
+      "werk_zoek": "Typ een plaatsnaam",
+      "werk_straal": "Maximaal hemelsbreed",
+      "km": "{n} km",
+      "werk_geen": "Geen plaats gevonden"
+    },
+    "budget": {
+      "titel": "Wat is je budget?",
+      "uitleg": "We rekenen met de officiële woningwaarden van OMI. Vraagprijzen liggen vaak hoger.",
+      "soort": "Ik wil",
+      "huren": "huren",
+      "kopen": "kopen",
+      "geen": "geen budget opgeven",
+      "max_koop": "Maximale koopprijs (€)",
+      "max_huur": "Maximale huur per maand (€)",
+      "m2": "Woninggrootte (m²)",
+      "geen_omi": "Let op: er zijn nog geen OMI-prijzen geladen. Het budget filtert daarom nog niets."
+    },
+    "regio": {
+      "titel": "Waar in Italië?",
+      "uitleg": "Zoek in heel Italië en sluit eventueel regio's uit, of zoek alleen in bepaalde regio's of provincies.",
+      "modus_overal": "Overal, behalve…",
+      "modus_alleen": "Alleen in…",
+      "overal_uitleg": "Alle regio's staan aan. Tik een regio aan om die uit te zetten.",
+      "alleen_uitleg": "Kies een of meer regio's.",
+      "provs_titel": "Provincies in {regio}",
+      "provs_uitleg": "Geen provincie gekozen betekent: de hele regio.",
+      "alleen_leeg": "Kies minstens één regio, anders zoeken we in heel Italië."
+    }
+  },
+  "regios": {
+    "1": "Piemonte",
+    "2": "Valle d'Aosta",
+    "3": "Lombardia",
+    "4": "Trentino-Alto Adige",
+    "5": "Veneto",
+    "6": "Friuli-Venezia Giulia",
+    "7": "Liguria",
+    "8": "Emilia-Romagna",
+    "9": "Toscana",
+    "10": "Umbria",
+    "11": "Marche",
+    "12": "Lazio",
+    "13": "Abruzzo",
+    "14": "Molise",
+    "15": "Campania",
+    "16": "Puglia",
+    "17": "Basilicata",
+    "18": "Calabria",
+    "19": "Sicilia",
+    "20": "Sardegna"
+  },
+  "prioriteiten": {
+    "betaalbaar": [
+      "Betaalbaar wonen",
+      "Lage woningprijzen (OMI)"
+    ],
+    "zorg": [
+      "Zorg dichtbij",
+      "Ziekenhuis en apotheek"
+    ],
+    "economie": [
+      "Economie",
+      "Gemiddeld inkomen"
+    ],
+    "internet": [
+      "Snel internet",
+      "Glasvezel tot in huis"
+    ],
+    "lucht": [
+      "Schone lucht",
+      "Weinig fijnstof"
+    ],
+    "milieu": [
+      "Milieu",
+      "Afval gescheiden ingezameld"
+    ],
+    "trein": [
+      "Treinstation",
+      "Station dichtbij"
+    ],
+    "luchthaven": [
+      "Luchthaven",
+      "Snel op het vliegveld"
+    ],
+    "voorzieningen": [
+      "Voorzieningen",
+      "Winkels en horeca op loopafstand"
+    ],
+    "internationaal": [
+      "Internationale gemeenschap",
+      "Veel inwoners uit het buitenland"
+    ],
+    "groei": [
+      "Groeiende plaats",
+      "Bevolking groeit"
+    ],
+    "scholen": [
+      "Scholen",
+      "Scholen binnen 5 km"
+    ]
+  },
+  "uitslag": {
+    "titel": "Jouw top 25",
+    "uitleg": "Score van 0 tot 100: hoe deze plaats scoort op wat jij belangrijk vindt, vergeleken met alle andere plaatsen.",
+    "score": "Score",
+    "sterk": "Sterk",
+    "zwak": "Minder sterk",
+    "geen_data": "Geen gegevens over: {lijst}",
+    "provinciecijfer": "provinciecijfer",
+    "leeg": "Geen plaatsen gevonden met deze antwoorden.",
+    "aantal": "{n} plaatsen voldoen aan je filters.",
+    "bezig": "Bezig met rekenen…",
+    "fout": "Er ging iets mis bij het berekenen. Probeer het opnieuw.",
+    "inwoners": "{n} inwoners",
+    "hoogte": "{n} m hoogte",
+    "bronnen": "Bronnen: ISTAT, Agenzia delle Entrate – OMI (CC BY 4.0; officiële waarden, vraagprijzen liggen vaak hoger), ISPRA Catasto Rifiuti, European Environment Agency (EEA), MIM, MEF, AGCOM, Ministero della Salute. Kaartdata en rijtijden:",
+    "osm": "© OpenStreetMap-bijdragers (ODbL)",
+    "osm_link": "https://www.openstreetmap.org/copyright",
+    "woonlast_kopen": "Geschatte koopprijs: € {prijs} voor {m2} m² (€ {m2_prijs} per m²)",
+    "woonlast_huren": "Geschatte huur: € {prijs} per maand voor {m2} m² (€ {m2_prijs} per m²)",
+    "woonlast_onder": "{pct}% onder je budget",
+    "woonlast_rond": "rond je budget",
+    "woonlast_geen": "Geen prijsgegevens voor deze plaats",
+    "woonlast_bron": "officiële OMI-waarde; vraagprijzen liggen vaak hoger"
+  },
+  "zinnen": {
+    "betaalbaar": "woningen rond € {koop} per m² (officiële waarde)",
+    "betaalbaar_huur": "huur rond € {huur} per m² per maand (officiële waarde)",
+    "betaalbaar_budget": "geschat € {prijs}, {pct}% onder je budget",
+    "betaalbaar_budget_krap": "geschat € {prijs}, net binnen je budget",
+    "zorg": "ziekenhuis op {min} rijden, {apotheek}",
+    "zorg_geen_rit": "{apotheek}",
+    "apotheek_0": "geen apotheek in de plaats",
+    "apotheek_1": "apotheek in de plaats",
+    "apotheek_n": "{n} apotheken in de plaats",
+    "economie": "gemiddeld belastbaar inkomen € {inkomen} per jaar",
+    "internet": "glasvezel voor {pct}% van de huishoudens",
+    "lucht": "fijnstof (PM2,5) {pm25} µg/m³ per jaar",
+    "milieu": "{pct}% van het afval gescheiden ingezameld",
+    "trein": "treinstation {naam} op {min}",
+    "luchthaven": "luchthaven {naam} op {min}",
+    "minuten": "{n} min",
+    "ver": "meer dan 4 uur",
+    "voorzieningen_0": "geen winkels of horeca binnen 800 m van het centrum",
+    "voorzieningen": "{n} winkels en horecazaken binnen 800 m van het centrum",
+    "internationaal": "{pct}% inwoners met een buitenlandse nationaliteit",
+    "groei": "bevolking {pct}% in 2025",
+    "scholen_alle": "{lijst} binnen 5 km",
+    "scholen_mist": "geen {lijst} binnen 5 km",
+    "school_basis": "basisschool",
+    "school_midden": "middenschool",
+    "school_hoog": "middelbare school",
+    "werk": "{km} km hemelsbreed van je werk",
+    "en": "en"
+  }
+}

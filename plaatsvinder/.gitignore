@@ -1,0 +1,6 @@
+.venv/
+data/raw/
+data/work/
+data/comuni.csv
+web/data/comuni.cache.php*
+__pycache__/

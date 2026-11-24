@@ -1,0 +1,9 @@
+# Alleen het lichte bestand is publiek; de rest leest PHP zelf.
+<FilesMatch "^(comuni\.json|comuni\.cache\.php.*)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "\.json$">
+  <IfModule mod_deflate.c>
+    SetOutputFilter DEFLATE
+  </IfModule>
+</FilesMatch>
