@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "properties": {
+    "regio_codes": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "inwonersgrens": {
+      "type": "integer"
+    },
+    "inwonersgrens_oud": {
+      "type": "integer"
+    },
+    "inwonersgrens_vanaf_jaar": {
+      "type": "integer"
+    },
+    "inwonersgrens_krater": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "disclaimer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bron": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "regio_codes",
+    "inwonersgrens",
+    "inwonersgrens_oud",
+    "inwonersgrens_vanaf_jaar",
+    "inwonersgrens_krater",
+    "disclaimer",
+    "bron"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "regime7"
+}

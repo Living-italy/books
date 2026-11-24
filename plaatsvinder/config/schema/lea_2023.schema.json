@@ -1,0 +1,68 @@
+{
+  "type": "object",
+  "properties": {
+    "bron": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "peildatum": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schaalniveau": {
+      "const": "regio"
+    },
+    "maximum": {
+      "const": 300
+    },
+    "regios": {
+      "type": "array",
+      "minItems": 21,
+      "maxItems": 21,
+      "items": {
+        "type": "object",
+        "properties": {
+          "gebied": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prevenzione": {
+            "type": "integer"
+          },
+          "distrettuale": {
+            "type": "integer"
+          },
+          "ospedaliera": {
+            "type": "integer"
+          },
+          "totaal": {
+            "type": "integer",
+            "maximum": 300
+          }
+        },
+        "required": [
+          "gebied",
+          "prevenzione",
+          "distrettuale",
+          "ospedaliera",
+          "totaal"
+        ],
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": [
+    "bron",
+    "url",
+    "peildatum",
+    "schaalniveau",
+    "regios"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "lea_2023"
+}

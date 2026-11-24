@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "properties": {
+    "criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uitleg": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rang": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "basis": {
+            "enum": [
+              "D",
+              "DE",
+              "E"
+            ]
+          },
+          "richting": {
+            "enum": [
+              "hoger_beter",
+              "lager_beter"
+            ]
+          },
+          "bronnen": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "schaalniveau": {
+            "enum": [
+              "gemeente",
+              "provincie",
+              "regio",
+              "raster"
+            ]
+          },
+          "indicatoren": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kolom": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "richting": {
+                  "enum": [
+                    "hoger_beter",
+                    "lager_beter"
+                  ]
+                },
+                "bron": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "kolom",
+                "label",
+                "richting",
+                "bron"
+              ],
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "uitleg",
+          "rang",
+          "basis",
+          "richting",
+          "bronnen",
+          "schaalniveau",
+          "indicatoren"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "basis_labels": {
+      "type": "object"
+    },
+    "niet_gescoord": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "criteria",
+    "basis_labels"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "criteria"
+}

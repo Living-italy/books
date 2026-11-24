@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "uitleg": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bron": {
+      "type": "string",
+      "minLength": 1
+    },
+    "jaar": {
+      "type": "integer"
+    },
+    "regio_codes": {
+      "type": "array"
+    },
+    "provincies": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "label",
+    "uitleg",
+    "bron",
+    "jaar",
+    "regio_codes",
+    "provincies"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "trends"
+}

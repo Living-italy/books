@@ -1,0 +1,26 @@
+{
+  "checklist": [
+    "Bezoek de plaats minstens één keer in januari of februari.",
+    "Controleer of vluchten ook in de winter gaan.",
+    "Vraag naar jacht, bespuitingen in wijngaarden en boomgaarden, en bedrijven in de buurt.",
+    "Controleer de staat van de woning en de bouwregels (vergunningen, beschermd gebied).",
+    "Reken niet op huurinkomsten buiten de toeristische kernen.",
+    "Spreek de taal of leer die; de gemeente, de ASL en de vakmensen werken in het Italiaans."
+  ],
+  "niet_in_score": [
+    "Staat van de woning",
+    "Taal en mentaliteit",
+    "Werk",
+    "Hinder door landbouw en jacht",
+    "Subsidies en 1-euro-huizen"
+  ],
+  "tachtig_waarschuwing": {
+    "drempel": 40,
+    "tekst": "Wie hier op latere leeftijd woont, is sterk afhankelijk van de auto.",
+    "onderbouwing": "Eén op de drie Nederlandse pensioenmigranten in Italië en Frankrijk denkt aan terugkeer, met gezondheid als hoofdreden (NIDI)."
+  },
+  "herverkoop_waarschuwing": {
+    "drempel": 1,
+    "tekst": "Verkopen kan hier lang duren."
+  }
+}

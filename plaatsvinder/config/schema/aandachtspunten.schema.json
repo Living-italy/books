@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "checklist": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "niet_in_score": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "checklist",
+    "niet_in_score"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "aandachtspunten"
+}

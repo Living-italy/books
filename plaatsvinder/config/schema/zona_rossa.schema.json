@@ -1,0 +1,66 @@
+{
+  "type": "object",
+  "properties": {
+    "gemeenten": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "naam": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prov": {
+            "type": "string",
+            "minLength": 1
+          },
+          "vulkaan": {
+            "enum": [
+              "Vesuvio",
+              "Campi Flegrei"
+            ]
+          },
+          "deel": {
+            "enum": [
+              "geheel",
+              "deels"
+            ]
+          }
+        },
+        "required": [
+          "naam",
+          "prov",
+          "vulkaan",
+          "deel"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "bron": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "peildatum": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schaalniveau": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "gemeenten",
+    "bron",
+    "url",
+    "peildatum",
+    "schaalniveau"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "zona_rossa"
+}

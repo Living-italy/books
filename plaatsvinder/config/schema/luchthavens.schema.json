@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "properties": {
+    "iata_per_naam": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[A-Z]{3}$"
+      }
+    },
+    "heel_jaar": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "heel_jaar_voorlopig": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "min_passagiers_lijnvluchten": {
+      "type": "integer"
+    },
+    "bron": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1
+    },
+    "peildatum": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "iata_per_naam",
+    "heel_jaar",
+    "heel_jaar_voorlopig",
+    "min_passagiers_lijnvluchten",
+    "bron",
+    "url",
+    "peildatum"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "luchthavens"
+}

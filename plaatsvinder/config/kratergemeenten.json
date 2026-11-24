@@ -1,0 +1,1210 @@
+{
+  "_uitleg": "Gemeenten in de aardbevingskraters van 2009 (L'Aquila) en 2016-2017 (Midden-Italië). Namen zoals in de decreten; de pipeline koppelt ze aan ISTAT-codes (inclusief latere fusies). Een gemeente kan in meer lijsten staan. naam_in_istat: schrijfwijze in de huidige ISTAT-lijst als die afwijkt van het decreet.",
+  "bronnen": [
+    {
+      "krater": "2009",
+      "url": "https://leg16.camera.it/561?appro=61"
+    },
+    {
+      "krater": "2016",
+      "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2016;189"
+    }
+  ],
+  "peildatum": "2017",
+  "schaalniveau": "gemeente",
+  "inwonersgrens_krater": "te_verifieren",
+  "fusies": {
+    "Acquacanina": "Fiastra",
+    "Fiordimonte": "Valfornace",
+    "Pievebovigliana": "Valfornace"
+  },
+  "gemeenten": [
+    {
+      "naam": "Acciano",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Barete",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Barisciano",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Castel del Monte",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Campotosto",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Capestrano",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Caporciano",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Carapelle Calvisio",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Castel di Ieri",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Castelvecchio Calvisio",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Castelvecchio Subequo",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Cocullo",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Collarmele",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Fagnano Alto",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Fossa",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Gagliano Aterno",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Goriano Sicoli",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "L'Aquila",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Lucoli",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Navelli",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Ocre",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Ofena",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Ovindoli",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Pizzoli",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Poggio Picenze",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Prata d'Ansidonia",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Rocca di Cambio",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Rocca di Mezzo",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "San Demetrio ne' Vestini",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "San Pio delle Camere",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Sant'Eusanio Forconese",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Santo Stefano di Sessanio",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Scoppito",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Tione degli Abruzzi",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Tornimparte",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Villa Sant'Angelo",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Villa Santa Lucia degli Abruzzi",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Bugnara",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Cagnano Amiterno",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Capitignano",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Fontecchio",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Montereale",
+      "prov": "AQ",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Arsita",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Castelli",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Montorio al Vomano",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Pietracamela",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Tossicia",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Colledara",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Fano Adriano",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Penna Sant'Andrea",
+      "prov": "TE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Brittoli",
+      "prov": "PE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Bussi sul Tirino",
+      "prov": "PE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Civitella Casanova",
+      "prov": "PE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Cugnoli",
+      "prov": "PE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Montebello di Bertona",
+      "prov": "PE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Popoli",
+      "prov": "PE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Torre de' Passeri",
+      "prov": "PE",
+      "krater": "2009",
+      "bron": "Decreti del Commissario delegato n. 3 del 16-04-2009 en n. 11 del 17-07-2009"
+    },
+    {
+      "naam": "Campotosto",
+      "prov": "AQ",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Capitignano",
+      "prov": "AQ",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montereale",
+      "prov": "AQ",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Rocca Santa Maria",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Valle Castellana",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Cortino",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Crognaleto",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montorio al Vomano",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Accumoli",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Amatrice",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Antrodoco",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Borbona",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Borgo Velino",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Castel Sant'Angelo",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Cittareale",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Leonessa",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Micigliano",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Posta",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Amandola",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montefortino",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Acquasanta Terme",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Arquata del Tronto",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Comunanza",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Cossignano",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Force",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montalto delle Marche",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montedinove",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montegallo",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montemonaco",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Palmiano",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Roccafluvione",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Rotella",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Venarotta",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Acquacanina",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Bolognola",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Castelsantangelo sul Nera",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Cessapalombo",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Fiastra",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Fiordimonte",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Gualdo",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Penna San Giovanni",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Pievebovigliana",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Pieve Torina",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "San Ginesio",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Sant'Angelo in Pontano",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Sarnano",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Ussita",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Visso",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Arrone",
+      "prov": "TR",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Ferentillo",
+      "prov": "TR",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Montefranco",
+      "prov": "TR",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Polino",
+      "prov": "TR",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Cascia",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Cerreto di Spoleto",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Monteleone di Spoleto",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Norcia",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Poggiodomo",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Preci",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Sant'Anatolia di Narco",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Scheggino",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Sellano",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Vallo di Nera",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 1"
+    },
+    {
+      "naam": "Campli",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Castelli",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Civitella del Tronto",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Torricella Sicura",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Tossicia",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Teramo",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Cantalice",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Cittaducale",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Poggio Bustone",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Rieti",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Rivodutri",
+      "prov": "RI",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Apiro",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Belforte del Chienti",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Caldarola",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Camerino",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Camporotondo di Fiastrone",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Castelraimondo",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Cingoli",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Colmurano",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Corridonia",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Esanatoglia",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Fiuminata",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Gagliole",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Loro Piceno",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Macerata",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Matelica",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Mogliano",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Monte San Martino",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Montecavallo",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Muccia",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Petriolo",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Pioraco",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Poggio San Vicino",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Pollenza",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Ripe San Ginesio",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "San Severino Marche",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Sefro",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Serrapetrona",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Serravalle di Chienti",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Tolentino",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Treia",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Urbisaglia",
+      "prov": "MC",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Appignano del Tronto",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Ascoli Piceno",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Castel di Lama",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Castignano",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Castorano",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Colli del Tronto",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Folignano",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Maltignano",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Offida",
+      "prov": "AP",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Belmonte Piceno",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Falerone",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Massa Fermana",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Monsampietro Morico",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Montappone",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Monte Rinaldo",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Monte Vidon Corrado",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Montefalcone Appennino",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Montegiorgio",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Monteleone di Fermo",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Montelparo",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Ortezzano",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Santa Vittoria in Matenano",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Servigliano",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Smerillo",
+      "prov": "FM",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Cerreto d'Esi",
+      "prov": "AN",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Fabriano",
+      "prov": "AN",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Spoleto",
+      "prov": "PG",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2"
+    },
+    {
+      "naam": "Barete",
+      "prov": "AQ",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Cagnano Amiterno",
+      "prov": "AQ",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Pizzoli",
+      "prov": "AQ",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Farindola",
+      "prov": "PE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Castelcastagna",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Colledara",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Isola del Gran Sasso d'Italia",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Pietracamela",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    },
+    {
+      "naam": "Fano Adriano",
+      "prov": "TE",
+      "krater": "2016",
+      "bron": "DL 189/2016, allegato 2-bis"
+    }
+  ],
+  "naam_in_istat": {
+    "Popoli": "Popoli Terme",
+    "Montecavallo": "Monte Cavallo",
+    "Castelcastagna": "Castel Castagna"
+  }
+}

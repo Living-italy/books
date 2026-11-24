@@ -1,0 +1,236 @@
+{
+  "_uitleg": "Elke indicator verwijst met 'bron' naar een id hieronder. De site toont bron, peildatum en schaalniveau bij elk cijfer.",
+  "bronnen": {
+    "istat_elenco": {
+      "bron": "ISTAT, Elenco comuni italiani",
+      "url": "https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx",
+      "peildatum": "2026-02-21",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "istat_bevolking": {
+      "bron": "ISTAT, bilancio demografico en popolazione per età (demo.istat.it)",
+      "url": "https://demo.istat.it/",
+      "peildatum": "2025-12-31",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "istat_hoogte": {
+      "bron": "ISTAT, Altimetria dei comuni",
+      "url": "https://www.istat.it/classificazione/principali-statistiche-geografiche-sui-comuni/",
+      "peildatum": "2021-12-31",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "istat_grenzen": {
+      "bron": "ISTAT, Confini amministrativi 2026",
+      "url": "https://www.istat.it/storage/cartografia/confini_amministrativi/generalizzati/2026/Limiti01012026_g.zip",
+      "peildatum": "2026-01-01",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "istat_cittadinanza": {
+      "bron": "ISTAT, popolazione residente per cittadinanza",
+      "url": "https://demo.istat.it/app/?i=RCS&l=it",
+      "peildatum": "2025-01-01",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "istat_ricettivi": {
+      "bron": "ISTAT, capacità degli esercizi ricettivi",
+      "url": "https://esploradati.istat.it/",
+      "peildatum": "2024",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "istat_delitti": {
+      "bron": "ISTAT, delitti denunciati dalle forze di polizia all'autorità giudiziaria",
+      "url": "https://esploradati.istat.it/",
+      "peildatum": "2023",
+      "schaalniveau": "provincie",
+      "licentie": "CC BY 4.0"
+    },
+    "istat_abitazioni": {
+      "bron": "ISTAT, censimento permanente, abitazioni",
+      "url": "https://esploradati.istat.it/",
+      "peildatum": "2021",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "snai": {
+      "bron": "ISTAT/DPCoe, classificazione Aree Interne 2021-2027",
+      "url": "https://www.istat.it/wp-content/uploads/2022/07/20220715_Elenco_Comuni_Classi_di_Aree_Interne.xlsx",
+      "peildatum": "2022-07-15",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "omi": {
+      "bron": "Agenzia delle Entrate – OMI, quotazioni immobiliari",
+      "url": "https://www.agenziaentrate.gov.it/portale/schede/fabbricatiterreni/omi/forniture-dati-omi",
+      "peildatum": "2026-1e semester",
+      "schaalniveau": "OMI-zone, samengevat per gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "omi_ntn": {
+      "bron": "Agenzia delle Entrate – OMI, volumi delle compravendite (NTN)",
+      "url": "https://www.agenziaentrate.gov.it/portale/schede/fabbricatiterreni/omi/forniture-dati-omi",
+      "peildatum": "2025",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "osm": {
+      "bron": "© OpenStreetMap-bijdragers",
+      "url": "https://www.openstreetmap.org/copyright",
+      "peildatum": "2026-11-23",
+      "schaalniveau": "punt",
+      "licentie": "ODbL"
+    },
+    "osrm": {
+      "bron": "Rijtijden berekend met OSRM op OpenStreetMap-data",
+      "url": "https://project-osrm.org/",
+      "peildatum": "2026-11-23",
+      "schaalniveau": "gemeente",
+      "licentie": "ODbL (data)"
+    },
+    "eea_zwemwater": {
+      "bron": "EEA, Bathing Water Directive status",
+      "url": "https://www.eea.europa.eu/en/datahub/datahubitem-view/c3858959-90da-4c1b-b9ca-492db0e514df",
+      "peildatum": "2025",
+      "schaalniveau": "punt",
+      "licentie": "CC BY 4.0"
+    },
+    "eea_pm25": {
+      "bron": "EEA, PM2,5 interpolated air quality data",
+      "url": "https://sdi.eea.europa.eu/catalogue/srv/api/records/57807f24-25dc-4df3-9468-dcff8cee5468",
+      "peildatum": "2023",
+      "schaalniveau": "raster 1 km",
+      "licentie": "CC BY 4.0"
+    },
+    "natura2000": {
+      "bron": "EEA, Natura 2000 end 2024",
+      "url": "https://www.eea.europa.eu/en/datahub/datahubitem-view/6fc8ad2d-195d-40f4-bdec-576e7d1268e4",
+      "peildatum": "2024",
+      "schaalniveau": "polygoon",
+      "licentie": "CC BY 4.0"
+    },
+    "ispra_afval": {
+      "bron": "ISPRA, Catasto Rifiuti",
+      "url": "https://www.catasto-rifiuti.isprambiente.it",
+      "peildatum": "2024",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "idrogeo": {
+      "bron": "ISPRA, IdroGEO, indicatori di rischio frane e alluvioni",
+      "url": "https://idrogeo.isprambiente.it/app/page/open-data",
+      "peildatum": "2024",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "dpc_sismica": {
+      "bron": "Dipartimento della Protezione Civile, classificazione sismica",
+      "url": "https://rischi.protezionecivile.gov.it/it/sismico/attivita/classificazione-sismica/",
+      "peildatum": "2025-05-31",
+      "schaalniveau": "gemeente",
+      "licentie": "open"
+    },
+    "zona_rossa": {
+      "bron": "Dipartimento della Protezione Civile, zona rossa Vesuvio en Campi Flegrei",
+      "url": "https://rischi.protezionecivile.gov.it/it/vulcanico/",
+      "peildatum": "2016",
+      "schaalniveau": "gemeente",
+      "licentie": "open"
+    },
+    "effis": {
+      "bron": "EFFIS (Copernicus), burnt areas database",
+      "url": "https://forest-fire.emergency.copernicus.eu/applications/data-and-services",
+      "peildatum": "2016-2025",
+      "schaalniveau": "polygoon",
+      "licentie": "Copernicus open"
+    },
+    "era5": {
+      "bron": "Copernicus ERA5-Land",
+      "url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means",
+      "peildatum": "geen",
+      "schaalniveau": "raster",
+      "licentie": "account nodig"
+    },
+    "lea_2023": {
+      "bron": "Ministero della Salute, NSG/LEA 2023",
+      "url": "https://www.salute.gov.it/new/sites/default/files/2025-05/sintesi_CORE_NSG_2023_aprile_2025_0.pdf",
+      "peildatum": "2023",
+      "schaalniveau": "regio",
+      "licentie": "open"
+    },
+    "salute_ricovero": {
+      "bron": "Ministero della Salute, strutture di ricovero attive",
+      "url": "https://www.salute.gov.it/",
+      "peildatum": "2026-10-01",
+      "schaalniveau": "adres",
+      "licentie": "open"
+    },
+    "salute_farmacie": {
+      "bron": "Ministero della Salute, farmacie",
+      "url": "https://www.dati.salute.gov.it/it/dataset/farmacie",
+      "peildatum": "2026-11-23",
+      "schaalniveau": "adres",
+      "licentie": "IODL 2.0"
+    },
+    "mim_scuole": {
+      "bron": "MIM, anagrafe scuole statali 2026/27",
+      "url": "https://dati.istruzione.it/opendata/",
+      "peildatum": "2026-09-01",
+      "schaalniveau": "gemeente",
+      "licentie": "IODL 2.0"
+    },
+    "mef_irpef": {
+      "bron": "MEF, IRPEF per comune",
+      "url": "https://www.finanze.gov.it/it/statistiche-fiscali/open-data-comunale-principali-variabili-irpef/",
+      "peildatum": "2024",
+      "schaalniveau": "gemeente",
+      "licentie": "open"
+    },
+    "mef_addizionale": {
+      "bron": "MEF Dipartimento delle Finanze, addizionale comunale IRPEF",
+      "url": "https://www1.finanze.gov.it/finanze/pagina_dichiarazioni/public/dichiarazioni.php",
+      "peildatum": "2026",
+      "schaalniveau": "gemeente",
+      "licentie": "open"
+    },
+    "agcom": {
+      "bron": "AGCOM Broadband Map, dati comunali",
+      "url": "https://maps.agcom.it/",
+      "peildatum": "2026-10-05",
+      "schaalniveau": "gemeente",
+      "licentie": "CC BY 4.0"
+    },
+    "assaeroporti": {
+      "bron": "Assaeroporti, dati di traffico 2025",
+      "url": "https://assaeroporti.com/dati-di-traffico/",
+      "peildatum": "2025",
+      "schaalniveau": "luchthaven",
+      "licentie": "open"
+    },
+    "luchthavens_handmatig": {
+      "bron": "Handmatige lijst: vluchten het hele jaar naar NL, BE of DE",
+      "url": "config/luchthavens.json",
+      "peildatum": "voorlopig",
+      "schaalniveau": "luchthaven",
+      "licentie": "eigen tabel"
+    },
+    "regime7": {
+      "bron": "Art. 24-ter TUIR, wet 34/2026",
+      "url": "https://www.agenziaentrate.gov.it/portale/schede/agevolazioni/regime-opzionale-per-i-pensionati-esteri-che-cose-cittadini",
+      "peildatum": "2026",
+      "schaalniveau": "gemeente",
+      "licentie": "wettekst"
+    },
+    "trends": {
+      "bron": "Gate-away.com, jaarrapport 2025",
+      "url": "https://www.gate-away.com/",
+      "peildatum": "2025",
+      "schaalniveau": "regio en provincie",
+      "licentie": "handmatige tabel"
+    }
+  }
+}

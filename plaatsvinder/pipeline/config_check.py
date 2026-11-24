@@ -1,0 +1,59 @@
+"""Valideert de handmatige configuratie in config/ tegen de schema's en controleert de samenhang.
+
+Gebruik: python pipeline/config_check.py   (stopt met foutcode 1 bij een fout)
+"""
+import json
+import sys
+from pathlib import Path
+
+from jsonschema import Draft202012Validator
+
+CONFIG = Path(__file__).resolve().parent.parent / "config"
+BESTANDEN = ["criteria", "profielen", "lea_2023", "regime7", "kratergemeenten", "zona_rossa",
+             "luchthavens", "trends", "bronnen", "aandachtspunten"]
+
+
+def laad(naam: str) -> dict:
+    return json.loads((CONFIG / f"{naam}.json").read_text(encoding="utf-8"))
+
+
+def controleer() -> list[str]:
+    fouten = []
+    cfg = {}
+    for naam in BESTANDEN:
+        cfg[naam] = laad(naam)
+        schema = json.loads((CONFIG / "schema" / f"{naam}.schema.json").read_text(encoding="utf-8"))
+        for f in Draft202012Validator(schema).iter_errors(cfg[naam]):
+            fouten.append(f"{naam}.json: {'/'.join(map(str, f.path))}: {f.message}")
+
+    crit_ids = {c["id"] for c in cfg["criteria"]["criteria"]}
+    bron_ids = set(cfg["bronnen"]["bronnen"])
+    for c in cfg["criteria"]["criteria"]:
+        for b in c["bronnen"] + [i["bron"] for i in c["indicatoren"]]:
+            if b not in bron_ids:
+                fouten.append(f"criteria.json: bron '{b}' bij '{c['id']}' staat niet in bronnen.json")
+    for p in cfg["profielen"]["profielen"]:
+        som = sum(p["gewichten"].values())
+        if som != 100:
+            fouten.append(f"profielen.json: gewichten van '{p['id']}' tellen op tot {som}, niet 100")
+        onbekend = set(p["gewichten"]) - crit_ids
+        if onbekend:
+            fouten.append(f"profielen.json: '{p['id']}' noemt onbekende criteria {sorted(onbekend)}")
+        for v in p.get("vragen", []):
+            for o in v["opties"]:
+                if "effect" in o:
+                    g = dict(p["gewichten"]); g.update(o["effect"])
+                    if sum(g.values()) != 100:
+                        fouten.append(f"profielen.json: '{p['id']}', optie '{o['id']}' telt op tot {sum(g.values())}")
+    for r in cfg["lea_2023"]["regios"]:
+        if r["prevenzione"] + r["distrettuale"] + r["ospedaliera"] != r["totaal"]:
+            fouten.append(f"lea_2023.json: totaal van {r['gebied']} klopt niet")
+    return fouten
+
+
+if __name__ == "__main__":
+    fouten = controleer()
+    for f in fouten:
+        print("FOUT:", f)
+    print("configuratie in orde" if not fouten else f"{len(fouten)} fout(en)")
+    sys.exit(1 if fouten else 0)

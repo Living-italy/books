@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "properties": {
+    "bronnen": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "bron": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1
+          },
+          "peildatum": {
+            "type": "string",
+            "minLength": 1
+          },
+          "schaalniveau": {
+            "type": "string",
+            "minLength": 1
+          },
+          "licentie": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "bron",
+          "url",
+          "peildatum",
+          "schaalniveau",
+          "licentie"
+        ],
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": [
+    "bronnen"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "bronnen"
+}

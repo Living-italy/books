@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "properties": {
+    "gemeenten": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "naam": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prov": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "krater": {
+            "enum": [
+              "2009",
+              "2016"
+            ]
+          },
+          "bron": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "naam",
+          "prov",
+          "krater",
+          "bron"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "inwonersgrens_krater": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "bronnen": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "gemeenten",
+    "inwonersgrens_krater",
+    "bronnen"
+  ],
+  "additionalProperties": true,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "kratergemeenten"
+}

@@ -1,0 +1,205 @@
+{
+  "bron": "Dipartimento della Protezione Civile: zona rossa Vesuvio (DPCM 14 februari 2014) en zona rossa Campi Flegrei (DPCM 24 juni 2016)",
+  "url": "https://rischi.protezionecivile.gov.it/it/vulcanico/vulcani-italia/vesuvio/piano-nazionale-di-protezione-civile-il-rischio-vulcanico-al-vesuvio/",
+  "url_campi_flegrei": "https://www.protezionecivile.gov.it/it/approfondimento/il-percorso-laggiornamento-del-piano-nazionale-di-protezione-civile-i-campi-flegrei-0/",
+  "peildatum": "2016",
+  "schaalniveau": "gemeente",
+  "_uitleg": "deel = geheel: de hele gemeente ligt in de rode zone en valt standaard weg. deel = deels: alleen een deel; de gemeente blijft staan, met een waarschuwing in het risicoblok.",
+  "gemeenten": [
+    {
+      "naam": "Boscoreale",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Boscotrecase",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Cercola",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Ercolano",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Massa di Somma",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Ottaviano",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Pollena Trocchia",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Pompei",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Portici",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Sant'Anastasia",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Giorgio a Cremano",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Sebastiano al Vesuvio",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Giuseppe Vesuviano",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Somma Vesuviana",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Terzigno",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Torre Annunziata",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Torre del Greco",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Trecase",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Palma Campania",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Poggiomarino",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Gennaro Vesuviano",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Scafati",
+      "prov": "SA",
+      "vulkaan": "Vesuvio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Napoli",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "deels",
+      "toelichting": "circoscrizioni Barra, Ponticelli en San Giovanni a Teduccio"
+    },
+    {
+      "naam": "Nola",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "deels"
+    },
+    {
+      "naam": "Pomigliano d'Arco",
+      "prov": "NA",
+      "vulkaan": "Vesuvio",
+      "deel": "deels",
+      "toelichting": "enclave in Sant'Anastasia"
+    },
+    {
+      "naam": "Pozzuoli",
+      "prov": "NA",
+      "vulkaan": "Campi Flegrei",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Bacoli",
+      "prov": "NA",
+      "vulkaan": "Campi Flegrei",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Monte di Procida",
+      "prov": "NA",
+      "vulkaan": "Campi Flegrei",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Quarto",
+      "prov": "NA",
+      "vulkaan": "Campi Flegrei",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Giugliano in Campania",
+      "prov": "NA",
+      "vulkaan": "Campi Flegrei",
+      "deel": "deels"
+    },
+    {
+      "naam": "Marano di Napoli",
+      "prov": "NA",
+      "vulkaan": "Campi Flegrei",
+      "deel": "deels"
+    },
+    {
+      "naam": "Napoli",
+      "prov": "NA",
+      "vulkaan": "Campi Flegrei",
+      "deel": "deels",
+      "toelichting": "o.a. Bagnoli, Fuorigrotta, Pianura, Soccavo, Posillipo"
+    }
+  ]
+}
