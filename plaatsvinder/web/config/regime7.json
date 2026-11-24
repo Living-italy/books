@@ -1,0 +1,35 @@
+{
+  "bron": "Art. 24-ter TUIR (DPR 917/1986); inwonersgrens verhoogd door wet nr. 34 van 11 maart 2026 (in werking 7 april 2026)",
+  "url": "https://www.agenziaentrate.gov.it/portale/schede/agevolazioni/regime-opzionale-per-i-pensionati-esteri-che-cose-cittadini",
+  "regios": [
+    "Sicilia",
+    "Calabria",
+    "Sardegna",
+    "Campania",
+    "Basilicata",
+    "Abruzzo",
+    "Molise",
+    "Puglia"
+  ],
+  "regio_codes": [
+    19,
+    18,
+    20,
+    15,
+    17,
+    13,
+    14,
+    16
+  ],
+  "inwonersgrens": 30000,
+  "inwonersgrens_vanaf_jaar": 2026,
+  "inwonersgrens_oud": 20000,
+  "inwonersgrens_krater": "te_verifieren",
+  "peildatum_inwoners": "1 januari van het jaar vóór het eerste jaar van de optie",
+  "disclaimer": "Geldt alleen voor gepensioneerden met een buitenlands pensioen die fiscaal inwoner van Italië worden en dat de vijf jaar ervoor niet waren. Dit is geen belastingadvies.",
+  "tekst_krater": "Controleer de actuele wettekst",
+  "waarschuwing_lea": {
+    "drempel": 200,
+    "tekst": "Fiscaal gunstig, maar de regionale zorg scoort laag."
+  }
+}

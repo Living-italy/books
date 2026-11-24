@@ -1,0 +1,180 @@
+{
+  "_uitleg": "Startgewichten per profiel op basis van expertoordeel (sectie 6). Gewichten tellen op tot 100. Criteria die niet in de tabel staan beginnen op 0; de gebruiker kan ze met de schuifjes verhogen.",
+  "status": "startwaarden op basis van expertoordeel",
+  "profielen": [
+    {
+      "id": "gepensioneerde",
+      "label": "Gepensioneerde / emigrant",
+      "gewichten": {
+        "prijs": 15,
+        "natuur": 10,
+        "klimaat": 12,
+        "cultuur": 5,
+        "bereikbaarheid": 8,
+        "voorzieningen": 12,
+        "zorg": 15,
+        "internet": 2,
+        "fiscaal": 0,
+        "levendigheid": 8,
+        "kosten": 0,
+        "risico": 8,
+        "veiligheid": 3,
+        "expats": 2,
+        "klimaatverandering": 0,
+        "toerisme": 0,
+        "liquiditeit": 0
+      },
+      "filters_standaard": {
+        "max_ziekenhuis": 45
+      },
+      "vragen": [
+        {
+          "id": "verblijf",
+          "vraag": "Wilt u er permanent wonen of het jaar verdelen tussen Italië en thuis?",
+          "opties": [
+            {
+              "id": "permanent",
+              "label": "Permanent"
+            },
+            {
+              "id": "verdelen",
+              "label": "Het jaar verdelen",
+              "effect": {
+                "bereikbaarheid": 18,
+                "natuur": 0
+              },
+              "uitleg": "Bereikbaarheid krijgt het gewicht van het profiel Tweede huis (18); natuur levert het verschil in."
+            }
+          ]
+        }
+      ],
+      "tests_zichtbaar": [
+        "tachtig"
+      ]
+    },
+    {
+      "id": "tweede_huis",
+      "label": "Tweede huis",
+      "gewichten": {
+        "prijs": 15,
+        "natuur": 15,
+        "klimaat": 8,
+        "cultuur": 8,
+        "bereikbaarheid": 18,
+        "voorzieningen": 4,
+        "zorg": 0,
+        "internet": 3,
+        "fiscaal": 0,
+        "levendigheid": 0,
+        "kosten": 0,
+        "risico": 8,
+        "veiligheid": 5,
+        "expats": 0,
+        "klimaatverandering": 0,
+        "toerisme": 10,
+        "liquiditeit": 6
+      },
+      "filters_standaard": {}
+    },
+    {
+      "id": "gezin",
+      "label": "Gezin met kinderen",
+      "gewichten": {
+        "prijs": 12,
+        "natuur": 6,
+        "klimaat": 6,
+        "cultuur": 2,
+        "bereikbaarheid": 8,
+        "voorzieningen": 18,
+        "zorg": 8,
+        "internet": 12,
+        "fiscaal": 0,
+        "levendigheid": 12,
+        "kosten": 0,
+        "risico": 8,
+        "veiligheid": 8,
+        "expats": 0,
+        "klimaatverandering": 0,
+        "toerisme": 0,
+        "liquiditeit": 0
+      },
+      "filters_standaard": {},
+      "extra_indicatoren": {
+        "voorzieningen": [
+          "scholen_basis_20min",
+          "scholen_hoog_20min"
+        ]
+      }
+    },
+    {
+      "id": "remote_worker",
+      "label": "Remote worker",
+      "gewichten": {
+        "prijs": 12,
+        "natuur": 6,
+        "klimaat": 10,
+        "cultuur": 6,
+        "bereikbaarheid": 16,
+        "voorzieningen": 8,
+        "zorg": 0,
+        "internet": 22,
+        "fiscaal": 0,
+        "levendigheid": 12,
+        "kosten": 0,
+        "risico": 6,
+        "veiligheid": 2,
+        "expats": 0,
+        "klimaatverandering": 0,
+        "toerisme": 0,
+        "liquiditeit": 0
+      },
+      "filters_standaard": {
+        "min_glasvezel_pct": 50
+      }
+    },
+    {
+      "id": "investeerder",
+      "label": "Investeerder / B&B",
+      "gewichten": {
+        "prijs": 15,
+        "natuur": 7,
+        "klimaat": 0,
+        "cultuur": 8,
+        "bereikbaarheid": 12,
+        "voorzieningen": 0,
+        "zorg": 0,
+        "internet": 3,
+        "fiscaal": 0,
+        "levendigheid": 0,
+        "kosten": 0,
+        "risico": 10,
+        "veiligheid": 5,
+        "expats": 0,
+        "klimaatverandering": 0,
+        "toerisme": 22,
+        "liquiditeit": 18
+      },
+      "filters_standaard": {}
+    }
+  ],
+  "expats_vraag": {
+    "vraag": "Wilt u liever veel of weinig landgenoten in de buurt?",
+    "opties": [
+      {
+        "id": "veel",
+        "label": "Liever veel landgenoten",
+        "richting": "hoger_beter"
+      },
+      {
+        "id": "maakt_niet_uit",
+        "label": "Maakt niet uit",
+        "gewicht": 0
+      },
+      {
+        "id": "weinig",
+        "label": "Liever weinig",
+        "richting": "lager_beter"
+      }
+    ]
+  }
+}

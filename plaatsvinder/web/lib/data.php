@@ -19,10 +19,8 @@ function taal(string $lang = 'nl'): array
 }
 
 /**
- * Alle comuni.
- * Met opcache (shared memory, gewone webserver) wordt comuni.json één keer omgezet naar comuni.cache.php;
- * opcache houdt de tabel dan in het geheugen en een verzoek kost vrijwel niets.
- * Zonder opcache is gewoon json_decode zuiniger (ca. 70 MB en 0,1 s voor heel Italië).
+ * Compacte tabel voor score.php (score.json). Met opcache wordt die één keer omgezet naar een PHP-bestand,
+ * zodat opcache hem in het geheugen houdt; zonder opcache is json_decode zuiniger.
  */
 function comuni(): array
 {
@@ -30,8 +28,8 @@ function comuni(): array
     if ($data !== null) {
         return $data;
     }
-    $json = DATA_DIR . '/comuni.json';
-    $php = DATA_DIR . '/comuni.cache.php';
+    $json = DATA_DIR . '/score.json';
+    $php = DATA_DIR . '/score.cache.php';
     $opcache = PHP_SAPI !== 'cli' && function_exists('opcache_get_status') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN);
     if ($opcache && is_file($php) && filemtime($php) >= filemtime($json)) {
         $data = require $php;
@@ -45,4 +43,23 @@ function comuni(): array
         }
     }
     return $data;
+}
+
+/** Alle gegevens van één gemeente (uit data/detail/<provincie>.json). */
+function gemeente(string $istat): ?array
+{
+    $istat = preg_replace('/\D/', '', $istat);
+    foreach (comuni()['comuni'] as $c) {
+        if ($c['istat'] === $istat) {
+            $f = DATA_DIR . '/detail/' . preg_replace('/[^A-Z]/', '', $c['prov']) . '.json';
+            $d = json_decode((string)@file_get_contents($f), true);
+            return $d[$istat] ?? null;
+        }
+    }
+    return null;
+}
+
+function meta(): array
+{
+    return json_decode((string)file_get_contents(DATA_DIR . '/meta.json'), true) ?? [];
 }

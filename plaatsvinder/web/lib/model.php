@@ -2,91 +2,107 @@
 declare(strict_types=1);
 
 /*
- * Scoremodel uit PLAN.md
- *  1. filters (stap 1, 2, 6, 7, 8) sluiten plaatsen uit; dezelfde regels draaien in app.js voor de teller
- *  2. elke indicator is al een percentiel 0-100 (pipeline), laag-is-beter is omgedraaid
- *  3. gewichten: top 3 = 5, 4, 3; extra = 3; niet gekozen = 1
- *  4. profiel: +2 op de punten die bij het profiel horen
- *  5. betaalbaarheid met budget: hoe ver de geschatte woonlast onder het budget blijft
- *  6. ontbrekende data telt niet als nul: het gewicht gaat naar de andere punten
- *  7. top 25 met totaal en de 3 sterkste en 3 zwakste punten
+ * Scoremodel (opdracht criteria-onderzoek, sectie 5 en 6)
+ *  5a  harde filters: een gemeente valt af (ja/nee)
+ *  5b  gewogen score 0-100 uit de deelscores per criterium (percentielen, berekend in de pipeline);
+ *      ontbrekende data: het gewicht gaat naar de andere criteria en het criterium toont "geen data"
+ *  6   profielen met startgewichten (som 100), aan te passen met schuifjes
+ * De filters in assets/app.js volgen dezelfde regels voor de teller.
  */
 
 const LIGGING = ['kust', 'meer', 'heuvel', 'berg', 'vlakte'];
 const GROOTTE = [1000, 5000, 20000, 100000];
-
-/** Prioriteit -> percentielkolommen uit de pipeline (deelscore = gemiddelde van wat er is). */
-const PRIORITEITEN = [
-    'betaalbaar'     => ['koop'],
-    'zorg'           => ['ziekenhuis', 'apotheken'],
-    'economie'       => ['inkomen'],
-    'internet'       => ['glasvezel'],
-    'lucht'          => ['pm25'],
-    'milieu'         => ['afval'],
-    'trein'          => ['station'],
-    'luchthaven'     => ['luchthaven'],
-    'voorzieningen'  => ['voorzieningen'],
-    'internationaal' => ['buitenlanders'],
-    'groei'          => ['groei'],
-    'scholen'        => ['school_basis', 'school_midden', 'school_hoog'],
-];
-
-const PROFIEL_BONUS = [
-    'gepensioneerd' => ['zorg' => 2],
-    'thuiswerker'   => ['internet' => 2],
-    'forens'        => ['trein' => 2, 'werk' => 2],
-    'werkzoekend'   => ['economie' => 2],
-];
-
-const TOP_GEWICHT = [5, 4, 3];
-const EXTRA_GEWICHT = 3;
-const BASIS_GEWICHT = 1;
-const BUDGET_SCHAAL = 2;   // 50% onder budget = score 100
-const MAX_RIJTIJD = 240;   // gelijk aan de pipeline: langer = "meer dan 4 uur"
+const STEDEN = ['utrecht' => 'uur_utrecht', 'brussel' => 'uur_brussel', 'keulen' => 'uur_keulen', 'munchen' => 'uur_munchen'];
 
 function km(float $la1, float $lo1, float $la2, float $lo2): float
 {
-    $r = 6371.0;
     $dla = deg2rad($la2 - $la1);
     $dlo = deg2rad($lo2 - $lo1);
     $a = sin($dla / 2) ** 2 + cos(deg2rad($la1)) * cos(deg2rad($la2)) * sin($dlo / 2) ** 2;
-    return 2 * $r * asin(min(1.0, sqrt($a)));
+    return 2 * 6371 * asin(min(1.0, sqrt($a)));
 }
 
-/** Controleert en normaliseert de antwoorden uit de wizard. */
+function cfg(string $naam): array
+{
+    static $c = [];
+    return $c[$naam] ??= json_decode((string)file_get_contents(__DIR__ . "/../config/$naam.json"), true, 512, JSON_THROW_ON_ERROR);
+}
+
+function profiel(string $id): array
+{
+    foreach (cfg('profielen')['profielen'] as $p) {
+        if ($p['id'] === $id) {
+            return $p;
+        }
+    }
+    return cfg('profielen')['profielen'][0];
+}
+
+/** Startgewichten van een profiel, met het effect van de extra vraag (permanent of verdelen). */
+function startgewichten(string $profiel, ?string $verblijf = null): array
+{
+    $p = profiel($profiel);
+    $g = $p['gewichten'];
+    foreach ($p['vragen'] ?? [] as $v) {
+        foreach ($v['opties'] as $o) {
+            if ($o['id'] === $verblijf && isset($o['effect'])) {
+                $g = array_merge($g, $o['effect']);
+            }
+        }
+    }
+    return $g;
+}
+
+/** Controleert en normaliseert de antwoorden. */
 function antwoorden(array $in): array
 {
     $lijst = fn($v, array $mag) => array_values(array_intersect(array_map('strval', (array)($v ?? [])), $mag));
-    $prio = array_keys(PRIORITEITEN);
-    $top = array_slice($lijst($in['top'] ?? [], $prio), 0, 3);
-    $extra = array_values(array_diff($lijst($in['extra'] ?? [], $prio), $top));
     $num = fn($v) => is_numeric($v) && $v > 0 ? (float)$v : null;
-    $werk = null;
-    if (!empty($in['werk']['istat']) && $num($in['werk']['km'] ?? null)) {
-        $werk = ['istat' => preg_replace('/\D/', '', (string)$in['werk']['istat']), 'km' => (float)$in['werk']['km']];
+    $crit = array_column(cfg('criteria')['criteria'], 'id');
+    $profiel = in_array($in['profiel'] ?? '', array_column(cfg('profielen')['profielen'], 'id'), true)
+        ? $in['profiel'] : 'gepensioneerde';
+    $verblijf = in_array($in['verblijf'] ?? '', ['permanent', 'verdelen'], true) ? $in['verblijf'] : null;
+    $g = startgewichten($profiel, $verblijf);
+    if (is_array($in['gewichten'] ?? null)) {
+        foreach ($crit as $c) {
+            if (isset($in['gewichten'][$c]) && is_numeric($in['gewichten'][$c])) {
+                $g[$c] = max(0, min(100, (int)$in['gewichten'][$c]));
+            }
+        }
     }
+    $expats = in_array($in['expats'] ?? '', ['veel', 'maakt_niet_uit', 'weinig'], true) ? $in['expats'] : 'maakt_niet_uit';
+    if ($expats === 'maakt_niet_uit') {
+        $g['expats'] = 0;
+    }
+    $f = (array)($in['filters'] ?? []);
+    $standaard = profiel($profiel)['filters_standaard'] ?? [];
     $budget = null;
     if (!empty($in['budget']) && in_array($in['budget']['soort'] ?? '', ['huren', 'kopen'], true)
         && $num($in['budget']['max'] ?? null) && $num($in['budget']['m2'] ?? null)) {
         $budget = ['soort' => $in['budget']['soort'], 'max' => (float)$in['budget']['max'], 'm2' => (float)$in['budget']['m2']];
     }
-    $scholen = $lijst($in['scholen'] ?? [], ['basis', 'midden', 'hoog']);
+    $uur = null;
+    if (!empty($f['max_uur']['stad']) && isset(STEDEN[$f['max_uur']['stad']]) && $num($f['max_uur']['uren'] ?? null)) {
+        $uur = ['stad' => $f['max_uur']['stad'], 'uren' => (float)$f['max_uur']['uren']];
+    }
+    $bool = fn($k, $std) => array_key_exists($k, $f) ? (bool)$f[$k] : $std;
     return [
+        'profiel' => $profiel, 'verblijf' => $verblijf, 'expats' => $expats, 'gewichten' => $g,
         'ligging' => $lijst($in['ligging'] ?? [], LIGGING),
         'grootte' => array_map('intval', $lijst($in['grootte'] ?? [], ['0', '1', '2', '3', '4'])),
-        'profiel' => in_array($in['profiel'] ?? '', array_keys(PROFIEL_BONUS), true) ? $in['profiel'] : 'anders',
-        'top' => $top,
-        'extra' => $extra,
-        'scholen' => $scholen ?: ['basis', 'midden', 'hoog'],
-        'max_luchthaven' => $num($in['max_luchthaven'] ?? null),
-        'max_station' => $num($in['max_station'] ?? null),
-        'werk' => $werk,
-        'budget' => $budget,
         'regios_uit' => array_map('intval', array_filter((array)($in['regios_uit'] ?? []), 'is_numeric')),
-        // "alleen in": regio's en/of provincies (sigla). Een gekozen provincie beperkt haar regio tot die provincies.
         'alleen_regios' => array_map('intval', array_filter((array)($in['alleen_regios'] ?? []), 'is_numeric')),
         'alleen_provs' => array_values(array_filter(array_map(fn($p) => strtoupper((string)$p), (array)($in['alleen_provs'] ?? [])),
             fn($p) => preg_match('/^[A-Z]{2}$/', $p))),
+        'budget' => $budget,
+        'max_prijs_m2' => $num($f['max_prijs_m2'] ?? null),
+        'max_luchthaven' => array_key_exists('max_luchthaven', $f) ? $num($f['max_luchthaven']) : ($standaard['max_luchthaven'] ?? null),
+        'max_ziekenhuis' => array_key_exists('max_ziekenhuis', $f) ? $num($f['max_ziekenhuis']) : ($standaard['max_ziekenhuis'] ?? null),
+        'max_uur' => $uur,
+        'zone1_uit' => $bool('zone1_uit', false),
+        'rode_zone_uit' => $bool('rode_zone_uit', true),
+        'min_glasvezel' => array_key_exists('min_glasvezel', $f) ? $num($f['min_glasvezel']) : ($standaard['min_glasvezel_pct'] ?? null),
+        'alleen_regime7' => $bool('alleen_regime7', false),
     ];
 }
 
@@ -97,59 +113,55 @@ function grootteklasse(?float $inw): ?int
     }
     $k = 0;
     foreach (GROOTTE as $grens) {
-        if ($inw >= $grens) {
-            $k++;
-        }
+        $k += $inw >= $grens ? 1 : 0;
     }
     return $k;
 }
 
 function woonlast(array $c, array $budget): ?float
 {
-    $m2prijs = $budget['soort'] === 'kopen' ? ($c['koop_m2'] ?? null) : ($c['huur_m2'] ?? null);
-    return $m2prijs === null ? null : $m2prijs * $budget['m2'];
+    $m2 = $budget['soort'] === 'kopen' ? ($c['w']['koop_m2'] ?? null) : ($c['w']['huur_m2'] ?? null);
+    return $m2 === null ? null : $m2 * $budget['m2'];
 }
 
-/** Geschatte woonlast voor de uitslag (alleen met budget): prijs, % onder budget en of het een provinciecijfer is. */
-function woonlast_info(array $c, array $a): ?array
+/** Harde filters (5a). Onbekende waarden sluiten niet uit, behalve bij de rode zone en het 7%-regime. */
+function voldoet(array $c, array $a, array $regiosMetProv = []): bool
 {
-    if (!$a['budget']) {
-        return null;
-    }
-    $prijs = woonlast($c, $a['budget']);
-    $kort = $a['budget']['soort'] === 'kopen' ? 'koop' : 'huur';
-    return [
-        'soort' => $a['budget']['soort'],
-        'm2' => (int)$a['budget']['m2'],
-        'prijs' => $prijs === null ? null : (int)(round($prijs / ($kort === 'koop' ? 1000 : 10)) * ($kort === 'koop' ? 1000 : 10)),
-        'm2_prijs' => $c[$kort . '_m2'] ?? null,
-        'onder_pct' => $prijs === null ? null : (int)round(($a['budget']['max'] - $prijs) / $a['budget']['max'] * 100),
-        'provinciecijfer' => in_array($kort, $c['provinciecijfer'] ?? [], true),
-    ];
-}
-
-/** Filters. Onbekende waarden (null) sluiten een plaats niet uit; de uitslag meldt dan "geen gegevens". */
-function voldoet(array $c, array $a, ?array $werk): bool
-{
-    if ($a['ligging']) {
-        $ok = false;
-        foreach ($a['ligging'] as $l) {
-            $ok = $ok || !empty($c[$l]);
-        }
-        if (!$ok) {
-            return false;
-        }
+    $w = $c['w'];
+    if ($a['ligging'] && !array_filter($a['ligging'], fn($l) => !empty($c[$l]))) {
+        return false;
     }
     if ($a['grootte'] && !in_array(grootteklasse($c['inwoners'] ?? null), $a['grootte'], true)) {
         return false;
     }
-    if ($a['max_luchthaven'] !== null && $c['min_luchthaven'] !== null && $c['min_luchthaven'] > $a['max_luchthaven']) {
+    if (in_array((int)$c['regio_code'], $a['regios_uit'], true)) {
         return false;
     }
-    if ($a['max_station'] !== null && $c['min_station'] !== null && $c['min_station'] > $a['max_station']) {
+    if ($a['alleen_regios'] || $a['alleen_provs']) {
+        $binnen = in_array($c['prov'], $a['alleen_provs'], true)
+            || (in_array((int)$c['regio_code'], $a['alleen_regios'], true) && !in_array((int)$c['regio_code'], $regiosMetProv, true));
+        if (!$binnen) {
+            return false;
+        }
+    }
+    $max = fn($veld, $grens) => $grens !== null && isset($w[$veld]) && $w[$veld] > $grens;
+    if ($max('koop_m2', $a['max_prijs_m2']) || $max('min_luchthaven_jaarrond', $a['max_luchthaven'])
+        || $max('min_ziekenhuis', $a['max_ziekenhuis'])) {
         return false;
     }
-    if ($werk && km($c['lat'], $c['lon'], $werk['lat'], $werk['lon']) > $a['werk']['km']) {
+    if ($a['max_uur'] && $max(STEDEN[$a['max_uur']['stad']], $a['max_uur']['uren'])) {
+        return false;
+    }
+    if ($a['zone1_uit'] && ($w['seismische_zone'] ?? null) === 1) {
+        return false;
+    }
+    if ($a['rode_zone_uit'] && ($w['vulkaan_deel'] ?? null) === 'geheel') {
+        return false;
+    }
+    if ($a['min_glasvezel'] !== null && isset($w['glasvezel_pct']) && $w['glasvezel_pct'] < $a['min_glasvezel']) {
+        return false;
+    }
+    if ($a['alleen_regime7'] && ($w['regime7_status'] ?? '') !== 'ja') {
         return false;
     }
     if ($a['budget']) {
@@ -158,226 +170,131 @@ function voldoet(array $c, array $a, ?array $werk): bool
             return false;
         }
     }
-    if (in_array((int)$c['regio_code'], $a['regios_uit'], true)) {
-        return false;
-    }
-    if (($a['alleen_regios'] || $a['alleen_provs']) && !binnen_gebied($c, $a)) {
-        return false;
-    }
     return true;
 }
 
-/**
- * "Alleen in": een plaats telt mee als haar provincie gekozen is, of als haar regio gekozen is
- * en er in die regio geen afzonderlijke provincies gekozen zijn.
- */
-function binnen_gebied(array $c, array $a): bool
+/** Deelscores per criterium (0-100 of null) na de keuzes van de gebruiker (expats-richting). */
+function deelscores(array $c, array $a): array
 {
-    if (in_array($c['prov'], $a['alleen_provs'], true)) {
-        return true;
-    }
-    return in_array((int)$c['regio_code'], $a['alleen_regios'], true)
-        && !in_array((int)$c['regio_code'], $a['_regios_met_prov'] ?? [], true);
-}
-
-function gewichten(array $a): array
-{
-    $w = array_fill_keys(array_keys(PRIORITEITEN), BASIS_GEWICHT);
-    $w['scholen'] = 0;                                   // alleen als gekozen (stap 5b)
-    $w['werk'] = $a['werk'] ? BASIS_GEWICHT : 0;         // alleen met een werkplek
-    foreach ($a['top'] as $i => $p) {
-        $w[$p] = TOP_GEWICHT[$i];
-    }
-    foreach ($a['extra'] as $p) {
-        $w[$p] = EXTRA_GEWICHT;
-    }
-    foreach (PROFIEL_BONUS[$a['profiel']] ?? [] as $p => $bonus) {
-        if ($w[$p] > 0) {
-            $w[$p] += $bonus;
-        }
-    }
-    return $w;
-}
-
-/** Deelscores 0-100 per prioriteit; null = geen gegevens. */
-function deelscores(array $c, array $a, ?array $werk): array
-{
-    $s = [];
-    foreach (PRIORITEITEN as $p => $cols) {
-        if ($p === 'scholen') {
-            $cols = array_map(fn($n) => "school_$n", $a['scholen']);
-        }
-        if ($p === 'betaalbaar' && $a['budget'] && $a['budget']['soort'] === 'huren') {
-            $cols = ['huur'];
-        }
-        $vals = [];
-        foreach ($cols as $k) {
-            if (isset($c['p'][$k])) {
-                $vals[] = (float)$c['p'][$k];
-            }
-        }
-        $s[$p] = $vals ? array_sum($vals) / count($vals) : null;
-    }
-    if ($a['budget']) {
-        $prijs = woonlast($c, $a['budget']);
-        // hoe ver de woonlast onder het budget blijft; 50% of meer onder budget = 100
-        $s['betaalbaar'] = $prijs === null ? null
-            : max(0.0, min(100.0, ($a['budget']['max'] - $prijs) / $a['budget']['max'] * 100 * BUDGET_SCHAAL));
-    }
-    $s['werk'] = null;
-    if ($werk) {
-        $d = km($c['lat'], $c['lon'], $werk['lat'], $werk['lon']);
-        $s['werk'] = max(0.0, 100 * (1 - $d / $a['werk']['km']));
+    $s = $c['s'];
+    if ($a['expats'] === 'weinig' && $s['expats'] !== null) {
+        $s['expats'] = 100 - $s['expats'];
     }
     return $s;
 }
 
-function totaal(array $deel, array $w): ?float
+function totaal(array $deel, array $g): ?float
 {
     $som = 0.0;
     $gew = 0.0;
-    foreach ($w as $p => $g) {
-        if ($g > 0 && $deel[$p] !== null) {
-            $som += $g * $deel[$p];
-            $gew += $g;
+    foreach ($g as $crit => $w) {
+        if ($w > 0 && ($deel[$crit] ?? null) !== null) {
+            $som += $w * $deel[$crit];
+            $gew += $w;
         }
     }
     return $gew > 0 ? $som / $gew : null;
 }
 
-function fmt_getal(float $n, int $dec = 0): string
+function regios_met_prov(array $comuni, array $provs): array
 {
-    return number_format($n, $dec, ',', '.');
-}
-
-/** Zin in gewone taal voor één prioriteit van één plaats. */
-function zin(string $p, array $c, array $a, ?array $werk, array $t): string
-{
-    $z = $t['zinnen'];
-    $r = fn(string $tpl, array $v) => strtr($tpl, array_combine(array_map(fn($k) => '{' . $k . '}', array_keys($v)), array_values($v)));
-    $min = fn($m) => $m >= MAX_RIJTIJD ? $z['ver'] : strtr($z['minuten'], ['{n}' => $m]);
-    $prov = fn(string $kort) => in_array($kort, $c['provinciecijfer'] ?? [], true) ? ' (' . $t['uitslag']['provinciecijfer'] . ')' : '';
-    switch ($p) {
-        case 'betaalbaar':
-            if ($a['budget']) {
-                $prijs = woonlast($c, $a['budget']);
-                $pct = (int)round(($a['budget']['max'] - $prijs) / $a['budget']['max'] * 100);
-                $tpl = $pct >= 5 ? $z['betaalbaar_budget'] : $z['betaalbaar_budget_krap'];
-                return $r($tpl, ['prijs' => fmt_getal($prijs), 'pct' => $pct]) . $prov($a['budget']['soort'] === 'kopen' ? 'koop' : 'huur');
-            }
-            return $r($z['betaalbaar'], ['koop' => fmt_getal((float)$c['koop_m2'])]) . $prov('koop');
-        case 'zorg':
-            $n = (int)($c['apotheken_n'] ?? 0);
-            $apo = $n === 0 ? $z['apotheek_0'] : ($n === 1 ? $z['apotheek_1'] : $r($z['apotheek_n'], ['n' => $n]));
-            return $c['min_ziekenhuis'] === null ? $r($z['zorg_geen_rit'], ['apotheek' => $apo])
-                : $r($z['zorg'], ['min' => $min($c['min_ziekenhuis']), 'apotheek' => $apo]);
-        case 'economie':
-            return $r($z['economie'], ['inkomen' => fmt_getal((float)$c['inkomen_eur'])]) . $prov('inkomen');
-        case 'internet':
-            return $r($z['internet'], ['pct' => fmt_getal((float)$c['glasvezel_pct'])]) . $prov('glasvezel');
-        case 'lucht':
-            return $r($z['lucht'], ['pm25' => fmt_getal((float)$c['pm25'], 1)]);
-        case 'milieu':
-            return $r($z['milieu'], ['pct' => fmt_getal((float)$c['afval_gescheiden_pct'])]) . $prov('afval');
-        case 'trein':
-            return $r($z['trein'], ['naam' => $c['station_naam'] ?? '', 'min' => $min($c['min_station'])]);
-        case 'luchthaven':
-            return $r($z['luchthaven'], ['naam' => $c['luchthaven_naam'] ?? '', 'min' => $min($c['min_luchthaven'])]);
-        case 'voorzieningen':
-            $n = (int)$c['voorzieningen_800m'];
-            return $n === 0 ? $z['voorzieningen_0'] : $r($z['voorzieningen'], ['n' => $n]);
-        case 'internationaal':
-            return $r($z['internationaal'], ['pct' => fmt_getal((float)$c['buitenlanders_pct'], 1)]);
-        case 'groei':
-            $g = (float)$c['groei_pct'];
-            return $r($z['groei'], ['pct' => ($g > 0 ? '+' : '') . fmt_getal($g, 1)]);
-        case 'scholen':
-            $wel = $niet = [];
-            foreach ($a['scholen'] as $niv) {
-                $naam = $z["school_$niv"];
-                if (($c["scholen_{$niv}_5km"] ?? 0) > 0) {
-                    $wel[] = $naam;
-                } else {
-                    $niet[] = $naam;
-                }
-            }
-            $en = fn(array $l) => count($l) > 1 ? implode(', ', array_slice($l, 0, -1)) . ' ' . $z['en'] . ' ' . end($l) : ($l[0] ?? '');
-            return $niet ? $r($z['scholen_mist'], ['lijst' => $en($niet)]) : $r($z['scholen_alle'], ['lijst' => $en($wel)]);
-        case 'werk':
-            return $r($z['werk'], ['km' => fmt_getal(km($c['lat'], $c['lon'], $werk['lat'], $werk['lon']))]);
-    }
-    return '';
-}
-
-/** Hoofdfunctie: antwoorden in, top N uit. */
-function scoor(array $invoer, array $comuni, array $t, int $n = 25): array
-{
-    $a = antwoorden($invoer);
-    $werk = null;
-    if ($a['werk']) {
-        foreach ($comuni as $c) {
-            if ($c['istat'] === $a['werk']['istat']) {
-                $werk = ['lat' => $c['lat'], 'lon' => $c['lon'], 'naam' => $c['naam']];
-                break;
-            }
-        }
-        if (!$werk) {
-            $a['werk'] = null;
-        }
-    }
-    if ($a['alleen_provs']) {
-        $met = [];
-        foreach ($comuni as $c) {
-            if (in_array($c['prov'], $a['alleen_provs'], true)) {
-                $met[(int)$c['regio_code']] = true;
-            }
-        }
-        $a['_regios_met_prov'] = array_keys($met);
-    }
-    $w = gewichten($a);
-    $kandidaten = [];
+    $r = [];
     foreach ($comuni as $c) {
-        if (!voldoet($c, $a, $werk)) {
+        if (in_array($c['prov'], $provs, true)) {
+            $r[(int)$c['regio_code']] = true;
+        }
+    }
+    return array_keys($r);
+}
+
+/** Alle plaatsen die door de filters komen, met totaalscore, aflopend gesorteerd. */
+function kandidaten(array $comuni, array $a): array
+{
+    $rmp = $a['alleen_provs'] ? regios_met_prov($comuni, $a['alleen_provs']) : [];
+    $uit = [];
+    foreach ($comuni as $c) {
+        if (!voldoet($c, $a, $rmp)) {
             continue;
         }
-        $deel = deelscores($c, $a, $werk);
-        $tot = totaal($deel, $w);
+        $deel = deelscores($c, $a);
+        $tot = totaal($deel, $a['gewichten']);
         if ($tot !== null) {
-            $kandidaten[] = [$tot, $c, $deel];
+            $uit[] = ['score' => $tot, 'c' => $c, 'deel' => $deel];
         }
     }
-    usort($kandidaten, fn($x, $y) => $y[0] <=> $x[0] ?: strcmp($x[1]['naam'], $y[1]['naam']));
+    usort($uit, fn($x, $y) => $y['score'] <=> $x['score'] ?: strcmp($x['c']['naam'], $y['c']['naam']));
+    return $uit;
+}
 
-    $uit = [];
-    foreach (array_slice($kandidaten, 0, $n) as [$tot, $c, $deel]) {
-        $met = $zonder = [];
-        foreach ($w as $p => $g) {
-            if ($g <= 0) {
-                continue;
-            }
-            if ($deel[$p] === null) {
-                $zonder[] = $p;
-            } else {
-                $met[$p] = $deel[$p];
-            }
+/** Drie vergelijkbare plaatsen met een hogere score: zelfde grootteklasse, meest gelijkend profiel van deelscores. */
+function alternatieven(array $kand, string $istat, int $n = 3): array
+{
+    $doel = null;
+    foreach ($kand as $k) {
+        if ($k['c']['istat'] === $istat) {
+            $doel = $k;
+            break;
         }
-        $lijst = $met;
-        if ($a['budget']) {
-            unset($lijst['betaalbaar']);   // staat al in het woonlast-blok
-        }
-        arsort($lijst);
-        $sterk = array_slice(array_keys($lijst), 0, 3);
-        $zwak = array_slice(array_reverse(array_diff(array_keys($lijst), $sterk)), 0, 3);
-        $punt = fn($p) => ['punt' => $p, 'score' => (int)round($met[$p]), 'tekst' => zin($p, $c, $a, $werk, $t)];
-        $uit[] = [
-            'istat' => $c['istat'], 'naam' => $c['naam'], 'prov' => $c['prov'], 'regio' => $c['regio'],
-            'inwoners' => $c['inwoners'], 'hoogte_m' => $c['hoogte_m'], 'lat' => $c['lat'], 'lon' => $c['lon'],
-            'score' => (int)round($tot),
-            'sterk' => array_map($punt, $sterk),
-            'zwak' => array_map($punt, $zwak),
-            'geen_gegevens' => array_values(array_filter($zonder, fn($p) => $w[$p] > BASIS_GEWICHT)),
-            'woonlast' => woonlast_info($c, $a),
-        ];
     }
-    return ['aantal' => count($kandidaten), 'top' => $uit, 'gewichten' => $w, 'werk' => $werk];
+    if (!$doel) {
+        return [];
+    }
+    $gk = grootteklasse($doel['c']['inwoners'] ?? null);
+    $afst = [];
+    foreach ($kand as $k) {
+        if ($k['score'] <= $doel['score'] || grootteklasse($k['c']['inwoners'] ?? null) !== $gk) {
+            continue;
+        }
+        $d = 0.0;
+        $m = 0;
+        foreach ($doel['deel'] as $crit => $v) {
+            if ($v !== null && ($k['deel'][$crit] ?? null) !== null) {
+                $d += ($v - $k['deel'][$crit]) ** 2;
+                $m++;
+            }
+        }
+        if ($m) {
+            $afst[] = [sqrt($d / $m), $k];
+        }
+    }
+    usort($afst, fn($x, $y) => $x[0] <=> $y[0]);
+    return array_map(fn($x) => $x[1], array_slice($afst, 0, $n));
+}
+
+function samenvatting(array $k, array $a): array
+{
+    $c = $k['c'];
+    $deel = array_map(fn($v) => $v === null ? null : (int)round($v), $k['deel']);
+    $met = array_filter($deel, fn($v, $crit) => $v !== null && ($a['gewichten'][$crit] ?? 0) > 0, ARRAY_FILTER_USE_BOTH);
+    arsort($met);
+    $sterk = array_slice(array_keys($met), 0, 3);
+    $zwak = array_slice(array_reverse(array_diff(array_keys($met), $sterk)), 0, 3);
+    $budget = null;
+    if ($a['budget']) {
+        $prijs = woonlast($c, $a['budget']);
+        $budget = ['soort' => $a['budget']['soort'], 'm2' => (int)$a['budget']['m2'],
+                   'prijs' => $prijs === null ? null : (int)round($prijs, $a['budget']['soort'] === 'kopen' ? -3 : -1),
+                   'onder_pct' => $prijs === null ? null : (int)round(($a['budget']['max'] - $prijs) / $a['budget']['max'] * 100)];
+    }
+    return [
+        'istat' => $c['istat'], 'naam' => $c['naam'], 'prov' => $c['prov'], 'regio' => $c['regio'],
+        'inwoners' => $c['inwoners'], 'hoogte_m' => $c['hoogte_m'], 'lat' => $c['lat'], 'lon' => $c['lon'],
+        'trend' => $c['trend'], 'score' => (int)round($k['score']), 'deel' => $deel,
+        'sterk' => $sterk, 'zwak' => $zwak,
+        'geen_data' => array_values(array_keys(array_filter($deel, fn($v, $crit) => $v === null && ($a['gewichten'][$crit] ?? 0) > 0, ARRAY_FILTER_USE_BOTH))),
+        'winter' => $c['tw'], 'tachtig' => $c['tt'], 'woonlast' => $budget,
+    ];
+}
+
+/** Hoofdfunctie: antwoorden in, top N uit (plus eventueel alternatieven voor één gemeente). */
+function scoor(array $invoer, array $comuni, int $n = 25): array
+{
+    $a = antwoorden($invoer);
+    $kand = kandidaten($comuni, $a);
+    $uit = ['aantal' => count($kand), 'gewichten' => $a['gewichten'],
+            'top' => array_map(fn($k) => samenvatting($k, $a), array_slice($kand, 0, $n))];
+    if (!empty($invoer['alternatieven_voor'])) {
+        $uit['alternatieven'] = array_map(fn($k) => samenvatting($k, $a), alternatieven($kand, (string)$invoer['alternatieven_voor']));
+    }
+    return $uit;
 }

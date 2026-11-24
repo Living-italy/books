@@ -1,0 +1,24 @@
+{
+  "bron": "Gate-away.com, jaarrapport 2025 (internationale vraag naar woningen in Italië)",
+  "url": "https://www.gate-away.com/",
+  "jaar": 2025,
+  "label": "In opkomst bij buitenlandse kopers",
+  "uitleg": "Populariteit drijft de prijzen op en is geen kwaliteitsmaat. Dit label telt niet mee in de score.",
+  "regios": [
+    "Piemonte",
+    "Friuli-Venezia Giulia",
+    "Trentino-Alto Adige"
+  ],
+  "regio_codes": [
+    1,
+    6,
+    4
+  ],
+  "provincies": [
+    "VC",
+    "BI",
+    "NO",
+    "FM",
+    "VT"
+  ]
+}

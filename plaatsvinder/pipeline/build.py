@@ -328,7 +328,8 @@ def bouw(provincie: str | None = None, met_osrm: bool = True) -> pd.DataFrame:
     tabel["berg"] = (h_ > HEUVEL[1]) | (tabel.min_ski <= SKI_MIN)
     tabel["vlakte"] = (h_ < HEUVEL[0]) & ~heuvelland & ~tabel.kust
 
-    return provinciecijfers_en_percentielen(tabel)
+    import scores
+    return scores.bereken(provinciecijfers_en_percentielen(tabel))
 
 
 def provinciecijfers_en_percentielen(t: pd.DataFrame) -> pd.DataFrame:

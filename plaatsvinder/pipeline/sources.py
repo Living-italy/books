@@ -246,7 +246,9 @@ def omi() -> pd.DataFrame:
     nieuwste = d.groupby("istat")["omi_semester"].transform("max")
     d = d[d["omi_semester"] == nieuwste]
     g = d.groupby("istat").agg(koop_m2=("koop", "median"), huur_m2=("huur", "median"),
+                               koop_laagste_zone=("koop", "min"),
                                omi_semester=("omi_semester", "first")).reset_index()
+    g["koop_laagste_zone"] = g["koop_laagste_zone"].round(0)
     g["koop_m2"] = g["koop_m2"].round(0)
     g["huur_m2"] = g["huur_m2"].round(1)
     return g

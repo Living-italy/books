@@ -1,0 +1,184 @@
+{
+  "bron": "Ministero della Salute, Monitoraggio dei LEA attraverso gli indicatori CORE del Nuovo Sistema di Garanzia, anno 2023 (sintesi, aggiornamento aprile 2025)",
+  "url": "https://www.salute.gov.it/new/sites/default/files/2025-05/sintesi_CORE_NSG_2023_aprile_2025_0.pdf",
+  "peildatum": "2023",
+  "schaalniveau": "regio",
+  "maximum": 300,
+  "soglia_per_area": 60,
+  "_uitleg": "Totaal = som van de drie macrogebieden (elk 0 tot 100). Trentino-Alto Adige bestaat uit twee autonome provincies met elk een eigen score.",
+  "regios": [
+    {
+      "gebied": "Piemonte",
+      "regio_code": 1,
+      "prevenzione": 93,
+      "distrettuale": 90,
+      "ospedaliera": 87,
+      "totaal": 270
+    },
+    {
+      "gebied": "Valle d'Aosta",
+      "regio_code": 2,
+      "prevenzione": 77,
+      "distrettuale": 35,
+      "ospedaliera": 53,
+      "totaal": 165,
+      "opmerking": "Aangevuld uit het ministeriële document."
+    },
+    {
+      "gebied": "Lombardia",
+      "regio_code": 3,
+      "prevenzione": 95,
+      "distrettuale": 76,
+      "ospedaliera": 86,
+      "totaal": 257
+    },
+    {
+      "gebied": "PA Bolzano",
+      "regio_code": null,
+      "prevenzione": 58,
+      "distrettuale": 82,
+      "ospedaliera": 62,
+      "totaal": 202,
+      "provincie_code": "021"
+    },
+    {
+      "gebied": "PA Trento",
+      "regio_code": null,
+      "prevenzione": 98,
+      "distrettuale": 83,
+      "ospedaliera": 97,
+      "totaal": 278,
+      "provincie_code": "022"
+    },
+    {
+      "gebied": "Veneto",
+      "regio_code": 5,
+      "prevenzione": 98,
+      "distrettuale": 96,
+      "ospedaliera": 94,
+      "totaal": 288
+    },
+    {
+      "gebied": "Friuli-Venezia Giulia",
+      "regio_code": 6,
+      "prevenzione": 81,
+      "distrettuale": 81,
+      "ospedaliera": 73,
+      "totaal": 235
+    },
+    {
+      "gebied": "Liguria",
+      "regio_code": 7,
+      "prevenzione": 54,
+      "distrettuale": 85,
+      "ospedaliera": 80,
+      "totaal": 219
+    },
+    {
+      "gebied": "Emilia-Romagna",
+      "regio_code": 8,
+      "prevenzione": 97,
+      "distrettuale": 89,
+      "ospedaliera": 92,
+      "totaal": 278
+    },
+    {
+      "gebied": "Toscana",
+      "regio_code": 9,
+      "prevenzione": 95,
+      "distrettuale": 95,
+      "ospedaliera": 96,
+      "totaal": 286
+    },
+    {
+      "gebied": "Umbria",
+      "regio_code": 10,
+      "prevenzione": 93,
+      "distrettuale": 80,
+      "ospedaliera": 84,
+      "totaal": 257
+    },
+    {
+      "gebied": "Marche",
+      "regio_code": 11,
+      "prevenzione": 74,
+      "distrettuale": 83,
+      "ospedaliera": 91,
+      "totaal": 248
+    },
+    {
+      "gebied": "Lazio",
+      "regio_code": 12,
+      "prevenzione": 63,
+      "distrettuale": 68,
+      "ospedaliera": 85,
+      "totaal": 216
+    },
+    {
+      "gebied": "Abruzzo",
+      "regio_code": 13,
+      "prevenzione": 54,
+      "distrettuale": 45,
+      "ospedaliera": 83,
+      "totaal": 182
+    },
+    {
+      "gebied": "Molise",
+      "regio_code": 14,
+      "prevenzione": 58,
+      "distrettuale": 73,
+      "ospedaliera": 62,
+      "totaal": 193
+    },
+    {
+      "gebied": "Campania",
+      "regio_code": 15,
+      "prevenzione": 62,
+      "distrettuale": 72,
+      "ospedaliera": 72,
+      "totaal": 206,
+      "opmerking": "Aangevuld uit het ministeriële document."
+    },
+    {
+      "gebied": "Puglia",
+      "regio_code": 16,
+      "prevenzione": 74,
+      "distrettuale": 69,
+      "ospedaliera": 85,
+      "totaal": 228
+    },
+    {
+      "gebied": "Basilicata",
+      "regio_code": 17,
+      "prevenzione": 68,
+      "distrettuale": 52,
+      "ospedaliera": 69,
+      "totaal": 189
+    },
+    {
+      "gebied": "Calabria",
+      "regio_code": 18,
+      "prevenzione": 68,
+      "distrettuale": 40,
+      "ospedaliera": 69,
+      "totaal": 177,
+      "opmerking": "Opdracht noemde 150; het ministeriële document geeft 177. Ministeriële waarde gebruikt."
+    },
+    {
+      "gebied": "Sicilia",
+      "regio_code": 19,
+      "prevenzione": 49,
+      "distrettuale": 44,
+      "ospedaliera": 80,
+      "totaal": 173
+    },
+    {
+      "gebied": "Sardegna",
+      "regio_code": 20,
+      "prevenzione": 65,
+      "distrettuale": 67,
+      "ospedaliera": 60,
+      "totaal": 192
+    }
+  ]
+}

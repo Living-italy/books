@@ -1,0 +1,461 @@
+{
+  "_uitleg": "Criteria uit het criteria-onderzoek (sectie 1). basis: D = enquêtedata, DE = deels data, deels expertoordeel, E = expertoordeel. De deelscore per criterium is het gemiddelde van de percentielen van de indicatoren met data.",
+  "basis_labels": {
+    "D": "op basis van enquêtes onder kopers",
+    "DE": "deels enquêtes, deels expertoordeel",
+    "E": "expertoordeel"
+  },
+  "criteria": [
+    {
+      "id": "prijs",
+      "label": "Budget en prijsniveau",
+      "uitleg": "Officiële woningwaarde per m² (OMI). Lager is gunstiger.",
+      "rang": 1,
+      "basis": "D",
+      "richting": "lager_beter",
+      "bronnen": [
+        "omi"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "koop_m2",
+          "label": "Koopprijs per m² (mediaan van de woonzones)",
+          "richting": "lager_beter",
+          "bron": "omi"
+        }
+      ]
+    },
+    {
+      "id": "natuur",
+      "label": "Natuur, landschap, rust en ruimte",
+      "uitleg": "Beschermde natuurgebieden binnen 5 km (OpenStreetMap), weinig inwoners per km² en reliëf. Voorlopige maat.",
+      "rang": 2,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "osm",
+        "istat_bevolking",
+        "istat_hoogte"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "natuur_5km_pct",
+          "label": "Aandeel beschermd natuurgebied binnen 5 km",
+          "richting": "hoger_beter",
+          "bron": "osm"
+        },
+        {
+          "kolom": "dichtheid",
+          "label": "Inwoners per km²",
+          "richting": "lager_beter",
+          "bron": "istat_bevolking"
+        },
+        {
+          "kolom": "hoogteverschil_m",
+          "label": "Hoogteverschil binnen de gemeente",
+          "richting": "hoger_beter",
+          "bron": "istat_hoogte"
+        }
+      ]
+    },
+    {
+      "id": "klimaat",
+      "label": "Klimaat (winter en zomerhitte)",
+      "uitleg": "Zachte winters en weinig extreme hitte.",
+      "rang": 3,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "era5"
+      ],
+      "schaalniveau": "raster",
+      "indicatoren": [
+        {
+          "kolom": "dagen_boven_32",
+          "label": "Dagen per jaar boven 32 °C",
+          "richting": "lager_beter",
+          "bron": "era5"
+        },
+        {
+          "kolom": "vorstdagen",
+          "label": "Vorstdagen per jaar",
+          "richting": "lager_beter",
+          "bron": "era5"
+        }
+      ]
+    },
+    {
+      "id": "cultuur",
+      "label": "Cultuur, eten, wijn, authenticiteit",
+      "uitleg": "Historische objecten en musea binnen 5 km (OpenStreetMap). Voorlopige maat.",
+      "rang": 4,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "osm"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "cultuur_5km",
+          "label": "Historische objecten en musea binnen 5 km",
+          "richting": "hoger_beter",
+          "bron": "osm"
+        }
+      ]
+    },
+    {
+      "id": "bereikbaarheid",
+      "label": "Luchthaven en rijafstand naar huis",
+      "uitleg": "Rijtijd naar een luchthaven met vluchten het hele jaar, naar een treinstation, en naar Nederland, België of Duitsland.",
+      "rang": 5,
+      "basis": "DE",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "osrm",
+        "assaeroporti",
+        "luchthavens_handmatig"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "min_luchthaven_jaarrond",
+          "label": "Rijtijd naar luchthaven met vluchten het hele jaar",
+          "richting": "lager_beter",
+          "bron": "osrm"
+        },
+        {
+          "kolom": "min_station",
+          "label": "Rijtijd naar treinstation",
+          "richting": "lager_beter",
+          "bron": "osrm"
+        },
+        {
+          "kolom": "uur_naar_huis",
+          "label": "Rijtijd naar Utrecht, Brussel, Keulen of München (kortste)",
+          "richting": "lager_beter",
+          "bron": "osrm"
+        }
+      ]
+    },
+    {
+      "id": "voorzieningen",
+      "label": "Dagelijkse voorzieningen",
+      "uitleg": "Winkels en horeca op loopafstand van het centrum, en de dagelijkse basis: supermarkt, apotheek en bar.",
+      "rang": 6,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "osm",
+        "mim_scuole"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "voorzieningen_800m",
+          "label": "Winkels en horeca binnen 800 m van het centrum",
+          "richting": "hoger_beter",
+          "bron": "osm"
+        },
+        {
+          "kolom": "basis_800m",
+          "label": "Supermarkt, apotheek en bar binnen 800 m (aantal van de drie)",
+          "richting": "hoger_beter",
+          "bron": "osm"
+        }
+      ]
+    },
+    {
+      "id": "zorg",
+      "label": "Gezondheidszorg",
+      "uitleg": "Rijtijd naar een ziekenhuis met spoedeisende hulp, apotheken en de kwaliteit van de regionale zorg (LEA).",
+      "rang": 7,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "salute_ricovero",
+        "osrm",
+        "salute_farmacie",
+        "lea_2023"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "min_ziekenhuis",
+          "label": "Rijtijd naar ziekenhuis met spoedeisende hulp",
+          "richting": "lager_beter",
+          "bron": "osrm"
+        },
+        {
+          "kolom": "min_apotheek",
+          "label": "Rijtijd naar apotheek",
+          "richting": "lager_beter",
+          "bron": "osrm"
+        },
+        {
+          "kolom": "lea",
+          "label": "LEA-score van de regio (max. 300)",
+          "richting": "hoger_beter",
+          "bron": "lea_2023"
+        }
+      ]
+    },
+    {
+      "id": "internet",
+      "label": "Snel internet en glasvezel",
+      "uitleg": "Aandeel huishoudens met glasvezel tot in huis.",
+      "rang": 8,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "agcom"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "glasvezel_pct",
+          "label": "Huishoudens met glasvezel tot in huis",
+          "richting": "hoger_beter",
+          "bron": "agcom"
+        }
+      ]
+    },
+    {
+      "id": "fiscaal",
+      "label": "Belastingen en fiscale regelingen",
+      "uitleg": "7%-regime voor buitenlandse pensioenen en de gemeentelijke inkomstenbelasting.",
+      "rang": 9,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "regime7",
+        "mef_addizionale"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "regime7",
+          "label": "Komt in aanmerking voor het 7%-regime",
+          "richting": "hoger_beter",
+          "bron": "regime7"
+        },
+        {
+          "kolom": "addizionale_irpef_pct",
+          "label": "Gemeentelijke opslag op de inkomstenbelasting (max. tarief)",
+          "richting": "lager_beter",
+          "bron": "mef_addizionale"
+        }
+      ]
+    },
+    {
+      "id": "levendigheid",
+      "label": "Levendigheid versus isolatie (wintertest)",
+      "uitleg": "Is de plaats ook buiten het seizoen levendig? Afstand tot diensten (SNAI), bevolkingsontwikkeling en vergrijzing.",
+      "rang": 10,
+      "basis": "E",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "snai",
+        "istat_bevolking"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "snai_score",
+          "label": "SNAI-klasse (polo = 100, ultraperiferico = 0)",
+          "richting": "hoger_beter",
+          "bron": "snai"
+        },
+        {
+          "kolom": "groei_10j_pct",
+          "label": "Bevolkingsontwikkeling over 10 jaar",
+          "richting": "hoger_beter",
+          "bron": "istat_bevolking"
+        },
+        {
+          "kolom": "aandeel_65plus",
+          "label": "Aandeel 65-plussers",
+          "richting": "lager_beter",
+          "bron": "istat_bevolking"
+        }
+      ]
+    },
+    {
+      "id": "kosten",
+      "label": "Kosten van levensonderhoud",
+      "uitleg": "Er is geen open bron per gemeente gevonden; dit criterium heeft nog geen data.",
+      "rang": 12,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [],
+      "schaalniveau": "gemeente",
+      "indicatoren": []
+    },
+    {
+      "id": "risico",
+      "label": "Natuurrisico's",
+      "uitleg": "Aardbeving, aardverschuiving, overstroming, bosbrand en vulkaan. Hoger is veiliger.",
+      "rang": 13,
+      "basis": "E",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "dpc_sismica",
+        "idrogeo",
+        "effis",
+        "zona_rossa"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "seismische_zone",
+          "label": "Seismische zone (1 = hoogste gevaar, 4 = laagste)",
+          "richting": "hoger_beter",
+          "bron": "dpc_sismica"
+        },
+        {
+          "kolom": "frane_pop_pct",
+          "label": "Inwoners in aardverschuivingszone P3+P4",
+          "richting": "lager_beter",
+          "bron": "idrogeo"
+        },
+        {
+          "kolom": "alluvioni_pop_pct",
+          "label": "Inwoners in overstromingsgebied P2",
+          "richting": "lager_beter",
+          "bron": "idrogeo"
+        },
+        {
+          "kolom": "bosbrand_pct",
+          "label": "Afgebrande oppervlakte laatste 10 jaar",
+          "richting": "lager_beter",
+          "bron": "effis"
+        }
+      ]
+    },
+    {
+      "id": "veiligheid",
+      "label": "Veiligheid en criminaliteit",
+      "uitleg": "Aangiften per 100.000 inwoners in de provincie (ISTAT).",
+      "rang": 14,
+      "basis": "DE",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "istat_delitti"
+      ],
+      "schaalniveau": "provincie",
+      "indicatoren": [
+        {
+          "kolom": "delitti_100k",
+          "label": "Aangiften per 100.000 inwoners (provincie)",
+          "richting": "lager_beter",
+          "bron": "istat_delitti"
+        }
+      ]
+    },
+    {
+      "id": "expats",
+      "label": "Andere buitenlanders in de gemeente",
+      "uitleg": "Inwoners uit Nederland, België, Duitsland en het Verenigd Koninkrijk per 1.000 inwoners.",
+      "rang": 15,
+      "basis": "DE",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "istat_cittadinanza"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "expats_per_1000",
+          "label": "Nederlanders, Belgen, Duitsers en Britten per 1.000 inwoners",
+          "richting": "hoger_beter",
+          "bron": "istat_cittadinanza"
+        }
+      ]
+    },
+    {
+      "id": "klimaatverandering",
+      "label": "Hitte en droogte",
+      "uitleg": "Toename van hete dagen en afname van neerslag.",
+      "rang": 17,
+      "basis": "E",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "era5"
+      ],
+      "schaalniveau": "raster",
+      "indicatoren": [
+        {
+          "kolom": "trend_hete_dagen",
+          "label": "Toename hete dagen",
+          "richting": "lager_beter",
+          "bron": "era5"
+        }
+      ]
+    },
+    {
+      "id": "toerisme",
+      "label": "Verhuurpotentieel en toerisme",
+      "uitleg": "Toeristische bedden per inwoner.",
+      "rang": 18,
+      "basis": "D",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "istat_ricettivi"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "bedden_per_inw",
+          "label": "Toeristische bedden per inwoner",
+          "richting": "hoger_beter",
+          "bron": "istat_ricettivi"
+        }
+      ]
+    },
+    {
+      "id": "liquiditeit",
+      "label": "Herverkoopbaarheid",
+      "uitleg": "Verkochte woningen per 100 woningen per jaar.",
+      "rang": 19,
+      "basis": "E",
+      "richting": "hoger_beter",
+      "bronnen": [
+        "omi_ntn",
+        "istat_abitazioni"
+      ],
+      "schaalniveau": "gemeente",
+      "indicatoren": [
+        {
+          "kolom": "ntn_per_100",
+          "label": "Verkopen per 100 woningen per jaar",
+          "richting": "hoger_beter",
+          "bron": "omi_ntn"
+        }
+      ]
+    }
+  ],
+  "niet_gescoord": [
+    {
+      "rang": 11,
+      "label": "Staat van de woning"
+    },
+    {
+      "rang": 16,
+      "label": "Taal en mentaliteit"
+    },
+    {
+      "rang": 20,
+      "label": "Werk"
+    },
+    {
+      "rang": 21,
+      "label": "Hinder door landbouw en jacht"
+    },
+    {
+      "rang": 22,
+      "label": "Subsidies en 1-euro-huizen"
+    }
+  ]
+}

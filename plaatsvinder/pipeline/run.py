@@ -49,8 +49,8 @@ def main():
     export.schrijf(tabel, bronnen, a.provincie)
     web_data = ROOT / "web" / "data"
     web_data.mkdir(exist_ok=True)
-    for f in ["comuni.json", "comuni-lite.json"]:
-        shutil.copy2(ROOT / "data" / f, web_data / f)
+    shutil.copy2(ROOT / "data" / "comuni-lite.json", web_data / "comuni-lite.json")
+    (web_data / "comuni.json").unlink(missing_ok=True)   # de site gebruikt score.json en detail/<prov>.json
     if not a.provincie:
         dekking.schrijf()
     print(f"Klaar in {(time.time() - t0) / 60:.1f} min")
