@@ -39,14 +39,14 @@
     "istat_ricettivi": {
       "bron": "ISTAT, capacità degli esercizi ricettivi",
       "url": "https://esploradati.istat.it/",
-      "peildatum": "2024",
+      "peildatum": "2025",
       "schaalniveau": "gemeente",
       "licentie": "CC BY 4.0"
     },
     "istat_delitti": {
       "bron": "ISTAT, delitti denunciati dalle forze di polizia all'autorità giudiziaria",
       "url": "https://esploradati.istat.it/",
-      "peildatum": "2023",
+      "peildatum": "2024",
       "schaalniveau": "provincie",
       "licentie": "CC BY 4.0"
     },
@@ -107,11 +107,11 @@
       "licentie": "CC BY 4.0"
     },
     "natura2000": {
-      "bron": "EEA, Natura 2000 end 2024",
-      "url": "https://www.eea.europa.eu/en/datahub/datahubitem-view/6fc8ad2d-195d-40f4-bdec-576e7d1268e4",
-      "peildatum": "2024",
+      "bron": "Beschermde natuurgebieden uit OpenStreetMap (boundary=protected_area, national_park, nature_reserve)",
+      "url": "https://www.openstreetmap.org/copyright",
+      "peildatum": "2026-11-23",
       "schaalniveau": "polygoon",
-      "licentie": "CC BY 4.0"
+      "licentie": "ODbL"
     },
     "ispra_afval": {
       "bron": "ISPRA, Catasto Rifiuti",
@@ -123,7 +123,7 @@
     "idrogeo": {
       "bron": "ISPRA, IdroGEO, indicatori di rischio frane e alluvioni",
       "url": "https://idrogeo.isprambiente.it/app/page/open-data",
-      "peildatum": "2024",
+      "peildatum": "2025 (mosaicatura 2024 frane, 2020 alluvioni)",
       "schaalniveau": "gemeente",
       "licentie": "CC BY 4.0"
     },
@@ -144,9 +144,9 @@
     "effis": {
       "bron": "EFFIS (Copernicus), burnt areas database",
       "url": "https://forest-fire.emergency.copernicus.eu/applications/data-and-services",
-      "peildatum": "2016-2025",
+      "peildatum": "2016-2026",
       "schaalniveau": "polygoon",
-      "licentie": "Copernicus open"
+      "licentie": "CC BY 4.0"
     },
     "era5": {
       "bron": "Copernicus ERA5-Land",
@@ -193,7 +193,7 @@
     "mef_addizionale": {
       "bron": "MEF Dipartimento delle Finanze, addizionale comunale IRPEF",
       "url": "https://www1.finanze.gov.it/finanze/pagina_dichiarazioni/public/dichiarazioni.php",
-      "peildatum": "2026",
+      "peildatum": "2025",
       "schaalniveau": "gemeente",
       "licentie": "open"
     },
@@ -231,6 +231,20 @@
       "peildatum": "2025",
       "schaalniveau": "regio en provincie",
       "licentie": "handmatige tabel"
+    },
+    "osrm_publiek": {
+      "bron": "Rijtijden grensovergang naar Utrecht, Brussel, Keulen en München, berekend met de openbare OSRM-server (OpenStreetMap)",
+      "url": "https://router.project-osrm.org/",
+      "peildatum": "2026-11-24",
+      "schaalniveau": "grensovergang",
+      "licentie": "ODbL (data)"
+    },
+    "istat_turismo_maand": {
+      "bron": "ISTAT, movimento dei clienti negli esercizi ricettivi, mensile",
+      "url": "https://esploradati.istat.it/",
+      "peildatum": "2024",
+      "schaalniveau": "provincie",
+      "licentie": "CC BY 4.0"
     }
   }
 }

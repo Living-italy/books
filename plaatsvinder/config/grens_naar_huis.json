@@ -1,0 +1,104 @@
+{
+  "_uitleg": "Rijtijd (minuten) van grensovergang naar bestemming, eenmalig berekend met de openbare OSRM-server (router.project-osrm.org, OpenStreetMap-data, zonder verkeer).",
+  "berekend": "2026-11-24",
+  "grensovergangen": {
+    "Brennero": {
+      "lat": 47.0026,
+      "lon": 11.505
+    },
+    "Passo Resia": {
+      "lat": 46.835,
+      "lon": 10.511
+    },
+    "Tarvisio": {
+      "lat": 46.505,
+      "lon": 13.584
+    },
+    "Chiasso": {
+      "lat": 45.833,
+      "lon": 9.03
+    },
+    "Sempione": {
+      "lat": 46.196,
+      "lon": 8.093
+    },
+    "Monte Bianco": {
+      "lat": 45.815,
+      "lon": 6.953
+    },
+    "Frejus": {
+      "lat": 45.136,
+      "lon": 6.69
+    },
+    "Ventimiglia": {
+      "lat": 43.788,
+      "lon": 7.53
+    },
+    "Gran San Bernardo": {
+      "lat": 45.859,
+      "lon": 7.172
+    }
+  },
+  "bestemmingen": [
+    "Utrecht",
+    "Brussel",
+    "Keulen",
+    "München"
+  ],
+  "minuten": {
+    "Brennero": {
+      "Utrecht": 611,
+      "Brussel": 595,
+      "Keulen": 472,
+      "München": 148
+    },
+    "Passo Resia": {
+      "Utrecht": 607,
+      "Brussel": 590,
+      "Keulen": 467,
+      "München": 178
+    },
+    "Tarvisio": {
+      "Utrecht": 688,
+      "Brussel": 683,
+      "Keulen": 548,
+      "München": 228
+    },
+    "Chiasso": {
+      "Utrecht": 631,
+      "Brussel": 571,
+      "Keulen": 491,
+      "München": 306
+    },
+    "Sempione": {
+      "Utrecht": 681,
+      "Brussel": 621,
+      "Keulen": 542,
+      "München": 381
+    },
+    "Monte Bianco": {
+      "Utrecht": 647,
+      "Brussel": 558,
+      "Keulen": 508,
+      "München": 442
+    },
+    "Frejus": {
+      "Utrecht": 704,
+      "Brussel": 587,
+      "Keulen": 583,
+      "München": 498
+    },
+    "Ventimiglia": {
+      "Utrecht": 856,
+      "Brussel": 783,
+      "Keulen": 716,
+      "München": 531
+    },
+    "Gran San Bernardo": {
+      "Utrecht": 621,
+      "Brussel": 561,
+      "Keulen": 481,
+      "München": 415
+    }
+  }
+}

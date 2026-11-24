@@ -16,6 +16,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import build      # noqa: E402
 import download   # noqa: E402
+import bronnen_v2   # noqa: E402
+import dekking   # noqa: E402
+import config_check   # noqa: E402
 import export     # noqa: E402
 from config import SOURCES, OSRM_DIR, WORK, OMI_DIR, ROOT   # noqa: E402
 
@@ -33,8 +36,12 @@ def main():
         shutil.rmtree(OSRM_DIR, ignore_errors=True)
         for f in WORK.glob("osm-poi.*"):
             f.unlink()
+    fouten = config_check.controleer()
+    if fouten:
+        raise SystemExit("Configuratie ongeldig:\n" + "\n".join(fouten))
     if not a.geen_download:
         download.download_all(force=a.opnieuw)
+        bronnen_v2.download_v2(force=a.opnieuw)
 
     tabel = build.bouw(provincie=a.provincie, met_osrm=not a.zonder_osrm)
     bronnen = dict(SOURCES)
@@ -44,6 +51,8 @@ def main():
     web_data.mkdir(exist_ok=True)
     for f in ["comuni.json", "comuni-lite.json"]:
         shutil.copy2(ROOT / "data" / f, web_data / f)
+    if not a.provincie:
+        dekking.schrijf()
     print(f"Klaar in {(time.time() - t0) / 60:.1f} min")
 
 

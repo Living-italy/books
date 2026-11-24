@@ -8,6 +8,8 @@ import pandas as pd
 from scipy.spatial import cKDTree
 
 import osm
+import v2
+import bronnen_v2 as bv
 import routing
 import sources as src
 from config import (FUSIES, HEUVEL, HEUVEL_LAAG_CENTRUM, HEUVEL_LAAG_VERSCHIL, KUST_MIN, MEER_MIN, SKI_MIN, SCHOOL_RADIUS_KM, WALK_RADIUS_M, OSM_PBF)
@@ -33,6 +35,31 @@ INDICATOREN = {
     "min_ski":              (False, False, "ski"),
     "koop_m2":              (False, True,  "koop"),
     "huur_m2":              (False, True,  "huur"),
+    # criteria-onderzoek
+    "natuur_5km_pct":       (True,  False, "natuur"),
+    "dichtheid":            (False, False, "dichtheid"),
+    "hoogteverschil_m":     (True,  False, "reliëf"),
+    "cultuur_5km":          (True,  False, "cultuur"),
+    "min_luchthaven_jaarrond": (False, False, "luchthaven_jaarrond"),
+    "uur_naar_huis":        (False, False, "naar_huis"),
+    "basis_800m":           (True,  False, "basis"),
+    "min_apotheek":         (False, False, "apotheek_rit"),
+    "lea":                  (True,  False, "lea"),
+    "regime7":              (True,  False, "regime7"),
+    "addizionale_irpef_pct": (False, False, "addizionale"),
+    "snai_score":           (True,  False, "snai"),
+    "groei_10j_pct":        (True,  False, "groei_10j"),
+    "aandeel_65plus":       (False, False, "65plus"),
+    "seismische_zone":      (True,  False, "seismisch"),
+    "frane_pop_pct":        (False, False, "frane"),
+    "alluvioni_pop_pct":    (False, False, "alluvioni"),
+    "bosbrand_pct":         (False, False, "bosbrand"),
+    "delitti_100k":         (False, False, "delitti"),
+    "expats_per_1000":      (True,  False, "expats"),
+    "bedden_per_inw":       (True,  False, "bedden"),
+    "seizoen_pct":          (False, False, "seizoen"),
+    "scholen_basis_20min":  (True,  False, "school_basis_20"),
+    "scholen_hoog_20min":   (True,  False, "school_hoog_20"),
 }
 
 # Luchthavens met IATA-code maar zonder (vaste) lijnvluchten
@@ -258,8 +285,12 @@ def bouw(provincie: str | None = None, met_osrm: bool = True) -> pd.DataFrame:
     for niv in ["basis", "midden", "hoog"]:
         tabel[f"scholen_{niv}_5km"] = tabel.istat.map(agg[niv]).fillna(0).astype(int)
     # Trentino-Alto Adige en Valle d'Aosta hebben eigen (niet-staats)scholen die niet in het MIM-bestand staan
+    tabel = v2.scholen_20min(tabel, grens, sch)
     zonder = tabel.regio_code.isin([2, 4])
-    tabel.loc[zonder, ["scholen_basis_5km", "scholen_midden_5km", "scholen_hoog_5km"]] = np.nan
+    tabel.loc[zonder, ["scholen_basis_5km", "scholen_midden_5km", "scholen_hoog_5km",
+                       "scholen_basis_20min", "scholen_hoog_20min"]] = np.nan
+
+    tabel = v2.voeg_toe(tabel, grens, basis, poi, h)
 
     if met_osrm:
         print("Rijtijden (OSRM)")
@@ -272,9 +303,17 @@ def bouw(provincie: str | None = None, met_osrm: bool = True) -> pd.DataFrame:
             "ski": poi[(poi.cat == "ski") & (poi.km2 >= 0.5)],
             "station": poi[poi.cat == "station"], "luchthaven": lh, "ziekenhuis": zh,
         }
+        # criteria-onderzoek: luchthavens met lijnvluchten het hele jaar, apotheek, grensovergangen
+        lv = bv.luchthavens(poi)
+        doelen["luchthaven_jaarrond"] = lv[lv["heel_jaar"] == True]   # noqa: E712
+        doelen["apotheek"] = poi[(poi.cat == "voorziening") & (poi["sub"] == "pharmacy")]
+        for over, c in bv.cfg("grens_naar_huis")["grensovergangen"].items():
+            doelen[f"grens_{over}"] = pd.DataFrame([{"lat": c["lat"], "lon": c["lon"], "naam": over}])
         doelen = {k: v[["lat", "lon", "naam"]].fillna("").astype({"lat": float, "lon": float}) for k, v in doelen.items()}
         rt = routing.rijtijden(tabel[["istat", "lat", "lon"]], doelen)
         tabel = tabel.merge(rt, on="istat", how="left")
+        tabel = v2.naar_huis(tabel, tabel.filter(like="min_grens_"))
+        tabel["luchthaven_jaarrond_status"] = bv.cfg("luchthavens")["status_heel_jaar"]
     else:
         for s in ["zee", "meer", "ski", "station", "luchthaven", "ziekenhuis"]:
             tabel[f"min_{s}"] = np.nan

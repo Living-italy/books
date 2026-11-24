@@ -29,22 +29,22 @@
     {
       "id": "natuur",
       "label": "Natuur, landschap, rust en ruimte",
-      "uitleg": "Beschermde natuur in de buurt, weinig inwoners per km² en reliëf. Voorlopige maat.",
+      "uitleg": "Beschermde natuurgebieden binnen 5 km (OpenStreetMap), weinig inwoners per km² en reliëf. Voorlopige maat.",
       "rang": 2,
       "basis": "D",
       "richting": "hoger_beter",
       "bronnen": [
-        "natura2000",
+        "osm",
         "istat_bevolking",
         "istat_hoogte"
       ],
       "schaalniveau": "gemeente",
       "indicatoren": [
         {
-          "kolom": "natura2000_5km_pct",
-          "label": "Aandeel Natura 2000-gebied binnen 5 km",
+          "kolom": "natuur_5km_pct",
+          "label": "Aandeel beschermd natuurgebied binnen 5 km",
           "richting": "hoger_beter",
-          "bron": "natura2000"
+          "bron": "osm"
         },
         {
           "kolom": "dichtheid",

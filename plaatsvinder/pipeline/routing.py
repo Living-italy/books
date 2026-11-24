@@ -91,7 +91,7 @@ def rijtijden(centra: pd.DataFrame, doelen: dict, workers: int = 4) -> pd.DataFr
         for soort in kand:
             best = min(((v, n) for v, (s, n) in zip(dur, meta) if s == soort and not np.isnan(v)),
                        default=(np.nan, None))
-            res[f"min_{soort}"] = None if np.isnan(best[0]) else min(round(best[0] / 60), MAX_RIJTIJD)
+            res[f"min_{soort}"] = None if np.isnan(best[0]) else (round(best[0] / 60) if soort.startswith("grens_") else min(round(best[0] / 60), MAX_RIJTIJD))
             res[f"{soort}_naam"] = best[1]
         return res
 

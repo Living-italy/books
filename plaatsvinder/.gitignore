@@ -5,3 +5,4 @@ web/data/comuni.cache.php*
 data/*
 !data/README.md
 !data/steekproef.md
+!data/dekking.md
