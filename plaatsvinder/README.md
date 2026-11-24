@@ -90,9 +90,28 @@ Regels:
 
 `data/comuni-lite.json` is kolomsgewijs: positie `i` in elke lijst is de `i`-de comune in `comuni.json` (op ISTAT-code). `gr` is de grootteklasse, `lig` een bitmasker in de volgorde van `ligging`, `lat`/`lon` × 1000.
 
+## Versie 2: criteria-onderzoek
+
+Uitgevoerd volgens `docs/plaatsvinder-aanpassingen.md`; het plan staat in `docs/plan-aanpassingen.md`.
+
+- `config/`: criteria, profielen, LEA 2023, 7%-regime, kratergemeenten, rode zones, luchthavens, trends, aandachtspunten en bronnen, met JSON-schema's (`config/schema/`) en `pipeline/config_check.py`.
+- `pipeline/bronnen_v2.py` en `pipeline/v2.py`: de nieuwe bronnen; `pipeline/scores.py`: deelscores, wintertest en 80-jarentest.
+- `data/dekking.md`: dekking per bron (na elke volledige run). `data/steekproef.md`: steekproef per bron (`python pipeline/steekproef.py`). `data/README.md`: handmatige stappen en afwijkingen.
+- Site: `web/data/score.json` (compact, voor score.php), `web/data/detail/<provincie>.json` (gemeentepagina), `web/data/comuni-lite.json` (teller, onder 400 kB). `data/comuni.json` blijft de volledige tabel.
+
+Tests:
+
+```bash
+.venv/bin/python -m unittest discover -s pipeline/tests
+```
+
+```bash
+php web/tests/test_model.php
+```
+
 ## Website
 
-Zet de map `web/` op de server (PHP 8.1 of hoger). `index.php` is de wizard, `score.php` geeft de top 25, `zoek.php` zoekt een plaats voor het werkplekveld. Alle teksten staan in `web/lang/nl.json`; voor Duits maak je `de.json` met dezelfde sleutels.
+Zet de map `web/` op de server (PHP 8.1 of hoger). `index.php` is de wizard (met resultaten, gemeentepagina en vergelijken), `score.php` geeft de top 25 en alternatieven, `gemeente.php` geeft de details van één gemeente. Alle teksten staan in `web/lang/nl.json`; voor Duits maak je `de.json` met dezelfde sleutels.
 
 Eisen aan de hosting: PHP 8.1 of hoger met de extensies json en iconv, en een `memory_limit` van minstens 128 MB (score.php vraagt zelf 256 MB als de host dat toestaat). Gemeten met een tabel ter grootte van heel Italië: zonder opcache ca. 70 MB en 0,1 s per verzoek. Staat opcache aan, dan zet `score.php` `comuni.json` één keer om naar `comuni.cache.php` en houdt opcache de tabel in het geheugen; `web/data/` moet dan schrijfbaar zijn voor PHP. `web/data/.htaccess` houdt het volledige bestand uit het zicht (Apache); op nginx doe je hetzelfde met een `location`-regel.
 

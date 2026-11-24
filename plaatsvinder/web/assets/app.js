@@ -1,4 +1,4 @@
-/* Plaatsvinder Italië – wizard, resultaten, gemeentepagina en vergelijken. Vanilla JS.
+/* Plaatsvinder Italië: wizard, resultaten, gemeentepagina en vergelijken. Vanilla JS.
  * De teller filtert in de browser op comuni-lite.json met dezelfde regels als voldoet() in lib/model.php.
  * Scores rekent score.php uit; de gemeentepagina haalt de details op bij gemeente.php. */
 (function () {
@@ -13,6 +13,7 @@
   var BRONNEN = C.bronnen.bronnen;
   var GEEN_DATA_BRON = { era5: 1, omi_ntn: 1 };
   var MAX_VERGELIJK = 3;
+  var LEEG = T.gemeente.geen_data;
 
   function zonderData(c) {
     return !c.indicatoren.length || c.indicatoren.every(function (i) { return GEEN_DATA_BRON[i.bron]; });
@@ -351,9 +352,9 @@
         el("div", { class: "pv-score" }, [el("strong", { text: String(c.score) }), el("span", { text: "/100" })])]),
       woonlast(c.woonlast),
       el("div", { class: "pv-tests" }, [
-        el("span", { class: "pv-chip" }, [U.winter + " ", el("strong", { text: c.winter == null ? "–" : String(c.winter) })]),
+        el("span", { class: "pv-chip" }, [U.winter + " ", el("strong", { text: c.winter == null ? LEEG : String(c.winter) })]),
         el("span", { class: "pv-chip" + (c.tachtig != null && c.tachtig < C.aandachtspunten.tachtig_waarschuwing.drempel ? " laag" : "") },
-          [U.tachtig + " ", el("strong", { text: c.tachtig == null ? "–" : String(c.tachtig) })])]),
+          [U.tachtig + " ", el("strong", { text: c.tachtig == null ? LEEG : String(c.tachtig) })])]),
       deelLijst(U.sterk, c.sterk, "sterk"), deelLijst(U.zwak, c.zwak, "zwak"),
       c.geen_data.length ? el("p", { class: "pv-geen-data", text: fmt(U.geen_data, { lijst: c.geen_data.map(critLabel).join(", ") }) }) : null,
       el("div", { class: "pv-knoprij" }, [
@@ -425,7 +426,7 @@
   }
   function testKaart(titel, uitleg, score, delen, labels, waarschuwing) {
     return el("section", { class: "pv-testkaart" }, [el("h3", { text: titel }), el("p", { class: "pv-uitleg", text: uitleg }),
-      el("p", { class: "pv-testscore" }, [el("strong", { text: score == null ? "–" : String(score) }), " / 100"]),
+      el("p", { class: "pv-testscore" }, [el("strong", { text: score == null ? LEEG : String(score) }), " / 100"]),
       waarschuwing || null,
       el("ul", { class: "pv-delen" }, Object.keys(labels).map(function (k) {
         return el("li", {}, [el("span", { text: labels[k] }), balk(delen[k]), el("span", { class: "pv-getal", text: delen[k] == null ? T.gemeente.geen_data : String(delen[k]) })]);
@@ -448,7 +449,7 @@
           el("div", { class: "pv-plaats-naam" }, [el("h2", { text: g.naam, tabindex: "-1", id: "pv-titel" }),
             el("p", { text: [g.prov, g.provincie, g.regio, fmt(U.inwoners, { n: getal(g.inwoners, 0) }), g.hoogte_m != null ? fmt(U.hoogte, { n: g.hoogte_m }) : null].filter(Boolean).join(" · ") }),
             g.trend ? el("p", {}, [el("span", { class: "pv-badge-trend", text: C.trends.label }), " " + C.trends.uitleg]) : null]),
-          el("div", { class: "pv-score", title: G.totaal }, [el("strong", { text: tot == null ? "–" : String(tot) }), el("span", { text: "/100" })])]));
+          el("div", { class: "pv-score", title: G.totaal }, [el("strong", { text: tot == null ? LEEG : String(tot) }), el("span", { text: "/100" })])]));
 
         // deelscores met indicatoren en bronnen
         sectie.appendChild(el("h3", { class: "pv-sub-kop", text: G.deelscores }));
@@ -518,10 +519,10 @@
     Promise.all(S.vergelijk.map(function (id) { return haal(window.PV.gemeente + "?istat=" + id); })).then(function (gs) {
       var rij = function (label, cellen, cls) { return el("tr", { class: cls || "" }, [el("th", { scope: "row", text: label })].concat(cellen.map(function (c) { return el("td", {}, [c]); }))); };
       var kop2 = el("tr", {}, [el("th", { text: V.criterium })].concat(gs.map(function (g) { return el("th", { scope: "col" }, [el("a", { href: "#/gemeente/" + g.istat, text: g.naam }), el("br"), g.prov]); })));
-      var rijen = [rij(G.totaal, gs.map(function (g) { var t = totaalJS(g.s); return el("strong", { text: t == null ? "–" : String(t) }); }), "pv-totaalrij")];
+      var rijen = [rij(G.totaal, gs.map(function (g) { var t = totaalJS(g.s); return el("strong", { text: t == null ? LEEG : String(t) }); }), "pv-totaalrij")];
       CRIT.forEach(function (c) { rijen.push(rij(c.label, gs.map(function (g) { return g.s[c.id] == null ? G.geen_data : String(g.s[c.id]); }))); });
-      rijen.push(rij(T.uitslag.winter, gs.map(function (g) { return g.t.winter == null ? "–" : String(g.t.winter); })));
-      rijen.push(rij(T.uitslag.tachtig, gs.map(function (g) { return g.t.tachtig == null ? "–" : String(g.t.tachtig); })));
+      rijen.push(rij(T.uitslag.winter, gs.map(function (g) { return g.t.winter == null ? LEEG : String(g.t.winter); })));
+      rijen.push(rij(T.uitslag.tachtig, gs.map(function (g) { return g.t.tachtig == null ? LEEG : String(g.t.tachtig); })));
       [["koop_m2", "Koopprijs"], ["min_ziekenhuis", G.tachtig_delen.ziekenhuis], ["min_luchthaven_jaarrond", "Luchthaven (hele jaar)"],
        ["uur_naar_huis", "Naar huis"], ["seismische_zone", G.seismisch]].forEach(function (x) {
         rijen.push(rij(x[1], gs.map(function (g) { return waardeTekst(x[0], g.w[x[0]]); })));

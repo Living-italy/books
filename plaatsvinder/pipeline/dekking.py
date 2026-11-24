@@ -8,7 +8,7 @@ from config import DATA, OUT_CSV, ROOT
 
 
 def schrijf() -> None:
-    t = pd.read_csv(OUT_CSV, dtype={"istat": str}, low_memory=False)
+    t = pd.read_csv(OUT_CSV, dtype={"istat": str}, low_memory=False, keep_default_na=False, na_values=[""])  # "NA" = Napoli
     crit = json.loads((ROOT / "config/criteria.json").read_text(encoding="utf-8"))
     bronnen = json.loads((ROOT / "config/bronnen.json").read_text(encoding="utf-8"))["bronnen"]
     n = len(t)
