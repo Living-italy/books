@@ -27,3 +27,11 @@ Aanvulling op `docs/plan-aanpassingen.md`. Opdracht: `docs/plaatsvinder-aanpassi
 3. **Prijzen uit de gids**: €/m² per regio zoals in de gids.
 4. **Wensenlijst-wizard van unsognodicasa.it**: de broncode (of toegang) als die als basis moet dienen; de site zelf is niet bereikbaar vanuit de bouwomgeving.
 5. **EEA PM10 en NO2 (2023)**: de EEA-server verbreekt de verbinding vanaf de bouwomgeving; handmatig downloaden kan via de EEA-datahub ("European air quality data (interpolated data)").
+
+## Stand na de gids (definitieve versie) en de wizardcode
+
+- Bijlage A verwerkt in `config/luchthavens.json`; vervangt de voorlopige inschatting.
+- Gidsprijzen voor 10 regio's; de andere regio's noemen in de gids geen bedrag.
+- Gids-verwijzingen met paragraaf en pagina. De link in de gids naar `7%_regeling_italie.pdf` geeft 404 en staat er daarom niet in.
+- Wizard Un Sogno di Casa: hervatten en overzicht met Wijzigen overgenomen; de woningvragen (type, m², kamers, zwembad) horen bij de makelaar en niet bij de plaatskeuze.
+- Nog open: EEA PM10 en NO2, de lijst ontbonden gemeenteraden.

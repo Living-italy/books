@@ -212,9 +212,9 @@
       "licentie": "open"
     },
     "luchthavens_handmatig": {
-      "bron": "Handmatige lijst: vluchten het hele jaar naar NL, BE of DE",
+      "bron": "Gids 'Huis kopen in Italië', Bijlage A: directe verbindingen met Nederland en België",
       "url": "config/luchthavens.json",
-      "peildatum": "voorlopig",
+      "peildatum": "november 2026",
       "schaalniveau": "luchthaven",
       "licentie": "eigen tabel"
     },

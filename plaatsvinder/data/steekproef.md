@@ -68,7 +68,7 @@ Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 4 min (Osped
 | Verkochte woningen (NTN) | 33.5 | 33.5 | ja |
 | LEA regio | 248 | [248] | ja |
 
-Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Stabilimento Di Fermo), luchthaven met vluchten het hele jaar 191 min, naar huis 9.2 uur, rode zone: nee, 7%-regime: te_verifieren (Controleer de actuele wettekst), kratergemeente: 2016, wintertest 34, 80-jarentest 26.
+Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Stabilimento Di Fermo), luchthaven met vluchten het hele jaar 75 min, naar huis 9.2 uur, rode zone: nee, 7%-regime: te_verifieren (Controleer de actuele wettekst), kratergemeente: 2016, wintertest 34, 80-jarentest 26.
 
 ## Gerace (RC), ISTAT 080036
 
@@ -85,7 +85,7 @@ Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Stab
 | Verkochte woningen (NTN) | 9.6 | 9.58 | ja |
 | LEA regio | 177 | [177] | ja |
 
-Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 13 min (Ospedale Civile Locri), luchthaven met vluchten het hele jaar 207 min, naar huis 17.0 uur, rode zone: nee, 7%-regime: ja (regio in het zuiden en hoogstens 30.000 inwoners), kratergemeente: nee, wintertest 52, 80-jarentest 59.
+Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 13 min (Ospedale Civile Locri), luchthaven met vluchten het hele jaar 108 min, naar huis 17.0 uur, rode zone: nee, 7%-regime: ja (regio in het zuiden en hoogstens 30.000 inwoners), kratergemeente: nee, wintertest 52, 80-jarentest 59.
 
 ## Ercolano (NA), ISTAT 063064
 

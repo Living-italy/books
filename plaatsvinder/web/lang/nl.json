@@ -1,7 +1,7 @@
 {
   "meta": {
     "titel": "Plaatsvinder Italië",
-    "ondertitel": "Vind de Italiaanse gemeenten die bij je passen, met open data en eerlijke uitleg.",
+    "ondertitel": "Vind de Italiaanse gemeenten die bij u passen, met open data en eerlijke uitleg.",
     "laden": "Gegevens laden…",
     "fout_laden": "De gegevens konden niet worden geladen. Probeer het later opnieuw."
   },
@@ -20,7 +20,10 @@
     "vergelijk_n": "Vergelijk ({n})",
     "wis_vergelijk": "Wis keuze",
     "startwaarden": "Terug naar de startwaarden",
-    "overslaan": "Overslaan"
+    "overslaan": "Overslaan",
+    "verder": "Verder waar u gebleven was",
+    "wijzigen": "Wijzigen",
+    "terug_uitslag": "Terug naar de uitslag"
   },
   "teller": {
     "een": "Nog 1 plaats over",
@@ -54,7 +57,7 @@
       "vol": "U hebt er al {max} gekozen. Haal er eerst een weg."
     },
     "ligging": {
-      "titel": "Waar wil je wonen?",
+      "titel": "Waar wilt u wonen?",
       "uitleg": "Kies één of meer. Geen keuze betekent: alles is goed.",
       "opties": {
         "kust": [
@@ -120,7 +123,7 @@
       "uitleg": "Een gemeente die hier niet aan voldoet, valt af.",
       "max_prijs": "Maximale prijs per m² (koop, OMI)",
       "max_luchthaven": "Maximale rijtijd naar een luchthaven met vluchten het hele jaar",
-      "max_luchthaven_noot": "Welke luchthavens het hele jaar vluchten naar Nederland, België of Duitsland hebben, is een voorlopige inschatting.",
+      "max_luchthaven_noot": "Hele jaar: minstens één directe verbinding met Nederland of België die niet alleen in de zomer of winter vliegt, volgens Bijlage A van de gids (stand november 2026).",
       "max_ziekenhuis": "Maximale rijtijd naar een ziekenhuis met spoedeisende hulp",
       "max_uur": "Maximale rijtijd naar huis",
       "stad": "Naar",
@@ -280,13 +283,17 @@
     "waarde_nee": "nee",
     "hoogte_uitleg": "Het centrum ligt op {n} m. Per 100 meter hoger is het gemiddeld ongeveer 0,6 °C koeler.",
     "gids_titel": "Meer hierover in de gids",
-    "gids_paragraaf": "paragraaf {p}",
-    "gidsprijs": "Volgens de gids: gemiddeld € {v} per m² in {regio}.",
+    "gids_paragraaf": "{p}, {pagina}",
+    "gidsprijs": "Volgens de gids: gemiddelde vraagprijs in {regio} rond € {v} per m² ({toelichting}). Vraagprijzen liggen meestal boven de OMI-waarde.",
     "maffia_titel": "Gemeenteraad ontbonden",
     "maffia": "De gemeenteraad is in {jaar} ontbonden wegens maffia-infiltratie.",
     "maffia_link": "Bron: Ministero dell'Interno",
     "station_hs": "Dichtstbijzijnde station met hogesnelheidstreinen: {naam}",
-    "station_nacht": "Dichtstbijzijnde station met nachttrein: {naam}"
+    "station_nacht": "Dichtstbijzijnde station met nachttrein: {naam}",
+    "vluchten": "Directe vluchten vanaf {lh}: {lijst}.",
+    "vluchten_nl": "Nederland: {l}",
+    "vluchten_be": "België: {l}",
+    "gids_uitleg": "Uit de gids 'Huis kopen in Italië':"
   },
   "vergelijk": {
     "titel": "Vergelijken",
@@ -338,5 +345,21 @@
   "bronnen_voet": "Bronnen: ISTAT, Agenzia delle Entrate – OMI (CC BY 4.0; officiële waarden, vraagprijzen liggen vaak hoger), ISPRA, European Environment Agency (EEA), EFFIS (Copernicus), Protezione Civile, Ministero della Salute, MIM, MEF, AGCOM, Assaeroporti. Kaartdata en rijtijden:",
   "osm": "© OpenStreetMap-bijdragers (ODbL)",
   "osm_link": "https://www.openstreetmap.org/copyright",
-  "disclaimer": "Deze plaatsvinder gebruikt open data en een eigen weging. Het is een hulpmiddel om plaatsen te ontdekken, geen advies."
+  "disclaimer": "Deze plaatsvinder gebruikt open data en een eigen weging. Het is een hulpmiddel om plaatsen te ontdekken, geen advies.",
+  "hervat": {
+    "titel": "U was hier al eerder",
+    "tekst": "Wilt u verdergaan waar u gebleven was? Uw antwoorden staan alleen in deze browser."
+  },
+  "overzicht": {
+    "titel": "Uw keuzes",
+    "geen": "geen keuze",
+    "alles": "alles",
+    "wensen": "{d} dealbreakers, {m} must-haves, {n} nice-to-haves",
+    "filters": "{n} eisen",
+    "overal": "heel Italië",
+    "regios_uit": "{n} regio's uitgezet",
+    "alleen": "alleen {lijst}",
+    "filters_een": "1 eis",
+    "filters_geen": "geen eisen"
+  }
 }

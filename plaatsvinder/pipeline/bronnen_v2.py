@@ -337,7 +337,7 @@ def in_aanmerking_7procent(istat: str, jaar_eerste_optie: int, tabel: pd.DataFra
 
 # ---------------------------------------------------------------- luchthavens
 def luchthavens(poi: pd.DataFrame) -> pd.DataFrame:
-    """OSM-luchthavens met passagiers (Assaeroporti) en vluchten het hele jaar (handmatig, voorlopig)."""
+    """OSM-luchthavens met passagiers (Assaeroporti) en vluchten het hele jaar (Bijlage A van de gids)."""
     c = cfg("luchthavens")
     d = pd.read_excel(RAW / "assaeroporti/export_2025_12", "Passeggeri", header=1)
     d = d[pd.to_numeric(d["N."], errors="coerce").notna()]
@@ -348,6 +348,8 @@ def luchthavens(poi: pd.DataFrame) -> pd.DataFrame:
     l["heel_jaar"] = l["iata"].map(lambda i: c["heel_jaar"].get(i, c["heel_jaar_voorlopig"].get(i)))
     l["heel_jaar_bron"] = l["iata"].map(lambda i: "gecontroleerd" if i in c["heel_jaar"] else
                                         ("voorlopig" if i in c["heel_jaar_voorlopig"] else "onbekend"))
+    # IATA-code in de naam, zodat de site de verbindingen uit Bijlage A kan tonen
+    l["naam"] = l["naam"].fillna("").astype(str) + " (" + l["iata"].astype(str) + ")"
     return l
 
 

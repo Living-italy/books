@@ -1,5 +1,5 @@
 {
-  "_uitleg": "Luchthavens met passagiers (Assaeroporti 2025). Lijnvluchten = minstens 50.000 passagiers per jaar. heel_jaar: zijn er het hele jaar vluchten naar NL, BE of DE? Seizoensroutes tellen niet. Dit veld staat niet in een open bron en moet handmatig worden gecontroleerd; heel_jaar_voorlopig is een eerste inschatting en geen geverifieerde waarde.",
+  "_uitleg": "Luchthavens met passagiers (Assaeroporti 2025). Lijnvluchten = minstens 50.000 passagiers per jaar. heel_jaar: minstens één directe verbinding met Nederland of België zonder seizoensbeperking, volgens Bijlage A van de gids. Luchthavens die niet in Bijlage A staan, tellen niet als jaarrond. Duitse luchthavens staan niet in de gids.",
   "bron": "Assaeroporti, dati di traffico, totali progressivi gennaio-dicembre 2025",
   "url": "https://data-upload.assaeroporti.com/download-export/2025/12",
   "peildatum": "2025",
@@ -48,26 +48,271 @@
     "Venezia(^)": "VCE",
     "Verona(^)": "VRN"
   },
-  "heel_jaar": {},
-  "heel_jaar_voorlopig": {
+  "heel_jaar": {
     "MXP": true,
     "LIN": true,
     "BGY": true,
-    "FCO": true,
-    "CIA": true,
     "VCE": true,
     "TSF": true,
+    "VRN": true,
+    "TRN": true,
     "BLQ": true,
-    "NAP": true,
-    "PSA": true,
+    "GOA": true,
+    "TRS": true,
+    "BZO": true,
+    "FCO": true,
+    "CIA": false,
     "FLR": true,
+    "PSA": true,
+    "PEG": true,
+    "AOI": true,
+    "PSR": true,
+    "NAP": true,
+    "BRI": true,
+    "BDS": true,
+    "SUF": true,
+    "REG": false,
     "CTA": true,
     "PMO": true,
-    "BRI": true,
-    "TRN": true,
-    "VRN": true,
-    "GOA": true,
-    "TRS": true
+    "TPS": false,
+    "OLB": true,
+    "CAG": true,
+    "AHO": true
   },
-  "status_heel_jaar": "voorlopig, te controleren"
+  "heel_jaar_voorlopig": {},
+  "status_heel_jaar": "volgens Bijlage A van de gids (stand november 2026)",
+  "verbindingen": {
+    "MXP": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Zaventem"
+      ]
+    },
+    "LIN": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Zaventem"
+      ]
+    },
+    "BGY": {
+      "nl": [
+        "Eindhoven",
+        "Rotterdam"
+      ],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "VCE": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "TSF": {
+      "nl": [
+        "Eindhoven"
+      ],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "VRN": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Charleroi (seizoen)"
+      ]
+    },
+    "TRN": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "BLQ": {
+      "nl": [
+        "Amsterdam",
+        "Eindhoven"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "GOA": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "TRS": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "BZO": {
+      "nl": [],
+      "be": [
+        "Antwerpen"
+      ]
+    },
+    "FCO": {
+      "nl": [
+        "Amsterdam",
+        "Eindhoven",
+        "Rotterdam"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "CIA": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi (winter)"
+      ]
+    },
+    "FLR": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Zaventem"
+      ]
+    },
+    "PSA": {
+      "nl": [
+        "Amsterdam",
+        "Eindhoven"
+      ],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "PEG": {
+      "nl": [
+        "Rotterdam"
+      ],
+      "be": [
+        "Brussel Charleroi (zomer)"
+      ]
+    },
+    "AOI": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "PSR": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "NAP": {
+      "nl": [
+        "Amsterdam",
+        "Eindhoven"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "BRI": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "BDS": {
+      "nl": [
+        "Eindhoven"
+      ],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "SUF": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "REG": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi (zomer)"
+      ]
+    },
+    "CTA": {
+      "nl": [
+        "Amsterdam",
+        "Eindhoven"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "PMO": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "TPS": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi (zomer)"
+      ]
+    },
+    "OLB": {
+      "nl": [
+        "Amsterdam",
+        "Rotterdam (seizoen)"
+      ],
+      "be": [
+        "Brussel Zaventem",
+        "Brussel Charleroi"
+      ]
+    },
+    "CAG": {
+      "nl": [
+        "Amsterdam"
+      ],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    },
+    "AHO": {
+      "nl": [],
+      "be": [
+        "Brussel Charleroi"
+      ]
+    }
+  },
+  "bron_verbindingen": "Gids 'Huis kopen in Italië', Bijlage A (stand november 2026)",
+  "noot_verbindingen": "Directe verbindingen wijzigen per seizoen. Eindhoven Airport is van 1 februari tot 19 juli 2027 gesloten; de routes vanaf Eindhoven vervallen dan."
 }

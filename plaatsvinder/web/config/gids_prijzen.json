@@ -1,6 +1,27 @@
 {
-  "_uitleg": "Prijs per m² per regio volgens de gids, om naast de OMI-waarde te tonen. Nog in te vullen.",
-  "bron": "gids 'Huis kopen in Italië'",
-  "peildatum": null,
-  "regios": {}
+  "_uitleg": "Gemiddelde vraagprijs per m² per regio zoals de gids die noemt (paragraaf 1.1.2 en Bijlage B). Alleen regio's waarvoor de gids één bedrag noemt. Dit zijn vraagprijzen, de OMI-waarde is een taxatie-indicatie; ze verschillen dus.",
+  "bron": "gids 'Huis kopen in Italië', paragraaf 1.1.2 en Bijlage B",
+  "peildatum": "2025-2026",
+  "regios": {
+    "Toscana": 2700,
+    "Umbria": 1200,
+    "Piemonte": 1450,
+    "Puglia": 1500,
+    "Marche": 1650,
+    "Abruzzo": 1425,
+    "Calabria": 970,
+    "Lombardia": 2800,
+    "Sardegna": 2150,
+    "Trentino-Alto Adige/Südtirol": 3770
+  },
+  "toelichting": {
+    "Toscana": "gewilde delen; provincies Florence en Lucca boven € 3.300, provincie Arezzo rond € 1.550",
+    "Puglia": "vraagprijzen 2025",
+    "Marche": "van ca. € 1.400 (Fermo) tot ca. € 1.850 (Pesaro en Urbino)",
+    "Abruzzo": "vraagprijzen 2026",
+    "Calabria": "vraagprijzen najaar 2026",
+    "Lombardia": "najaar 2026",
+    "Sardegna": "oktober 2026",
+    "Trentino-Alto Adige/Südtirol": "najaar 2026; provincie Bolzano hoger, Trento lager"
+  }
 }

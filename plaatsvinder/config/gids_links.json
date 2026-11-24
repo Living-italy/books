@@ -1,36 +1,48 @@
 {
-  "_uitleg": "Verwijzingen naar de gids 'Huis kopen in Italië'. Pas aan bij een nieuwe druk. Een verwijzing zonder url wordt niet getoond.",
+  "_uitleg": "Verwijzingen naar de gids 'Huis kopen in Italië' (definitieve versie, paginanummers uit de inhoudsopgave). Met url wordt het een link; zonder url staat de verwijzing als tekst met paragraaf en pagina.",
   "gids": "Huis kopen in Italië",
   "verwijzingen": [
     {
       "id": "regio",
       "label": "Beschrijving van de regio",
-      "paragraaf": "1.1.2 en Bijlage B",
+      "paragraaf": "paragraaf 1.1.2 en Bijlage B",
+      "url": null,
+      "pagina": "blz. 25 en 362"
+    },
+    {
+      "id": "vluchten",
+      "label": "Luchthavens met directe vluchten naar Nederland en België",
+      "paragraaf": "Bijlage A",
+      "pagina": "blz. 359",
       "url": null
     },
     {
       "id": "natuurrisico",
       "label": "Natuurrisico's",
-      "paragraaf": "1.1.1c",
-      "url": null
+      "paragraaf": "paragraaf 1.1.1, punt c",
+      "url": null,
+      "pagina": "blz. 18"
     },
     {
       "id": "regime7",
       "label": "Het 7%-regime",
-      "paragraaf": "hoofdstuk 7",
-      "url": null
+      "paragraaf": "paragraaf 7.2.1",
+      "url": null,
+      "pagina": "blz. 214"
     },
     {
       "id": "verhuur",
       "label": "Verhuur",
       "paragraaf": "hoofdstuk 10",
-      "url": null
+      "url": null,
+      "pagina": "blz. 330"
     },
     {
       "id": "kaarten",
-      "label": "Kaarten (Bijlage C)",
+      "label": "Kaarten van alle provincies",
       "paragraaf": "Bijlage C",
-      "url": "https://stefsmulders.nl/Downloads/Bijlage-C.html"
+      "url": "https://stefsmulders.nl/Downloads/Bijlage-C.html",
+      "pagina": "blz. 380"
     }
   ]
 }

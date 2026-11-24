@@ -168,4 +168,8 @@ Plan: `docs/plan-aanpassingen-12.md`.
 - **Labels zonder score**: ontbonden gemeenteraad (`config/sciolti_mafia.json`, nog te vullen).
 - **Gids**: blok "Meer hierover in de gids" (`config/gids_links.json`, alleen verwijzingen met url) en gidsprijs per regio (`config/gids_prijzen.json`, nog te vullen).
 - **Gepland** (12b): staat in `criteria.json` onder `gepland`.
+- **Bijlage A** (`config/luchthavens.json`): directe verbindingen per luchthaven met Nederland en België, stand november 2026. "Hele jaar" = minstens één verbinding zonder seizoensbeperking. Niet jaarrond: Rome Ciampino, Reggio Calabria, Trapani. Duitse luchthavens staan niet in de gids.
+- **Gidsprijzen** (`config/gids_prijzen.json`): de bedragen per regio die de gids noemt (vraagprijzen); regio's zonder bedrag in de gids blijven leeg.
+- **Gids-verwijzingen** met paragraaf en pagina; Bijlage C als link.
+- Uit de wensenlijst van Un Sogno di Casa overgenomen: "verder waar u gebleven was" bij terugkeer en een overzicht van de keuzes met "Wijzigen" per stap.
 - Niet opgenomen: Qualità della vita (Il Sole 24 Ore), hergebruik niet toegestaan.

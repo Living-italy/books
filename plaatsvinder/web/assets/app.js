@@ -69,7 +69,12 @@
     };
   };
   var S = leeg();
-  try { var b = JSON.parse(localStorage.getItem(OPSLAG) || "null"); if (b) S = Object.assign(leeg(), b); } catch (e) { /* geen opslag */ }
+  var HERVAT = false;   // eerder begonnen: eerst vragen of de bezoeker verder wil (zoals de wensenlijst van Un Sogno di Casa)
+  try {
+    var b = JSON.parse(localStorage.getItem(OPSLAG) || "null");
+    if (b) { S = Object.assign(leeg(), b); HERVAT = !!S.profiel && !location.hash; }
+  } catch (e) { /* geen opslag */ }
+  var NAAR_UITSLAG = false;   // via "Wijzigen" in het overzicht: na de stap terug naar de uitslag
   function bewaar() { try { localStorage.setItem(OPSLAG, JSON.stringify(S)); } catch (e) { /* geen opslag */ } }
 
   // ---------------------------------------------------------------- hulp
@@ -354,6 +359,13 @@
     return el("p", { class: "pv-teller" + (n === 0 ? " nul" : ""), role: "status" }, [el("strong", { text: tekst }),
       n > 0 ? el("span", { text: " " + fmt(T.teller.van, { totaal: getal(LITE.n, 0) }) }) : null]);
   }
+  function hervatScherm() {
+    var H = T.hervat;
+    return [kop(), el("section", { class: "pv-intro" }, [el("h2", { text: H.titel, tabindex: "-1", id: "pv-titel" }), el("p", { class: "pv-sub", text: H.tekst }),
+      el("div", { class: "pv-knoprij" }, [
+        el("button", { type: "button", class: "pv-knop pv-knop-hoofd", text: T.knoppen.verder, onclick: function () { HERVAT = false; teken(); } }),
+        el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.opnieuw, onclick: function () { HERVAT = false; S = leeg(); S.stap = 0; teken(); } })])])];
+  }
   function intro() {
     return [kop(), el("section", { class: "pv-intro" }, [el("p", { class: "pv-sub", text: T.meta.ondertitel }),
       el("button", { type: "button", class: "pv-knop pv-knop-hoofd", text: T.knoppen.start, onclick: function () { S.stap = 0; teken(); } }),
@@ -364,8 +376,9 @@
     var magVerder = sleutel !== "profiel" || !!S.profiel;
     var nav = el("nav", { class: "pv-nav" }, [teller(), el("div", { class: "pv-nav-knoppen" }, [
       el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.vorige, onclick: function () { S.stap--; teken(); } }),
-      el("button", { type: "button", class: "pv-knop pv-knop-hoofd", disabled: !magVerder, text: laatste ? T.knoppen.resultaat : T.knoppen.volgende,
-        onclick: function () { if (laatste) { S.stap = STAPPEN.length; teken(); } else { S.stap++; teken(); } } })])]);
+      el("button", { type: "button", class: "pv-knop pv-knop-hoofd", disabled: !magVerder,
+        text: NAAR_UITSLAG ? T.knoppen.terug_uitslag : laatste ? T.knoppen.resultaat : T.knoppen.volgende,
+        onclick: function () { if (laatste || NAAR_UITSLAG) { NAAR_UITSLAG = false; S.stap = STAPPEN.length; } else S.stap++; teken(); } })])]);
     return [kop(), el("section", { class: "pv-stap" }, [
       el("p", { class: "pv-stapnr", text: fmt(T.stap, { n: S.stap + 1, totaal: STAPPEN.length }) }),
       el("div", { class: "pv-voortgang" }, [el("span", { style: "width:" + ((S.stap + 1) / STAPPEN.length * 100) + "%" })]),
@@ -439,6 +452,27 @@
       el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.wis_vergelijk, onclick: function () { S.vergelijk = []; bewaar(); teken(); } }),
       el("a", { class: "pv-knop pv-knop-hoofd", href: "#/vergelijk", text: fmt(T.knoppen.vergelijk_n, { n: S.vergelijk.length }) })])]));
   }
+  // overzicht van de keuzes met "Wijzigen" per stap
+  function overzicht() {
+    var O = T.overzicht, w = S.wensen, f = effFilters();
+    var opties = function (sl) { return S[sl].length ? S[sl].map(function (k) { return T.stappen[sl].opties[k][0]; }).join(", ") : O.alles; };
+    var eisen = Object.keys(f).filter(function (k) { return f[k] && !(k === "rode_zone_uit" && f[k] === true); }).length;
+    var gebied = S.gebied === "alleen" && S.alleen_regios.length
+      ? fmt(O.alleen, { lijst: S.alleen_regios.map(function (r) { return T.regios[r]; }).join(", ") })
+      : S.regios_uit.length ? fmt(O.regios_uit, { n: S.regios_uit.length }) : O.overal;
+    var p = S.profiel && profiel(S.profiel);
+    var rijen = [
+      ["profiel", p ? p.label : O.geen],
+      ["wensen", fmt(O.wensen, { d: w.dealbreakers.length, m: w.must.length, n: w.nice.length })],
+      ["ligging", opties("ligging")], ["grootte", opties("grootte")],
+      ["gewichten", CRIT.slice().sort(function (a, b) { return (S.gewichten[b.id] || 0) - (S.gewichten[a.id] || 0); }).slice(0, 3)
+        .map(function (c) { return c.label + " " + (S.gewichten[c.id] || 0); }).join(", ")],
+      ["filters", eisen === 0 ? O.filters_geen : eisen === 1 ? O.filters_een : fmt(O.filters, { n: eisen })], ["regio", gebied]];
+    return el("details", { class: "pv-overzicht" }, [el("summary", { text: O.titel }), el("ul", {}, rijen.map(function (r) {
+      return el("li", {}, [el("span", {}, [el("strong", { text: T.stappen[r[0]].titel }), el("br"), r[1]]),
+        el("button", { type: "button", class: "pv-link", text: T.knoppen.wijzigen, onclick: function () { NAAR_UITSLAG = true; S.stap = STAPPEN.indexOf(r[0]); teken(); } })]);
+    }))]);
+  }
   function uitslag() {
     var U = T.uitslag;
     app.innerHTML = "";
@@ -450,6 +484,7 @@
       sectie.appendChild(el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }));
       sectie.appendChild(el("p", { class: "pv-uitleg", text: res.aantal ? fmt(U.aantal, { n: getal(res.aantal, 0) }) + " " + U.uitleg : U.leeg }));
       if ((res.dealbreakers || []).length) sectie.appendChild(el("p", { class: "pv-noot", text: fmt(U.dealbreakers, { lijst: res.dealbreakers.map(critLabel).join(", ") }) }));
+      sectie.appendChild(overzicht());
       sectie.appendChild(el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); })));
       sectie.appendChild(el("div", { class: "pv-knoprij" }, [
         el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.aanpassen, onclick: function () { S.stap = STAPPEN.length - 1; teken(); } }),
@@ -505,22 +540,30 @@
     var G = T.gemeente, w = g.w, regels = [];
     if (id === "prijs") {
       var gp = (C.gids_prijzen || {}).regios || {}, v = gp[g.regio];
-      if (v != null) regels.push(fmt(G.gidsprijs, { v: getal(v, 0), regio: g.regio }));
+      if (v != null) regels.push(fmt(G.gidsprijs, { v: getal(v, 0), regio: g.regio, toelichting: ((C.gids_prijzen.toelichting || {})[g.regio]) || C.gids_prijzen.peildatum }));
     }
     if (id === "bereikbaarheid") {
+      var lv = C.luchthavens, m = String(w.luchthaven_jaarrond_naam || "").match(/\(([A-Z]{3})\)$/), vb = m && lv && lv.verbindingen && lv.verbindingen[m[1]];
+      if (vb) {
+        var lijst = [];
+        if (vb.nl.length) lijst.push(fmt(G.vluchten_nl, { l: vb.nl.join(", ") }));
+        if (vb.be.length) lijst.push(fmt(G.vluchten_be, { l: vb.be.join(", ") }));
+        regels.push(fmt(G.vluchten, { lh: w.luchthaven_jaarrond_naam.replace(/ \([A-Z]{3}\)$/, ""), lijst: lijst.join("; ") }));
+      }
       if (w.station_hs_naam) regels.push(fmt(G.station_hs, { naam: w.station_hs_naam }));
       if (w.station_nacht_naam) regels.push(fmt(G.station_nacht, { naam: w.station_nacht_naam }));
     }
     return regels.length ? el("p", { class: "pv-noot" }, regels.map(function (r, i) { return i ? [el("br"), r] : [r]; }).reduce(function (a, b) { return a.concat(b); }, [])) : null;
   }
-  // blok "Meer hierover in de gids": alleen verwijzingen met een url
+  // blok "Meer hierover in de gids": met url een link, anders de verwijzing als tekst
   function gidsBlok() {
     var G = T.gemeente, gl = C.gids_links || { verwijzingen: [] };
-    var links = gl.verwijzingen.filter(function (v) { return v.url; });
-    if (!links.length) return null;
-    return el("section", { class: "pv-blok pv-gids" }, [el("h3", { text: G.gids_titel }), el("ul", {}, links.map(function (v) {
-      return el("li", {}, [el("a", { href: v.url, target: "_blank", rel: "noopener", text: v.label }), " (" + fmt(G.gids_paragraaf, { p: v.paragraaf }) + ")"]);
-    }))]);
+    if (!gl.verwijzingen.length) return null;
+    return el("section", { class: "pv-blok pv-gids" }, [el("h3", { text: G.gids_titel }), el("p", { class: "pv-noot", text: G.gids_uitleg }),
+      el("ul", {}, gl.verwijzingen.map(function (v) {
+        var p = " (" + fmt(G.gids_paragraaf, { p: v.paragraaf, pagina: v.pagina || "" }).replace(/, \)?$/, "") + ")";
+        return el("li", {}, [v.url ? el("a", { href: v.url, target: "_blank", rel: "noopener", text: v.label }) : v.label, p]);
+      }))]);
   }
   function gemeentePagina(istat) {
     var G = T.gemeente;
@@ -641,9 +684,9 @@
     var h = location.hash, m = h.match(/^#\/gemeente\/(\d{6})$/);
     if (m) return gemeentePagina(m[1]);
     if (h === "#/vergelijk") return vergelijkPagina();
-    if (S.stap >= STAPPEN.length) return uitslag();
+    if (S.stap >= STAPPEN.length && !HERVAT) return uitslag();
     var actief = document.activeElement && document.activeElement.id;
-    var inhoud = S.stap < 0 ? intro() : stapScherm();
+    var inhoud = HERVAT ? hervatScherm() : S.stap < 0 ? intro() : stapScherm();
     app.innerHTML = "";
     inhoud.forEach(function (n) { app.appendChild(n); });
     if (S.stap !== vorigeStap) {

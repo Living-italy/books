@@ -159,7 +159,7 @@
     {
       "id": "bereikbaarheid",
       "label": "Luchthaven en rijafstand naar huis",
-      "uitleg": "Luchthaven met vluchten het hele jaar (50%), rijtijd naar Nederland, België of Duitsland (30%) en trein (20%): station met hogesnelheidstreinen of nachttrein naar het noorden.",
+      "uitleg": "Luchthaven met vluchten het hele jaar naar Nederland of België (50%), rijtijd naar Nederland, België of Duitsland (30%) en trein (20%): station met hogesnelheidstreinen of nachttrein naar het noorden.",
       "rang": 5,
       "basis": "DE",
       "richting": "hoger_beter",

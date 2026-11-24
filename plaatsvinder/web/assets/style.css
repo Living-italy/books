@@ -179,3 +179,10 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-tabel th, .pv-tabel td { border-bottom: 1px solid var(--pv-lijn); padding: 8px 6px; text-align: left; vertical-align: top; }
 .pv-tabel thead th { position: sticky; top: 0; background: var(--pv-bg); }
 .pv-totaalrij td strong { font-size: 1.2rem; color: var(--pv-accent); }
+
+/* overzicht van de keuzes op de uitslag (Wijzigen per stap) */
+.pv-overzicht { margin: 1rem 0; border: 1px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: .5rem 1rem; background: var(--pv-vlak); }
+.pv-overzicht summary { cursor: pointer; font-weight: 600; padding: .25rem 0; }
+.pv-overzicht ul { list-style: none; margin: .5rem 0 0; padding: 0; }
+.pv-overzicht li { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: .5rem 0; border-top: 1px solid var(--pv-lijn); }
+.pv-gids ul { margin: .25rem 0 0; padding-left: 1.2rem; }
