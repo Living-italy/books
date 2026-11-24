@@ -1,6 +1,7 @@
-.venv/
-data/raw/
-data/work/
-data/comuni.csv
-web/data/comuni.cache.php*
+.venv
 __pycache__/
+web/data/comuni.cache.php*
+# data: alleen documentatie en steekproef in git; bronnen en tussenresultaten maakt de pipeline
+data/*
+!data/README.md
+!data/steekproef.md
