@@ -57,7 +57,8 @@ def extract(force: bool = False) -> pd.DataFrame:
                 "naam": p.get("name", ""), "lat": round(pt.y, 6), "lon": round(pt.x, 6),
                 "km2": round(area, 3), "iata": p.get("iata", ""), "emergency": p.get("emergency", ""),
                 "place": p.get("place", ""), "ele": p.get("ele", ""),
-                "sub": p.get("shop") if p.get("shop") in ("supermarket", "convenience", "greengrocer", "bakery") else p.get("amenity", ""),
+                "sub": ("museum" if p.get("tourism") == "museum" else p.get("historic", "")) if cat == "cultuur" else
+                       p.get("shop") if p.get("shop") in ("supermarket", "convenience", "greengrocer", "bakery") else p.get("amenity", ""),
             })
     d = pd.DataFrame(rows)
     d.to_csv(POI_CSV, index=False)
@@ -66,6 +67,27 @@ def extract(force: bool = False) -> pd.DataFrame:
     n["geometry"] = n.geometry.buffer(0)
     n.to_file(NATUUR_GPKG, driver="GPKG")
     return d
+
+
+SNELWEG_JSON = WORK / "osm-snelwegen.geojsonseq"
+
+
+def snelwegen(force: bool = False):
+    """Autosnelwegen (highway=motorway) als lijnen, voor de dealbreaker 'Lawaai van een snelweg'."""
+    import geopandas as gpd
+    from shapely.geometry import shape as _shape
+    if force or not SNELWEG_JSON.exists() or SNELWEG_JSON.stat().st_mtime < OSM_PBF.stat().st_mtime:
+        pbf = WORK / "osm-snelwegen.osm.pbf"
+        subprocess.run(["osmium", "tags-filter", "-O", str(OSM_PBF), "w/highway=motorway", "-o", str(pbf)], check=True)
+        subprocess.run(["osmium", "export", "-O", "-f", "geojsonseq", "--geometry-types=linestring", str(pbf),
+                        "-o", str(SNELWEG_JSON)], check=True)
+    geoms = []
+    with open(SNELWEG_JSON, encoding="utf-8") as f:
+        for line in f:
+            line = line.lstrip("\x1e").strip()
+            if line:
+                geoms.append(_shape(json.loads(line)["geometry"]))
+    return gpd.GeoDataFrame(geometry=geoms, crs=4326)
 
 
 NATUUR_KLASSEN = {"1", "1a", "1b", "2", "3", "4", "6"}
