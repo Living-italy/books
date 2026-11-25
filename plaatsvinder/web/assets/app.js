@@ -8,7 +8,7 @@
   var app = document.getElementById("app");
   var LITE = null;
   var OPSLAG = "plaatsvinder.v2";
-  var STAPPEN = ["profiel", "wensen", "ligging", "grootte", "gewichten", "filters", "regio"];
+  var STAPPEN = ["profiel", "gebied", "wensen", "ligging", "grootte", "gewichten", "filters"];
   var CRIT = C.criteria.criteria.slice().sort(function (a, b) { return a.rang - b.rang; });
   var BRONNEN = C.bronnen.bronnen;
   var ZONDER_DATA = C.zonder_data || [];
@@ -38,52 +38,83 @@
     var uit = {}; k.forEach(function (x, i) { uit[x] = af[i]; });
     return uit;
   }
-  // wensenlijst: must-haves x1,5, nice-to-haves x1,2 (gelijk aan pas_wensen_toe() in model.php)
-  var WL = C.criteria.wensenlijst;
+  // wensenlijst (sectie 14), gelijk aan wensen() en pas_nice_toe() in model.php
+  var WL = C.wensenlijst, WITEMS = {}, WEXTRA = {};
+  WL.items.forEach(function (it, bit) { WITEMS[it.id] = Object.assign({ bit: bit }, it); });
+  WL.nice_extra.forEach(function (it) { WEXTRA[it.id] = it; });
   function startgewichten(pid, verblijf) {
-    var g = basisgewichten(pid, verblijf), w = S.wensen || {};
-    (w.must || []).forEach(function (c) { if (g[c] != null) g[c] *= WL.factor_must; });
-    (w.nice || []).forEach(function (c) { if (g[c] != null) g[c] *= WL.factor_nice; });
-    return normaliseer(g);
+    var g = basisgewichten(pid, verblijf), crit = {};
+    ((S.wensen || {}).nice || []).forEach(function (id) { var it = WITEMS[id] || WEXTRA[id]; if (it) crit[it.criterium] = 1; });
+    Object.keys(crit).forEach(function (c) { if (g[c] != null) g[c] = Math.max(g[c], 5) * WL.factor_nice; });
+    return Object.keys(crit).length ? normaliseer(g) : g;
   }
-  // grenswaarde van een dealbreaker: keuze van de gebruiker, anders de standaard (gelijk aan drempel() in model.php)
-  function drempel(c) {
-    var db = c.dealbreaker, v = ((S.wensen || {}).drempels || {})[c.id];
-    if (typeof db.waarde === "boolean") return db.waarde;
-    return v > 0 && (!db.opties || db.opties.indexOf(Number(v)) >= 0) ? Number(v) : db.waarde;
+  function wensMasker() {
+    var m = 0;
+    S.wensen.dealbreakers.concat(S.wensen.must).forEach(function (id) { if (WITEMS[id]) m |= 1 << WITEMS[id].bit; });
+    return m;
   }
-  function dbTekst(c) {
-    var db = c.dealbreaker;
-    return db.sjabloon ? fmt(db.sjabloon, { v: getal(drempel(c), 0) }) : db.tekst;
+  var B64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
+  function wlVan(i) {                                     // 5 tekens per gemeente, zie export.py
+    var s = LITE.wl, n = 0;
+    for (var k = 0; k < 5; k++) n = n * 64 + B64.indexOf(s.charAt(i * 5 + k));
+    return n;
   }
-  // dealbreakers als harde eisen; een strengere eigen eis blijft staan (gelijk aan streng() in model.php)
-  function effFilters() {
-    var f = Object.assign({}, S.filters);
-    CRIT.forEach(function (c) {
-      if (!c.dealbreaker || (S.wensen.dealbreakers || []).indexOf(c.id) < 0) return;
-      var k = c.dealbreaker.filter, v = drempel(c), eigen = f[k];
-      if (typeof v === "boolean") f[k] = v || !!eigen;
-      else if (!(eigen > 0)) f[k] = v;
-      else f[k] = k.slice(0, 4) === "min_" ? Math.max(eigen, v) : Math.min(eigen, v);
-      if (c.id === "risico") f.rode_zone_uit = true;
-    });
-    return f;
+  function gekozen(id) { var w = S.wensen; return w.dealbreakers.indexOf(id) >= 0 || w.must.indexOf(id) >= 0 || w.nice.indexOf(id) >= 0; }
+  // blokkades en waarschuwingen (14e); b kan een item zijn of "ligging:berg", "klimaat:seizoenen", "grootte:0"
+  function aanKant(x) {
+    var d = x.split(":");
+    if (d.length === 1) return gekozen(x);
+    if (d[0] === "ligging") return S.ligging.indexOf(d[1]) >= 0;
+    if (d[0] === "klimaat") return S.klimaat === d[1];
+    if (d[0] === "grootte") return S.grootte.indexOf(d[1]) >= 0;
+    return false;
+  }
+  function geblokkeerd(x) {                               // reden als x niet gekozen kan worden, anders null
+    var b = WL.blokkades.filter(function (b) { return b.soort === "blokkade" && ((b.b === x && aanKant(b.a)) || (b.a === x && aanKant(b.b))); })[0];
+    return b ? b.tekst : null;
+  }
+  function waarschuwingen() {
+    return WL.blokkades.filter(function (b) { return b.soort === "waarschuwing" && aanKant(b.a) && aanKant(b.b); }).map(function (b) { return b.tekst; });
   }
 
   var leeg = function () {
     return {
       stap: -1, profiel: "", verblijf: "permanent", expats: "maakt_niet_uit", klimaat: "zacht", gewichten: {},
-      wensen: { dealbreakers: [], must: [], nice: [], drempels: {} },
+      wensen: { dealbreakers: [], must: [], nice: [] },
       ligging: [], grootte: [], filters: { rode_zone_uit: true }, budget: { soort: "", max: null, m2: 80 },
-      gebied: "overal", regios_uit: [], alleen_regios: [], alleen_provs: [], vergelijk: []
+      gebied: "overal", alleen_regios: [], alleen_provs: [], vergelijk: []
     };
   };
+  function schoon(x) {                                   // keuzes uit een oudere versie of een gedeelde link opschonen
+    var w = x.wensen || {};
+    x.wensen = {
+      dealbreakers: (w.dealbreakers || []).filter(function (id) { return WITEMS[id] && WITEMS[id].lijst === "dealbreaker" && WITEMS[id].status === "actief"; }),
+      must: (w.must || []).filter(function (id) { return WITEMS[id] && WITEMS[id].lijst === "musthave" && WITEMS[id].status === "actief"; }),
+      nice: (w.nice || []).filter(function (id) { return (WITEMS[id] && WITEMS[id].lijst === "musthave" && WITEMS[id].status === "actief") || WEXTRA[id]; })
+    };
+    if (["overal", "regios", "provincies"].indexOf(x.gebied) < 0) x.gebied = x.alleen_provs && x.alleen_provs.length ? "provincies" : x.alleen_regios && x.alleen_regios.length ? "regios" : "overal";
+    delete x.regios_uit;
+    return x;
+  }
   var S = leeg();
   var HERVAT = false;   // eerder begonnen: eerst vragen of de bezoeker verder wil (zoals de wensenlijst van Un Sogno di Casa)
   try {
     var b = JSON.parse(localStorage.getItem(OPSLAG) || "null");
-    if (b) { S = Object.assign(leeg(), b); HERVAT = !!S.profiel && !location.hash; }
+    if (b) { S = schoon(Object.assign(leeg(), b)); HERVAT = !!S.profiel && !location.hash; }
   } catch (e) { /* geen opslag */ }
+  try {                                                   // gedeelde link: ?keuzes=...
+    var q = new URLSearchParams(location.search).get("keuzes");
+    if (q) {
+      var k = JSON.parse(decodeURIComponent(escape(atob(q.replace(/-/g, "+").replace(/_/g, "/")))));
+      S = schoon(Object.assign(leeg(), { profiel: k.p || "", verblijf: k.v || "permanent", expats: k.e || "maakt_niet_uit",
+        klimaat: k.k || "zacht", gewichten: k.g || {}, wensen: k.w || {}, ligging: k.l || [], grootte: k.gr || [],
+        filters: k.f || { rode_zone_uit: true }, budget: k.b || { soort: "", max: null, m2: 80 }, gebied: k.z || "overal",
+        alleen_regios: k.r || [], alleen_provs: k.pr || [] }));
+      S.stap = STAPPEN.length;
+      HERVAT = false;
+      history.replaceState(null, "", location.pathname);
+    }
+  } catch (e) { /* ongeldige link: gewoon beginnen */ }
   var NAAR_UITSLAG = false;   // via "Wijzigen" in het overzicht: na de stap terug naar de uitslag
   function bewaar() { try { localStorage.setItem(OPSLAG, JSON.stringify(S)); } catch (e) { /* geen opslag */ } }
 
@@ -115,20 +146,20 @@
   var STAD_KOL = { utrecht: "uu", brussel: "ub", keulen: "uk", munchen: "um" };
   function telOver() {
     if (!LITE) return null;
-    var L = LITE, n = 0, masker = 0, f = effFilters(), bu = S.budget;
+    var L = LITE, n = 0, masker = 0, f = S.filters, bu = S.budget, wm = wensMasker();
     S.ligging.forEach(function (k) { masker |= 1 << L.ligging.indexOf(k); });
-    var gr = S.grootte.map(Number), uit = S.gebied === "alleen" ? [] : S.regios_uit;
-    var alleen = S.gebied === "alleen" && (S.alleen_regios.length || S.alleen_provs.length);
-    var rmp = {};
-    L.provincies.forEach(function (p) { if (S.alleen_provs.indexOf(p[0]) >= 0) rmp[p[2]] = 1; });
+    var gr = S.grootte.map(Number);
+    var regios = S.gebied === "regios" && S.alleen_regios.length ? S.alleen_regios : null;
+    var provs = S.gebied === "provincies" && S.alleen_provs.length ? S.alleen_provs : null;
     var metBudget = bu.soort && bu.max > 0 && bu.m2 > 0;
     var uur = f.max_uur && f.max_uur.stad && f.max_uur.uren ? L[STAD_KOL[f.max_uur.stad]] : null;
     for (var i = 0; i < L.n; i++) {
-      var pv = L.provincies[L.pv[i]], regio = pv[2], fl = L.f[i];
+      var pv = L.provincies[L.pv[i]], fl = L.f[i];
+      if (wm && (wlVan(i) & wm)) continue;
       if (masker && !(L.lig[i] & masker)) continue;
       if (gr.length && gr.indexOf(L.gr[i]) < 0) continue;
-      if (uit.indexOf(regio) >= 0) continue;
-      if (alleen && !(S.alleen_provs.indexOf(pv[0]) >= 0 || (S.alleen_regios.indexOf(regio) >= 0 && !rmp[regio]))) continue;
+      if (regios && regios.indexOf(pv[2]) < 0) continue;
+      if (provs && provs.indexOf(pv[0]) < 0) continue;
       if (f.max_prijs_m2 && L.koop[i] != null && L.koop[i] > f.max_prijs_m2) continue;
       if (f.max_luchthaven && L.lh[i] != null && L.lh[i] > f.max_luchthaven) continue;
       if (f.max_ziekenhuis && L.zh[i] != null && L.zh[i] > f.max_ziekenhuis) continue;
@@ -198,45 +229,60 @@
     return el("div", {}, delen);
   }
 
-  // ---------------------------------------------------------------- stap 2: wensenlijst (gids 1.3)
+  // ---------------------------------------------------------------- stap 3: wensenlijst (gids 1.3, sectie 14)
+  function wensRij(id, label, sub, uitleg, soort) {
+    var st = T.stappen.wensen, w = S.wensen, lijst = w[soort], aan = lijst.indexOf(id) >= 0;
+    var reden = !aan && geblokkeerd(id), vol = !aan && lijst.length >= WL.aantal, elders = !aan && gekozen(id);
+    var info = el("p", { class: "pv-wens-uitleg", id: "pv-wi-" + soort + "-" + id, hidden: true, text: uitleg || "" });
+    var knop = el("button", { type: "button", class: "pv-wens" + (aan ? " aan" : ""), "aria-pressed": aan ? "true" : "false",
+      disabled: !!(reden || vol), onclick: function () {
+        ["dealbreakers", "must", "nice"].forEach(function (x) { if (x !== soort) w[x] = w[x].filter(function (y) { return y !== id; }); });
+        toggle(lijst, id);
+        S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf);
+        if (id === "strenge_winter" && aan === false) { S.ligging = S.ligging.filter(function (l) { return l !== "berg"; }); if (S.klimaat === "seizoenen") S.klimaat = "zacht"; }
+        teken();
+      } }, [el("span", { class: "pv-kaart-titel", text: label }), sub ? el("span", { class: "pv-kaart-uitleg", text: sub }) : null,
+        reden ? el("span", { class: "pv-wens-reden", text: reden }) : elders ? el("span", { class: "pv-wens-reden", text: st.elders }) : null]);
+    var i = uitleg ? el("button", { type: "button", class: "pv-info", "aria-label": fmt(st.info, { item: label }), "aria-expanded": "false",
+      "aria-controls": info.id, text: "i", onclick: function () {
+        info.hidden = !info.hidden; this.setAttribute("aria-expanded", info.hidden ? "false" : "true");
+      } }) : null;
+    return el("li", { class: "pv-wens-rij" }, [el("div", { class: "pv-wens-kop" }, [knop, i]), info]);
+  }
   function schermWensen() {
     var st = T.stappen.wensen, w = S.wensen, max = WL.aantal;
-    var groep = function (soort) {
-      var kandidaten = CRIT.filter(function (c) { return !zonderData(c) && (soort !== "dealbreakers" || c.dealbreaker); });
-      var gekozen = w[soort];
+    var actief = function (lijst) { return WL.items.filter(function (it) { return it.lijst === lijst && it.status === "actief"; }); };
+    var groep = function (soort, items) {
       return el("fieldset", { class: "pv-groep" }, [
         el("legend", { text: st[soort] }),
-        el("p", { class: "pv-uitleg", text: st[soort + "_uitleg"] + " " + fmt(st.gekozen, { n: gekozen.length, max: max }) }),
-        el("div", { class: soort === "dealbreakers" ? "pv-raster" : "pv-raster pv-raster-klein" }, kandidaten.map(function (c) {
-          var aan = gekozen.indexOf(c.id) >= 0;
-          return kaart(c.label, soort === "dealbreakers" ? dbTekst(c) : null, aan, function () {
-            if (!aan && gekozen.length >= max) { alert(fmt(st.vol, { max: max })); return; }
-            ["dealbreakers", "must", "nice"].forEach(function (x) { if (x !== soort) w[x] = w[x].filter(function (id) { return id !== c.id; }); });
-            toggle(gekozen, c.id);
-            S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf);
-            teken();
-          });
-        })), soort === "dealbreakers" ? grenzen() : null]);
+        el("p", { class: "pv-uitleg", text: st[soort + "_uitleg"] + " " + fmt(st.gekozen, { n: w[soort].length, max: max }) }),
+        el("ul", { class: "pv-wenslijst" }, items.map(function (it) { return wensRij(it.id, it.label, it.sub, it.uitleg, soort); }))]);
     };
-    // per gekozen dealbreaker met een getal: de grenswaarde kiezen
-    var grenzen = function () {
-      var met = CRIT.filter(function (c) { return w.dealbreakers.indexOf(c.id) >= 0 && c.dealbreaker && c.dealbreaker.opties; });
-      if (!met.length) return null;
-      w.drempels = w.drempels || {};
-      return el("div", { class: "pv-grenzen" }, [el("h3", { class: "pv-sub-kop", text: st.grenzen_titel })].concat(met.map(function (c) {
-        var db = c.dealbreaker;
-        return keuzelijst(db.label, drempel(c), db.opties.map(function (o) { return [o, fmt(db.eenheid, { v: getal(o, 0) })]; }),
-          function (v) { w.drempels[c.id] = v; teken(); }, "pv-d-" + c.id);
-      })));
-    };
-    return el("div", {}, [groep("dealbreakers"), groep("must"), groep("nice")]);
+    var db = actief("dealbreaker").map(function (it) { return { id: it.id, label: it.label, sub: fmt(st.valt_af, { d: it.drempel }), uitleg: it.uitleg }; });
+    var mh = actief("musthave").map(function (it) { return { id: it.id, label: it.label, sub: fmt(st.valt_af, { d: it.drempel }), uitleg: it.uitleg }; });
+    var nh = actief("musthave").map(function (it) { return { id: it.id, label: it.label, uitleg: it.uitleg }; })
+      .concat(WL.nice_extra.filter(function (x) { var c = CRIT.filter(function (k) { return k.id === x.criterium; })[0]; return c && !zonderData(c); })
+        .map(function (x) { return { id: x.id, label: x.label }; }));
+    var delen = [groep("dealbreakers", db), groep("must", mh), groep("nice", nh)];
+    var gepland = WL.items.filter(function (it) { return it.status !== "actief"; });
+    if (gepland.length) delen.push(el("p", { class: "pv-noot", text: fmt(st.gepland, { lijst: gepland.map(function (it) { return it.label; }).join(", ") }) }));
+    waarschuwingen().forEach(function (t) { delen.unshift(el("p", { class: "pv-let-op", role: "status", text: t })); });
+    return el("div", {}, delen);
   }
 
   function schermKeuzes(sleutel) {
     var opties = T.stappen[sleutel].opties;
-    return el("div", { class: "pv-raster" }, Object.keys(opties).map(function (k) {
+    var delen = [el("div", { class: "pv-raster" }, Object.keys(opties).map(function (k) {
+      var reden = geblokkeerd(sleutel + ":" + k);
+      if (reden && S[sleutel].indexOf(k) < 0) {
+        var kt = kaart(opties[k][0], reden, false, function () {});
+        kt.disabled = true;
+        return kt;
+      }
       return kaart(opties[k][0], opties[k][1], S[sleutel].indexOf(k) >= 0, function () { toggle(S[sleutel], k); teken(); });
-    }));
+    }))];
+    waarschuwingen().forEach(function (t) { delen.unshift(el("p", { class: "pv-let-op", role: "status", text: t })); });
+    return el("div", {}, delen);
   }
 
   // ---------------------------------------------------------------- stap 4: gewichten (som 100)
@@ -269,7 +315,10 @@
           geen ? st.geen_data_uitleg : c.uitleg, " ", basisLabel(c)])
       ];
       if (c.id === "klimaat" && c.voorkeur) {
-        rij.push(segment(c.voorkeur.vraag, S.klimaat, c.voorkeur.opties.map(function (o) { return [o.id, o.label]; }), function (v) { S.klimaat = v; teken(); }));
+        var kb = geblokkeerd("klimaat:seizoenen");
+        rij.push(segment(c.voorkeur.vraag, S.klimaat, c.voorkeur.opties.filter(function (o) { return !(kb && o.id === "seizoenen"); })
+          .map(function (o) { return [o.id, o.label]; }), function (v) { S.klimaat = v; teken(); }));
+        if (kb) rij.push(el("p", { class: "pv-noot", text: kb }));
         rij.push(el("p", { class: "pv-noot", text: c.voorkeur.uitleg }));
       }
       if (c.id === "expats") {
@@ -327,48 +376,57 @@
       delen.push(veld(bu.soort === "kopen" ? st.max_koop : st.max_huur, "max", bu.soort === "kopen" ? "5000" : "50"));
       delen.push(veld(st.m2, "m2", "5"));
     }
-    var db = (S.wensen.dealbreakers || []).map(function (id) { var c = CRIT.filter(function (x) { return x.id === id; })[0]; return c && c.dealbreaker ? dbTekst(c) : null; }).filter(Boolean);
-    if (db.length) delen.unshift(el("p", { class: "pv-let-op", text: fmt(st.dealbreakers_actief, { lijst: db.join("; ") }) }));
+    var eisen = S.wensen.dealbreakers.concat(S.wensen.must).map(function (id) { return WITEMS[id].label; });
+    if (eisen.length) delen.unshift(el("p", { class: "pv-noot", text: fmt(st.wensen_actief, { lijst: eisen.join(", ") }) }));
     return el("div", {}, delen);
   }
 
-  // ---------------------------------------------------------------- stap 7: waar in Italië
-  function schermRegio() {
-    var R = T.regios, st = T.stappen.regio;
-    var delen = [segment(st.titel, S.gebied, [["overal", st.modus_overal], ["alleen", st.modus_alleen]], function (v) { S.gebied = v; teken(); })];
-    if (S.gebied !== "alleen") {
-      delen.push(el("p", { class: "pv-uitleg", text: st.overal_uitleg }));
-      delen.push(el("div", { class: "pv-knoprij" }, [
-        el("button", { type: "button", class: "pv-link", text: T.knoppen.alles_aan, onclick: function () { S.regios_uit = []; teken(); } }),
-        el("button", { type: "button", class: "pv-link", text: T.knoppen.alles_uit, onclick: function () { S.regios_uit = Object.keys(R).map(Number); teken(); } })]));
-      delen.push(el("div", { class: "pv-raster pv-raster-klein" }, Object.keys(R).map(function (k) {
-        return kaart(R[k], null, S.regios_uit.indexOf(Number(k)) < 0, function () { toggle(S.regios_uit, Number(k)); teken(); });
+  // ---------------------------------------------------------------- stap 2: zoekgebied (sectie 13)
+  var ZOEK = "";
+  function schermGebied() {
+    var R = T.regios, st = T.stappen.gebied;
+    var delen = [segment(st.titel, S.gebied, [["overal", st.overal], ["regios", st.regios], ["provincies", st.provincies]],
+      function (v) { S.gebied = v; teken(); })];
+    if (S.gebied === "overal") {
+      delen.push(el("p", { class: "pv-tip", text: st.tip }));
+      return el("div", {}, delen);
+    }
+    if (S.gebied === "regios") {
+      delen.push(el("p", { class: "pv-uitleg", text: S.alleen_regios.length ? fmt(st.regios_gekozen, { n: S.alleen_regios.length }) : st.regios_leeg }));
+      delen.push(el("div", { class: "pv-raster pv-raster-klein" }, Object.keys(R).sort(function (a, b) { return R[a].localeCompare(R[b], "it"); }).map(function (k) {
+        var code = Number(k);
+        return kaart(R[k], null, S.alleen_regios.indexOf(code) >= 0, function () { toggle(S.alleen_regios, code); teken(); });
       })));
       return el("div", {}, delen);
     }
-    delen.push(el("p", { class: "pv-uitleg", text: S.alleen_regios.length ? st.alleen_uitleg : st.alleen_leeg }));
-    delen.push(el("div", { class: "pv-raster pv-raster-klein" }, Object.keys(R).map(function (k) {
-      var code = Number(k), aan = S.alleen_regios.indexOf(code) >= 0;
-      return kaart(R[k], null, aan, function () {
-        toggle(S.alleen_regios, code);
-        if (aan) S.alleen_provs = S.alleen_provs.filter(function (p) { return !LITE.provincies.some(function (q) { return q[0] === p && q[2] === code; }); });
-        teken();
+    // provincies, gegroepeerd per regio, met zoekveld
+    delen.push(el("p", { class: "pv-uitleg", text: S.alleen_provs.length ? fmt(st.provs_gekozen, { n: S.alleen_provs.length }) : st.provs_leeg }));
+    var zoek = el("input", { type: "search", id: "pv-zoek-prov", value: ZOEK, placeholder: st.zoek_plaats, autocomplete: "off" });
+    var lijst = el("div", { class: "pv-provlijst" });
+    var vul = function () {
+      var q = ZOEK.trim().toLowerCase();
+      lijst.innerHTML = "";
+      Object.keys(R).sort(function (a, b) { return R[a].localeCompare(R[b], "it"); }).forEach(function (k) {
+        var provs = (LITE ? LITE.provincies : []).filter(function (p) {
+          return p[2] === Number(k) && (!q || p[1].toLowerCase().indexOf(q) >= 0 || R[k].toLowerCase().indexOf(q) >= 0);
+        });
+        if (!provs.length) return;
+        lijst.appendChild(el("h3", { class: "pv-sub-kop", text: R[k] }));
+        lijst.appendChild(el("div", { class: "pv-raster pv-raster-klein" }, provs.map(function (p) {
+          return kaart(p[1], null, S.alleen_provs.indexOf(p[0]) >= 0, function () { toggle(S.alleen_provs, p[0]); teken(); });
+        })));
       });
-    })));
-    S.alleen_regios.forEach(function (code) {
-      var provs = LITE ? LITE.provincies.filter(function (p) { return p[2] === code; }) : [];
-      if (provs.length < 2) return;
-      delen.push(el("h3", { class: "pv-sub-kop", text: fmt(st.provs_titel, { regio: R[code] }) }), el("p", { class: "pv-uitleg", text: st.provs_uitleg }));
-      delen.push(el("div", { class: "pv-raster pv-raster-klein" }, provs.map(function (p) {
-        return kaart(p[1], null, S.alleen_provs.indexOf(p[0]) >= 0, function () { toggle(S.alleen_provs, p[0]); teken(); });
-      })));
-    });
+      if (!lijst.childNodes.length) lijst.appendChild(el("p", { class: "pv-uitleg", text: st.niets_gevonden }));
+    };
+    zoek.addEventListener("input", function () { ZOEK = zoek.value; vul(); });
+    vul();
+    delen.push(el("div", { class: "pv-veld" }, [el("label", { for: "pv-zoek-prov", text: st.zoek }), zoek]), lijst);
     return el("div", {}, delen);
   }
 
   var SCHERMEN = {
     profiel: schermProfiel, wensen: schermWensen, ligging: function () { return schermKeuzes("ligging"); }, grootte: function () { return schermKeuzes("grootte"); },
-    gewichten: schermGewichten, filters: schermFilters, regio: schermRegio
+    gewichten: schermGewichten, filters: schermFilters, gebied: schermGebied
   };
 
   // ---------------------------------------------------------------- opbouw wizard
@@ -415,8 +473,7 @@
       wensen: S.wensen,
       gewichten: S.gewichten, ligging: S.ligging, grootte: S.grootte, filters: S.filters,
       budget: bu.soort && bu.max > 0 && bu.m2 > 0 ? { soort: bu.soort, max: bu.max, m2: bu.m2 } : null,
-      regios_uit: S.gebied === "alleen" ? [] : S.regios_uit,
-      alleen_regios: S.gebied === "alleen" ? S.alleen_regios : [], alleen_provs: S.gebied === "alleen" ? S.alleen_provs : []
+      alleen_regios: S.gebied === "regios" ? S.alleen_regios : [], alleen_provs: S.gebied === "provincies" ? S.alleen_provs : []
     }, extra || {});
   }
   function scoreVraag(extra) {
@@ -449,7 +506,8 @@
       el("div", { class: "pv-plaats-kop" }, [
         rang ? el("span", { class: "pv-rang", text: String(rang) }) : null,
         el("div", { class: "pv-plaats-naam" }, [el("h3", {}, [el("a", { href: "#/gemeente/" + c.istat, text: c.naam })]), el("p", { text: info }),
-          c.trend ? el("span", { class: "pv-badge-trend", title: C.trends.uitleg, text: U.trend }) : null]),
+          c.trend ? el("span", { class: "pv-badge-trend", title: C.trends.uitleg, text: U.trend }) : null,
+          c.buiten_gebied ? el("span", { class: "pv-badge-buiten", text: U.buiten_gebied }) : null]),
         el("div", { class: "pv-score" }, [el("strong", { text: String(c.score) }), el("span", { text: "/100" })])]),
       woonlast(c.woonlast),
       el("div", { class: "pv-tests" }, [
@@ -475,24 +533,63 @@
   }
   // overzicht van de keuzes met "Wijzigen" per stap
   function overzicht() {
-    var O = T.overzicht, w = S.wensen, f = effFilters();
+    var O = T.overzicht, w = S.wensen, f = S.filters;
     var opties = function (sl) { return S[sl].length ? S[sl].map(function (k) { return T.stappen[sl].opties[k][0]; }).join(", ") : O.alles; };
     var eisen = Object.keys(f).filter(function (k) { return f[k] && !(k === "rode_zone_uit" && f[k] === true); }).length;
-    var gebied = S.gebied === "alleen" && S.alleen_regios.length
+    var gebied = S.gebied === "regios" && S.alleen_regios.length
       ? fmt(O.alleen, { lijst: S.alleen_regios.map(function (r) { return T.regios[r]; }).join(", ") })
-      : S.regios_uit.length ? fmt(O.regios_uit, { n: S.regios_uit.length }) : O.overal;
+      : S.gebied === "provincies" && S.alleen_provs.length
+        ? fmt(O.alleen, { lijst: S.alleen_provs.map(function (p) { var q = (LITE ? LITE.provincies : []).filter(function (x) { return x[0] === p; })[0]; return q ? q[1] : p; }).join(", ") })
+        : O.overal;
     var p = S.profiel && profiel(S.profiel);
     var rijen = [
-      ["profiel", p ? p.label : O.geen],
+      ["profiel", p ? p.label : O.geen], ["gebied", gebied],
       ["wensen", fmt(O.wensen, { d: w.dealbreakers.length, m: w.must.length, n: w.nice.length })],
       ["ligging", opties("ligging")], ["grootte", opties("grootte")],
       ["gewichten", CRIT.slice().sort(function (a, b) { return (S.gewichten[b.id] || 0) - (S.gewichten[a.id] || 0); }).slice(0, 3)
         .map(function (c) { return c.label + " " + (S.gewichten[c.id] || 0); }).join(", ")],
-      ["filters", eisen === 0 ? O.filters_geen : eisen === 1 ? O.filters_een : fmt(O.filters, { n: eisen })], ["regio", gebied]];
+      ["filters", eisen === 0 ? O.filters_geen : eisen === 1 ? O.filters_een : fmt(O.filters, { n: eisen })]];
     return el("details", { class: "pv-overzicht" }, [el("summary", { text: O.titel }), el("ul", {}, rijen.map(function (r) {
       return el("li", {}, [el("span", {}, [el("strong", { text: T.stappen[r[0]].titel }), el("br"), r[1]]),
         el("button", { type: "button", class: "pv-link", text: T.knoppen.wijzigen, onclick: function () { NAAR_UITSLAG = true; S.stap = STAPPEN.indexOf(r[0]); teken(); } })]);
     }))]);
+  }
+  // 14f: te weinig plaatsen; per eis hoeveel gemeenten die wegstreept, met omzetten of verwijderen
+  function weinigBlok(res) {
+    var U = T.uitslag;
+    return el("section", { class: "pv-blok pv-weinig" }, [el("h3", { text: fmt(U.weinig_titel, { n: res.aantal }) }),
+      el("p", { class: "pv-uitleg", text: U.weinig_uitleg }),
+      el("ul", { class: "pv-weinig-lijst" }, res.wegstrepen.map(function (x) {
+        var weg = function (naarNice) {
+          var w = S.wensen;
+          w.dealbreakers = w.dealbreakers.filter(function (y) { return y !== x.id; });
+          w.must = w.must.filter(function (y) { return y !== x.id; });
+          if (naarNice && w.nice.indexOf(x.id) < 0 && w.nice.length < WL.aantal) w.nice.push(x.id);
+          S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf);
+          teken();
+        };
+        return el("li", {}, [el("span", {}, [el("strong", { text: x.label }), " " + fmt(U.weinig_extra, { n: getal(x.extra, 0) })]),
+          el("span", { class: "pv-knoprij" }, [
+            x.lijst === "musthave" && S.wensen.nice.length < WL.aantal ? el("button", { type: "button", class: "pv-link", text: U.naar_nice, onclick: function () { weg(true); } }) : null,
+            el("button", { type: "button", class: "pv-link", text: U.verwijder, onclick: function () { weg(false); } })])]);
+      }))]);
+  }
+  // deelbare link (13): alle keuzes in de URL
+  function deelLink() {
+    var k = { p: S.profiel, v: S.verblijf, e: S.expats, k: S.klimaat, g: S.gewichten, w: S.wensen, l: S.ligging, gr: S.grootte,
+              f: S.filters, b: S.budget, z: S.gebied, r: S.alleen_regios, pr: S.alleen_provs };
+    var t = btoa(unescape(encodeURIComponent(JSON.stringify(k)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    return location.origin + location.pathname + "?keuzes=" + t;
+  }
+  function deelBlok() {
+    var U = T.uitslag, link = deelLink();
+    var inp = el("input", { type: "text", readonly: true, value: link, id: "pv-deellink", "aria-label": U.deel_label });
+    return el("div", { class: "pv-deel" }, [el("label", { for: "pv-deellink", text: U.deel_label }), el("div", { class: "pv-deel-rij" }, [inp,
+      el("button", { type: "button", class: "pv-knop pv-knop-klein", text: U.kopieer, onclick: function () {
+        var knop = this;
+        (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(function () { knop.textContent = U.gekopieerd; })
+          .catch(function () { inp.select(); });
+      } })])]);
   }
   function uitslag() {
     var U = T.uitslag;
@@ -504,7 +601,10 @@
       sectie.innerHTML = "";
       sectie.appendChild(el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }));
       sectie.appendChild(el("p", { class: "pv-uitleg", text: res.aantal ? fmt(U.aantal, { n: getal(res.aantal, 0) }) + " " + U.uitleg : U.leeg }));
-      if ((res.dealbreakers || []).length) sectie.appendChild(el("p", { class: "pv-noot", text: fmt(U.dealbreakers, { lijst: res.dealbreakers.map(critLabel).join(", ") }) }));
+      var we = res.wensen || { dealbreakers: [], must: [] }, eisen = we.dealbreakers.concat(we.must);
+      if (eisen.length) sectie.appendChild(el("p", { class: "pv-noot", text: fmt(U.wensen_eisen, { lijst: eisen.map(function (id) { return WITEMS[id].label; }).join(", ") }) }));
+      if (res.wegstrepen && res.wegstrepen.length) sectie.appendChild(weinigBlok(res));
+      sectie.appendChild(deelBlok());
       sectie.appendChild(overzicht());
       sectie.appendChild(el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); })));
       sectie.appendChild(el("div", { class: "pv-knoprij" }, [

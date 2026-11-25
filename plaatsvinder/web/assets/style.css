@@ -188,3 +188,25 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-gids ul { margin: .25rem 0 0; padding-left: 1.2rem; }
 .pv-kaart-titel, .pv-kaart-uitleg { overflow-wrap: break-word; }
 .pv-grenzen { margin: 4px 0 14px; }
+
+/* wensenlijst (sectie 14) */
+.pv-wenslijst { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 8px; }
+.pv-wens-kop { display: flex; gap: 8px; align-items: stretch; }
+.pv-wens { flex: 1; min-width: 0; text-align: left; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px;
+  border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); background: var(--pv-vlak); color: var(--pv-tekst); font: inherit; cursor: pointer; }
+.pv-wens.aan { border-color: var(--pv-accent); background: var(--pv-accent-zacht); }
+.pv-wens:disabled { opacity: .55; cursor: not-allowed; }
+.pv-wens-reden { font-size: .85em; color: var(--pv-zwak); }
+.pv-info { flex: 0 0 40px; border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); background: var(--pv-vlak);
+  color: var(--pv-accent); font: 600 1em/1 var(--pv-font); font-style: italic; cursor: pointer; }
+.pv-wens-uitleg { margin: 6px 0 0; padding: 8px 12px; font-size: .92em; background: var(--pv-accent-zacht); border-radius: var(--pv-radius); }
+.pv-tip { padding: 10px 12px; border-left: 4px solid var(--pv-accent); background: var(--pv-accent-zacht); border-radius: 4px; }
+.pv-provlijst .pv-sub-kop { margin-top: 14px; }
+.pv-badge-buiten { display: inline-block; margin-top: 4px; padding: 1px 8px; font-size: .8em; border-radius: 999px;
+  background: var(--pv-zwak-zacht); color: var(--pv-zwak); }
+.pv-weinig-lijst { list-style: none; padding: 0; margin: 8px 0 0; }
+.pv-weinig-lijst li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; padding: 8px 0; border-top: 1px solid var(--pv-lijn); }
+.pv-deel { margin: 12px 0; }
+.pv-deel label { display: block; font-weight: 600; margin-bottom: 4px; }
+.pv-deel-rij { display: flex; gap: 8px; }
+.pv-deel-rij input { flex: 1; min-width: 0; padding: 8px; border: 1.5px solid var(--pv-lijn); border-radius: 8px; font: inherit; background: var(--pv-vlak); color: var(--pv-tekst); }

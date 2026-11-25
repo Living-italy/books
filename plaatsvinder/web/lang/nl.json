@@ -44,18 +44,35 @@
         "investeerder": "Toerisme, herverkoopbaarheid en prijs wegen zwaar."
       }
     },
+    "gebied": {
+      "titel": "Waar wilt u zoeken?",
+      "uitleg": "Kies heel Italië, een of meer regio's of een of meer provincies. De scores gelden altijd voor heel Italië, zodat een score van 70 overal hetzelfde betekent.",
+      "overal": "Heel Italië",
+      "regios": "Regio's",
+      "provincies": "Provincies",
+      "tip": "Twijfelt u nog? Begin met heel Italië; dan ziet u ook streken waar u zelf niet aan had gedacht.",
+      "regios_gekozen": "{n} gekozen.",
+      "regios_leeg": "Kies een of meer regio's. Zolang u niets kiest, zoekt u in heel Italië.",
+      "provs_gekozen": "{n} gekozen.",
+      "provs_leeg": "Kies een of meer provincies. Zolang u niets kiest, zoekt u in heel Italië.",
+      "zoek": "Zoek een provincie of regio",
+      "zoek_plaats": "bijvoorbeeld Pavia",
+      "niets_gevonden": "Geen provincie gevonden."
+    },
     "wensen": {
       "titel": "Uw wensenlijst",
-      "uitleg": "Kies uit de criteria maximaal drie dealbreakers, drie must-haves en drie nice-to-haves, zoals in paragraaf 1.3 van de gids. U mag dit ook overslaan.",
+      "uitleg": "Kies maximaal drie dealbreakers, drie must-haves en drie nice-to-haves, zoals in paragraaf 1.3 van de gids. Elk punt kan maar op één lijst staan. U mag deze stap ook overslaan.",
       "dealbreakers": "Dealbreakers",
-      "dealbreakers_uitleg": "Wordt een harde eis: een gemeente die er niet aan voldoet, valt af. De grenswaarde stelt u daarna zelf in.",
+      "dealbreakers_uitleg": "Iets wat u niet wilt. Heeft een gemeente het, dan valt zij af.",
       "must": "Must-haves",
-      "must_uitleg": "Telt anderhalf keer zo zwaar mee.",
+      "must_uitleg": "Iets wat er moet zijn. Ontbreekt het, dan valt de gemeente af.",
       "nice": "Nice-to-haves",
-      "nice_uitleg": "Telt 1,2 keer zo zwaar mee.",
-      "gekozen": "{n} van {max} gekozen",
-      "vol": "U hebt er al {max} gekozen. Haal er eerst een weg.",
-      "grenzen_titel": "Grenswaarden van uw dealbreakers"
+      "nice_uitleg": "Iets wat er mag zijn. Het telt 1,2 keer zo zwaar en sluit niets uit.",
+      "gekozen": "{n} van {max} gekozen.",
+      "valt_af": "Valt af als: {d}.",
+      "info": "Uitleg bij {item}",
+      "elders": "Staat al op een andere lijst. Kiest u het hier, dan verhuist het.",
+      "gepland": "Volgt later: {lijst}."
     },
     "ligging": {
       "titel": "Waar wilt u wonen?",
@@ -148,18 +165,7 @@
       "max_hoogte": "Maximale hoogte van het centrum",
       "max_hoogte_noot": "Per 100 meter hoger is het gemiddeld ongeveer 0,6 °C koeler. Boven 600 tot 800 meter kan het in de winter flink sneeuwen.",
       "meter": "{n} m",
-      "dealbreakers_actief": "Uit uw wensenlijst gelden ook deze eisen: {lijst}."
-    },
-    "regio": {
-      "titel": "Waar in Italië?",
-      "uitleg": "Zoek in heel Italië en sluit eventueel regio's uit, of zoek alleen in bepaalde regio's of provincies.",
-      "modus_overal": "Overal, behalve…",
-      "modus_alleen": "Alleen in…",
-      "overal_uitleg": "Alle regio's staan aan. Tik een regio aan om die uit te zetten.",
-      "alleen_uitleg": "Kies een of meer regio's.",
-      "provs_titel": "Provincies in {regio}",
-      "provs_uitleg": "Geen provincie gekozen betekent: de hele regio.",
-      "alleen_leeg": "Kies minstens één regio, anders zoeken we in heel Italië."
+      "wensen_actief": "Uit uw wensenlijst gelden ook: {lijst}. Geldt een eis hier en in de wensenlijst, dan telt de strengste."
     }
   },
   "steden": {
@@ -217,7 +223,16 @@
     "woonlast_onder": "{pct}% onder uw budget",
     "woonlast_rond": "rond uw budget",
     "woonlast_geen": "Geen prijsgegevens",
-    "dealbreakers": "Harde eisen uit uw wensenlijst: {lijst}."
+    "wensen_eisen": "Uit uw wensenlijst: {lijst}.",
+    "weinig_titel": "Er blijven maar {n} plaatsen over",
+    "weinig_uitleg": "Dit zijn uw eisen uit de wensenlijst, met hoeveel gemeenten er extra overblijven als u de eis laat vallen. De strengste staat bovenaan.",
+    "weinig_extra": "(zonder deze eis {n} plaatsen meer)",
+    "naar_nice": "Maak er een nice-to-have van",
+    "verwijder": "Verwijderen",
+    "deel_label": "Deel uw keuzes met deze link",
+    "kopieer": "Kopieer",
+    "gekopieerd": "Gekopieerd",
+    "buiten_gebied": "buiten uw zoekgebied"
   },
   "gemeente": {
     "deelscores": "Score per criterium",
