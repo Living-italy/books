@@ -29,7 +29,7 @@ Onderaan elke stap staat een teller: "Nog 4.913 plaatsen over van 7.894". Die te
 | 4 | Waar wilt u wonen? | Kust, meer, heuvels, bergen, vlakte; meerdere keuzes mogelijk (zie 3.5). |
 | 5 | Hoe groot mag de plaats zijn? | Minder dan 1.000 inwoners, 1.000-5.000, 5.000-20.000, 20.000-100.000, meer dan 100.000. |
 | 6 | Wat vindt u belangrijk? | Een schuifje per criterium; de gewichten tellen altijd op tot 100. Bij klimaat de keuze "zachte winter" of "vier seizoenen"; bij andere buitenlanders "liever veel", "maakt niet uit" of "liever weinig". |
-| 7 | Wat is voor u een harde eis? | Eigen harde eisen: maximale prijs per m², rijtijd naar luchthaven, spoedeisende hulp en huis, minimaal aandeel glasvezel, maximale hoogte, seismische zone 1 en rode zone uitsluiten, alleen 7%-regime, en een budget. Geldt een eis hier en in de wensenlijst, dan sluiten beide uit, dus telt de strengste. |
+| 7 | Overige eisen | Alleen wat de wensenlijst niet dekt: maximale prijs per m², maximale rijtijd naar één stad naar keuze (Utrecht, Brussel, Keulen of München), een budget, en de standaardeis van het profiel (gepensioneerde: spoedeisende hulp binnen 45 minuten; remote worker: minimaal 50% glasvezel), uit te zetten. De rode zone van de Vesuvius en de Campi Flegrei valt altijd af. |
 
 Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie terugkomt, krijgt "U was hier al eerder" met de keuze tussen verdergaan en opnieuw beginnen. Dit patroon komt uit de wensenlijst van Un Sogno di Casa.
 

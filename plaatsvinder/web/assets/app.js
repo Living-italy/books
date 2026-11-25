@@ -94,6 +94,9 @@
     };
     if (["overal", "regios", "provincies"].indexOf(x.gebied) < 0) x.gebied = x.alleen_provs && x.alleen_provs.length ? "provincies" : x.alleen_regios && x.alleen_regios.length ? "regios" : "overal";
     delete x.regios_uit;
+    x.filters = Object.assign({}, x.filters || {});
+    ["max_luchthaven", "max_hoogte", "zone1_uit", "alleen_regime7"].forEach(function (k) { delete x.filters[k]; });
+    x.filters.rode_zone_uit = true;
     return x;
   }
   var S = leeg();
@@ -340,35 +343,30 @@
   }
 
   // ---------------------------------------------------------------- stap 5: harde filters
+  // stap 7: alleen eisen die de wensenlijst niet dekt (prijs, rijtijd naar een gekozen stad, budget)
+  // en de standaardeis van het profiel; risico's, luchthaven, internet en 7%-regime zitten in de wensenlijst
   function schermFilters() {
     var st = T.stappen.filters, f = S.filters, bu = S.budget;
-    var min = function (lijst) { return [[null, st.geen_limiet]].concat(lijst.map(function (m) { return [m, fmt(st.minuten, { n: m })]; })); };
     var uur = f.max_uur || { stad: "utrecht", uren: null };
-    var delen = [
+    var std = (S.profiel && profiel(S.profiel).filters_standaard) || {};
+    var delen = [el("p", { class: "pv-noot", text: st.wensen_actief })];
+    if (std.max_ziekenhuis) delen.push(vinkje(fmt(st.std_ziekenhuis, { n: std.max_ziekenhuis }), f.max_ziekenhuis === std.max_ziekenhuis,
+      function (v) { f.max_ziekenhuis = v ? std.max_ziekenhuis : null; teken(); }));
+    if (std.min_glasvezel_pct) delen.push(vinkje(fmt(st.std_glasvezel, { n: std.min_glasvezel_pct }), f.min_glasvezel === std.min_glasvezel_pct,
+      function (v) { f.min_glasvezel = v ? std.min_glasvezel_pct : null; teken(); }));
+    delen.push(
       keuzelijst(st.max_prijs, f.max_prijs_m2 || null, [[null, st.geen_limiet]].concat([500, 750, 1000, 1500, 2000, 3000].map(function (e) { return [e, fmt(st.euro, { n: getal(e) })]; })),
-        function (v) { f.max_prijs_m2 = v; teken(); }, "pv-f-prijs"),
-      keuzelijst(st.max_luchthaven, f.max_luchthaven || null, min([30, 60, 90]), function (v) { f.max_luchthaven = v; teken(); }, "pv-f-lh"),
-      el("p", { class: "pv-noot", text: st.max_luchthaven_noot }),
-      keuzelijst(st.max_ziekenhuis, f.max_ziekenhuis || null, min([20, 30, 45, 60]), function (v) { f.max_ziekenhuis = v; teken(); }, "pv-f-zh"),
-      el("fieldset", { class: "pv-groep" }, [el("legend", { text: st.max_uur }),
-        keuzelijst(st.stad, uur.stad, Object.keys(T.steden).map(function (k) { return [k, T.steden[k]]; }), null, "pv-f-stad"),
-        keuzelijst(st.max_uur, uur.uren, [[null, st.geen_limiet]].concat([6, 8, 10, 12, 14].map(function (u) { return [u, fmt(st.uren, { n: u })]; })), null, "pv-f-uren")]),
-      keuzelijst(st.min_glasvezel, f.min_glasvezel || null, [[null, st.geen_limiet]].concat([25, 50, 75, 90].map(function (p) { return [p, fmt(st.pct, { n: p })]; })),
-        function (v) { f.min_glasvezel = v; teken(); }, "pv-f-gv"),
-      keuzelijst(st.max_hoogte, f.max_hoogte || null, [[null, st.geen_limiet]].concat([300, 500, 800, 1000].map(function (m) { return [m, fmt(st.meter, { n: getal(m, 0) })]; })),
-        function (v) { f.max_hoogte = v; teken(); }, "pv-f-hoogte"),
-      el("p", { class: "pv-noot", text: st.max_hoogte_noot }),
-      vinkje(st.zone1, f.zone1_uit, function (v) { f.zone1_uit = v; teken(); }),
-      vinkje(st.rode_zone, f.rode_zone_uit !== false, function (v) { f.rode_zone_uit = v; teken(); }),
-      vinkje(st.regime7, f.alleen_regime7, function (v) { f.alleen_regime7 = v; teken(); }),
-      el("h3", { class: "pv-sub-kop", text: st.budget_titel }),
-      segment(st.soort, bu.soort, [["", st.geen], ["huren", st.huren], ["kopen", st.kopen]], function (v) { bu.soort = v; teken(); })
-    ];
-    // stad en uren horen bij elkaar
-    var stadSel = delen[4].querySelector("#pv-f-stad"), urenSel = delen[4].querySelector("#pv-f-uren");
+        function (v) { f.max_prijs_m2 = v; teken(); }, "pv-f-prijs"));
+    var groep = el("fieldset", { class: "pv-groep" }, [el("legend", { text: st.max_uur }), el("p", { class: "pv-noot", text: st.max_uur_noot }),
+      keuzelijst(st.stad, uur.stad, Object.keys(T.steden).map(function (k) { return [k, T.steden[k]]; }), null, "pv-f-stad"),
+      keuzelijst(st.hoe_lang, uur.uren, [[null, st.geen_limiet]].concat([6, 8, 10, 12, 14].map(function (u) { return [u, fmt(st.uren, { n: u })]; })), null, "pv-f-uren")]);
+    delen.push(groep);
+    var stadSel = groep.querySelector("#pv-f-stad"), urenSel = groep.querySelector("#pv-f-uren");
     stadSel.value = uur.stad;
     var zetUur = function () { var u = urenSel.value ? Number(urenSel.value) : null; f.max_uur = u ? { stad: stadSel.value, uren: u } : null; teken(); };
     stadSel.onchange = zetUur; urenSel.onchange = zetUur;
+    delen.push(el("h3", { class: "pv-sub-kop", text: st.budget_titel }),
+      segment(st.soort, bu.soort, [["", st.geen], ["huren", st.huren], ["kopen", st.kopen]], function (v) { bu.soort = v; teken(); }));
     if (bu.soort) {
       var veld = function (label, sleutel, stap) {
         var id = "pv-b-" + sleutel, inp = el("input", { id: id, type: "number", inputmode: "numeric", min: "0", step: stap, value: bu[sleutel] != null ? bu[sleutel] : "" });
@@ -378,8 +376,7 @@
       delen.push(veld(bu.soort === "kopen" ? st.max_koop : st.max_huur, "max", bu.soort === "kopen" ? "5000" : "50"));
       delen.push(veld(st.m2, "m2", "5"));
     }
-    var eisen = S.wensen.dealbreakers.concat(S.wensen.must).map(function (id) { return WITEMS[id].label; });
-    if (eisen.length) delen.unshift(el("p", { class: "pv-noot", text: fmt(st.wensen_actief, { lijst: eisen.join(", ") }) }));
+    delen.push(el("p", { class: "pv-noot", text: st.rode_zone_vast }));
     return el("div", {}, delen);
   }
 

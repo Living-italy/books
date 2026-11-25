@@ -138,22 +138,13 @@
       "klimaat_vraag": "Wat voor winter wilt u?"
     },
     "filters": {
-      "titel": "Wat is voor u een harde eis?",
-      "uitleg": "Een gemeente die hier niet aan voldoet, valt af.",
+      "titel": "Overige eisen",
+      "uitleg": "Eisen die niet in de wensenlijst staan. Een gemeente die hier niet aan voldoet, valt af. Alles is optioneel.",
       "max_prijs": "Maximale prijs per m² (koop, OMI)",
-      "max_luchthaven": "Maximale rijtijd naar een luchthaven met vluchten het hele jaar",
-      "max_luchthaven_noot": "Hele jaar: minstens één directe verbinding met Nederland of België die niet alleen in de zomer of winter vliegt, volgens Bijlage A van de gids (stand november 2026).",
-      "max_ziekenhuis": "Maximale rijtijd naar een ziekenhuis met spoedeisende hulp",
       "max_uur": "Maximale rijtijd naar huis",
       "stad": "Naar",
       "uren": "{n} uur",
-      "zone1": "Gemeenten in seismische zone 1 (hoogste aardbevingsgevaar) uitsluiten",
-      "rode_zone": "Gemeenten in de rode zone van de Vesuvius of de Campi Flegrei uitsluiten",
-      "min_glasvezel": "Minimaal aandeel huishoudens met glasvezel",
-      "regime7": "Alleen gemeenten met het 7%-regime voor buitenlandse pensioenen",
       "geen_limiet": "Geen eis",
-      "minuten": "{n} minuten",
-      "pct": "{n}%",
       "euro": "€ {n}",
       "budget_titel": "Budget (optioneel)",
       "soort": "Ik wil",
@@ -163,10 +154,12 @@
       "max_koop": "Maximale koopprijs (€)",
       "max_huur": "Maximale huur per maand (€)",
       "m2": "Woninggrootte (m²)",
-      "max_hoogte": "Maximale hoogte van het centrum",
-      "max_hoogte_noot": "Per 100 meter hoger is het gemiddeld ongeveer 0,6 °C koeler. Boven 600 tot 800 meter kan het in de winter flink sneeuwen.",
-      "meter": "{n} m",
-      "wensen_actief": "Uit uw wensenlijst gelden ook: {lijst}. Geldt een eis hier en in de wensenlijst, dan telt de strengste."
+      "wensen_actief": "Risico's, luchthaven, zorg, internet en het 7%-regime kiest u in de wensenlijst (stap 3). Hier staan alleen de eisen die daar niet in zitten.",
+      "std_ziekenhuis": "Spoedeisende hulp binnen {n} minuten (standaard voor uw profiel)",
+      "std_glasvezel": "Minimaal {n}% van de huishoudens met glasvezel (standaard voor uw profiel)",
+      "max_uur_noot": "Rijtijd met de auto naar één stad naar keuze. De must-have \"Met de auto vanuit Nederland of België binnen een dag\" kijkt alleen naar Utrecht en Brussel.",
+      "rode_zone_vast": "Gemeenten in de rode zone van de Vesuvius of de Campi Flegrei vallen altijd af. Met de dealbreaker \"Vulkaangebied\" valt ook de gele zone af.",
+      "hoe_lang": "Hoe lang maximaal"
     }
   },
   "steden": {
@@ -380,6 +373,6 @@
     "regios_uit": "{n} regio's uitgezet",
     "alleen": "alleen {lijst}",
     "filters_een": "1 eis",
-    "filters_geen": "geen eisen"
+    "filters_geen": "geen overige eisen"
   }
 }
