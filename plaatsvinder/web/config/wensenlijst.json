@@ -1,0 +1,524 @@
+{
+  "_uitleg": "Wensenlijst (opdracht sectie 14). Dealbreaker: ongewenst kenmerk, aanwezig = gemeente valt af. Must-have: moet aanwezig zijn, de regel beschrijft wanneer de gemeente afvalt. Nice-to-have: elk must-have plus de criteria in nice_extra; telt factor_nice keer zwaarder en sluit niets uit. Drempels liggen vast. Ontbrekende data sluit niet uit. De pipeline rekent per gemeente een bitmasker uit (bit = positie in 'items').",
+  "aantal": 3,
+  "factor_nice": 1.2,
+  "min_resultaten": 25,
+  "nice_extra": [
+    {
+      "id": "n_klimaat",
+      "label": "Klimaat",
+      "criterium": "klimaat"
+    },
+    {
+      "id": "n_natuur_rust",
+      "label": "Natuur en rust",
+      "criterium": "natuur"
+    },
+    {
+      "id": "n_cultuur",
+      "label": "Cultuur",
+      "criterium": "cultuur"
+    },
+    {
+      "id": "n_liquiditeit",
+      "label": "Herverkoopbaarheid",
+      "criterium": "liquiditeit"
+    },
+    {
+      "id": "n_kosten",
+      "label": "Lage kosten",
+      "criterium": "kosten"
+    }
+  ],
+  "blokkades": [
+    {
+      "a": "expatbubbel",
+      "b": "landgenoten",
+      "soort": "blokkade",
+      "tekst": "\"Veel buitenlanders\" en \"Landgenoten in de buurt\" sluiten elkaar uit."
+    },
+    {
+      "a": "massatoerisme",
+      "b": "toeristische_vraag",
+      "soort": "blokkade",
+      "tekst": "\"Massatoerisme\" en \"Toeristische vraag voor verhuur\" sluiten elkaar uit."
+    },
+    {
+      "a": "strenge_winter",
+      "b": "ligging:berg",
+      "soort": "blokkade",
+      "tekst": "Met \"Strenge winters\" als dealbreaker vallen de bergen af."
+    },
+    {
+      "a": "strenge_winter",
+      "b": "klimaat:seizoenen",
+      "soort": "blokkade",
+      "tekst": "Met \"Strenge winters\" als dealbreaker past de keuze \"vier seizoenen\" niet."
+    },
+    {
+      "a": "afgelegen",
+      "b": "grootte:0",
+      "soort": "waarschuwing",
+      "tekst": "Gemeenten met minder dan 1.000 inwoners liggen bijna altijd afgelegen. Met \"Afgelegen ligging\" als dealbreaker blijven er weinig over."
+    },
+    {
+      "a": "regime7",
+      "b": "zorg_regio",
+      "soort": "waarschuwing",
+      "tekst": "De meeste regio's met het 7%-regime scoren onvoldoende in de LEA-beoordeling. Met deze combinatie blijven er waarschijnlijk weinig gemeenten over."
+    }
+  ],
+  "items": [
+    {
+      "id": "aardbeving",
+      "lijst": "dealbreaker",
+      "label": "Hoog aardbevingsrisico",
+      "drempel": "seismische zone 1 of 2 (ook subzones 2A en 2B)",
+      "regel": {
+        "kolom": "seismische_zone",
+        "op": "<=",
+        "waarde": 2
+      },
+      "bron": "dpc_sismica",
+      "uitleg": "De Protezione Civile deelt elke gemeente in een van vier zones in. Zone 1 heeft het hoogste gevaar: daar kan een zware aardbeving voorkomen (verwachte maximale grondversnelling boven 0,25 g). Zone 2 heeft een hoog gevaar (0,15 tot 0,25 g), zone 3 een gemiddeld en zone 4 een laag gevaar. De grondversnelling is de waarde die met 10 % kans binnen 50 jaar wordt overschreden. In zone 1 en 2 gelden de strengste bouwregels en zijn verbouwingen duurder.",
+      "criterium": "risico",
+      "status": "actief"
+    },
+    {
+      "id": "vulkaan",
+      "lijst": "dealbreaker",
+      "label": "Vulkaangebied",
+      "drempel": "rode of gele zone van de Vesuvius of de Campi Flegrei",
+      "regel": {
+        "kolom": "vulkaan_zone",
+        "op": "in",
+        "waarde": [
+          "rood",
+          "geel"
+        ]
+      },
+      "bron": "zona_rossa",
+      "uitleg": "De rode zone is het gebied dat bij een dreigende uitbarsting vooraf wordt ontruimd, omdat het bereikt kan worden door gloeiende lawines van gas en as (pyroclastische stromen). In de gele zone kan zoveel as vallen dat daken bezwijken; ook daar kan ontruiming nodig zijn. Bron: Protezione Civile.",
+      "criterium": "risico",
+      "status": "actief"
+    },
+    {
+      "id": "overstroming_aardverschuiving",
+      "lijst": "dealbreaker",
+      "label": "Overstroming of aardverschuiving",
+      "drempel": "meer dan 2 % van de inwoners woont in een zone met hoog risico: aardverschuiving P3 of P4, of overstroming P3",
+      "regel": {
+        "of": [
+          {
+            "kolom": "frane_pop_pct",
+            "op": ">",
+            "waarde": 2
+          },
+          {
+            "kolom": "alluvioni_p3_pop_pct",
+            "op": ">",
+            "waarde": 2
+          }
+        ]
+      },
+      "bron": "idrogeo",
+      "uitleg": "ISPRA brengt het gevaar in kaart op de IdroGEO-kaart. Bij aardverschuivingen loopt de schaal van P1 (laag) tot P4 (zeer hoog). Bij overstromingen betekent P3 een hoge kans: een overstroming die gemiddeld eens per 20 tot 50 jaar voorkomt. P2 is eens per 100 tot 200 jaar, P1 zeldzaam. Controleer altijd ook het perceel zelf op idrogeo.isprambiente.it.",
+      "criterium": "risico",
+      "status": "actief"
+    },
+    {
+      "id": "bosbrand",
+      "lijst": "dealbreaker",
+      "label": "Bosbrandgebied",
+      "drempel": "het afgebrande oppervlak in de afgelopen 10 jaar (als aandeel van de gemeente) hoort bij de hoogste 10 % van Italië",
+      "regel": {
+        "kolom": "bosbrand_pct",
+        "op": "top_pct",
+        "waarde": 10
+      },
+      "bron": "effis",
+      "uitleg": "Gebaseerd op satellietkaarten van afgebrande gebieden van EFFIS, het Europese bosbrandsysteem van Copernicus. Wie in een bosbrandgebied woont, moet vegetatie rond het huis kort houden en kan met evacuaties te maken krijgen.",
+      "criterium": "risico",
+      "status": "actief"
+    },
+    {
+      "id": "strenge_winter",
+      "lijst": "dealbreaker",
+      "label": "Strenge winters",
+      "drempel": "centrum hoger dan 600 m",
+      "regel": {
+        "kolom": "hoogte_m",
+        "op": ">",
+        "waarde": 600
+      },
+      "bron": "istat_hoogte",
+      "uitleg": "Per 100 m hoogte wordt het ongeveer 0,6 °C kouder. Boven 600 m zijn vorst en sneeuw in de winter gewoon, met hogere stookkosten en kans dat wegen tijdelijk onbegaanbaar zijn.",
+      "criterium": "klimaat",
+      "status": "actief"
+    },
+    {
+      "id": "hitte",
+      "lijst": "dealbreaker",
+      "label": "Extreme zomerhitte",
+      "drempel": "het aantal dagen boven 30 °C hoort bij de hoogste 10 % van Italië",
+      "regel": {
+        "kolom": "dagen_boven_30",
+        "op": "top_pct",
+        "waarde": 10
+      },
+      "bron": "ecde",
+      "uitleg": "Gebaseerd op klimaatgegevens van Copernicus over 2016 tot en met 2025. In deze gemeenten is airco geen luxe en is buiten werken in juli en augustus overdag lastig.",
+      "criterium": "klimaat",
+      "status": "actief"
+    },
+    {
+      "id": "lucht",
+      "lijst": "dealbreaker",
+      "label": "Slechte luchtkwaliteit",
+      "drempel": "jaargemiddelde fijnstof (PM2,5) hoger dan 10 µg/m³",
+      "regel": {
+        "kolom": "pm25",
+        "op": ">",
+        "waarde": 10
+      },
+      "bron": "eea_pm25",
+      "uitleg": "PM2,5 is fijnstof kleiner dan 2,5 micrometer, dat diep in de longen komt. De Europese grenswaarde daalt in 2030 naar 10 µg/m³; de Wereldgezondheidsorganisatie adviseert 5. De hoogste waarden komen voor in de Povlakte. Bron: Europees Milieuagentschap.",
+      "criterium": "lucht",
+      "status": "actief"
+    },
+    {
+      "id": "massatoerisme",
+      "lijst": "dealbreaker",
+      "label": "Massatoerisme",
+      "drempel": "meer dan 10 overnachtingen in toeristische accommodaties per inwoner per jaar",
+      "regel": {
+        "kolom": "overnachtingen_per_inw",
+        "op": ">",
+        "waarde": 10
+      },
+      "bron": "istat_overnachtingen",
+      "uitleg": "Een maat voor de toeristische druk, op basis van ISTAT. Boven 10 overnachtingen per inwoner merkt u in het seizoen veel drukte, verkeer en hogere prijzen. Ter vergelijking: in Italië als geheel zijn het er ongeveer 8.",
+      "criterium": "toerisme",
+      "status": "actief"
+    },
+    {
+      "id": "spookdorp",
+      "lijst": "dealbreaker",
+      "label": "Stil buiten het seizoen",
+      "drempel": "wintertest lager dan 50",
+      "regel": {
+        "kolom": "test_winter",
+        "op": "<",
+        "waarde": 50
+      },
+      "bron": "plaatsvinder",
+      "uitleg": "De wintertest van de Plaatsvinder meet of een plaats ook in januari leeft: afstand tot diensten, groei of krimp van de bevolking, vergrijzing, winkels en bars in het centrum, de zomerpiek van het toerisme en vorst.",
+      "criterium": "levendigheid",
+      "status": "actief"
+    },
+    {
+      "id": "afgelegen",
+      "lijst": "dealbreaker",
+      "label": "Afgelegen ligging",
+      "drempel": "SNAI-klasse intermedio, periferico of ultraperiferico",
+      "regel": {
+        "kolom": "snai_klasse",
+        "op": "in",
+        "waarde": [
+          "D - Intermedio",
+          "E - Periferico",
+          "F - Ultraperiferico"
+        ]
+      },
+      "bron": "snai",
+      "uitleg": "De Italiaanse overheid deelt alle gemeenten in naar de reistijd tot de dichtstbijzijnde kern (polo) met een volledig aanbod van middelbare scholen, een ziekenhuis met spoedeisende hulp (DEA) en een middelgroot treinstation. Dit heet de SNAI-indeling (Strategia Nazionale per le Aree Interne). Cintura: minder dan ongeveer 28 minuten. Intermedio: 28 tot 41 minuten. Periferico: 41 tot 67 minuten. Ultraperiferico: meer dan 67 minuten. Alleen kernen en de gemeenten eromheen (cintura) blijven over.",
+      "criterium": "levendigheid",
+      "status": "actief"
+    },
+    {
+      "id": "criminaliteit",
+      "lijst": "dealbreaker",
+      "label": "Hoge criminaliteit",
+      "drempel": "aangiften per 100.000 inwoners in de provincie hoger dan 0,8 keer het landelijk gemiddelde",
+      "regel": {
+        "kolom": "delitti_100k",
+        "op": "factor_gemiddelde",
+        "waarde": 0.8
+      },
+      "bron": "istat_delitti",
+      "uitleg": "Gebaseerd op het aantal aangiften van misdrijven per provincie (ISTAT). Het cijfer geldt voor de hele provincie; in dorpen ligt de criminaliteit meestal lager dan in de provinciehoofdstad.",
+      "criterium": "veiligheid",
+      "status": "actief"
+    },
+    {
+      "id": "expatbubbel",
+      "lijst": "dealbreaker",
+      "label": "Veel buitenlanders",
+      "drempel": "meer dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten",
+      "regel": {
+        "kolom": "noord_pct",
+        "op": ">",
+        "waarde": 3
+      },
+      "bron": "istat_cittadinanza",
+      "uitleg": "Gebaseerd op de ingeschreven buitenlandse inwoners per nationaliteit (ISTAT). Een grote buitenlandse gemeenschap geeft steun, maar ook hogere prijzen en minder contact met Italianen.",
+      "criterium": "expats",
+      "status": "actief"
+    },
+    {
+      "id": "snelweg",
+      "lijst": "dealbreaker",
+      "label": "Lawaai van een snelweg",
+      "drempel": "autosnelweg (autostrada) binnen 2 km van het centrum",
+      "regel": {
+        "kolom": "km_snelweg",
+        "op": "<",
+        "waarde": 2
+      },
+      "bron": "osm",
+      "uitleg": "Gemeten vanaf het centrum van de gemeente op OpenStreetMap. Het huis zelf kan dichterbij of verder weg liggen.",
+      "criterium": "natuur",
+      "status": "actief"
+    },
+    {
+      "id": "zorg_regio",
+      "lijst": "dealbreaker",
+      "label": "Zwakke regionale zorg",
+      "drempel": "de regio scoort in 2023 onvoldoende (lager dan 60) op ten minste een van de drie zorggebieden van de LEA-beoordeling",
+      "regel": {
+        "kolom": "lea_min_gebied",
+        "op": "<",
+        "waarde": 60
+      },
+      "bron": "lea_2023",
+      "uitleg": "Het ministerie van Volksgezondheid beoordeelt elk jaar of de regio's de basiszorg leveren die elke Italiaan wettelijk toekomt: de LEA (Livelli Essenziali di Assistenza). De beoordeling (Nuovo Sistema di Garanzia) kijkt naar drie gebieden: preventie, zorg in de wijk (huisarts, thuiszorg, apotheek) en ziekenhuiszorg. Elk gebied krijgt een score van 0 tot 100; onder 60 is onvoldoende.",
+      "criterium": "zorg",
+      "status": "actief"
+    },
+    {
+      "id": "verkoopbaarheid",
+      "lijst": "dealbreaker",
+      "label": "Moeilijk verkoopbaar",
+      "drempel": "minder dan 1 verkochte woning per 100 woningen per jaar",
+      "regel": {
+        "kolom": "ntn_per_100",
+        "op": "<",
+        "waarde": 1
+      },
+      "bron": "omi_ntn",
+      "uitleg": "Gebaseerd op het aantal verkochte woningen per gemeente (NTN, van het OMI van de Agenzia delle Entrate) en de woningvoorraad uit de census van 2021. Waar weinig wordt verkocht, kan doorverkopen jaren duren.",
+      "criterium": "liquiditeit",
+      "status": "actief"
+    },
+    {
+      "id": "maffia",
+      "lijst": "dealbreaker",
+      "label": "Maffia-infiltratie",
+      "drempel": "gemeenteraad in 2025 of 2026 ontbonden wegens maffia-infiltratie",
+      "regel": {
+        "kolom": "sciolto_mafia_jaar",
+        "op": ">=",
+        "waarde": 2025
+      },
+      "bron": "sciolti_mafia",
+      "uitleg": "De Italiaanse regering kan een gemeenteraad ontbinden als die beïnvloed wordt door de georganiseerde misdaad. De gemeente wordt dan tijdelijk bestuurd door een commissie. Bron: ministerie van Binnenlandse Zaken.",
+      "criterium": "veiligheid",
+      "status": "actief"
+    },
+    {
+      "id": "luchthaven",
+      "lijst": "musthave",
+      "label": "Luchthaven met vluchten het hele jaar",
+      "drempel": "geen luchthaven met vluchten het hele jaar binnen 60 minuten rijden",
+      "regel": {
+        "kolom": "min_luchthaven_jaarrond",
+        "op": ">",
+        "waarde": 60
+      },
+      "bron": "osrm",
+      "uitleg": "Telt alleen luchthavens met minstens 50.000 passagiers per jaar en minstens één directe verbinding met Nederland of België die niet alleen in het seizoen vliegt (bijlage A van de gids).",
+      "criterium": "bereikbaarheid",
+      "status": "actief"
+    },
+    {
+      "id": "auto_naar_huis",
+      "lijst": "musthave",
+      "label": "Met de auto vanuit Nederland of België binnen een dag",
+      "drempel": "rijtijd naar Utrecht én naar Brussel allebei langer dan 14 uur (de kortste van de twee telt)",
+      "regel": {
+        "kolom": "uur_nl_be",
+        "op": ">",
+        "waarde": 14
+      },
+      "bron": "osrm",
+      "uitleg": "Een lange dag rijden, zonder pauzes meegerekend. Dit geldt voor heel Noord-Italië en het noorden van Midden-Italië.",
+      "criterium": "bereikbaarheid",
+      "status": "actief"
+    },
+    {
+      "id": "spoedeisende_hulp",
+      "lijst": "musthave",
+      "label": "Spoedeisende hulp dichtbij",
+      "drempel": "ziekenhuis met spoedeisende hulp (pronto soccorso) verder dan 30 minuten rijden",
+      "regel": {
+        "kolom": "min_ziekenhuis",
+        "op": ">",
+        "waarde": 30
+      },
+      "bron": "salute_ricovero",
+      "uitleg": "Gebaseerd op de officiële ziekenhuislijst van het ministerie van Volksgezondheid; alleen vestigingen met spoedeisende hulp tellen.",
+      "criterium": "zorg",
+      "status": "actief"
+    },
+    {
+      "id": "voorzieningen",
+      "lijst": "musthave",
+      "label": "Dagelijkse voorzieningen op loopafstand",
+      "drempel": "niet alle vier binnen 800 m van het centrum: supermarkt, apotheek, huisarts en bar",
+      "regel": {
+        "kolom": "vier_800m",
+        "op": "==",
+        "waarde": false
+      },
+      "bron": "osm",
+      "uitleg": "800 m is ongeveer 10 minuten lopen. Gebaseerd op OpenStreetMap en de apothekenlijst van het ministerie.",
+      "criterium": "voorzieningen",
+      "status": "actief"
+    },
+    {
+      "id": "internet",
+      "lijst": "musthave",
+      "label": "Snel internet",
+      "drempel": "minder dan 80 % van de huishoudens kan glasvezel krijgen",
+      "regel": {
+        "kolom": "glasvezel_pct",
+        "op": "<",
+        "waarde": 80
+      },
+      "bron": "agcom",
+      "uitleg": "Gebaseerd op de breedbandkaart van AGCOM, de Italiaanse toezichthouder. Of uw eigen adres glasvezel heeft, ziet u op maps.agcom.it.",
+      "criterium": "internet",
+      "status": "actief"
+    },
+    {
+      "id": "station",
+      "lijst": "musthave",
+      "label": "Treinstation dichtbij",
+      "drempel": "geen treinstation binnen 5 minuten rijden",
+      "regel": {
+        "kolom": "min_station",
+        "op": ">",
+        "waarde": 5
+      },
+      "bron": "osm",
+      "uitleg": "Gebaseerd op OpenStreetMap.",
+      "criterium": "bereikbaarheid",
+      "status": "actief"
+    },
+    {
+      "id": "hogesnelheid",
+      "lijst": "musthave",
+      "label": "Hogesnelheidstrein bereikbaar",
+      "drempel": "geen station met Frecciarossa of Italo binnen 30 minuten rijden",
+      "regel": {
+        "kolom": "min_station_hs",
+        "op": ">",
+        "waarde": 30
+      },
+      "bron": "treinstations",
+      "uitleg": "De hogesnelheidstreinen verbinden de grote steden snel met elkaar, bijvoorbeeld Milaan en Rome in ruim drie uur.",
+      "criterium": "bereikbaarheid",
+      "status": "actief"
+    },
+    {
+      "id": "natuur",
+      "lijst": "musthave",
+      "label": "Beschermde natuur in de buurt",
+      "drempel": "geen beschermd natuurgebied binnen 5 km van het centrum",
+      "regel": {
+        "kolom": "natuur_5km_pct",
+        "op": "<=",
+        "waarde": 0
+      },
+      "bron": "osm",
+      "uitleg": "Nationale en regionale parken, natuurreservaten en Natura 2000-gebieden (OpenStreetMap).",
+      "criterium": "natuur",
+      "status": "actief"
+    },
+    {
+      "id": "cultuur",
+      "lijst": "musthave",
+      "label": "Cultuur in de buurt",
+      "drempel": "geen historisch centrum of museum binnen 30 minuten rijden",
+      "regel": {
+        "kolom": "min_cultuur",
+        "op": ">",
+        "waarde": 30
+      },
+      "bron": "osm",
+      "uitleg": "Gebaseerd op OpenStreetMap.",
+      "criterium": "cultuur",
+      "status": "actief"
+    },
+    {
+      "id": "landgenoten",
+      "lijst": "musthave",
+      "label": "Landgenoten in de buurt",
+      "drempel": "minder dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten",
+      "regel": {
+        "kolom": "noord_pct",
+        "op": "<",
+        "waarde": 3
+      },
+      "bron": "istat_cittadinanza",
+      "uitleg": "Zie de uitleg bij \"Veel buitenlanders\".",
+      "criterium": "expats",
+      "status": "actief"
+    },
+    {
+      "id": "toeristische_vraag",
+      "lijst": "musthave",
+      "label": "Toeristische vraag voor verhuur",
+      "drempel": "minder dan 50 overnachtingen per inwoner per jaar",
+      "regel": {
+        "kolom": "overnachtingen_per_inw",
+        "op": "<",
+        "waarde": 50
+      },
+      "bron": "istat_overnachtingen",
+      "uitleg": "Alleen nuttig als u wilt verhuren. Zie de uitleg bij \"Massatoerisme\".",
+      "criterium": "toerisme",
+      "status": "actief"
+    },
+    {
+      "id": "regime7",
+      "lijst": "musthave",
+      "label": "7%-regime",
+      "drempel": "gemeente komt niet in aanmerking",
+      "regel": {
+        "kolom": "regime7_status",
+        "op": "==",
+        "waarde": "nee"
+      },
+      "bron": "regime7",
+      "uitleg": "Een vlaktaks van 7 % op buitenlandse inkomsten voor gepensioneerden met een buitenlands pensioen in kleine gemeenten in Zuid-Italië en in de aardbevingsgebieden. Geen belastingadvies; zie hoofdstuk 7 van de gids.",
+      "criterium": "fiscaal",
+      "status": "actief"
+    },
+    {
+      "id": "internationale_school",
+      "lijst": "musthave",
+      "label": "Internationale school bereikbaar",
+      "drempel": "geen internationale school binnen 45 minuten rijden",
+      "regel": {
+        "kolom": "min_internationale_school",
+        "op": ">",
+        "waarde": 45
+      },
+      "bron": "internationale_scholen",
+      "uitleg": "Gepland: pas tonen als de data er zijn.",
+      "criterium": "voorzieningen",
+      "status": "gepland"
+    }
+  ]
+}

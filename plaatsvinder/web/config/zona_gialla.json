@@ -1,0 +1,298 @@
+{
+  "_uitleg": "Gele zone (kans op zoveel asval dat daken bezwijken) van de nationale noodplannen voor de Vesuvius en de Campi Flegrei. Alleen gebruikt voor de dealbreaker 'Vulkaangebied'.",
+  "bron": "Dipartimento della Protezione Civile, piano nazionale rischio vulcanico Vesuvio (DPCM 2016) en Campi Flegrei",
+  "url": "https://www.protezionecivile.gov.it/it/approfondimento/aggiornamento-del-piano-nazionale-di-protezione-civile-il-vesuvio/",
+  "peildatum": "2016 (Vesuvio), 2019 (Campi Flegrei)",
+  "schaalniveau": "gemeente",
+  "vesuvio": [
+    {
+      "naam": "Agerola",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Angri",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Avella",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Baiano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Bracigliano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Brusciano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Camposano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Carbonara di Nola",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Casalnuovo di Napoli",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Casamarciano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Casola di Napoli",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Castel San Giorgio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Castellammare di Stabia",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Castello di Cisterna",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Cava de' Tirreni",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Cimitile",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Comiziano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Corbara",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Domicella",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Forino",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Gragnano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Lauro",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Lettere",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Liveri",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Mariglianella",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Marigliano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Marzano di Nola",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Mercato San Severino",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Meta",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Monteforte Irpino",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Moschiano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Mugnano del Cardinale",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Nocera Inferiore",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Nocera Superiore",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Nola",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Pagani",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Pago del Vallo di Lauro",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Pimonte",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Pomigliano d'Arco",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Positano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Quindici",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Ravello",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Roccapiemonte",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Marzano sul Sarno",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Paolo Bel Sito",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Valentino Torio",
+      "deel": "geheel"
+    },
+    {
+      "naam": "San Vitaliano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Santa Maria la Carità",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Sant'Antonio Abate",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Sant'Egidio del Monte Albino",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Sarno",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Saviano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Scala",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Scisciano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Siano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Sperone",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Striano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Taurano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Tramonti",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Tufino",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Vico Equense",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Visciano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Volla",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Napoli",
+      "deel": "deels",
+      "toelichting": "circoscrizioni Barra, Ponticelli en San Giovanni a Teduccio"
+    }
+  ],
+  "campi_flegrei": [
+    {
+      "naam": "Villaricca",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Calvizzano",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Marano di Napoli",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Mugnano di Napoli",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Melito di Napoli",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Casavatore",
+      "deel": "geheel"
+    },
+    {
+      "naam": "Napoli",
+      "deel": "deels",
+      "toelichting": "24 quartieri"
+    }
+  ],
+  "url_campi_flegrei": "https://rischi.protezionecivile.gov.it/it/vulcanico/vulcani-italia/campi-flegrei/la-pianificazione-nazionale-di-emergenza-il-rischio-vulcanico-i-campi-flegrei/"
+}

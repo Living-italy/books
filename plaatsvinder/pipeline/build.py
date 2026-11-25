@@ -14,6 +14,8 @@ import routing
 import sources as src
 from config import (FUSIES, HEUVEL, HEUVEL_LAAG_CENTRUM, HEUVEL_LAAG_VERSCHIL, KUST_MIN, MEER_MIN, SKI_MIN, SCHOOL_RADIUS_KM, WALK_RADIUS_M, OSM_PBF)
 
+CULTUUR_KERN = ["museum", "castle", "palace", "city_gate", "citywalls", "fort", "archaeological_site", "abbey"]
+
 # Indicatoren: kolom -> (hoger is beter?, provinciecijfer gebruiken als het ontbreekt?, korte naam)
 INDICATOREN = {
     "inkomen_eur":          (True,  True,  "inkomen"),
@@ -319,12 +321,15 @@ def bouw(provincie: str | None = None, met_osrm: bool = True) -> pd.DataFrame:
         doelen["luchthaven_jaarrond"] = lv[lv["heel_jaar"] == True]   # noqa: E712
         doelen["apotheek"] = poi[(poi.cat == "voorziening") & (poi["sub"] == "pharmacy")]
         doelen.update(bv.treinstations(poi))
+        # museum of historisch object van betekenis (geen losse kerken, ruïnes of torens), voor de must-have cultuur
+        doelen["cultuur"] = poi[(poi.cat == "cultuur") & poi["sub"].isin(CULTUUR_KERN)]
         for over, c in bv.cfg("grens_naar_huis")["grensovergangen"].items():
             doelen[f"grens_{over}"] = pd.DataFrame([{"lat": c["lat"], "lon": c["lon"], "naam": over}])
         doelen = {k: v[["lat", "lon", "naam"]].fillna("").astype({"lat": float, "lon": float}) for k, v in doelen.items()}
         rt = routing.rijtijden(tabel[["istat", "lat", "lon"]], doelen)
         tabel = tabel.merge(rt, on="istat", how="left")
         tabel = v2.naar_huis(tabel, tabel.filter(like="min_grens_"))
+        tabel["uur_nl_be"] = tabel[["uur_utrecht", "uur_brussel"]].min(axis=1)
         tabel["luchthaven_jaarrond_status"] = bv.cfg("luchthavens")["status_heel_jaar"]
     else:
         for s in ["zee", "meer", "ski", "station", "luchthaven", "ziekenhuis"]:

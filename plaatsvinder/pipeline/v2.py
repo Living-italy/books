@@ -33,6 +33,8 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
     zr = bv.zona_rossa(basis)
     t = t.merge(zr, on="istat", how="left")
     t["vulkaan_rode_zone"] = t["vulkaan_deel"].map({"geheel": 2, "deels": 1}).fillna(0).astype(int)
+    t = t.merge(bv.zona_gialla(basis), on="istat", how="left")
+    t["vulkaan_zone"] = np.where(t["vulkaan_rode_zone"] > 0, "rood", np.where(t["vulkaan_geel"] == True, "geel", None))  # noqa: E712
 
     t = _merge(t, bv.snai(), "SNAI", harmoniseer)
     t = _merge(t, bv.leeftijd_2026(), "leeftijd", harmoniseer)
@@ -41,10 +43,11 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
     t["groei_10j_pct"] = ((t["inwoners"] - t["inwoners_2016"]) / t["inwoners_2016"] * 100).round(1)
 
     ex = bv.expats()
-    t = _merge(t, ex, "nationaliteit", harmoniseer, som=("inw_nl", "inw_be", "inw_de", "inw_gb"))
-    for c in ["inw_nl", "inw_be", "inw_de", "inw_gb"]:
+    t = _merge(t, ex, "nationaliteit", harmoniseer, som=("inw_nl", "inw_be", "inw_de", "inw_gb", "inw_noord"))
+    for c in ["inw_nl", "inw_be", "inw_de", "inw_gb", "inw_noord"]:
         t[c] = t[c].fillna(0).astype(int)            # niet in het bestand = geen inwoners met die nationaliteit
     t["expats_per_1000"] = ((t[["inw_nl", "inw_be", "inw_de", "inw_gb"]].sum(axis=1)) / t["inwoners"] * 1000).round(2)
+    t["noord_pct"] = (t["inw_noord"] / t["inwoners"] * 100).round(2)
     t["nl_per_1000"] = (t["inw_nl"] / t["inwoners"] * 1000).round(2)
     t["be_per_1000"] = (t["inw_be"] / t["inwoners"] * 1000).round(2)
     t["de_per_1000"] = (t["inw_de"] / t["inwoners"] * 1000).round(2)
@@ -56,6 +59,11 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
     koppel, per_comune = bv.provincie_koppeling(RAW / "elenco.xlsx")
     t = t.merge(per_comune, on="istat", how="left")
     t = t.merge(bv.seizoensindex_provincie(koppel), on="prov_oud", how="left")
+    # overnachtingen per inwoner: provinciecijfer verdeeld naar het aandeel bedden (schatting, geen gemeentecijfer)
+    t = t.merge(bv.overnachtingen_provincie(koppel), on="prov_oud", how="left")
+    bed_prov = t.groupby("prov_oud")["bedden"].transform("sum")
+    t["overnachtingen"] = (t["overnachtingen_prov"] * t["bedden"] / bed_prov.where(bed_prov > 0)).round(0)
+    t["overnachtingen_per_inw"] = (t["overnachtingen"] / t["inwoners"]).round(2)
     t = t.merge(bv.delitti_provincie(koppel), on="prov_oud", how="left")
     t = _merge(t, bv.woningen(), "woningen", harmoniseer, som=("woningen",))
 
@@ -101,6 +109,13 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
         boom = cKDTree(_meters(p.lat.values, p.lon.values))
         t[f"{naam}_800m"] = [len(x) > 0 for x in boom.query_ball_point(c_xy, M_800)]
     t["basis_800m"] = t[["supermarkt_800m", "apotheek_800m", "bar_800m"]].sum(axis=1)
+    t["vier_800m"] = t[["supermarkt_800m", "apotheek_800m", "bar_800m", "huisarts_800m"]].all(axis=1)
+
+    # afstand centrum tot de dichtstbijzijnde autosnelweg (km)
+    sw = osm.snelwegen().to_crs(grens.crs)
+    ctr_m = gpd.GeoDataFrame(t[["istat"]], geometry=gpd.points_from_xy(t.lon, t.lat), crs=4326).to_crs(grens.crs)
+    afst = gpd.sjoin_nearest(ctr_m, sw, distance_col="d").groupby("istat")["d"].min()
+    t["km_snelweg"] = (t["istat"].map(afst) / 1000).round(2)
 
     # klimaat (ERA5-Land), alleen als de bestanden er zijn
     import era5

@@ -42,3 +42,74 @@ Gemaakt op 2026-11-25. Totaal: 7894 comuni.
 | Verhuurpotentieel en toerisme | Toeristische bedden per inwoner | ISTAT, capacità degli esercizi ricettivi | 2025 | gemeente | 7894 | 100.0 |
 | Herverkoopbaarheid | Verkopen per 100 woningen per jaar | Agenzia delle Entrate – OMI, volumi delle compravendite (NTN) | 2025 | gemeente | 7551 | 95.7 |
 | Luchtkwaliteit | Fijnstof PM2,5, jaargemiddelde 2023 | EEA, PM2,5 interpolated air quality data | 2023 | raster 1 km | 7894 | 100.0 |
+
+## Wensenlijst: gemeenten die afvallen per item
+
+Van de 7894 gemeenten. Ontbrekende data sluit niet uit. **Vet**: het item streept meer dan de helft weg.
+
+| Lijst | Item | Valt af als | Gemeenten af | % | Zonder data |
+|---|---|---|---|---|---|
+| dealbreaker | Hoog aardbevingsrisico | seismische zone 1 of 2 (ook subzones 2A en 2B) | 3135 | 39.7 | 0 |
+| dealbreaker | Vulkaangebied | rode of gele zone van de Vesuvius of de Campi Flegrei | 97 | 1.2 | 7797 |
+| dealbreaker | Overstroming of aardverschuiving | meer dan 2 % van de inwoners woont in een zone met hoog risico: aardverschuiving P3 of P4, of overstroming P3 | **4488** | 56.9 | 3 |
+| dealbreaker | Bosbrandgebied | het afgebrande oppervlak in de afgelopen 10 jaar (als aandeel van de gemeente) hoort bij de hoogste 10 % van Italië | 790 | 10.0 | 0 |
+| dealbreaker | Strenge winters | centrum hoger dan 600 m | 1484 | 18.8 | 6 |
+| dealbreaker | Extreme zomerhitte | het aantal dagen boven 30 °C hoort bij de hoogste 10 % van Italië | 780 | 9.9 | 0 |
+| dealbreaker | Slechte luchtkwaliteit | jaargemiddelde fijnstof (PM2,5) hoger dan 10 µg/m³ | **5197** | 65.8 | 0 |
+| dealbreaker | Massatoerisme | meer dan 10 overnachtingen in toeristische accommodaties per inwoner per jaar | 2511 | 31.8 | 0 |
+| dealbreaker | Stil buiten het seizoen | wintertest lager dan 50 | 3493 | 44.2 | 0 |
+| dealbreaker | Afgelegen ligging | SNAI-klasse intermedio, periferico of ultraperiferico | 3830 | 48.5 | 9 |
+| dealbreaker | Hoge criminaliteit | aangiften per 100.000 inwoners in de provincie hoger dan 0,8 keer het landelijk gemiddelde | 3691 | 46.8 | 107 |
+| dealbreaker | Veel buitenlanders | meer dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten | 123 | 1.6 | 0 |
+| dealbreaker | Lawaai van een snelweg | autosnelweg (autostrada) binnen 2 km van het centrum | 1106 | 14.0 | 0 |
+| dealbreaker | Zwakke regionale zorg | de regio scoort in 2023 onvoldoende (lager dan 60) op ten minste een van de drie zorggebieden van de LEA-beoordeling | 1791 | 22.7 | 0 |
+| dealbreaker | Moeilijk verkoopbaar | minder dan 1 verkochte woning per 100 woningen per jaar | 1443 | 18.3 | 343 |
+| dealbreaker | Maffia-infiltratie | gemeenteraad in 2025 of 2026 ontbonden wegens maffia-infiltratie | 18 | 0.2 | 7876 |
+| musthave | Luchthaven met vluchten het hele jaar | geen luchthaven met vluchten het hele jaar binnen 60 minuten rijden | **4549** | 57.6 | 0 |
+| musthave | Met de auto vanuit Nederland of België binnen een dag | rijtijd naar Utrecht én naar Brussel allebei langer dan 14 uur (de kortste van de twee telt) | 3349 | 42.4 | 0 |
+| musthave | Spoedeisende hulp dichtbij | ziekenhuis met spoedeisende hulp (pronto soccorso) verder dan 30 minuten rijden | 1219 | 15.4 | 0 |
+| musthave | Dagelijkse voorzieningen op loopafstand | niet alle vier binnen 800 m van het centrum: supermarkt, apotheek, huisarts en bar | **6834** | 86.6 | 0 |
+| musthave | Snel internet | minder dan 80 % van de huishoudens kan glasvezel krijgen | 2910 | 36.9 | 0 |
+| musthave | Treinstation dichtbij | geen treinstation binnen 5 minuten rijden | **5714** | 72.4 | 0 |
+| musthave | Hogesnelheidstrein bereikbaar | geen station met Frecciarossa of Italo binnen 30 minuten rijden | **6189** | 78.4 | 0 |
+| musthave | Beschermde natuur in de buurt | geen beschermd natuurgebied binnen 5 km van het centrum | 3494 | 44.3 | 0 |
+| musthave | Cultuur in de buurt | geen historisch centrum of museum binnen 30 minuten rijden | 19 | 0.2 | 0 |
+| musthave | Landgenoten in de buurt | minder dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten | **7770** | 98.4 | 0 |
+| musthave | Toeristische vraag voor verhuur | minder dan 50 overnachtingen per inwoner per jaar | **7034** | 89.1 | 0 |
+| musthave | 7%-regime | gemeente komt niet in aanmerking | **5351** | 67.8 | 0 |
+| musthave | Internationale school bereikbaar | geen internationale school binnen 45 minuten rijden | gepland, staat uit | | |
+
+### Steekproefgemeenten
+
+Per item: valt de gemeente af (x) of niet (-).
+
+| Item | Casale Monferrato | Montecalvo Versiggia | Greve in Chianti | Ercolano | Gerace | Montegiorgio |
+|---|---|---|---|---|---|---|
+| Hoog aardbevingsrisico (dealbreaker) | - | - | - | x | x | x |
+| Vulkaangebied (dealbreaker) | - | - | - | x | - | - |
+| Overstroming of aardverschuiving (dealbreaker) | x | x | x | x | x | - |
+| Bosbrandgebied (dealbreaker) | - | - | - | x | - | - |
+| Strenge winters (dealbreaker) | - | - | - | - | - | - |
+| Extreme zomerhitte (dealbreaker) | - | - | - | - | - | - |
+| Slechte luchtkwaliteit (dealbreaker) | x | - | - | x | x | x |
+| Massatoerisme (dealbreaker) | - | x | x | - | - | - |
+| Stil buiten het seizoen (dealbreaker) | - | x | - | - | - | x |
+| Afgelegen ligging (dealbreaker) | - | x | x | - | - | x |
+| Hoge criminaliteit (dealbreaker) | x | x | x | x | - | - |
+| Veel buitenlanders (dealbreaker) | - | - | - | - | - | - |
+| Lawaai van een snelweg (dealbreaker) | - | - | - | x | - | - |
+| Zwakke regionale zorg (dealbreaker) | - | - | - | - | x | - |
+| Moeilijk verkoopbaar (dealbreaker) | - | - | - | - | x | x |
+| Maffia-infiltratie (dealbreaker) | - | - | - | - | - | - |
+| Luchthaven met vluchten het hele jaar (musthave) | x | x | - | - | x | x |
+| Met de auto vanuit Nederland of België binnen een dag (musthave) | - | - | - | x | x | x |
+| Spoedeisende hulp dichtbij (musthave) | - | - | - | - | - | - |
+| Dagelijkse voorzieningen op loopafstand (musthave) | - | x | x | x | - | x |
+| Snel internet (musthave) | - | x | x | - | x | - |
+| Treinstation dichtbij (musthave) | - | x | x | x | x | x |
+| Hogesnelheidstrein bereikbaar (musthave) | - | x | x | - | x | x |
+| Beschermde natuur in de buurt (musthave) | - | x | x | - | - | x |
+| Cultuur in de buurt (musthave) | - | - | - | - | - | - |
+| Landgenoten in de buurt (musthave) | x | x | x | x | x | x |
+| Toeristische vraag voor verhuur (musthave) | x | x | - | x | x | x |
+| 7%-regime (musthave) | x | x | x | x | - | - |

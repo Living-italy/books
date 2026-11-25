@@ -100,7 +100,8 @@ def idrogeo() -> pd.DataFrame:
     num = lambda c: pd.to_numeric(d[c], errors="coerce")
     return pd.DataFrame({"istat": _istat(d["pro_com"]),
                          "frane_pop_pct": num("popfrp3p4p").round(1),
-                         "alluvioni_pop_pct": num("popidp2_p").round(1)})
+                         "alluvioni_pop_pct": num("popidp2_p").round(1),
+                         "alluvioni_p3_pop_pct": num("popidp3_p").round(1)})
 
 
 def bosbrand(grens: gpd.GeoDataFrame, vanaf: str = "2016-01-01") -> pd.DataFrame:
@@ -184,10 +185,15 @@ def expats() -> pd.DataFrame:
     d = pd.read_csv(p, sep=";", dtype=str, encoding="utf-8-sig")
     d["n"] = pd.to_numeric(d["Totale"], errors="coerce").fillna(0)
     landen = {"Paesi Bassi": "nl", "Belgio": "be", "Germania": "de", "Regno Unito": "gb"}
+    # Noord-Europa (sectie 14g) plus VK en VS, voor "Veel buitenlanders" en "Landgenoten in de buurt"
+    noord = {"Paesi Bassi", "Belgio", "Lussemburgo", "Germania", "Austria", "Svizzera", "Danimarca", "Svezia",
+             "Norvegia", "Finlandia", "Islanda", "Regno Unito", "Stati Uniti d'America"}
+    nd = d[d["Stato di cittadinanza"].isin(noord)].groupby("Codice Istat")["n"].sum()
     d = d[d["Stato di cittadinanza"].isin(landen)]
     p = d.pivot_table(index="Codice Istat", columns="Stato di cittadinanza", values="n", aggfunc="sum", fill_value=0)
     p = p.rename(columns=landen).reindex(columns=list(landen.values()), fill_value=0)
     p.columns = [f"inw_{c}" for c in p.columns]
+    p["inw_noord"] = nd.reindex(p.index).fillna(0)
     p = p.reset_index().rename(columns={"Codice Istat": "istat"})
     p["istat"] = _istat(p["istat"])
     return p
@@ -224,6 +230,27 @@ def bedden() -> pd.DataFrame:
     d = _sdmx("122_54_DF_DCSC_TUR_1.csv")
     d = d[d["TIME_PERIOD"] == d["TIME_PERIOD"].max()]
     return pd.DataFrame({"istat": _istat(d["REF_AREA"]), "bedden": pd.to_numeric(d["OBS_VALUE"], errors="coerce")})
+
+
+def overnachtingen_provincie(nuts3: dict) -> pd.DataFrame:
+    """Overnachtingen in 2024 per provincie (som van de maanden). ISTAT publiceert geen overnachtingen per gemeente;
+    v2 verdeelt dit provinciecijfer over de gemeenten naar hun aandeel in de bedden (schatting)."""
+    d = _sdmx("122_54_DF_DCSC_TUR_3.csv")
+    d["v"] = pd.to_numeric(d["OBS_VALUE"], errors="coerce")
+    d = d[d["REF_AREA"].isin(nuts3)]
+    s = d.groupby("REF_AREA")["v"].sum()
+    return pd.DataFrame({"prov_oud": [nuts3[k] for k in s.index], "overnachtingen_prov": s.values}).drop_duplicates("prov_oud")
+
+
+def zona_gialla(basis: pd.DataFrame) -> pd.DataFrame:
+    z = cfg("zona_gialla")
+    namen = {norm(g["naam"]) for k in ("vesuvio", "campi_flegrei") for g in z[k]}
+    camp = basis[basis.regio_code.astype(int) == 15]
+    ist = [r.istat for r in camp.itertuples() if norm(r.naam) in namen]
+    gevonden = {norm(r.naam) for r in camp.itertuples() if norm(r.naam) in namen}
+    for n in sorted(namen - gevonden):
+        print(f"  ! gele zone: '{n}' niet gevonden")
+    return pd.DataFrame({"istat": ist, "vulkaan_geel": True})
 
 
 def seizoensindex_provincie(nuts3: dict) -> pd.DataFrame:
@@ -292,7 +319,12 @@ def lea_per_comune(basis: pd.DataFrame) -> pd.DataFrame:
     per_regio = {r["regio_code"]: r["totaal"] for r in rijen if r["regio_code"]}
     per_prov = {r["provincie_code"]: r["totaal"] for r in rijen if r.get("provincie_code")}
     lea = [per_prov.get(p, per_regio.get(r)) for p, r in zip(basis.prov_code, basis.regio_code)]
-    return pd.DataFrame({"istat": basis.istat, "lea": lea})
+    # laagste van de drie gebiedsscores (preventie, distrettuale, ospedaliera); onder 60 is onvoldoende
+    mn = lambda x: min(x["prevenzione"], x["distrettuale"], x["ospedaliera"])
+    min_regio = {r["regio_code"]: mn(r) for r in rijen if r["regio_code"]}
+    min_prov = {r["provincie_code"]: mn(r) for r in rijen if r.get("provincie_code")}
+    lmin = [min_prov.get(p, min_regio.get(r)) for p, r in zip(basis.prov_code, basis.regio_code)]
+    return pd.DataFrame({"istat": basis.istat, "lea": lea, "lea_min_gebied": lmin})
 
 
 def kratergemeenten(basis: pd.DataFrame) -> pd.DataFrame:
