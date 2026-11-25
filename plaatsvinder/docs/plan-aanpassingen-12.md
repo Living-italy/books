@@ -32,6 +32,6 @@ Aanvulling op `docs/plan-aanpassingen.md`. Opdracht: `docs/plaatsvinder-aanpassi
 
 - Bijlage A verwerkt in `config/luchthavens.json`; vervangt de voorlopige inschatting.
 - Gidsprijzen voor 10 regio's; de andere regio's noemen in de gids geen bedrag.
-- Gids-verwijzingen met paragraaf en pagina. De link in de gids naar `7%_regeling_italie.pdf` geeft 404 en staat er daarom niet in.
+- Gids-verwijzingen met paragraaf en pagina. De gids toont als tekst `7%_regeling_italie.pdf`, maar de link zelf gaat naar `7procent_regeling_italie.pdf`; die werkt en staat op de gemeentepagina.
 - Wizard Un Sogno di Casa: hervatten en overzicht met Wijzigen overgenomen; de woningvragen (type, m², kamers, zwembad) horen bij de makelaar en niet bij de plaatskeuze.
 - Nog open: EEA PM10 en NO2, de lijst ontbonden gemeenteraden.
