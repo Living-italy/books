@@ -162,7 +162,12 @@ Plan: `docs/plan-aanpassingen-12.md`.
 
 - **Wensenlijst** (stap 2, gids 1.3): maximaal drie dealbreakers, must-haves en nice-to-haves. Dealbreakers worden harde eisen met de drempel uit `criteria.json` (`dealbreaker`); een strengere eigen eis blijft staan. Must-haves tellen 1,5 keer, nice-to-haves 1,2 keer, daarna weer samen 100.
 - **Hoogte**: hoogte van het centrum bij elke gemeente, filter "maximale hoogte" (standaard uit), uitleg 0,6 °C per 100 m.
-- **Klimaat**: temperatuur januari en juli, vorstdagen, zoninstraling (benadering van zonuren), neerslag uit ERA5-Land; keuze "zachte winter" of "vier seizoenen". Leeg zolang `python pipeline/era5.py download` niet klaar is.
+- **Klimaat** (`python pipeline/era5.py download`, enkele minuten):
+  - ERA5-Land maandgemiddelden (0,1°): temperatuur januari en juli, zoninstraling (benadering van zonuren), neerslag en neerslagtrend. Kustgemeenten krijgen de dichtstbijzijnde landcel; de temperatuur is gecorrigeerd voor het hoogteverschil tussen rastervak en centrum (0,65 °C per 100 m).
+  - Copernicus-klimaatindicatoren (ERA5, 0,25°): dagen boven 30 °C en vorstdagen, gemiddelde 2016-2025, trend t.o.v. 1991-2000. De opdracht noemde 32 °C; de indicator bestaat voor 30 en 35 °C.
+  - Waar de cel van 0,25° meer dan 150 m hoger of lager ligt dan het centrum (dalen en bergen, ruim 3.100 gemeenten), zijn hete dagen en vorstdagen geschat uit de gecorrigeerde temperatuur van juli en januari, met het verband uit de overige gemeenten. De gemeentepagina meldt dat.
+  - De dagstatistieken van ERA5-Land zijn verlaten: per jaar één aanvraag met een wachtrij van meer dan 14 uur.
+  - Keuze "zachte winter" of "vier seizoenen".
 - **Luchtkwaliteit**: nieuw criterium (PM2,5, EEA 2023).
 - **Trein**: rijtijd naar station met hogesnelheidstreinen en naar station met nachttrein, binnen bereikbaarheid (luchthaven 50, naar huis 30, trein 10 + 10).
 - **Labels zonder score**: ontbonden gemeenteraad (`config/sciolti_mafia.json`, nog te vullen).

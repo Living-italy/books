@@ -1,6 +1,6 @@
 # Dekking per bron
 
-Gemaakt op 2026-11-24. Totaal: 7894 comuni.
+Gemaakt op 2026-11-25. Totaal: 7894 comuni.
 
 | Criterium | Indicator | Bron | Peildatum | Schaalniveau | Comuni met data | % |
 |---|---|---|---|---|---|---|
@@ -8,12 +8,12 @@ Gemaakt op 2026-11-24. Totaal: 7894 comuni.
 | Natuur, landschap, rust en ruimte | Aandeel beschermd natuurgebied binnen 5 km | © OpenStreetMap-bijdragers | 2026-11-23 | punt | 7894 | 100.0 |
 | Natuur, landschap, rust en ruimte | Inwoners per km² | ISTAT, bilancio demografico en popolazione per età (demo.istat.it) | 2025-12-31 | gemeente | 7894 | 100.0 |
 | Natuur, landschap, rust en ruimte | Hoogteverschil binnen de gemeente | ISTAT, Altimetria dei comuni | 2021-12-31 | gemeente | 7888 | 99.9 |
-| Klimaat (winter en zomerhitte) | Dagen per jaar boven 32 °C | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
-| Klimaat (winter en zomerhitte) | Gemiddelde temperatuur januari | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
-| Klimaat (winter en zomerhitte) | Vorstdagen per jaar | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
-| Klimaat (winter en zomerhitte) | Gemiddelde temperatuur juli | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
-| Klimaat (winter en zomerhitte) | Zoninstraling (kWh per m² per dag; maat voor zonuren) | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
-| Klimaat (winter en zomerhitte) | Jaarlijkse neerslag | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Klimaat (winter en zomerhitte) | Dagen per jaar boven 30 °C (gemiddelde 2016-2025) | Copernicus, klimaatindicatoren voor Europa (European Climate Data Explorer, uit ERA5): hete dagen boven 30 °C en vorstdagen | 1940-2025, versie 2.0 | raster 0,25° (circa 25 km), middelpunt van de gemeente | 7894 | 100.0 |
+| Klimaat (winter en zomerhitte) | Gemiddelde temperatuur januari | Copernicus ERA5-Land, maandgemiddelden (temperatuur, zonnestraling, neerslag) | 1991-2025 | raster 0,1° (circa 9 km), middelpunt van de gemeente | 7894 | 100.0 |
+| Klimaat (winter en zomerhitte) | Vorstdagen per jaar | Copernicus, klimaatindicatoren voor Europa (European Climate Data Explorer, uit ERA5): hete dagen boven 30 °C en vorstdagen | 1940-2025, versie 2.0 | raster 0,25° (circa 25 km), middelpunt van de gemeente | 7894 | 100.0 |
+| Klimaat (winter en zomerhitte) | Gemiddelde temperatuur juli | Copernicus ERA5-Land, maandgemiddelden (temperatuur, zonnestraling, neerslag) | 1991-2025 | raster 0,1° (circa 9 km), middelpunt van de gemeente | 7894 | 100.0 |
+| Klimaat (winter en zomerhitte) | Zoninstraling (kWh per m² per dag; maat voor zonuren) | Copernicus ERA5-Land, maandgemiddelden (temperatuur, zonnestraling, neerslag) | 1991-2025 | raster 0,1° (circa 9 km), middelpunt van de gemeente | 7894 | 100.0 |
+| Klimaat (winter en zomerhitte) | Jaarlijkse neerslag | Copernicus ERA5-Land, maandgemiddelden (temperatuur, zonnestraling, neerslag) | 1991-2025 | raster 0,1° (circa 9 km), middelpunt van de gemeente | 7894 | 100.0 |
 | Cultuur, eten, wijn, authenticiteit | Historische objecten en musea binnen 5 km | © OpenStreetMap-bijdragers | 2026-11-23 | punt | 7894 | 100.0 |
 | Luchthaven en rijafstand naar huis | Rijtijd naar luchthaven met vluchten het hele jaar | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
 | Luchthaven en rijafstand naar huis | Rijtijd naar Utrecht, Brussel, Keulen of München (kortste) | Rijtijden berekend met OSRM op OpenStreetMap-data | 2026-11-23 | gemeente | 7894 | 100.0 |
@@ -37,8 +37,8 @@ Gemaakt op 2026-11-24. Totaal: 7894 comuni.
 | Natuurrisico's | Afgebrande oppervlakte laatste 10 jaar | EFFIS (Copernicus), burnt areas database | 2016-2026 | polygoon | 7894 | 100.0 |
 | Veiligheid en criminaliteit | Aangiften per 100.000 inwoners (provincie) | ISTAT, delitti denunciati dalle forze di polizia all'autorità giudiziaria | 2024 | provincie | 7787 | 98.6 |
 | Andere buitenlanders in de gemeente | Nederlanders, Belgen, Duitsers en Britten per 1.000 inwoners | ISTAT, popolazione residente per cittadinanza | 2025-01-01 | gemeente | 7894 | 100.0 |
-| Hitte en droogte | Extra hete dagen per jaar t.o.v. 1991-2000 | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
-| Hitte en droogte | Verandering jaarlijkse neerslag t.o.v. 1991-2000 | Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden) | 1991-2025 | raster 0,1° (ongeveer 9 km) | 0 | 0.0 |
+| Hitte en droogte | Extra dagen boven 30 °C per jaar t.o.v. 1991-2000 | Copernicus, klimaatindicatoren voor Europa (European Climate Data Explorer, uit ERA5): hete dagen boven 30 °C en vorstdagen | 1940-2025, versie 2.0 | raster 0,25° (circa 25 km), middelpunt van de gemeente | 7894 | 100.0 |
+| Hitte en droogte | Verandering jaarlijkse neerslag t.o.v. 1991-2000 | Copernicus ERA5-Land, maandgemiddelden (temperatuur, zonnestraling, neerslag) | 1991-2025 | raster 0,1° (circa 9 km), middelpunt van de gemeente | 7894 | 100.0 |
 | Verhuurpotentieel en toerisme | Toeristische bedden per inwoner | ISTAT, capacità degli esercizi ricettivi | 2025 | gemeente | 7894 | 100.0 |
 | Herverkoopbaarheid | Verkopen per 100 woningen per jaar | Agenzia delle Entrate – OMI, volumi delle compravendite (NTN) | 2025 | gemeente | 7551 | 95.7 |
 | Luchtkwaliteit | Fijnstof PM2,5, jaargemiddelde 2023 | EEA, PM2,5 interpolated air quality data | 2023 | raster 1 km | 7894 | 100.0 |

@@ -31,7 +31,7 @@ EXTRA = ["koop_m2", "huur_m2", "koop_laagste_zone", "omi_semester", "glasvezel_p
          "supermarkt_800m", "apotheek_800m", "bar_800m", "huisarts_800m", "basis_800m",
          "scholen_basis_5km", "scholen_midden_5km", "scholen_hoog_5km", "scholen_basis_20min", "scholen_hoog_20min",
          "woningen", "apotheken_n", "ntn", "ntn_jaar", "neerslag_mm", "station_hs_naam", "station_nacht_naam",
-         "sciolto_mafia_jaar"]
+         "sciolto_mafia_jaar", "klimaat_geschat"]
 # waarden die score.php nodig heeft voor filters en korte teksten
 SCORE_W = ["koop_m2", "huur_m2", "min_luchthaven_jaarrond", "luchthaven_jaarrond_naam", "min_ziekenhuis", "min_station",
            "glasvezel_pct", "uur_utrecht", "uur_brussel", "uur_keulen", "uur_munchen", "seismische_zone", "vulkaan_deel",
@@ -95,7 +95,6 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
                      "uur_utrecht": "osrm_publiek", "uur_brussel": "osrm_publiek", "uur_keulen": "osrm_publiek",
                      "uur_munchen": "osrm_publiek"})
     zonder_data = [c["id"] for c in crit["criteria"] if t[f"s_{c['id']}"].isna().all()]
-    labels = {"sciolto_mafia_jaar": "label, geen score", "trend": "label, geen score"}
     meta = {"gemaakt": date.today().isoformat(), "zonder_data": zonder_data, "aantal": len(rijen), "provincie": provincie,
             "percentielen_over": f"provincie {provincie}" if provincie else "heel Italië",
             "bron_van": bron_van, "downloads": bronnen_downloads}

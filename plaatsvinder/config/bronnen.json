@@ -149,10 +149,10 @@
       "licentie": "CC BY 4.0"
     },
     "era5": {
-      "bron": "Copernicus Climate Change Service, ERA5-Land (dagstatistieken en maandgemiddelden)",
-      "url": "https://cds.climate.copernicus.eu/datasets/derived-era5-land-daily-statistics",
+      "bron": "Copernicus ERA5-Land, maandgemiddelden (temperatuur, zonnestraling, neerslag)",
+      "url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means",
       "peildatum": "1991-2025",
-      "schaalniveau": "raster 0,1° (ongeveer 9 km)",
+      "schaalniveau": "raster 0,1° (circa 9 km), middelpunt van de gemeente",
       "licentie": "CC BY 4.0"
     },
     "lea_2023": {
@@ -259,6 +259,13 @@
       "peildatum": "te vullen",
       "schaalniveau": "gemeente",
       "licentie": "open (overheid)"
+    },
+    "ecde": {
+      "bron": "Copernicus, klimaatindicatoren voor Europa (European Climate Data Explorer, uit ERA5): hete dagen boven 30 °C en vorstdagen",
+      "url": "https://cds.climate.copernicus.eu/datasets/sis-ecde-climate-indicators",
+      "peildatum": "1940-2025, versie 2.0",
+      "schaalniveau": "raster 0,25° (circa 25 km), middelpunt van de gemeente",
+      "licentie": "CC BY 4.0"
     }
   }
 }

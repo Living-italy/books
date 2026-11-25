@@ -542,6 +542,7 @@
       var gp = (C.gids_prijzen || {}).regios || {}, v = gp[g.regio];
       if (v != null) regels.push(fmt(G.gidsprijs, { v: getal(v, 0), regio: g.regio, toelichting: ((C.gids_prijzen.toelichting || {})[g.regio]) || C.gids_prijzen.peildatum }));
     }
+    if (id === "klimaat" && w.klimaat_geschat) regels.push(G.klimaat_geschat);
     if (id === "bereikbaarheid") {
       var lv = C.luchthavens, m = String(w.luchthaven_jaarrond_naam || "").match(/\(([A-Z]{3})\)$/), vb = m && lv && lv.verbindingen && lv.verbindingen[m[1]];
       if (vb) {

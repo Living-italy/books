@@ -293,7 +293,8 @@
     "vluchten": "Directe vluchten vanaf {lh}: {lijst}.",
     "vluchten_nl": "Nederland: {l}",
     "vluchten_be": "België: {l}",
-    "gids_uitleg": "Uit de gids 'Huis kopen in Italië':"
+    "gids_uitleg": "Uit de gids 'Huis kopen in Italië':",
+    "klimaat_geschat": "Hete dagen en vorstdagen zijn hier geschat uit de temperatuur van juli en januari. Het raster van 25 km waar deze cijfers vandaan komen, ligt hier gemiddeld veel hoger of lager dan het centrum."
   },
   "vergelijk": {
     "titel": "Vergelijken",
@@ -330,7 +331,7 @@
     "expats_per_1000": "{v} per 1.000",
     "bedden_per_inw": "{v}",
     "ntn_per_100": "{v}",
-    "dagen_boven_32": "{v} dagen",
+    "dagen_boven_30": "{v} dagen",
     "vorstdagen": "{v} dagen",
     "trend_hete_dagen": "{v} dagen",
     "neerslag_trend_pct": "{v}%",

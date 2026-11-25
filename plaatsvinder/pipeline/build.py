@@ -59,7 +59,7 @@ INDICATOREN = {
     "bedden_per_inw":       (True,  False, "bedden"),
     "seizoen_pct":          (False, False, "seizoen"),
     "ntn_per_100":          (True,  False, "verkopen"),
-    "dagen_boven_32":       (False, False, "hitte"),
+    "dagen_boven_30":       (False, False, "hitte"),
     "temp_jan":             (True,  False, "temp_jan"),
     "temp_jul":             (False, False, "temp_jul"),
     "zon_kwh":              (True,  False, "zon"),

@@ -105,11 +105,12 @@ def voeg_toe(t: pd.DataFrame, grens: gpd.GeoDataFrame, basis: pd.DataFrame, poi:
     # klimaat (ERA5-Land), alleen als de bestanden er zijn
     import era5
     if era5.beschikbaar():
-        print("  ERA5-Land: klimaat per comune")
+        print("  Copernicus: klimaat per comune")
         t = t.merge(era5.per_comune(t), on="istat", how="left")
     else:
-        print("  ! ERA5-Land ontbreekt (python pipeline/era5.py download): klimaat blijft leeg")
-        for c in ["dagen_boven_32", "vorstdagen", "trend_hete_dagen", "neerslag_mm", "neerslag_trend_pct",
+        print("  ! klimaatdata ontbreekt (python pipeline/era5.py download): klimaat blijft leeg")
+        t["klimaat_geschat"] = False
+        for c in ["dagen_boven_30", "vorstdagen", "trend_hete_dagen", "neerslag_mm", "neerslag_trend_pct",
                   "temp_jan", "temp_jul", "zon_kwh"]:
             t[c] = np.nan
 

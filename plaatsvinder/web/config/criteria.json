@@ -78,10 +78,10 @@
       "schaalniveau": "raster",
       "indicatoren": [
         {
-          "kolom": "dagen_boven_32",
-          "label": "Dagen per jaar boven 32 °C",
+          "kolom": "dagen_boven_30",
+          "label": "Dagen per jaar boven 30 °C (gemiddelde 2016-2025)",
           "richting": "lager_beter",
-          "bron": "era5"
+          "bron": "ecde"
         },
         {
           "kolom": "temp_jan",
@@ -94,7 +94,7 @@
           "kolom": "vorstdagen",
           "label": "Vorstdagen per jaar",
           "richting": "lager_beter",
-          "bron": "era5",
+          "bron": "ecde",
           "winter": true
         },
         {
@@ -473,9 +473,9 @@
       "indicatoren": [
         {
           "kolom": "trend_hete_dagen",
-          "label": "Extra hete dagen per jaar t.o.v. 1991-2000",
+          "label": "Extra dagen boven 30 °C per jaar t.o.v. 1991-2000",
           "richting": "lager_beter",
-          "bron": "era5"
+          "bron": "ecde"
         },
         {
           "kolom": "neerslag_trend_pct",

@@ -1,6 +1,6 @@
 # Steekproef
 
-Gemaakt op 2026-11-24 met `python pipeline/steekproef.py`. Per gemeente: de waarde in de tabel en, waar mogelijk, de waarde rechtstreeks uit het ruwe bronbestand.
+Gemaakt op 2026-11-25 met `python pipeline/steekproef.py`. Per gemeente: de waarde in de tabel en, waar mogelijk, de waarde rechtstreeks uit het ruwe bronbestand.
 
 ## Montecalvo Versiggia (PV), ISTAT 018096
 
@@ -34,7 +34,7 @@ Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 19 min (Nuov
 | Verkochte woningen (NTN) | 177.4 | 177.38 | ja |
 | LEA regio | 286 | [286] | ja |
 
-Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Ospedale S.M.Annunziata), luchthaven met vluchten het hele jaar 48 min, naar huis 7.5 uur, rode zone: nee, 7%-regime: nee (regio valt niet onder de regeling), kratergemeente: nee, wintertest 56, 80-jarentest 48.
+Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Ospedale S.M.Annunziata), luchthaven met vluchten het hele jaar 48 min, naar huis 7.5 uur, rode zone: nee, 7%-regime: nee (regio valt niet onder de regeling), kratergemeente: nee, wintertest 54, 80-jarentest 48.
 
 ## Casale Monferrato (AL), ISTAT 006039
 
@@ -51,7 +51,7 @@ Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Ospe
 | Verkochte woningen (NTN) | 634.5 | 634.5 | ja |
 | LEA regio | 270 | [270] | ja |
 
-Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 4 min (Ospedale Santo Spirito Casale), luchthaven met vluchten het hele jaar 72 min, naar huis 6.7 uur, rode zone: nee, 7%-regime: nee (regio valt niet onder de regeling), kratergemeente: nee, wintertest 76, 80-jarentest 86.
+Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 4 min (Ospedale Santo Spirito Casale), luchthaven met vluchten het hele jaar 72 min, naar huis 6.7 uur, rode zone: nee, 7%-regime: nee (regio valt niet onder de regeling), kratergemeente: nee, wintertest 70, 80-jarentest 86.
 
 ## Montegiorgio (FM), ISTAT 109017
 
@@ -68,7 +68,7 @@ Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 4 min (Osped
 | Verkochte woningen (NTN) | 33.5 | 33.5 | ja |
 | LEA regio | 248 | [248] | ja |
 
-Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Stabilimento Di Fermo), luchthaven met vluchten het hele jaar 75 min, naar huis 9.2 uur, rode zone: nee, 7%-regime: te_verifieren (Controleer de actuele wettekst), kratergemeente: 2016, wintertest 34, 80-jarentest 26.
+Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Stabilimento Di Fermo), luchthaven met vluchten het hele jaar 75 min, naar huis 9.2 uur, rode zone: nee, 7%-regime: te_verifieren (Controleer de actuele wettekst), kratergemeente: 2016, wintertest 36, 80-jarentest 26.
 
 ## Gerace (RC), ISTAT 080036
 
@@ -85,7 +85,7 @@ Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 24 min (Stab
 | Verkochte woningen (NTN) | 9.6 | 9.58 | ja |
 | LEA regio | 177 | [177] | ja |
 
-Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 13 min (Ospedale Civile Locri), luchthaven met vluchten het hele jaar 108 min, naar huis 17.0 uur, rode zone: nee, 7%-regime: ja (regio in het zuiden en hoogstens 30.000 inwoners), kratergemeente: nee, wintertest 52, 80-jarentest 59.
+Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 13 min (Ospedale Civile Locri), luchthaven met vluchten het hele jaar 108 min, naar huis 17.0 uur, rode zone: nee, 7%-regime: ja (regio in het zuiden en hoogstens 30.000 inwoners), kratergemeente: nee, wintertest 58, 80-jarentest 59.
 
 ## Ercolano (NA), ISTAT 063064
 
@@ -102,7 +102,7 @@ Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 13 min (Ospe
 | Verkochte woningen (NTN) | 338.8 | 338.75 | ja |
 | LEA regio | 206 | [206] | ja |
 
-Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 7 min (P.O. Torre Del Greco), luchthaven met vluchten het hele jaar 28 min, naar huis 11.8 uur, rode zone: geheel, 7%-regime: nee (meer dan 30.000 inwoners), kratergemeente: nee, wintertest 67, 80-jarentest 62.
+Overig (geen ruwe controle, wel getoond): rijtijd spoedeisende hulp 7 min (P.O. Torre Del Greco), luchthaven met vluchten het hele jaar 28 min, naar huis 11.8 uur, rode zone: geheel, 7%-regime: nee (meer dan 30.000 inwoners), kratergemeente: nee, wintertest 68, 80-jarentest 62.
 
 Rode zone: deze gemeente valt standaard weg (filter 'rode zone uitsluiten' staat aan); gecontroleerd in web/tests/test_model.php.
 
