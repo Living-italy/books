@@ -1,5 +1,5 @@
 {
-  "_uitleg": "Wensenlijst (opdracht sectie 14). Dealbreaker: ongewenst kenmerk, aanwezig = gemeente valt af. Must-have: moet aanwezig zijn, de regel beschrijft wanneer de gemeente afvalt. Nice-to-have: elk must-have plus de criteria in nice_extra; telt factor_nice keer zwaarder en sluit niets uit. Drempels liggen vast. Ontbrekende data sluit niet uit. De pipeline rekent per gemeente een bitmasker uit (bit = positie in 'items').",
+  "_uitleg": "Wensenlijst (opdracht sectie 14). Dealbreakers: onbeperkt aantal (aantal_dealbreakers null). Dealbreaker: ongewenst kenmerk, aanwezig = gemeente valt af. Must-have: moet aanwezig zijn, de regel beschrijft wanneer de gemeente afvalt. Nice-to-have: elk must-have plus de criteria in nice_extra; telt factor_nice keer zwaarder en sluit niets uit. Drempels liggen vast. Ontbrekende data sluit niet uit. De pipeline rekent per gemeente een bitmasker uit (bit = positie in 'items').",
   "aantal": 3,
   "factor_nice": 1.2,
   "min_resultaten": 25,
@@ -31,12 +31,6 @@
     }
   ],
   "blokkades": [
-    {
-      "a": "expatbubbel",
-      "b": "landgenoten",
-      "soort": "blokkade",
-      "tekst": "\"Veel buitenlanders\" en \"Landgenoten in de buurt\" sluiten elkaar uit."
-    },
     {
       "a": "massatoerisme",
       "b": "toeristische_vraag",
@@ -106,18 +100,18 @@
       "id": "overstroming_aardverschuiving",
       "lijst": "dealbreaker",
       "label": "Overstroming of aardverschuiving",
-      "drempel": "meer dan 2 % van de inwoners woont in een zone met hoog risico: aardverschuiving P3 of P4, of overstroming P3",
+      "drempel": "meer dan 10 % van de inwoners woont in een zone met hoog risico: aardverschuiving P3 of P4, of overstroming P3",
       "regel": {
         "of": [
           {
             "kolom": "frane_pop_pct",
             "op": ">",
-            "waarde": 2
+            "waarde": 10
           },
           {
             "kolom": "alluvioni_p3_pop_pct",
             "op": ">",
-            "waarde": 2
+            "waarde": 10
           }
         ]
       },
@@ -175,14 +169,14 @@
       "id": "lucht",
       "lijst": "dealbreaker",
       "label": "Slechte luchtkwaliteit",
-      "drempel": "jaargemiddelde fijnstof (PM2,5) hoger dan 10 µg/m³",
+      "drempel": "jaargemiddelde fijnstof (PM2,5) hoger dan 15 µg/m³",
       "regel": {
         "kolom": "pm25",
         "op": ">",
-        "waarde": 10
+        "waarde": 15
       },
       "bron": "eea_pm25",
-      "uitleg": "PM2,5 is fijnstof kleiner dan 2,5 micrometer, dat diep in de longen komt. De Europese grenswaarde daalt in 2030 naar 10 µg/m³; de Wereldgezondheidsorganisatie adviseert 5. De hoogste waarden komen voor in de Povlakte. Bron: Europees Milieuagentschap.",
+      "uitleg": "PM2,5 is fijnstof kleiner dan 2,5 micrometer, dat diep in de longen komt. De Wereldgezondheidsorganisatie adviseert 5 µg/m³ en noemt 15 als tussendoel; de Europese grenswaarde daalt in 2030 naar 10. Boven 15 is de lucht duidelijk vervuild. De hoogste waarden komen voor in de Povlakte. Bron: Europees Milieuagentschap.",
       "criterium": "lucht",
       "status": "actief"
     },
@@ -205,11 +199,11 @@
       "id": "spookdorp",
       "lijst": "dealbreaker",
       "label": "Stil buiten het seizoen",
-      "drempel": "wintertest lager dan 50",
+      "drempel": "wintertest lager dan 35",
       "regel": {
         "kolom": "test_winter",
         "op": "<",
-        "waarde": 50
+        "waarde": 35
       },
       "bron": "plaatsvinder",
       "uitleg": "De wintertest van de Plaatsvinder meet of een plaats ook in januari leeft: afstand tot diensten, groei of krimp van de bevolking, vergrijzing, winkels en bars in het centrum, de zomerpiek van het toerisme en vorst.",
@@ -239,30 +233,15 @@
       "id": "criminaliteit",
       "lijst": "dealbreaker",
       "label": "Hoge criminaliteit",
-      "drempel": "aangiften per 100.000 inwoners in de provincie hoger dan 0,8 keer het landelijk gemiddelde",
+      "drempel": "aangiften per 100.000 inwoners in de provincie hoger dan 1,2 keer het landelijk gemiddelde",
       "regel": {
         "kolom": "delitti_100k",
         "op": "factor_gemiddelde",
-        "waarde": 0.8
+        "waarde": 1.2
       },
       "bron": "istat_delitti",
       "uitleg": "Gebaseerd op het aantal aangiften van misdrijven per provincie (ISTAT). Het cijfer geldt voor de hele provincie; in dorpen ligt de criminaliteit meestal lager dan in de provinciehoofdstad.",
       "criterium": "veiligheid",
-      "status": "actief"
-    },
-    {
-      "id": "expatbubbel",
-      "lijst": "dealbreaker",
-      "label": "Veel buitenlanders",
-      "drempel": "meer dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten",
-      "regel": {
-        "kolom": "noord_pct",
-        "op": ">",
-        "waarde": 3
-      },
-      "bron": "istat_cittadinanza",
-      "uitleg": "Gebaseerd op de ingeschreven buitenlandse inwoners per nationaliteit (ISTAT). Een grote buitenlandse gemeenschap geeft steun, maar ook hogere prijzen en minder contact met Italianen.",
-      "criterium": "expats",
       "status": "actief"
     },
     {
@@ -404,11 +383,11 @@
       "id": "station",
       "lijst": "musthave",
       "label": "Treinstation dichtbij",
-      "drempel": "geen treinstation binnen 5 minuten rijden",
+      "drempel": "geen treinstation binnen 15 minuten rijden",
       "regel": {
         "kolom": "min_station",
         "op": ">",
-        "waarde": 5
+        "waarde": 15
       },
       "bron": "osm",
       "uitleg": "Gebaseerd op OpenStreetMap.",
@@ -449,30 +428,15 @@
       "id": "cultuur",
       "lijst": "musthave",
       "label": "Cultuur in de buurt",
-      "drempel": "geen historisch centrum of museum binnen 30 minuten rijden",
+      "drempel": "geen museum, kasteel, paleis, stadspoort, vesting of opgraving binnen 15 minuten rijden",
       "regel": {
         "kolom": "min_cultuur",
         "op": ">",
-        "waarde": 30
+        "waarde": 15
       },
       "bron": "osm",
-      "uitleg": "Gebaseerd op OpenStreetMap.",
+      "uitleg": "Gebaseerd op OpenStreetMap: musea, kastelen, paleizen, stadspoorten en -muren, vestingen, abdijen en archeologische vindplaatsen. Losse kerken, ruïnes en torens tellen niet mee.",
       "criterium": "cultuur",
-      "status": "actief"
-    },
-    {
-      "id": "landgenoten",
-      "lijst": "musthave",
-      "label": "Landgenoten in de buurt",
-      "drempel": "minder dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten",
-      "regel": {
-        "kolom": "noord_pct",
-        "op": "<",
-        "waarde": 3
-      },
-      "bron": "istat_cittadinanza",
-      "uitleg": "Zie de uitleg bij \"Veel buitenlanders\".",
-      "criterium": "expats",
       "status": "actief"
     },
     {
@@ -520,5 +484,6 @@
       "criterium": "voorzieningen",
       "status": "gepland"
     }
-  ]
+  ],
+  "aantal_dealbreakers": null
 }

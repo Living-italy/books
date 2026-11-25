@@ -61,7 +61,7 @@
     },
     "wensen": {
       "titel": "Uw wensenlijst",
-      "uitleg": "Kies maximaal drie dealbreakers, drie must-haves en drie nice-to-haves, zoals in paragraaf 1.3 van de gids. Elk punt kan maar op één lijst staan. U mag deze stap ook overslaan.",
+      "uitleg": "Kies zoveel dealbreakers als u wilt, en maximaal drie must-haves en drie nice-to-haves, zoals in paragraaf 1.3 van de gids. Elk punt kan maar op één lijst staan. U mag deze stap ook overslaan.",
       "dealbreakers": "Dealbreakers",
       "dealbreakers_uitleg": "Iets wat u niet wilt. Heeft een gemeente het, dan valt zij af.",
       "must": "Must-haves",
@@ -72,7 +72,8 @@
       "valt_af": "Valt af als: {d}.",
       "info": "Uitleg bij {item}",
       "elders": "Staat al op een andere lijst. Kiest u het hier, dan verhuist het.",
-      "gepland": "Volgt later: {lijst}."
+      "gepland": "Volgt later: {lijst}.",
+      "gekozen_vrij": "{n} gekozen."
     },
     "ligging": {
       "titel": "Waar wilt u wonen?",

@@ -61,7 +61,7 @@ Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie 
 
 ### 2.3 Wensenlijst
 
-De items staan in `config/wensenlijst.json`, met drempel, bron en uitleg (via de i-knop in de wizard). De drempels liggen vast. Elk item staat op precies één lijst; maximaal drie per lijst.
+De items staan in `config/wensenlijst.json`, met drempel, bron en uitleg (via de i-knop in de wizard). De drempels liggen vast. Elk item staat op precies één lijst. Dealbreakers: zoveel als de bezoeker wil; must-haves en nice-to-haves: maximaal drie.
 
 - **Dealbreaker**: een ongewenst kenmerk. Heeft de gemeente het, dan valt zij af.
 - **Must-have**: iets wat er moet zijn. Ontbreekt het, dan valt de gemeente af.
@@ -71,16 +71,15 @@ De items staan in `config/wensenlijst.json`, met drempel, bron en uitleg (via de
 |---|---|
 | Hoog aardbevingsrisico | seismische zone 1 of 2 |
 | Vulkaangebied | rode of gele zone van de Vesuvius of de Campi Flegrei |
-| Overstroming of aardverschuiving | meer dan 2 % van de inwoners in aardverschuiving P3/P4 of overstroming P3 |
+| Overstroming of aardverschuiving | meer dan 10 % van de inwoners in aardverschuiving P3/P4 of overstroming P3 |
 | Bosbrandgebied | afgebrand oppervlak in de hoogste 10 % van Italië |
 | Strenge winters | centrum hoger dan 600 m |
 | Extreme zomerhitte | dagen boven 30 °C in de hoogste 10 % van Italië |
-| Slechte luchtkwaliteit | PM2,5 hoger dan 10 µg/m³ |
+| Slechte luchtkwaliteit | PM2,5 hoger dan 15 µg/m³ |
 | Massatoerisme | meer dan 10 overnachtingen per inwoner per jaar |
-| Stil buiten het seizoen | wintertest lager dan 50 |
+| Stil buiten het seizoen | wintertest lager dan 35 |
 | Afgelegen ligging | SNAI intermedio, periferico of ultraperiferico |
-| Hoge criminaliteit | aangiften in de provincie hoger dan 0,8 keer het landelijk gemiddelde |
-| Veel buitenlanders | meer dan 3 % uit Noord-Europa, het VK of de VS |
+| Hoge criminaliteit | aangiften in de provincie hoger dan 1,2 keer het landelijk gemiddelde |
 | Lawaai van een snelweg | autosnelweg binnen 2 km van het centrum |
 | Zwakke regionale zorg | een LEA-gebiedsscore van de regio onder 60 |
 | Moeilijk verkoopbaar | minder dan 1 verkoop per 100 woningen per jaar |
@@ -93,16 +92,16 @@ De items staan in `config/wensenlijst.json`, met drempel, bron en uitleg (via de
 | Spoedeisende hulp dichtbij | verder dan 30 minuten |
 | Dagelijkse voorzieningen op loopafstand | niet alle drie (supermarkt, apotheek, bar) binnen 800 m; de huisarts telt niet mee, omdat die in OpenStreetMap te onvolledig is |
 | Snel internet | minder dan 80 % glasvezel |
-| Treinstation dichtbij | geen station binnen 5 minuten |
+| Treinstation dichtbij | geen station binnen 15 minuten |
 | Hogesnelheidstrein bereikbaar | geen Frecciarossa- of Italo-station binnen 30 minuten |
 | Beschermde natuur in de buurt | geen beschermd gebied binnen 5 km |
-| Cultuur in de buurt | geen museum, kasteel, paleis, stadspoort, vesting of opgraving binnen 30 minuten |
-| Landgenoten in de buurt | minder dan 3 % uit Noord-Europa, het VK of de VS |
+| Cultuur in de buurt | geen museum, kasteel, paleis, stadspoort, vesting of opgraving binnen 15 minuten |
 | Toeristische vraag voor verhuur | minder dan 5 overnachtingen per inwoner per jaar |
 | 7%-regime | komt niet in aanmerking |
 | Internationale school bereikbaar | gepland; staat uit zolang de lijst leeg is |
 
-- **Blokkades**: "Veel buitenlanders" tegenover "Landgenoten in de buurt"; "Massatoerisme" tegenover "Toeristische vraag"; "Strenge winters" tegenover de ligging bergen en de klimaatkeuze vier seizoenen. Waarschuwingen (geen blokkade): "Afgelegen ligging" met minder dan 1.000 inwoners, en het 7%-regime met "Zwakke regionale zorg".
+- **Blokkades**: "Massatoerisme" tegenover "Toeristische vraag"; "Strenge winters" tegenover de ligging bergen en de klimaatkeuze vier seizoenen. Waarschuwingen (geen blokkade): "Afgelegen ligging" met minder dan 1.000 inwoners, en het 7%-regime met "Zwakke regionale zorg".
+- **Bewust weggelaten** (keuze van de opdrachtgever): "Veel buitenlanders" en "Landgenoten in de buurt".
 - **Te weinig plaatsen** (minder dan 25): de uitslag toont per eis hoeveel gemeenten die op zichzelf wegstreept, de strengste eerst, met de keuze om de eis te verwijderen of (bij een must-have) een nice-to-have te maken.
 - **Rekenen**: de pipeline bepaalt per gemeente en per item of de gemeente afvalt en slaat dat op als bitmasker; de teller en de server lezen hetzelfde masker. Ontbrekende data sluit niet uit.
 - `data/dekking.md` toont per item hoeveel gemeenten afvallen en wat elk item met de steekproefgemeenten doet.

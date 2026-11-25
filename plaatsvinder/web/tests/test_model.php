@@ -86,15 +86,18 @@ foreach ($wl['items'] as $d) {
 check(!$dubbel, 'geen dealbreaker en must-have met hetzelfde onderwerp (' . implode(', ', $dubbel) . ')');
 check(count(array_unique(array_column($wl['items'], 'id'))) === count($wl['items']) && count($wl['items']) <= 30, 'items uniek en passen in het masker');
 // 14e: geblokkeerde combinaties
+$alleDb = array_column(array_filter(cfg('wensenlijst')['items'], fn($i) => $i['lijst'] === 'dealbreaker' && $i['status'] === 'actief'), 'id');
+$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => $alleDb]]);
+check(count($a['wensen']['dealbreakers']) === count($alleDb), 'dealbreakers: geen limiet (' . count($alleDb) . ' tegelijk gekozen)');
 $a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['expatbubbel'], 'must' => ['landgenoten']]]);
-check(!in_array('landgenoten', $a['wensen']['must'], true), 'blokkade: veel buitenlanders en landgenoten niet tegelijk');
+check(!$a['wensen']['dealbreakers'] && !$a['wensen']['must'], 'veel buitenlanders en landgenoten zijn geen keuze meer');
 $a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['massatoerisme'], 'nice' => ['toeristische_vraag']]]);
 check(!in_array('toeristische_vraag', $a['wensen']['nice'], true), 'blokkade: massatoerisme en toeristische vraag niet tegelijk');
 $a = antwoorden(['profiel' => 'gepensioneerde', 'ligging' => ['berg', 'heuvel'], 'klimaat' => 'seizoenen', 'wensen' => ['dealbreakers' => ['strenge_winter']]]);
 check($a['ligging'] === ['heuvel'] && $a['klimaat'] === 'zacht', 'blokkade: strenge winters haalt bergen en vier seizoenen weg');
 // 14f: te weinig plaatsen
-$r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV'], 'wensen' => ['dealbreakers' => ['lucht', 'afgelegen'], 'must' => ['station']]], $c, 25);
-check($r['aantal'] < 25 && count($r['wegstrepen'] ?? []) === 3 && $r['wegstrepen'][0]['weg'] >= $r['wegstrepen'][2]['weg'],
+$r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV'], 'wensen' => ['dealbreakers' => ['lucht', 'afgelegen'], 'must' => ['station', 'hogesnelheid']]], $c, 25);
+check($r['aantal'] < 25 && count($r['wegstrepen'] ?? []) === 4 && $r['wegstrepen'][0]['weg'] >= $r['wegstrepen'][3]['weg'],
     "te weinig plaatsen ({$r['aantal']}): per eis hoeveel die wegstreept, strengste eerst");
 // sectie 13: zoekgebied
 $r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV']], $c, 100000);

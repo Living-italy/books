@@ -232,7 +232,8 @@
   // ---------------------------------------------------------------- stap 3: wensenlijst (gids 1.3, sectie 14)
   function wensRij(id, label, sub, uitleg, soort) {
     var st = T.stappen.wensen, w = S.wensen, lijst = w[soort], aan = lijst.indexOf(id) >= 0;
-    var reden = !aan && geblokkeerd(id), vol = !aan && lijst.length >= WL.aantal, elders = !aan && gekozen(id);
+    var max = soort === "dealbreakers" && WL.aantal_dealbreakers == null ? Infinity : WL.aantal;
+    var reden = !aan && geblokkeerd(id), vol = !aan && lijst.length >= max, elders = !aan && gekozen(id);
     var info = el("p", { class: "pv-wens-uitleg", id: "pv-wi-" + soort + "-" + id, hidden: true, text: uitleg || "" });
     var knop = el("button", { type: "button", class: "pv-wens" + (aan ? " aan" : ""), "aria-pressed": aan ? "true" : "false",
       disabled: !!(reden || vol), onclick: function () {
@@ -255,7 +256,8 @@
     var groep = function (soort, items) {
       return el("fieldset", { class: "pv-groep" }, [
         el("legend", { text: st[soort] }),
-        el("p", { class: "pv-uitleg", text: st[soort + "_uitleg"] + " " + fmt(st.gekozen, { n: w[soort].length, max: max }) }),
+        el("p", { class: "pv-uitleg", text: st[soort + "_uitleg"] + " " + (soort === "dealbreakers" && WL.aantal_dealbreakers == null
+          ? fmt(st.gekozen_vrij, { n: w[soort].length }) : fmt(st.gekozen, { n: w[soort].length, max: max })) }),
         el("ul", { class: "pv-wenslijst" }, items.map(function (it) { return wensRij(it.id, it.label, it.sub, it.uitleg, soort); }))]);
     };
     var db = actief("dealbreaker").map(function (it) { return { id: it.id, label: it.label, sub: fmt(st.valt_af, { d: it.drempel }), uitleg: it.uitleg }; });

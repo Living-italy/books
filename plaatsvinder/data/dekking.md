@@ -51,16 +51,15 @@ Van de 7894 gemeenten. Ontbrekende data sluit niet uit. **Vet**: het item streep
 |---|---|---|---|---|---|
 | dealbreaker | Hoog aardbevingsrisico | seismische zone 1 of 2 (ook subzones 2A en 2B) | 3135 | 39.7 | 0 |
 | dealbreaker | Vulkaangebied | rode of gele zone van de Vesuvius of de Campi Flegrei | 97 | 1.2 | 7797 |
-| dealbreaker | Overstroming of aardverschuiving | meer dan 2 % van de inwoners woont in een zone met hoog risico: aardverschuiving P3 of P4, of overstroming P3 | **4488** | 56.9 | 3 |
+| dealbreaker | Overstroming of aardverschuiving | meer dan 10 % van de inwoners woont in een zone met hoog risico: aardverschuiving P3 of P4, of overstroming P3 | 1851 | 23.4 | 3 |
 | dealbreaker | Bosbrandgebied | het afgebrande oppervlak in de afgelopen 10 jaar (als aandeel van de gemeente) hoort bij de hoogste 10 % van Italië | 790 | 10.0 | 0 |
 | dealbreaker | Strenge winters | centrum hoger dan 600 m | 1484 | 18.8 | 6 |
 | dealbreaker | Extreme zomerhitte | het aantal dagen boven 30 °C hoort bij de hoogste 10 % van Italië | 780 | 9.9 | 0 |
-| dealbreaker | Slechte luchtkwaliteit | jaargemiddelde fijnstof (PM2,5) hoger dan 10 µg/m³ | **5197** | 65.8 | 0 |
+| dealbreaker | Slechte luchtkwaliteit | jaargemiddelde fijnstof (PM2,5) hoger dan 15 µg/m³ | 2097 | 26.6 | 0 |
 | dealbreaker | Massatoerisme | meer dan 10 overnachtingen in toeristische accommodaties per inwoner per jaar | 2511 | 31.8 | 0 |
-| dealbreaker | Stil buiten het seizoen | wintertest lager dan 50 | 3493 | 44.2 | 0 |
+| dealbreaker | Stil buiten het seizoen | wintertest lager dan 35 | 1324 | 16.8 | 0 |
 | dealbreaker | Afgelegen ligging | SNAI-klasse intermedio, periferico of ultraperiferico | 3830 | 48.5 | 9 |
-| dealbreaker | Hoge criminaliteit | aangiften per 100.000 inwoners in de provincie hoger dan 0,8 keer het landelijk gemiddelde | 3691 | 46.8 | 107 |
-| dealbreaker | Veel buitenlanders | meer dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten | 123 | 1.6 | 0 |
+| dealbreaker | Hoge criminaliteit | aangiften per 100.000 inwoners in de provincie hoger dan 1,2 keer het landelijk gemiddelde | 759 | 9.6 | 107 |
 | dealbreaker | Lawaai van een snelweg | autosnelweg (autostrada) binnen 2 km van het centrum | 1106 | 14.0 | 0 |
 | dealbreaker | Zwakke regionale zorg | de regio scoort in 2023 onvoldoende (lager dan 60) op ten minste een van de drie zorggebieden van de LEA-beoordeling | 1791 | 22.7 | 0 |
 | dealbreaker | Moeilijk verkoopbaar | minder dan 1 verkochte woning per 100 woningen per jaar | 1443 | 18.3 | 343 |
@@ -70,11 +69,10 @@ Van de 7894 gemeenten. Ontbrekende data sluit niet uit. **Vet**: het item streep
 | musthave | Spoedeisende hulp dichtbij | ziekenhuis met spoedeisende hulp (pronto soccorso) verder dan 30 minuten rijden | 1219 | 15.4 | 0 |
 | musthave | Dagelijkse voorzieningen op loopafstand | niet alle drie binnen 800 m van het centrum: supermarkt, apotheek en bar | **4608** | 58.4 | 0 |
 | musthave | Snel internet | minder dan 80 % van de huishoudens kan glasvezel krijgen | 2910 | 36.9 | 0 |
-| musthave | Treinstation dichtbij | geen treinstation binnen 5 minuten rijden | **5714** | 72.4 | 0 |
+| musthave | Treinstation dichtbij | geen treinstation binnen 15 minuten rijden | 2565 | 32.5 | 0 |
 | musthave | Hogesnelheidstrein bereikbaar | geen station met Frecciarossa of Italo binnen 30 minuten rijden | **6189** | 78.4 | 0 |
 | musthave | Beschermde natuur in de buurt | geen beschermd natuurgebied binnen 5 km van het centrum | 3494 | 44.3 | 0 |
-| musthave | Cultuur in de buurt | geen historisch centrum of museum binnen 30 minuten rijden | 19 | 0.2 | 0 |
-| musthave | Landgenoten in de buurt | minder dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten | **7770** | 98.4 | 0 |
+| musthave | Cultuur in de buurt | geen museum, kasteel, paleis, stadspoort, vesting of opgraving binnen 15 minuten rijden | 369 | 4.7 | 0 |
 | musthave | Toeristische vraag voor verhuur | minder dan 5 overnachtingen per inwoner per jaar | **4318** | 54.7 | 0 |
 | musthave | 7%-regime | gemeente komt niet in aanmerking | **5351** | 67.8 | 0 |
 | musthave | Internationale school bereikbaar | geen internationale school binnen 45 minuten rijden | gepland, staat uit | | |
@@ -87,16 +85,15 @@ Per item: valt de gemeente af (x) of niet (-).
 |---|---|---|---|---|---|---|
 | Hoog aardbevingsrisico (dealbreaker) | - | - | - | x | x | x |
 | Vulkaangebied (dealbreaker) | - | - | - | x | - | - |
-| Overstroming of aardverschuiving (dealbreaker) | x | x | x | x | x | - |
+| Overstroming of aardverschuiving (dealbreaker) | - | x | x | - | x | - |
 | Bosbrandgebied (dealbreaker) | - | - | - | x | - | - |
 | Strenge winters (dealbreaker) | - | - | - | - | - | - |
 | Extreme zomerhitte (dealbreaker) | - | - | - | - | - | - |
-| Slechte luchtkwaliteit (dealbreaker) | x | - | - | x | x | x |
+| Slechte luchtkwaliteit (dealbreaker) | x | - | - | - | - | - |
 | Massatoerisme (dealbreaker) | - | x | x | - | - | - |
-| Stil buiten het seizoen (dealbreaker) | - | x | - | - | - | x |
+| Stil buiten het seizoen (dealbreaker) | - | x | - | - | - | - |
 | Afgelegen ligging (dealbreaker) | - | x | x | - | - | x |
-| Hoge criminaliteit (dealbreaker) | x | x | x | x | - | - |
-| Veel buitenlanders (dealbreaker) | - | - | - | - | - | - |
+| Hoge criminaliteit (dealbreaker) | - | - | x | - | - | - |
 | Lawaai van een snelweg (dealbreaker) | - | - | - | x | - | - |
 | Zwakke regionale zorg (dealbreaker) | - | - | - | - | x | - |
 | Moeilijk verkoopbaar (dealbreaker) | - | - | - | - | x | x |
@@ -106,10 +103,9 @@ Per item: valt de gemeente af (x) of niet (-).
 | Spoedeisende hulp dichtbij (musthave) | - | - | - | - | - | - |
 | Dagelijkse voorzieningen op loopafstand (musthave) | - | x | - | - | - | x |
 | Snel internet (musthave) | - | x | x | - | x | - |
-| Treinstation dichtbij (musthave) | - | x | x | x | x | x |
+| Treinstation dichtbij (musthave) | - | x | x | - | - | x |
 | Hogesnelheidstrein bereikbaar (musthave) | - | x | x | - | x | x |
 | Beschermde natuur in de buurt (musthave) | - | x | x | - | - | x |
 | Cultuur in de buurt (musthave) | - | - | - | - | - | - |
-| Landgenoten in de buurt (musthave) | x | x | x | x | x | x |
 | Toeristische vraag voor verhuur (musthave) | x | - | - | - | - | - |
 | 7%-regime (musthave) | x | x | x | x | - | - |

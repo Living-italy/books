@@ -87,7 +87,7 @@ function wl_items(): array
 }
 
 /**
- * Keuzes van de wensenlijst controleren: elk item op één lijst, maximaal drie per lijst, alleen actieve items,
+ * Keuzes van de wensenlijst controleren: elk item op één lijst, dealbreakers onbeperkt, maximaal drie must- en nice-to-haves, alleen actieve items,
  * blokkades (14e) toegepast. Geeft ook het masker van de items die uitsluiten (dealbreakers en must-haves).
  */
 function wensen(array $in): array
@@ -98,9 +98,10 @@ function wensen(array $in): array
     $gezien = [];
     $kies = function (string $lijst, callable $mag) use ($in, $cfg, &$gezien): array {
         $uit = [];
+        $max = $lijst === 'dealbreakers' ? ($cfg['aantal_dealbreakers'] ?? PHP_INT_MAX) : $cfg['aantal'];
         foreach ((array)($in[$lijst] ?? []) as $id) {
             $id = (string)$id;
-            if (count($uit) < $cfg['aantal'] && !isset($gezien[$id]) && $mag($id)) {
+            if (count($uit) < $max && !isset($gezien[$id]) && $mag($id)) {
                 $uit[] = $id;
                 $gezien[$id] = true;
             }
@@ -167,9 +168,6 @@ function antwoorden(array $in): array
     }
     $wensen = wensen((array)($in['wensen'] ?? []));
     $expats = in_array($in['expats'] ?? '', ['veel', 'maakt_niet_uit', 'weinig'], true) ? $in['expats'] : 'maakt_niet_uit';
-    if (in_array('landgenoten', $wensen['nice'], true) && $expats === 'maakt_niet_uit') {
-        $expats = 'veel';
-    }
     if ($expats === 'maakt_niet_uit') {
         $g['expats'] = 0;
     }
