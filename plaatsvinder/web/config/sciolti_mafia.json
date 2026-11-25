@@ -1,9 +1,191 @@
 {
-  "_uitleg": "Gemeenteraden ontbonden wegens maffia-infiltratie (art. 143 TUEL), laatste 10 jaar. Alleen een label met jaartal en link, geen score. Handmatige tabel; nog te vullen uit de jaarverslagen van het Ministero dell'Interno.",
+  "_uitleg": "Gemeenteraden ontbonden wegens maffia-infiltratie (art. 143 TUEL), besluit van de Consiglio dei Ministri in 2025 en 2026. Alleen een label met jaartal, geen score. Aangeleverd onderzoek (stand 25 november 2026), op basis van communiqués van de Consiglio dei Ministri, de Gazzetta Ufficiale, WikiMafia en Avviso Pubblico. Olevano Romano (2025) bewust weggelaten: geen bevestiging dat het om maffia ging.",
   "bron": "Ministero dell'Interno, relazioni annuali sulle attività svolte dalle commissioni straordinarie (art. 143 TUEL)",
   "url": "https://www.interno.gov.it/it/temi/territorio/sistema-autonomie",
-  "peildatum": null,
+  "peildatum": "2026-11-25",
   "schaalniveau": "gemeente",
   "tekst": "Bij kopen via de normale kanalen is het risico klein, maar wees extra kritisch.",
-  "gemeenten": []
+  "gemeenten": [
+    {
+      "naam": "Mazzarrà Sant'Andrea",
+      "prov": "ME",
+      "istat": "083046",
+      "jaar": 2026,
+      "datum_besluit": "2026-08-04",
+      "keer": 2,
+      "organisatie": "Cosa Nostra",
+      "bron": "Gazzetta Ufficiale nr. 213 van 14-09-2026; Gazzetta del Sud 06-08-2026"
+    },
+    {
+      "naam": "Castellammare di Stabia",
+      "prov": "NA",
+      "istat": "063024",
+      "jaar": 2026,
+      "datum_besluit": "2026-07-14",
+      "keer": 2,
+      "organisatie": "camorra",
+      "bron": "Consiglio dei Ministri, communiqué nr. 181"
+    },
+    {
+      "naam": "Francofonte",
+      "prov": "SR",
+      "istat": "089010",
+      "jaar": 2026,
+      "datum_besluit": "2026-06-10",
+      "keer": 1,
+      "organisatie": "maffia",
+      "bron": "Consiglio dei Ministri, communiqué nr. 177"
+    },
+    {
+      "naam": "Torre Annunziata",
+      "prov": "NA",
+      "istat": "063083",
+      "jaar": 2026,
+      "datum_besluit": "2026-06-04",
+      "keer": 3,
+      "organisatie": "camorra",
+      "bron": "Consiglio dei Ministri, communiqué nr. 176"
+    },
+    {
+      "naam": "Sarno",
+      "prov": "SA",
+      "istat": "065135",
+      "jaar": 2026,
+      "datum_besluit": "2026-06-04",
+      "keer": 2,
+      "organisatie": "camorra",
+      "bron": "Consiglio dei Ministri, communiqué nr. 176"
+    },
+    {
+      "naam": "Soriano Calabro",
+      "prov": "VV",
+      "istat": "102040",
+      "jaar": 2026,
+      "datum_besluit": "2026-04-28",
+      "keer": 3,
+      "organisatie": "'ndrangheta",
+      "bron": "Quotidiano del Sud 28-04-2026"
+    },
+    {
+      "naam": "Pagani",
+      "prov": "SA",
+      "istat": "065088",
+      "jaar": 2026,
+      "datum_besluit": "2026-04-21",
+      "keer": 3,
+      "organisatie": "camorra",
+      "bron": "Consiglio dei Ministri, communiqué nr. 169"
+    },
+    {
+      "naam": "Arienzo",
+      "prov": "CE",
+      "istat": "061004",
+      "jaar": 2026,
+      "datum_besluit": "2026-04-21",
+      "keer": 1,
+      "organisatie": "camorra",
+      "bron": "Consiglio dei Ministri, communiqué nr. 169"
+    },
+    {
+      "naam": "Paternò",
+      "prov": "CT",
+      "istat": "087033",
+      "jaar": 2025,
+      "datum_besluit": "2025-11-20",
+      "keer": 1,
+      "organisatie": "Cosa Nostra",
+      "bron": "Consiglio dei Ministri, communiqué nr. 149; Gazzetta Ufficiale nr. 6 van 09-01-2026"
+    },
+    {
+      "naam": "Altomonte",
+      "prov": "CS",
+      "istat": "078009",
+      "jaar": 2025,
+      "datum_besluit": "2025-11-20",
+      "keer": 1,
+      "organisatie": "'ndrangheta",
+      "bron": "Consiglio dei Ministri, communiqué nr. 149"
+    },
+    {
+      "naam": "Marano di Napoli",
+      "prov": "NA",
+      "istat": "063041",
+      "jaar": 2025,
+      "datum_besluit": "2025-09-04",
+      "keer": 5,
+      "organisatie": "camorra",
+      "bron": "DPR 05-09-2025 (Quirinale)"
+    },
+    {
+      "naam": "Caserta",
+      "prov": "CE",
+      "istat": "061022",
+      "jaar": 2025,
+      "datum_besluit": "2025-04-18",
+      "keer": 1,
+      "organisatie": "camorra",
+      "bron": "Gazzetta Ufficiale 27-05-2025"
+    },
+    {
+      "naam": "Aprilia",
+      "prov": "LT",
+      "istat": "059001",
+      "jaar": 2025,
+      "datum_besluit": "2025-04-18",
+      "keer": 1,
+      "organisatie": "maffia",
+      "bron": "Gazzetta Ufficiale 23-05-2025"
+    },
+    {
+      "naam": "Badolato",
+      "prov": "CZ",
+      "istat": "079008",
+      "jaar": 2025,
+      "datum_besluit": "2025-04-18",
+      "keer": 2,
+      "organisatie": "'ndrangheta",
+      "bron": "Gazzetta Ufficiale 26-05-2025"
+    },
+    {
+      "naam": "Casabona",
+      "prov": "KR",
+      "istat": "101004",
+      "jaar": 2025,
+      "datum_besluit": "2025-04-18",
+      "keer": 2,
+      "organisatie": "'ndrangheta",
+      "bron": "Gazzetta Ufficiale 24-05-2025"
+    },
+    {
+      "naam": "Poggiomarino",
+      "prov": "NA",
+      "istat": "063055",
+      "jaar": 2025,
+      "datum_besluit": "2025-03-27",
+      "keer": 3,
+      "organisatie": "camorra",
+      "bron": "Consiglio dei Ministri 27-03-2025 (askanews 01-04-2025)"
+    },
+    {
+      "naam": "San Luca",
+      "prov": "RC",
+      "istat": "080074",
+      "jaar": 2025,
+      "datum_besluit": "2025-03-27",
+      "keer": 3,
+      "organisatie": "'ndrangheta",
+      "bron": "Consiglio dei Ministri 27-03-2025 (askanews 01-04-2025)"
+    },
+    {
+      "naam": "Tremestieri Etneo",
+      "prov": "CT",
+      "istat": "087051",
+      "jaar": 2025,
+      "datum_besluit": "2025-03-27",
+      "keer": 1,
+      "organisatie": "Cosa Nostra",
+      "bron": "Consiglio dei Ministri 27-03-2025 (askanews 01-04-2025)"
+    }
+  ],
+  "periode": "2025-2026"
 }

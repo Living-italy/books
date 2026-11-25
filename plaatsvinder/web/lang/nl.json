@@ -286,7 +286,7 @@
     "gids_paragraaf": "{p}, {pagina}",
     "gidsprijs": "Volgens de gids: gemiddelde vraagprijs in {regio} rond € {v} per m² ({toelichting}). Vraagprijzen liggen meestal boven de OMI-waarde.",
     "maffia_titel": "Gemeenteraad ontbonden",
-    "maffia": "De gemeenteraad is in {jaar} ontbonden wegens maffia-infiltratie.",
+    "maffia": "De gemeenteraad is in {jaar} ontbonden wegens maffia-infiltratie ({org}){keer}. Er bestuurt nu tijdelijk een commissie van de staat.",
     "maffia_link": "Bron: Ministero dell'Interno",
     "station_hs": "Dichtstbijzijnde station met hogesnelheidstreinen: {naam}",
     "station_nacht": "Dichtstbijzijnde station met nachttrein: {naam}",
@@ -294,7 +294,9 @@
     "vluchten_nl": "Nederland: {l}",
     "vluchten_be": "België: {l}",
     "gids_uitleg": "Uit de gids 'Huis kopen in Italië':",
-    "klimaat_geschat": "Hete dagen en vorstdagen zijn hier geschat uit de temperatuur van juli en januari. Het raster van 25 km waar deze cijfers vandaan komen, ligt hier gemiddeld veel hoger of lager dan het centrum."
+    "klimaat_geschat": "Hete dagen en vorstdagen zijn hier geschat uit de temperatuur van juli en januari. Het raster van 25 km waar deze cijfers vandaan komen, ligt hier gemiddeld veel hoger of lager dan het centrum.",
+    "maffia_keer": ", voor de {n}e keer",
+    "maffia_bron": "Bron: {bron}."
   },
   "vergelijk": {
     "titel": "Vergelijken",

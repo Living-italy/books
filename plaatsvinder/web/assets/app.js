@@ -587,10 +587,11 @@
 
         if (g.hoogte_m != null) sectie.appendChild(el("p", { class: "pv-noot", text: fmt(G.hoogte_uitleg, { n: getal(g.hoogte_m, 0) }) }));
         if (w.sciolto_mafia_jaar) {
-          var sm = C.sciolti_mafia;
+          var sm = C.sciolti_mafia, smg = sm.gemeenten.filter(function (x) { return x.istat === g.istat; })[0] || {};
           sectie.appendChild(el("section", { class: "pv-blok pv-label-maffia" }, [el("h3", { text: G.maffia_titel }),
-            el("p", {}, [el("strong", { text: fmt(G.maffia, { jaar: w.sciolto_mafia_jaar }) }), " " + sm.tekst]),
-            sm.url ? el("a", { href: sm.url, target: "_blank", rel: "noopener", text: G.maffia_link }) : null]));
+            el("p", {}, [el("strong", { text: fmt(G.maffia, { jaar: w.sciolto_mafia_jaar, org: smg.organisatie || "", keer: smg.keer > 1 ? fmt(G.maffia_keer, { n: smg.keer }) : "" }) }), " " + sm.tekst]),
+            smg.bron ? el("p", { class: "pv-noot", text: fmt(G.maffia_bron, { bron: smg.bron }) }) : null,
+            sm.url && !smg.bron ? el("a", { href: sm.url, target: "_blank", rel: "noopener", text: G.maffia_link }) : null]));
         }
 
         // deelscores met indicatoren en bronnen
