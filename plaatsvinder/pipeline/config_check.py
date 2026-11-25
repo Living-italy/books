@@ -52,6 +52,22 @@ def controleer() -> list[str]:
     for r in cfg["lea_2023"]["regios"]:
         if r["prevenzione"] + r["distrettuale"] + r["ospedaliera"] != r["totaal"]:
             fouten.append(f"lea_2023.json: totaal van {r['gebied']} klopt niet")
+    # wensenlijst (sectie 14)
+    wl = laad("wensenlijst")
+    ids = [i["id"] for i in wl["items"]]
+    if len(ids) != len(set(ids)) or len(ids) > 30:
+        fouten.append("wensenlijst.json: ids niet uniek of meer dan 30 items (masker)")
+    for i in wl["items"]:
+        if i["bron"] not in bron_ids:
+            fouten.append(f"wensenlijst.json: bron '{i['bron']}' bij '{i['id']}' staat niet in bronnen.json")
+        if i["criterium"] not in crit_ids:
+            fouten.append(f"wensenlijst.json: criterium '{i['criterium']}' bij '{i['id']}' bestaat niet")
+        if i["lijst"] not in ("dealbreaker", "musthave"):
+            fouten.append(f"wensenlijst.json: lijst '{i['lijst']}' bij '{i['id']}'")
+    for b in wl["blokkades"]:
+        for x in (b["a"], b["b"]):
+            if ":" not in x and x not in ids:
+                fouten.append(f"wensenlijst.json: blokkade noemt onbekend item '{x}'")
     return fouten
 
 

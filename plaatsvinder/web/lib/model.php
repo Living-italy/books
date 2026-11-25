@@ -398,17 +398,18 @@ function tel(array $comuni, array $a): int
     return $n;
 }
 
-/** 14f: bij te weinig plaatsen per gekozen dealbreaker en must-have hoeveel gemeenten die eis extra wegstreept. */
-function wat_streept_weg(array $comuni, array $a, int $aantal): array
+/** 14f: bij te weinig plaatsen per gekozen dealbreaker en must-have hoeveel gemeenten die eis op zichzelf wegstreept
+ *  (binnen de overige keuzes, zonder de andere eisen uit de wensenlijst), de strengste eerst. */
+function wat_streept_weg(array $comuni, array $a): array
 {
     $items = wl_items();
+    $basis = tel($comuni, array_merge($a, ['masker' => 0]));
     $uit = [];
     foreach (array_merge($a['wensen']['dealbreakers'], $a['wensen']['must']) as $id) {
-        $zonder = array_merge($a, ['masker' => $a['masker'] & ~(1 << $items[$id]['bit'])]);
-        $uit[] = ['id' => $id, 'label' => $items[$id]['label'], 'lijst' => $items[$id]['lijst'],
-                  'extra' => tel($comuni, $zonder) - $aantal];
+        $alleen = tel($comuni, array_merge($a, ['masker' => 1 << $items[$id]['bit']]));
+        $uit[] = ['id' => $id, 'label' => $items[$id]['label'], 'lijst' => $items[$id]['lijst'], 'weg' => $basis - $alleen, 'van' => $basis];
     }
-    usort($uit, fn($x, $y) => $y['extra'] <=> $x['extra']);
+    usort($uit, fn($x, $y) => $y['weg'] <=> $x['weg']);
     return $uit;
 }
 
@@ -448,7 +449,7 @@ function scoor(array $invoer, array $comuni, int $n = 25): array
             'wensen' => ['dealbreakers' => $w['dealbreakers'], 'must' => $w['must'], 'nice' => $w['nice']],
             'top' => array_map(fn($k) => samenvatting($k, $a), array_slice($kand, 0, $n))];
     if (count($kand) < cfg('wensenlijst')['min_resultaten'] && $w['masker']) {
-        $uit['wegstrepen'] = wat_streept_weg($comuni, $a, count($kand));
+        $uit['wegstrepen'] = wat_streept_weg($comuni, $a);
     }
     if (!empty($invoer['alternatieven_voor'])) {
         // 13: alternatieven mogen buiten het zoekgebied liggen; die krijgen een markering

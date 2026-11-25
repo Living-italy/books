@@ -568,7 +568,7 @@
           S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf);
           teken();
         };
-        return el("li", {}, [el("span", {}, [el("strong", { text: x.label }), " " + fmt(U.weinig_extra, { n: getal(x.extra, 0) })]),
+        return el("li", {}, [el("span", {}, [el("strong", { text: x.label }), " " + fmt(U.weinig_extra, { n: getal(x.weg, 0), van: getal(x.van, 0) })]),
           el("span", { class: "pv-knoprij" }, [
             x.lijst === "musthave" && S.wensen.nice.length < WL.aantal ? el("button", { type: "button", class: "pv-link", text: U.naar_nice, onclick: function () { weg(true); } }) : null,
             el("button", { type: "button", class: "pv-link", text: U.verwijder, onclick: function () { weg(false); } })])]);

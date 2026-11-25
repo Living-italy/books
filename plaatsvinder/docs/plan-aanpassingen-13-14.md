@@ -27,3 +27,9 @@ Opdracht: `docs/plaatsvinder-aanpassingen.md`, secties 13 en 14. Secties 1 tot e
 
 - Overnachtingen per gemeente: geen open bron per gemeente gevonden; schatting uit het provinciecijfer en het aandeel bedden.
 - Internationale scholen: lijst leeg, item staat uit.
+
+## Stand na de bouw
+
+- Alle fasen gebouwd en getest (`php web/tests/test_model.php`, Python-tests, browser op 390 px).
+- Provincies: 110 eenheden in de actuele ISTAT-indeling, waaronder 8 in Sardinië (Cagliari, Gallura Nord-Est Sardegna, Medio Campidano, Nuoro, Ogliastra, Oristano, Sassari, Sulcis Iglesiente). ISTAT-tabellen per provincie (aangiften, overnachtingen) gebruiken nog de indeling 2017-2025 met 107 provincies; die worden via de oude provinciecode per gemeente gekoppeld.
+- Items die meer dan de helft wegstrepen: zie `data/dekking.md` (vet).

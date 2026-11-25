@@ -24,12 +24,12 @@ Onderaan elke stap staat een teller: "Nog 4.913 plaatsen over van 7.894". Die te
 | Stap | Vraag | Wat het doet |
 |---|---|---|
 | 1 | Wie bent u? | Kies een profiel (zie 2.2). Bij de gepensioneerde volgt de vraag "permanent wonen of het jaar verdelen". Het profiel bepaalt de startgewichten en enkele standaardeisen. |
-| 2 | Uw wensenlijst | Maximaal 3 dealbreakers, 3 must-haves en 3 nice-to-haves uit de criteria (gids, paragraaf 1.3). Zie 2.3. |
-| 3 | Waar wilt u wonen? | Kust, meer, heuvels, bergen, vlakte; meerdere keuzes mogelijk (zie 3.5). |
-| 4 | Hoe groot mag de plaats zijn? | Minder dan 1.000 inwoners, 1.000-5.000, 5.000-20.000, 20.000-100.000, meer dan 100.000. |
-| 5 | Wat vindt u belangrijk? | Een schuifje per criterium; de gewichten tellen altijd op tot 100. Bij klimaat de keuze "zachte winter" of "vier seizoenen"; bij andere buitenlanders "liever veel", "maakt niet uit" of "liever weinig". |
-| 6 | Wat is voor u een harde eis? | Harde filters: maximale prijs per m², maximale rijtijd naar een luchthaven met vluchten het hele jaar, naar een ziekenhuis met spoedeisende hulp, naar huis (Utrecht, Brussel, Keulen of München), minimaal aandeel glasvezel, maximale hoogte van het centrum, seismische zone 1 uitsluiten, rode zone van Vesuvius en Campi Flegrei uitsluiten (standaard aan), alleen gemeenten met het 7%-regime. Optioneel een budget: huren of kopen, maximaal bedrag en woninggrootte. |
-| 7 | Waar in Italië? | Heel Italië met regio's uitzetten, of alleen bepaalde regio's en daarbinnen eventueel alleen bepaalde provincies. |
+| 2 | Waar wilt u zoeken? | Heel Italië (standaard, met de tip om daar te beginnen), een of meer regio's, of een of meer provincies (gegroepeerd per regio, met zoekveld). Een harde filter; de scores blijven over heel Italië berekend. |
+| 3 | Uw wensenlijst | Maximaal drie dealbreakers, drie must-haves en drie nice-to-haves (gids, paragraaf 1.3). Zie 2.3. |
+| 4 | Waar wilt u wonen? | Kust, meer, heuvels, bergen, vlakte; meerdere keuzes mogelijk (zie 3.5). |
+| 5 | Hoe groot mag de plaats zijn? | Minder dan 1.000 inwoners, 1.000-5.000, 5.000-20.000, 20.000-100.000, meer dan 100.000. |
+| 6 | Wat vindt u belangrijk? | Een schuifje per criterium; de gewichten tellen altijd op tot 100. Bij klimaat de keuze "zachte winter" of "vier seizoenen"; bij andere buitenlanders "liever veel", "maakt niet uit" of "liever weinig". |
+| 7 | Wat is voor u een harde eis? | Eigen harde eisen: maximale prijs per m², rijtijd naar luchthaven, spoedeisende hulp en huis, minimaal aandeel glasvezel, maximale hoogte, seismische zone 1 en rode zone uitsluiten, alleen 7%-regime, en een budget. Geldt een eis hier en in de wensenlijst, dan sluiten beide uit, dus telt de strengste. |
 
 Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie terugkomt, krijgt "U was hier al eerder" met de keuze tussen verdergaan en opnieuw beginnen. Dit patroon komt uit de wensenlijst van Un Sogno di Casa.
 
@@ -61,19 +61,51 @@ Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie 
 
 ### 2.3 Wensenlijst
 
-- **Dealbreakers** worden harde eisen. De bezoeker kiest onder de dealbreakers zelf de grenswaarde; de standaard staat in de tabel. Heeft de bezoeker bij de harde eisen (stap 6) een strengere waarde gezet, dan blijft die staan.
+De items staan in `config/wensenlijst.json`, met drempel, bron en uitleg (via de i-knop in de wizard). De drempels liggen vast. Elk item staat op precies één lijst; maximaal drie per lijst.
 
-| Criterium | Dealbreaker (standaard) | Keuze voor de bezoeker |
-|---|---|---|
-| Budget | maximaal € 1.500 per m² | € 750 tot € 3.000 |
-| Klimaat | centrum niet hoger dan 800 m | 300 tot 1.200 m |
-| Bereikbaarheid | luchthaven met vluchten het hele jaar binnen 90 minuten | 30 tot 120 minuten |
-| Gezondheidszorg | spoedeisende hulp binnen 45 minuten | 20 tot 60 minuten |
-| Internet | minimaal 50% van de huishoudens met glasvezel | 25 tot 90% |
-| Fiscaal | alleen gemeenten met het 7%-regime | geen grenswaarde |
-| Natuurrisico's | geen seismische zone 1 en geen rode zone | geen grenswaarde |
+- **Dealbreaker**: een ongewenst kenmerk. Heeft de gemeente het, dan valt zij af.
+- **Must-have**: iets wat er moet zijn. Ontbreekt het, dan valt de gemeente af.
+- **Nice-to-have**: elk must-have-item plus klimaat, natuur en rust, cultuur en herverkoopbaarheid. Het bijbehorende criterium telt 1,2 keer zo zwaar (heeft het gewicht 0, dan eerst 5); daarna weer samen 100. Sluit niets uit.
 
-- **Must-haves** tellen 1,5 keer zo zwaar, **nice-to-haves** 1,2 keer. Daarna worden de gewichten weer naar precies 100 gebracht (grootste-rest-methode, zodat de afronding klopt).
+| Dealbreaker | Valt af als |
+|---|---|
+| Hoog aardbevingsrisico | seismische zone 1 of 2 |
+| Vulkaangebied | rode of gele zone van de Vesuvius of de Campi Flegrei |
+| Overstroming of aardverschuiving | meer dan 2 % van de inwoners in aardverschuiving P3/P4 of overstroming P3 |
+| Bosbrandgebied | afgebrand oppervlak in de hoogste 10 % van Italië |
+| Strenge winters | centrum hoger dan 600 m |
+| Extreme zomerhitte | dagen boven 30 °C in de hoogste 10 % van Italië |
+| Slechte luchtkwaliteit | PM2,5 hoger dan 10 µg/m³ |
+| Massatoerisme | meer dan 10 overnachtingen per inwoner per jaar |
+| Stil buiten het seizoen | wintertest lager dan 50 |
+| Afgelegen ligging | SNAI intermedio, periferico of ultraperiferico |
+| Hoge criminaliteit | aangiften in de provincie hoger dan 0,8 keer het landelijk gemiddelde |
+| Veel buitenlanders | meer dan 3 % uit Noord-Europa, het VK of de VS |
+| Lawaai van een snelweg | autosnelweg binnen 2 km van het centrum |
+| Zwakke regionale zorg | een LEA-gebiedsscore van de regio onder 60 |
+| Moeilijk verkoopbaar | minder dan 1 verkoop per 100 woningen per jaar |
+| Maffia-infiltratie | gemeenteraad in 2025 of 2026 ontbonden |
+
+| Must-have | Valt af als |
+|---|---|
+| Luchthaven met vluchten het hele jaar | niet binnen 60 minuten |
+| Met de auto vanuit NL of BE binnen een dag | Utrecht en Brussel allebei verder dan 14 uur |
+| Spoedeisende hulp dichtbij | verder dan 30 minuten |
+| Dagelijkse voorzieningen op loopafstand | niet alle vier (supermarkt, apotheek, huisarts, bar) binnen 800 m |
+| Snel internet | minder dan 80 % glasvezel |
+| Treinstation dichtbij | geen station binnen 5 minuten |
+| Hogesnelheidstrein bereikbaar | geen Frecciarossa- of Italo-station binnen 30 minuten |
+| Beschermde natuur in de buurt | geen beschermd gebied binnen 5 km |
+| Cultuur in de buurt | geen museum, kasteel, paleis, stadspoort, vesting of opgraving binnen 30 minuten |
+| Landgenoten in de buurt | minder dan 3 % uit Noord-Europa, het VK of de VS |
+| Toeristische vraag voor verhuur | minder dan 50 overnachtingen per inwoner per jaar |
+| 7%-regime | komt niet in aanmerking |
+| Internationale school bereikbaar | gepland; staat uit zolang de lijst leeg is |
+
+- **Blokkades**: "Veel buitenlanders" tegenover "Landgenoten in de buurt"; "Massatoerisme" tegenover "Toeristische vraag"; "Strenge winters" tegenover de ligging bergen en de klimaatkeuze vier seizoenen. Waarschuwingen (geen blokkade): "Afgelegen ligging" met minder dan 1.000 inwoners, en het 7%-regime met "Zwakke regionale zorg".
+- **Te weinig plaatsen** (minder dan 25): de uitslag toont per eis hoeveel gemeenten die op zichzelf wegstreept, de strengste eerst, met de keuze om de eis te verwijderen of (bij een must-have) een nice-to-have te maken.
+- **Rekenen**: de pipeline bepaalt per gemeente en per item of de gemeente afvalt en slaat dat op als bitmasker; de teller en de server lezen hetzelfde masker. Ontbrekende data sluit niet uit.
+- `data/dekking.md` toont per item hoeveel gemeenten afvallen en wat elk item met de steekproefgemeenten doet.
 
 ### 2.4 De uitslag
 
@@ -81,6 +113,7 @@ Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie 
 - Per gemeente de drie sterkste en de drie zwakste criteria met een balkje, de wintertest en de 80-jarentest, en de criteria zonder data.
 - Bij een budget: de geschatte woonlast (OMI-prijs maal woninggrootte) en hoeveel procent onder het budget.
 - Badge "trend" voor regio's en provincies die volgens het jaarrapport van Gate-away.com in opkomst zijn (handmatige tabel, geen score).
+- Een deelbare link met alle keuzes (profiel, zoekgebied, wensenlijst, filters en gewichten).
 - Overzicht "Uw keuzes" met per stap "Wijzigen". Na het wijzigen brengt "Terug naar de uitslag" de bezoeker direct terug.
 - Tot drie gemeenten aanvinken om te vergelijken.
 
@@ -99,7 +132,7 @@ Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie 
 - Label "Gemeenteraad ontbonden" voor de 18 gemeenten uit 2025 en 2026 die wegens maffia-infiltratie zijn ontbonden, met jaar, organisatie, het hoeveelste keer en de bron. Geen score.
 - Checklist (bezoek in januari of februari, wintervluchten, jacht en bespuitingen, staat van de woning, verhuur, taal) en de lijst van wat niet in de score zit.
 - Blok "Meer hierover in de gids" met paragraaf en pagina: regio's (1.1.2 en Bijlage B), Bijlage A, natuurrisico's (1.1.1 c), 7%-regime (7.2.1, met link naar het 7%-document), verhuur (hoofdstuk 10) en Bijlage C (link naar de kaarten).
-- Drie alternatieven: gemeenten van dezelfde grootteklasse met een vergelijkbaar profiel en een minstens zo hoge score.
+- Drie alternatieven: gemeenten van dezelfde grootteklasse met een vergelijkbaar profiel en een minstens zo hoge score. Ze mogen buiten het zoekgebied liggen en zijn dan gemarkeerd met "buiten uw zoekgebied".
 
 ## 3. Wat de tool berekent
 
@@ -225,6 +258,9 @@ Een gemeente kan meerdere liggingen hebben.
 | Openbare OSRM-server | grensovergang naar huis | 24-11-2026 | grensovergang | ODbL |
 | Treinstations (Trenitalia, Italo, OSM) | hogesnelheid en nachttrein | 2026 | station | eigen tabel; ODbL |
 | Ministero dell'Interno e.a. | ontbonden gemeenteraden | 25-11-2026 | gemeente | open |
+| Protezione Civile, zona gialla | gele zone Vesuvius en Campi Flegrei | 2016 en 2019 | gemeente | open |
+| ISTAT, presenze per provincie | overnachtingen per inwoner (provinciecijfer verdeeld naar het aandeel bedden; schatting) | 2024 | provincie | CC BY 4.0 |
+| Ministero della Salute, NSG per gebied | zwakke regionale zorg (laagste van drie gebiedsscores) | 2023 | regio | open |
 
 De dekking per indicator staat in `data/dekking.md`. Vrijwel alles heeft data voor 99-100% van de gemeenten. Uitzonderingen: herverkoopbaarheid 95,7%, veiligheid 98,6% en 7%-regime 97,7%.
 
@@ -246,6 +282,7 @@ De dekking per indicator staat in `data/dekking.md`. Vrijwel alles heeft data vo
 - PM10 en NO2 (EEA 2023): de EEA-servers zijn op dit moment onbereikbaar; opnieuw proberen staat ingepland.
 - Gepland in `criteria.json`: huisdieren (leishmania en dergelijke), wild (Afrikaanse varkenspest), droogte, laadpalen, aardgasnet, internationale scholen, toeristenbelasting, programma's voor nieuwe inwoners.
 - Eventueel: ontbonden gemeenteraden van 2016 tot en met 2024.
+- Internationale scholen: `config/internationale_scholen.json` is leeg; het must-have-item staat uit tot de lijst gevuld is.
 
 ## 7. Techniek
 
