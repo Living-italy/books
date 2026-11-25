@@ -73,51 +73,82 @@ function normaliseer(array $g): array
     return array_map('intval', $uit);
 }
 
-/** Wensenlijst (gids 1.3): must-haves x1,5, nice-to-haves x1,2, daarna weer samen 100. */
-function pas_wensen_toe(array $g, array $must, array $nice): array
+/** Wensenlijst (sectie 14): items met hun bitpositie in het masker van de pipeline. */
+function wl_items(): array
 {
-    $w = cfg('criteria')['wensenlijst'];
-    foreach ($must as $c) {
-        if (isset($g[$c])) {
-            $g[$c] *= $w['factor_must'];
+    static $it = null;
+    if ($it === null) {
+        $it = [];
+        foreach (cfg('wensenlijst')['items'] as $bit => $i) {
+            $it[$i['id']] = $i + ['bit' => $bit];
         }
     }
-    foreach ($nice as $c) {
-        if (isset($g[$c])) {
-            $g[$c] *= $w['factor_nice'];
+    return $it;
+}
+
+/**
+ * Keuzes van de wensenlijst controleren: elk item op één lijst, maximaal drie per lijst, alleen actieve items,
+ * blokkades (14e) toegepast. Geeft ook het masker van de items die uitsluiten (dealbreakers en must-haves).
+ */
+function wensen(array $in): array
+{
+    $cfg = cfg('wensenlijst');
+    $items = wl_items();
+    $extra = array_column($cfg['nice_extra'], null, 'id');
+    $gezien = [];
+    $kies = function (string $lijst, callable $mag) use ($in, $cfg, &$gezien): array {
+        $uit = [];
+        foreach ((array)($in[$lijst] ?? []) as $id) {
+            $id = (string)$id;
+            if (count($uit) < $cfg['aantal'] && !isset($gezien[$id]) && $mag($id)) {
+                $uit[] = $id;
+                $gezien[$id] = true;
+            }
+        }
+        return $uit;
+    };
+    $actief = fn($id, $lijst) => isset($items[$id]) && $items[$id]['status'] === 'actief' && $items[$id]['lijst'] === $lijst;
+    $w = [
+        'dealbreakers' => $kies('dealbreakers', fn($id) => $actief($id, 'dealbreaker')),
+        'must' => $kies('must', fn($id) => $actief($id, 'musthave')),
+        'nice' => $kies('nice', fn($id) => $actief($id, 'musthave') || (isset($extra[$id]) && $id !== 'n_kosten')),
+    ];
+    // blokkades tussen twee items: de tweede vervalt
+    $alle = fn() => array_merge($w['dealbreakers'], $w['must'], $w['nice']);
+    foreach ($cfg['blokkades'] as $b) {
+        if ($b['soort'] === 'blokkade' && isset($items[$b['b']]) && in_array($b['a'], $alle(), true)) {
+            foreach (['dealbreakers', 'must', 'nice'] as $l) {
+                $w[$l] = array_values(array_diff($w[$l], [$b['b']]));
+            }
+        }
+    }
+    $w['masker'] = 0;
+    foreach (array_merge($w['dealbreakers'], $w['must']) as $id) {
+        $w['masker'] |= 1 << $items[$id]['bit'];
+    }
+    return $w;
+}
+
+/** Nice-to-haves: het bijbehorende criterium telt factor_nice keer zwaarder (één keer per criterium); daarna weer 100.
+ *  Een criterium met gewicht 0 krijgt eerst gewicht 5, anders heeft de keuze geen effect. */
+function pas_nice_toe(array $g, array $nice): array
+{
+    $cfg = cfg('wensenlijst');
+    $items = wl_items();
+    $extra = array_column($cfg['nice_extra'], null, 'id');
+    $crit = [];
+    foreach ($nice as $id) {
+        $crit[$items[$id]['criterium'] ?? $extra[$id]['criterium']] = true;
+    }
+    foreach (array_keys($crit) as $c) {
+        if (array_key_exists($c, $g)) {
+            $g[$c] = max($g[$c], 5) * $cfg['factor_nice'];
         }
     }
     return normaliseer($g);
 }
 
-/** Grenswaarde van een dealbreaker: de keuze van de gebruiker als die geldig is, anders de standaard. */
-function drempel(array $db, $gekozen)
-{
-    if (is_bool($db['waarde'])) {
-        return $db['waarde'];
-    }
-    $opties = $db['opties'] ?? [];
-    if (is_numeric($gekozen) && $gekozen > 0 && (!$opties || in_array((float)$gekozen, array_map('floatval', $opties), true))) {
-        return (float)$gekozen;
-    }
-    return $db['waarde'];
-}
-
-/** Zet een filter op de strengste van de eigen waarde en de dealbreaker-waarde. */
-function streng(array $f, string $k, $waarde): array
-{
-    $eigen = $f[$k] ?? null;
-    if (is_bool($waarde)) {
-        $f[$k] = $waarde || (bool)$eigen;
-    } elseif (!is_numeric($eigen) || $eigen <= 0) {
-        $f[$k] = $waarde;
-    } else {
-        $f[$k] = str_starts_with($k, 'min_') ? max($eigen, $waarde) : min($eigen, $waarde);
-    }
-    return $f;
-}
-
-/** Controleert en normaliseert de antwoorden. */
+/** Controleert en normaliseert de antwoorden. *//** Controleert en normaliseert de antwoorden. */
 function antwoorden(array $in): array
 {
     $lijst = fn($v, array $mag) => array_values(array_intersect(array_map('strval', (array)($v ?? [])), $mag));
@@ -134,26 +165,23 @@ function antwoorden(array $in): array
             }
         }
     }
-    $wensen = (array)($in['wensen'] ?? []);
-    $kies = fn($k) => array_slice(array_values(array_intersect((array)($wensen[$k] ?? []), $crit)), 0, cfg('criteria')['wensenlijst']['aantal']);
-    $dealbreakers = $kies('dealbreakers');
+    $wensen = wensen((array)($in['wensen'] ?? []));
     $expats = in_array($in['expats'] ?? '', ['veel', 'maakt_niet_uit', 'weinig'], true) ? $in['expats'] : 'maakt_niet_uit';
+    if (in_array('landgenoten', $wensen['nice'], true) && $expats === 'maakt_niet_uit') {
+        $expats = 'veel';
+    }
     if ($expats === 'maakt_niet_uit') {
         $g['expats'] = 0;
     }
-    if (!is_array($in['gewichten'] ?? null)) {
-        $g = pas_wensen_toe($g, $kies('must'), $kies('nice'));
+    if (!is_array($in['gewichten'] ?? null) && $wensen['nice']) {
+        $g = pas_nice_toe($g, $wensen['nice']);
     }
     $f = (array)($in['filters'] ?? []);
-    // dealbreakers worden harde eisen (drempel uit criteria.json); een strengere eigen eis blijft staan
-    foreach (cfg('criteria')['criteria'] as $c) {
-        if (!in_array($c['id'], $dealbreakers, true) || !isset($c['dealbreaker'])) {
-            continue;
-        }
-        $f = streng($f, $c['dealbreaker']['filter'], drempel($c['dealbreaker'], $wensen['drempels'][$c['id']] ?? null));
-        if ($c['id'] === 'risico') {
-            $f['rode_zone_uit'] = true;
-        }
+    $ligging = $lijst($in['ligging'] ?? [], LIGGING);
+    $klimaat = ($in['klimaat'] ?? '') === 'seizoenen' ? 'seizoenen' : 'zacht';
+    if (in_array('strenge_winter', $wensen['dealbreakers'], true)) {      // blokkade 14e
+        $ligging = array_values(array_diff($ligging, ['berg']));
+        $klimaat = 'zacht';
     }
     $standaard = profiel($profiel)['filters_standaard'] ?? [];
     $budget = null;
@@ -168,7 +196,7 @@ function antwoorden(array $in): array
     $bool = fn($k, $std) => array_key_exists($k, $f) ? (bool)$f[$k] : $std;
     return [
         'profiel' => $profiel, 'verblijf' => $verblijf, 'expats' => $expats, 'gewichten' => $g,
-        'ligging' => $lijst($in['ligging'] ?? [], LIGGING),
+        'ligging' => $ligging,
         'grootte' => array_map('intval', $lijst($in['grootte'] ?? [], ['0', '1', '2', '3', '4'])),
         'regios_uit' => array_map('intval', array_filter((array)($in['regios_uit'] ?? []), 'is_numeric')),
         'alleen_regios' => array_map('intval', array_filter((array)($in['alleen_regios'] ?? []), 'is_numeric')),
@@ -184,8 +212,9 @@ function antwoorden(array $in): array
         'min_glasvezel' => array_key_exists('min_glasvezel', $f) ? $num($f['min_glasvezel']) : ($standaard['min_glasvezel_pct'] ?? null),
         'alleen_regime7' => $bool('alleen_regime7', false),
         'max_hoogte' => $num($f['max_hoogte'] ?? null),
-        'klimaat' => ($in['klimaat'] ?? '') === 'seizoenen' ? 'seizoenen' : 'zacht',
-        'dealbreakers' => $dealbreakers,
+        'klimaat' => $klimaat,
+        'wensen' => $wensen,
+        'masker' => $wensen['masker'],
     ];
 }
 
@@ -211,6 +240,9 @@ function woonlast(array $c, array $budget): ?float
 function voldoet(array $c, array $a, array $regiosMetProv = []): bool
 {
     $w = $c['w'];
+    if ($a['masker'] && ((int)($c['wl'] ?? 0) & $a['masker'])) {
+        return false;
+    }
     if ($a['ligging'] && !array_filter($a['ligging'], fn($l) => !empty($c[$l]))) {
         return false;
     }
@@ -351,6 +383,35 @@ function alternatieven(array $kand, string $istat, int $n = 3): array
     return array_map(fn($x) => $x[1], array_slice($afst, 0, $n));
 }
 
+function zonder_gebied(array $a): array
+{
+    return array_merge($a, ['regios_uit' => [], 'alleen_regios' => [], 'alleen_provs' => []]);
+}
+
+function tel(array $comuni, array $a): int
+{
+    $rmp = $a['alleen_provs'] ? regios_met_prov($comuni, $a['alleen_provs']) : [];
+    $n = 0;
+    foreach ($comuni as $c) {
+        $n += voldoet($c, $a, $rmp) ? 1 : 0;
+    }
+    return $n;
+}
+
+/** 14f: bij te weinig plaatsen per gekozen dealbreaker en must-have hoeveel gemeenten die eis extra wegstreept. */
+function wat_streept_weg(array $comuni, array $a, int $aantal): array
+{
+    $items = wl_items();
+    $uit = [];
+    foreach (array_merge($a['wensen']['dealbreakers'], $a['wensen']['must']) as $id) {
+        $zonder = array_merge($a, ['masker' => $a['masker'] & ~(1 << $items[$id]['bit'])]);
+        $uit[] = ['id' => $id, 'label' => $items[$id]['label'], 'lijst' => $items[$id]['lijst'],
+                  'extra' => tel($comuni, $zonder) - $aantal];
+    }
+    usort($uit, fn($x, $y) => $y['extra'] <=> $x['extra']);
+    return $uit;
+}
+
 function samenvatting(array $k, array $a): array
 {
     $c = $k['c'];
@@ -373,6 +434,7 @@ function samenvatting(array $k, array $a): array
         'sterk' => $sterk, 'zwak' => $zwak,
         'geen_data' => array_values(array_keys(array_filter($deel, fn($v, $crit) => $v === null && ($a['gewichten'][$crit] ?? 0) > 0, ARRAY_FILTER_USE_BOTH))),
         'winter' => $c['tw'], 'tachtig' => $c['tt'], 'woonlast' => $budget,
+        'buiten_gebied' => $k['buiten'] ?? false,
     ];
 }
 
@@ -381,10 +443,23 @@ function scoor(array $invoer, array $comuni, int $n = 25): array
 {
     $a = antwoorden($invoer);
     $kand = kandidaten($comuni, $a);
-    $uit = ['aantal' => count($kand), 'gewichten' => $a['gewichten'], 'dealbreakers' => $a['dealbreakers'],
+    $w = $a['wensen'];
+    $uit = ['aantal' => count($kand), 'gewichten' => $a['gewichten'],
+            'wensen' => ['dealbreakers' => $w['dealbreakers'], 'must' => $w['must'], 'nice' => $w['nice']],
             'top' => array_map(fn($k) => samenvatting($k, $a), array_slice($kand, 0, $n))];
+    if (count($kand) < cfg('wensenlijst')['min_resultaten'] && $w['masker']) {
+        $uit['wegstrepen'] = wat_streept_weg($comuni, $a, count($kand));
+    }
     if (!empty($invoer['alternatieven_voor'])) {
-        $uit['alternatieven'] = array_map(fn($k) => samenvatting($k, $a), alternatieven($kand, (string)$invoer['alternatieven_voor']));
+        // 13: alternatieven mogen buiten het zoekgebied liggen; die krijgen een markering
+        $breed = ($a['alleen_regios'] || $a['alleen_provs'] || $a['regios_uit']) ? kandidaten($comuni, zonder_gebied($a)) : $kand;
+        $binnen = array_flip(array_map(fn($k) => $k['c']['istat'], $kand));
+        $alt = alternatieven($breed, (string)$invoer['alternatieven_voor']);
+        foreach ($alt as &$k) {
+            $k['buiten'] = !isset($binnen[$k['c']['istat']]);
+        }
+        unset($k);
+        $uit['alternatieven'] = array_map(fn($k) => samenvatting($k, $a), $alt);
     }
     return $uit;
 }
