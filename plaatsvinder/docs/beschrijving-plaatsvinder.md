@@ -61,17 +61,17 @@ Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie 
 
 ### 2.3 Wensenlijst
 
-- **Dealbreakers** worden harde eisen, met de drempel uit `config/criteria.json`. Heeft de bezoeker zelf al een strengere eis gezet, dan blijft die staan.
+- **Dealbreakers** worden harde eisen. De bezoeker kiest onder de dealbreakers zelf de grenswaarde; de standaard staat in de tabel. Heeft de bezoeker bij de harde eisen (stap 6) een strengere waarde gezet, dan blijft die staan.
 
-| Criterium | Dealbreaker betekent |
-|---|---|
-| Budget | maximaal € 1.500 per m² |
-| Klimaat | centrum niet hoger dan 800 m |
-| Bereikbaarheid | luchthaven met vluchten het hele jaar binnen 90 minuten |
-| Gezondheidszorg | spoedeisende hulp binnen 45 minuten |
-| Internet | minimaal 50% van de huishoudens met glasvezel |
-| Fiscaal | alleen gemeenten met het 7%-regime |
-| Natuurrisico's | geen seismische zone 1 en geen rode zone |
+| Criterium | Dealbreaker (standaard) | Keuze voor de bezoeker |
+|---|---|---|
+| Budget | maximaal € 1.500 per m² | € 750 tot € 3.000 |
+| Klimaat | centrum niet hoger dan 800 m | 300 tot 1.200 m |
+| Bereikbaarheid | luchthaven met vluchten het hele jaar binnen 90 minuten | 30 tot 120 minuten |
+| Gezondheidszorg | spoedeisende hulp binnen 45 minuten | 20 tot 60 minuten |
+| Internet | minimaal 50% van de huishoudens met glasvezel | 25 tot 90% |
+| Fiscaal | alleen gemeenten met het 7%-regime | geen grenswaarde |
+| Natuurrisico's | geen seismische zone 1 en geen rode zone | geen grenswaarde |
 
 - **Must-haves** tellen 1,5 keer zo zwaar, **nice-to-haves** 1,2 keer. Daarna worden de gewichten weer naar precies 100 gebracht (grootste-rest-methode, zodat de afronding klopt).
 

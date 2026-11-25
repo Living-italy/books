@@ -32,9 +32,9 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-voortgang { height: 4px; background: var(--pv-lijn); border-radius: 2px; overflow: hidden; margin: 6px 0 12px; }
 .pv-voortgang span { display: block; height: 100%; background: var(--pv-accent); transition: width .2s; }
 
-.pv-raster { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.pv-raster-klein { grid-template-columns: 1fr 1fr; }
-@media (min-width: 560px) { .pv-raster { grid-template-columns: 1fr 1fr; } .pv-raster-klein { grid-template-columns: 1fr 1fr 1fr; } }
+.pv-raster { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.pv-raster-klein { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 560px) { .pv-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pv-raster-klein { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .pv-kaart {
   position: relative; display: flex; flex-direction: column; gap: 2px; text-align: left; width: 100%;
   padding: 14px 44px 14px 14px; min-height: 56px; border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius);
@@ -141,7 +141,7 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-basis-E { border-style: dashed; }
 .pv-vinkje { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0; }
 .pv-vinkje input { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--pv-accent); flex: 0 0 auto; }
-.pv-groep { border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 10px 14px 0; margin: 0 0 16px; }
+.pv-groep { border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); padding: 10px 14px 0; margin: 0 0 16px; min-width: 0; }
 .pv-groep legend { font-weight: 600; padding: 0 4px; }
 .pv-knop-klein { flex: 0 0 auto; min-height: 40px; padding: 8px 14px; text-decoration: none; display: inline-flex; align-items: center; }
 .pv-knoprij .pv-vinkje { margin: 0; align-items: center; }
@@ -186,3 +186,5 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-overzicht ul { list-style: none; margin: .5rem 0 0; padding: 0; }
 .pv-overzicht li { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: .5rem 0; border-top: 1px solid var(--pv-lijn); }
 .pv-gids ul { margin: .25rem 0 0; padding-left: 1.2rem; }
+.pv-kaart-titel, .pv-kaart-uitleg { overflow-wrap: break-word; }
+.pv-grenzen { margin: 4px 0 14px; }

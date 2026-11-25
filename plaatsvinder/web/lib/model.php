@@ -90,6 +90,19 @@ function pas_wensen_toe(array $g, array $must, array $nice): array
     return normaliseer($g);
 }
 
+/** Grenswaarde van een dealbreaker: de keuze van de gebruiker als die geldig is, anders de standaard. */
+function drempel(array $db, $gekozen)
+{
+    if (is_bool($db['waarde'])) {
+        return $db['waarde'];
+    }
+    $opties = $db['opties'] ?? [];
+    if (is_numeric($gekozen) && $gekozen > 0 && (!$opties || in_array((float)$gekozen, array_map('floatval', $opties), true))) {
+        return (float)$gekozen;
+    }
+    return $db['waarde'];
+}
+
 /** Zet een filter op de strengste van de eigen waarde en de dealbreaker-waarde. */
 function streng(array $f, string $k, $waarde): array
 {
@@ -137,7 +150,7 @@ function antwoorden(array $in): array
         if (!in_array($c['id'], $dealbreakers, true) || !isset($c['dealbreaker'])) {
             continue;
         }
-        $f = streng($f, $c['dealbreaker']['filter'], $c['dealbreaker']['waarde']);
+        $f = streng($f, $c['dealbreaker']['filter'], drempel($c['dealbreaker'], $wensen['drempels'][$c['id']] ?? null));
         if ($c['id'] === 'risico') {
             $f['rode_zone_uit'] = true;
         }

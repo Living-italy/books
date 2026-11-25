@@ -48,13 +48,14 @@
       "titel": "Uw wensenlijst",
       "uitleg": "Kies uit de criteria maximaal drie dealbreakers, drie must-haves en drie nice-to-haves, zoals in paragraaf 1.3 van de gids. U mag dit ook overslaan.",
       "dealbreakers": "Dealbreakers",
-      "dealbreakers_uitleg": "Wordt een harde eis: een gemeente die er niet aan voldoet, valt af.",
+      "dealbreakers_uitleg": "Wordt een harde eis: een gemeente die er niet aan voldoet, valt af. De grenswaarde stelt u daarna zelf in.",
       "must": "Must-haves",
       "must_uitleg": "Telt anderhalf keer zo zwaar mee.",
       "nice": "Nice-to-haves",
       "nice_uitleg": "Telt 1,2 keer zo zwaar mee.",
       "gekozen": "{n} van {max} gekozen",
-      "vol": "U hebt er al {max} gekozen. Haal er eerst een weg."
+      "vol": "U hebt er al {max} gekozen. Haal er eerst een weg.",
+      "grenzen_titel": "Grenswaarden van uw dealbreakers"
     },
     "ligging": {
       "titel": "Waar wilt u wonen?",

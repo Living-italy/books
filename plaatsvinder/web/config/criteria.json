@@ -28,7 +28,19 @@
       "dealbreaker": {
         "filter": "max_prijs_m2",
         "waarde": 1500,
-        "tekst": "maximaal € 1.500 per m²"
+        "tekst": "maximaal € 1.500 per m²",
+        "opties": [
+          750,
+          1000,
+          1250,
+          1500,
+          2000,
+          2500,
+          3000
+        ],
+        "sjabloon": "maximaal € {v} per m²",
+        "label": "Maximale prijs per m²",
+        "eenheid": "€ {v}"
       }
     },
     {
@@ -133,7 +145,18 @@
       "dealbreaker": {
         "filter": "max_hoogte",
         "waarde": 800,
-        "tekst": "centrum niet hoger dan 800 m"
+        "tekst": "centrum niet hoger dan 800 m",
+        "opties": [
+          300,
+          500,
+          600,
+          800,
+          1000,
+          1200
+        ],
+        "sjabloon": "centrum niet hoger dan {v} m",
+        "label": "Maximale hoogte van het centrum",
+        "eenheid": "{v} m"
       }
     },
     {
@@ -202,7 +225,17 @@
       "dealbreaker": {
         "filter": "max_luchthaven",
         "waarde": 90,
-        "tekst": "luchthaven met vluchten het hele jaar binnen 90 minuten"
+        "tekst": "luchthaven met vluchten het hele jaar binnen 90 minuten",
+        "opties": [
+          30,
+          45,
+          60,
+          90,
+          120
+        ],
+        "sjabloon": "luchthaven met vluchten het hele jaar binnen {v} minuten",
+        "label": "Maximale rijtijd naar de luchthaven",
+        "eenheid": "{v} minuten"
       }
     },
     {
@@ -269,7 +302,16 @@
       "dealbreaker": {
         "filter": "max_ziekenhuis",
         "waarde": 45,
-        "tekst": "spoedeisende hulp binnen 45 minuten"
+        "tekst": "spoedeisende hulp binnen 45 minuten",
+        "opties": [
+          20,
+          30,
+          45,
+          60
+        ],
+        "sjabloon": "spoedeisende hulp binnen {v} minuten",
+        "label": "Maximale rijtijd naar spoedeisende hulp",
+        "eenheid": "{v} minuten"
       }
     },
     {
@@ -294,7 +336,16 @@
       "dealbreaker": {
         "filter": "min_glasvezel",
         "waarde": 50,
-        "tekst": "minimaal 50% van de huishoudens met glasvezel"
+        "tekst": "minimaal 50% van de huishoudens met glasvezel",
+        "opties": [
+          25,
+          50,
+          75,
+          90
+        ],
+        "sjabloon": "minimaal {v}% van de huishoudens met glasvezel",
+        "label": "Minimaal aandeel huishoudens met glasvezel",
+        "eenheid": "{v}%"
       }
     },
     {

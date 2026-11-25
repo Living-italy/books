@@ -46,12 +46,22 @@
     (w.nice || []).forEach(function (c) { if (g[c] != null) g[c] *= WL.factor_nice; });
     return normaliseer(g);
   }
+  // grenswaarde van een dealbreaker: keuze van de gebruiker, anders de standaard (gelijk aan drempel() in model.php)
+  function drempel(c) {
+    var db = c.dealbreaker, v = ((S.wensen || {}).drempels || {})[c.id];
+    if (typeof db.waarde === "boolean") return db.waarde;
+    return v > 0 && (!db.opties || db.opties.indexOf(Number(v)) >= 0) ? Number(v) : db.waarde;
+  }
+  function dbTekst(c) {
+    var db = c.dealbreaker;
+    return db.sjabloon ? fmt(db.sjabloon, { v: getal(drempel(c), 0) }) : db.tekst;
+  }
   // dealbreakers als harde eisen; een strengere eigen eis blijft staan (gelijk aan streng() in model.php)
   function effFilters() {
     var f = Object.assign({}, S.filters);
     CRIT.forEach(function (c) {
       if (!c.dealbreaker || (S.wensen.dealbreakers || []).indexOf(c.id) < 0) return;
-      var k = c.dealbreaker.filter, v = c.dealbreaker.waarde, eigen = f[k];
+      var k = c.dealbreaker.filter, v = drempel(c), eigen = f[k];
       if (typeof v === "boolean") f[k] = v || !!eigen;
       else if (!(eigen > 0)) f[k] = v;
       else f[k] = k.slice(0, 4) === "min_" ? Math.max(eigen, v) : Math.min(eigen, v);
@@ -63,7 +73,7 @@
   var leeg = function () {
     return {
       stap: -1, profiel: "", verblijf: "permanent", expats: "maakt_niet_uit", klimaat: "zacht", gewichten: {},
-      wensen: { dealbreakers: [], must: [], nice: [] },
+      wensen: { dealbreakers: [], must: [], nice: [], drempels: {} },
       ligging: [], grootte: [], filters: { rode_zone_uit: true }, budget: { soort: "", max: null, m2: 80 },
       gebied: "overal", regios_uit: [], alleen_regios: [], alleen_provs: [], vergelijk: []
     };
@@ -119,7 +129,7 @@
       if (gr.length && gr.indexOf(L.gr[i]) < 0) continue;
       if (uit.indexOf(regio) >= 0) continue;
       if (alleen && !(S.alleen_provs.indexOf(pv[0]) >= 0 || (S.alleen_regios.indexOf(regio) >= 0 && !rmp[regio]))) continue;
-      if (f.max_prijs_m2 && L.koop[i] != null && L.koop[i] * 10 > f.max_prijs_m2) continue;
+      if (f.max_prijs_m2 && L.koop[i] != null && L.koop[i] > f.max_prijs_m2) continue;
       if (f.max_luchthaven && L.lh[i] != null && L.lh[i] > f.max_luchthaven) continue;
       if (f.max_ziekenhuis && L.zh[i] != null && L.zh[i] > f.max_ziekenhuis) continue;
       if (uur && uur[i] != null && uur[i] / 2 > f.max_uur.uren) continue;
@@ -129,7 +139,7 @@
       if (f.alleen_regime7 && ((fl >> 4) & 3) !== 1) continue;
       if (f.max_hoogte && L.hm[i] != null && L.hm[i] > f.max_hoogte) continue;
       if (metBudget) {
-        var m2p = bu.soort === "huren" ? (L.huur[i] == null ? null : L.huur[i] / 10) : (L.koop[i] == null ? null : L.koop[i] * 10);
+        var m2p = bu.soort === "huren" ? (L.huur[i] == null ? null : L.huur[i] / 10) : L.koop[i];
         if (m2p != null && m2p * bu.m2 > bu.max) continue;
       }
       n++;
@@ -197,16 +207,27 @@
       return el("fieldset", { class: "pv-groep" }, [
         el("legend", { text: st[soort] }),
         el("p", { class: "pv-uitleg", text: st[soort + "_uitleg"] + " " + fmt(st.gekozen, { n: gekozen.length, max: max }) }),
-        el("div", { class: "pv-raster pv-raster-klein" }, kandidaten.map(function (c) {
+        el("div", { class: soort === "dealbreakers" ? "pv-raster" : "pv-raster pv-raster-klein" }, kandidaten.map(function (c) {
           var aan = gekozen.indexOf(c.id) >= 0;
-          return kaart(c.label, soort === "dealbreakers" ? c.dealbreaker.tekst : null, aan, function () {
+          return kaart(c.label, soort === "dealbreakers" ? dbTekst(c) : null, aan, function () {
             if (!aan && gekozen.length >= max) { alert(fmt(st.vol, { max: max })); return; }
             ["dealbreakers", "must", "nice"].forEach(function (x) { if (x !== soort) w[x] = w[x].filter(function (id) { return id !== c.id; }); });
             toggle(gekozen, c.id);
             S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf);
             teken();
           });
-        }))]);
+        })), soort === "dealbreakers" ? grenzen() : null]);
+    };
+    // per gekozen dealbreaker met een getal: de grenswaarde kiezen
+    var grenzen = function () {
+      var met = CRIT.filter(function (c) { return w.dealbreakers.indexOf(c.id) >= 0 && c.dealbreaker && c.dealbreaker.opties; });
+      if (!met.length) return null;
+      w.drempels = w.drempels || {};
+      return el("div", { class: "pv-grenzen" }, [el("h3", { class: "pv-sub-kop", text: st.grenzen_titel })].concat(met.map(function (c) {
+        var db = c.dealbreaker;
+        return keuzelijst(db.label, drempel(c), db.opties.map(function (o) { return [o, fmt(db.eenheid, { v: getal(o, 0) })]; }),
+          function (v) { w.drempels[c.id] = v; teken(); }, "pv-d-" + c.id);
+      })));
     };
     return el("div", {}, [groep("dealbreakers"), groep("must"), groep("nice")]);
   }
@@ -306,7 +327,7 @@
       delen.push(veld(bu.soort === "kopen" ? st.max_koop : st.max_huur, "max", bu.soort === "kopen" ? "5000" : "50"));
       delen.push(veld(st.m2, "m2", "5"));
     }
-    var db = (S.wensen.dealbreakers || []).map(function (id) { var c = CRIT.filter(function (x) { return x.id === id; })[0]; return c && c.dealbreaker ? c.dealbreaker.tekst : null; }).filter(Boolean);
+    var db = (S.wensen.dealbreakers || []).map(function (id) { var c = CRIT.filter(function (x) { return x.id === id; })[0]; return c && c.dealbreaker ? dbTekst(c) : null; }).filter(Boolean);
     if (db.length) delen.unshift(el("p", { class: "pv-let-op", text: fmt(st.dealbreakers_actief, { lijst: db.join("; ") }) }));
     return el("div", {}, delen);
   }

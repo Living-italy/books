@@ -128,10 +128,10 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
         "gv": kol("glasvezel_pct", lambda v: None if _schoon(v) is None else int(round(_schoon(v) * 10))),   # x10
         "uu": kol("uur_utrecht", halfuur), "ub": kol("uur_brussel", halfuur),
         "uk": kol("uur_keulen", halfuur), "um": kol("uur_munchen", halfuur),
-        "koop": kol("koop_m2", lambda v: None if pd.isna(v) else int(round(v / 10))),
+        "koop": kol("koop_m2", lambda v: None if pd.isna(v) else int(round(v))),
         "huur": kol("huur_m2", lambda v: None if pd.isna(v) else int(round(v * 10))),
         "hm": kol("hoogte_m"),
-        "eenheden": "uu/ub/uk/um: halve uren; hm: hoogte centrum in m; gv: glasvezel-% x 10; koop: euro/m2 gedeeld door 10; huur: euro/m2 x 10; regio = provincies[pv][2]",
+        "eenheden": "uu/ub/uk/um: halve uren; hm: hoogte centrum in m; gv: glasvezel-% x 10; koop: euro/m2; huur: euro/m2 x 10; regio = provincies[pv][2]",
     }
     OUT_LITE.write_text(json.dumps(lite, separators=(",", ":")), encoding="utf-8")
     t.drop(columns=["geometry"], errors="ignore").to_csv(OUT_CSV, index=False)

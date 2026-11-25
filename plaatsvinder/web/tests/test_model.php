@@ -89,5 +89,15 @@ $x = $c[100];
 check(deelscores($x, $z)['klimaat'] === ($x['s']['klimaat_seizoenen'] ?? $x['s']['klimaat']) && !array_key_exists('klimaat_seizoenen', deelscores($x, $z)),
     'klimaatvoorkeur vier seizoenen gebruikt de omgedraaide klimaatscore');
 
+
+// grenswaarde van een dealbreaker door de gebruiker
+$r = scoor(['profiel' => 'gezin', 'wensen' => ['dealbreakers' => ['internet'], 'drempels' => ['internet' => 75]]], $c, 100000);
+$idx = array_column($c, null, 'istat');
+$onder = array_filter($r['top'], fn($x) => ($idx[$x['istat']]['w']['glasvezel_pct'] ?? 100) < 75);
+check(count($onder) === 0, "eigen grenswaarde internet 75%: geen gemeente eronder ({$r['aantal']} over)");
+$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['prijs'], 'drempels' => ['prijs' => 2000]]]);
+check($a['max_prijs_m2'] == 2000, 'eigen grenswaarde prijs 2.000 wordt gebruikt');
+$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['prijs'], 'drempels' => ['prijs' => 1234]]]);
+check($a['max_prijs_m2'] == 1500, 'ongeldige grenswaarde valt terug op de standaard');
 echo $fout ? "\n$fout test(s) mislukt\n" : "\nalle tests geslaagd\n";
 exit($fout ? 1 : 0);
