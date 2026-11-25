@@ -91,14 +91,14 @@ De items staan in `config/wensenlijst.json`, met drempel, bron en uitleg (via de
 | Luchthaven met vluchten het hele jaar | niet binnen 60 minuten |
 | Met de auto vanuit NL of BE binnen een dag | Utrecht en Brussel allebei verder dan 14 uur |
 | Spoedeisende hulp dichtbij | verder dan 30 minuten |
-| Dagelijkse voorzieningen op loopafstand | niet alle vier (supermarkt, apotheek, huisarts, bar) binnen 800 m |
+| Dagelijkse voorzieningen op loopafstand | niet alle drie (supermarkt, apotheek, bar) binnen 800 m; de huisarts telt niet mee, omdat die in OpenStreetMap te onvolledig is |
 | Snel internet | minder dan 80 % glasvezel |
 | Treinstation dichtbij | geen station binnen 5 minuten |
 | Hogesnelheidstrein bereikbaar | geen Frecciarossa- of Italo-station binnen 30 minuten |
 | Beschermde natuur in de buurt | geen beschermd gebied binnen 5 km |
 | Cultuur in de buurt | geen museum, kasteel, paleis, stadspoort, vesting of opgraving binnen 30 minuten |
 | Landgenoten in de buurt | minder dan 3 % uit Noord-Europa, het VK of de VS |
-| Toeristische vraag voor verhuur | minder dan 50 overnachtingen per inwoner per jaar |
+| Toeristische vraag voor verhuur | minder dan 5 overnachtingen per inwoner per jaar |
 | 7%-regime | komt niet in aanmerking |
 | Internationale school bereikbaar | gepland; staat uit zolang de lijst leeg is |
 

@@ -374,14 +374,14 @@
       "id": "voorzieningen",
       "lijst": "musthave",
       "label": "Dagelijkse voorzieningen op loopafstand",
-      "drempel": "niet alle vier binnen 800 m van het centrum: supermarkt, apotheek, huisarts en bar",
+      "drempel": "niet alle drie binnen 800 m van het centrum: supermarkt, apotheek en bar",
       "regel": {
-        "kolom": "vier_800m",
-        "op": "==",
-        "waarde": false
+        "kolom": "basis_800m",
+        "op": "<",
+        "waarde": 3
       },
       "bron": "osm",
-      "uitleg": "800 m is ongeveer 10 minuten lopen. Gebaseerd op OpenStreetMap en de apothekenlijst van het ministerie.",
+      "uitleg": "800 m is ongeveer 10 minuten lopen. Gebaseerd op OpenStreetMap en de apothekenlijst van het ministerie. De huisarts telt niet mee, omdat huisartsen in OpenStreetMap te onvolledig zijn ingetekend.",
       "criterium": "voorzieningen",
       "status": "actief"
     },
@@ -479,11 +479,11 @@
       "id": "toeristische_vraag",
       "lijst": "musthave",
       "label": "Toeristische vraag voor verhuur",
-      "drempel": "minder dan 50 overnachtingen per inwoner per jaar",
+      "drempel": "minder dan 5 overnachtingen per inwoner per jaar",
       "regel": {
         "kolom": "overnachtingen_per_inw",
         "op": "<",
-        "waarde": 50
+        "waarde": 5
       },
       "bron": "istat_overnachtingen",
       "uitleg": "Alleen nuttig als u wilt verhuren. Zie de uitleg bij \"Massatoerisme\".",

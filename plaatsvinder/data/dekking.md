@@ -68,14 +68,14 @@ Van de 7894 gemeenten. Ontbrekende data sluit niet uit. **Vet**: het item streep
 | musthave | Luchthaven met vluchten het hele jaar | geen luchthaven met vluchten het hele jaar binnen 60 minuten rijden | **4549** | 57.6 | 0 |
 | musthave | Met de auto vanuit Nederland of België binnen een dag | rijtijd naar Utrecht én naar Brussel allebei langer dan 14 uur (de kortste van de twee telt) | 3349 | 42.4 | 0 |
 | musthave | Spoedeisende hulp dichtbij | ziekenhuis met spoedeisende hulp (pronto soccorso) verder dan 30 minuten rijden | 1219 | 15.4 | 0 |
-| musthave | Dagelijkse voorzieningen op loopafstand | niet alle vier binnen 800 m van het centrum: supermarkt, apotheek, huisarts en bar | **6834** | 86.6 | 0 |
+| musthave | Dagelijkse voorzieningen op loopafstand | niet alle drie binnen 800 m van het centrum: supermarkt, apotheek en bar | **4608** | 58.4 | 0 |
 | musthave | Snel internet | minder dan 80 % van de huishoudens kan glasvezel krijgen | 2910 | 36.9 | 0 |
 | musthave | Treinstation dichtbij | geen treinstation binnen 5 minuten rijden | **5714** | 72.4 | 0 |
 | musthave | Hogesnelheidstrein bereikbaar | geen station met Frecciarossa of Italo binnen 30 minuten rijden | **6189** | 78.4 | 0 |
 | musthave | Beschermde natuur in de buurt | geen beschermd natuurgebied binnen 5 km van het centrum | 3494 | 44.3 | 0 |
 | musthave | Cultuur in de buurt | geen historisch centrum of museum binnen 30 minuten rijden | 19 | 0.2 | 0 |
 | musthave | Landgenoten in de buurt | minder dan 3 % van de inwoners komt uit Noord-Europa, het Verenigd Koninkrijk of de Verenigde Staten | **7770** | 98.4 | 0 |
-| musthave | Toeristische vraag voor verhuur | minder dan 50 overnachtingen per inwoner per jaar | **7034** | 89.1 | 0 |
+| musthave | Toeristische vraag voor verhuur | minder dan 5 overnachtingen per inwoner per jaar | **4318** | 54.7 | 0 |
 | musthave | 7%-regime | gemeente komt niet in aanmerking | **5351** | 67.8 | 0 |
 | musthave | Internationale school bereikbaar | geen internationale school binnen 45 minuten rijden | gepland, staat uit | | |
 
@@ -104,12 +104,12 @@ Per item: valt de gemeente af (x) of niet (-).
 | Luchthaven met vluchten het hele jaar (musthave) | x | x | - | - | x | x |
 | Met de auto vanuit Nederland of België binnen een dag (musthave) | - | - | - | x | x | x |
 | Spoedeisende hulp dichtbij (musthave) | - | - | - | - | - | - |
-| Dagelijkse voorzieningen op loopafstand (musthave) | - | x | x | x | - | x |
+| Dagelijkse voorzieningen op loopafstand (musthave) | - | x | - | - | - | x |
 | Snel internet (musthave) | - | x | x | - | x | - |
 | Treinstation dichtbij (musthave) | - | x | x | x | x | x |
 | Hogesnelheidstrein bereikbaar (musthave) | - | x | x | - | x | x |
 | Beschermde natuur in de buurt (musthave) | - | x | x | - | - | x |
 | Cultuur in de buurt (musthave) | - | - | - | - | - | - |
 | Landgenoten in de buurt (musthave) | x | x | x | x | x | x |
-| Toeristische vraag voor verhuur (musthave) | x | x | - | x | x | x |
+| Toeristische vraag voor verhuur (musthave) | x | - | - | - | - | - |
 | 7%-regime (musthave) | x | x | x | x | - | - |
