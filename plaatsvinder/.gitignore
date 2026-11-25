@@ -6,3 +6,4 @@ data/*
 !data/README.md
 !data/steekproef.md
 !data/dekking.md
+web/data/score.cache.php*
