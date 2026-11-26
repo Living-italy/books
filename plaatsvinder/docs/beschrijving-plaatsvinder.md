@@ -262,7 +262,7 @@ Een volledige run zonder downloads duurt 4 tot 7 minuten.
 ### 7.2 Website
 
 - `index.php`: de pagina met teksten en configuratie.
-- `score.php`: ontvangt de antwoorden (POST) en geeft de top 25 terug, eventueel met alternatieven. Rekenregels in `lib/model.php`.
+- `score.php`: ontvangt de antwoorden (POST) en geeft telkens 10 gemeenten van de ranglijst terug (parameter `van` om verder te bladeren), eventueel met alternatieven en de scores voor de kaart. Rekenregels in `lib/model.php`.
 - `gemeente.php`: de details van één gemeente.
 - `assets/app.js`: wizard, teller, uitslag, gemeentepagina en vergelijken. De teller in de browser gebruikt dezelfde filterregels als de server; bij de bouw is gecontroleerd dat beide hetzelfde aantal geven (4.913 in het testvoorbeeld).
 - Alle teksten staan in `lang/nl.json`. Er komt geen gedachtestreepje in de teksten; een test controleert dat.
