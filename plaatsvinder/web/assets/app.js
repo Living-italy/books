@@ -524,7 +524,7 @@
   }
   function pdfTekst(t) {                                  // standaardlettertype van jsPDF kent alleen Windows-1252
     return String(t == null ? "" : t).replace(/[≥]/g, ">=").replace(/[≤]/g, "<=").replace(/[−]/g, "-").replace(/[✓]/g, "ja").replace(/[✗]/g, "nee")
-      .replace(/[^\u0000-\u00ff€‘’“”–—•…]/g, "?");
+      .replace(/[^\u0000-\u00ff\u20ac\u2018\u2019\u201c\u201d\u2013\u2014\u2022\u2026]/g, "?");
   }
   function maakPdf(res, knop) {
     var U = T.uitslag, P = T.pdf, oud = knop.textContent;
