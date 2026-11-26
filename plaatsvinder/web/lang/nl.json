@@ -9,7 +9,7 @@
     "start": "Begin",
     "volgende": "Volgende",
     "vorige": "Vorige",
-    "resultaat": "Toon mijn top 25",
+    "resultaat": "Toon mijn beste gemeenten",
     "opnieuw": "Opnieuw beginnen",
     "aanpassen": "Antwoorden aanpassen",
     "alles_aan": "Alles aan",
@@ -166,7 +166,7 @@
     "E": "expertoordeel"
   },
   "uitslag": {
-    "titel": "Uw top 25",
+    "titel": "Uw beste gemeenten",
     "uitleg": "De score (0 tot 100) laat zien hoe goed de gemeente past bij uw eigenschappen en gewichten, vergeleken met heel Italië.",
     "aantal": "{n} gemeenten voldoen aan uw eisen.",
     "leeg": "Geen gemeenten gevonden. Maak een eis ruimer.",
@@ -207,7 +207,7 @@
     "kaart_label": "Kaart van Italië met de score per gemeente",
     "kaart_tik": "Tik of klik op een gemeente voor de naam en de score. Zoom met + en − of het scrollwiel; sleep om te verschuiven.",
     "kaart_score": "score {s}",
-    "kaart_rang": "nummer {n} in uw top 25",
+    "kaart_rang": "nummer {n} van de {van}",
     "kaart_valt_af": "valt af door uw keuzes",
     "kaart_in": "Inzoomen",
     "kaart_uit": "Uitzoomen",
@@ -215,9 +215,11 @@
     "kaart_laag": "laag ({s})",
     "kaart_hoog": "hoog ({s})",
     "kaart_grijs": "valt af door uw keuzes",
-    "kaart_top": "uw top 25",
+    "kaart_top": "op het scherm in uw lijst",
     "kaart_uitleg": "De kleur loopt van rood (laagste score) via geel naar groen (hoogste score) over de {n} gemeenten die aan uw keuzes voldoen. Gemeentegrenzen:",
-    "tests_hint": "Tik op een test voor uitleg."
+    "tests_hint": "Tik op een test voor uitleg.",
+    "meer": "Toon de volgende {n} (nummer {van} tot en met {tot})",
+    "meer_een": "Toon nummer {van}"
   },
   "gemeente": {
     "deelscores": "Score per criterium",
@@ -395,10 +397,10 @@
     }
   },
   "pdf": {
-    "knop": "Download de top 25 als pdf",
+    "knop": "Download deze lijst als pdf",
     "bezig": "Pdf maken…",
     "fout": "De pdf kon niet worden gemaakt. Probeer het opnieuw.",
-    "titel": "Plaatsvinder Italië: uw top 25",
+    "titel": "Plaatsvinder Italië: uw beste {n} gemeenten",
     "ondertitel": "Gemaakt op {datum}. {n} gemeenten voldoen aan uw keuzes.",
     "keuzes": "Uw keuzes",
     "profiel": "Wie bent u: {p}",

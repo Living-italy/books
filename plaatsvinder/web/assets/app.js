@@ -13,6 +13,7 @@
   var EC = C.eigenschappen, EIG = EC.eigenschappen, GW = EC.gewicht, BRONNEN = C.bronnen.bronnen;
   var EIDX = {}; EIG.forEach(function (e, i) { EIDX[e.id] = i; });
   var MAX_VERGELIJK = 3;
+  var PER_KEER = 10;                                      // de ranglijst toont telkens 10 gemeenten meer
   var LEEG = T.gemeente.geen_data;
 
   // ---------------------------------------------------------------- hulp
@@ -449,14 +450,15 @@
       knop.disabled = true; knop.textContent = U.kaart_laden;
       Promise.all([KAART ? Promise.resolve(KAART) : haal(window.PV.kaart), scoreVraag({ kaart: true, n: 1 })]).then(function (r) {
         KAART = r[0]; knop.disabled = false; knop.textContent = U.kaart_verberg;
-        tekenKaart(blok, r[1].kaart || {}, top);
+        tekenKaart(blok, r[1].kaart || [], top);
       }).catch(function () { knop.disabled = false; knop.textContent = U.fout; });
     } });
     blok.appendChild(knop);
     return blok;
   }
-  function tekenKaart(blok, scores, top) {
-    var U = T.uitslag, K = KAART, waarden = Object.keys(scores).map(function (k) { return scores[k]; });
+  function tekenKaart(blok, lijst, top) {
+    var U = T.uitslag, K = KAART, scores = {}, positie = {}, waarden = lijst.map(function (x) { return x[1]; });
+    lijst.forEach(function (x, i) { scores[x[0]] = x[1]; positie[x[0]] = i + 1; });
     var min = Math.min.apply(null, waarden), max = Math.max.apply(null, waarden);
     var rang = {}; top.forEach(function (c, i) { rang[c.istat] = i + 1; });
     var vb = [0, 0, K.breedte, K.hoogte];
@@ -478,7 +480,7 @@
       var g = K.gemeenten[ist], s = scores[ist];
       info.innerHTML = "";
       info.appendChild(el("strong", { text: g[0] + " (" + g[1] + ")" }));
-      info.appendChild(document.createTextNode(" " + (s == null ? U.kaart_valt_af : fmt(U.kaart_score, { s: s }) + (rang[ist] ? " · " + fmt(U.kaart_rang, { n: rang[ist] }) : "")) + " "));
+      info.appendChild(document.createTextNode(" " + (s == null ? U.kaart_valt_af : fmt(U.kaart_score, { s: s }) + (positie[ist] ? " · " + fmt(U.kaart_rang, { n: getal(positie[ist], 0), van: getal(lijst.length, 0) }) : "")) + " "));
       info.appendChild(el("a", { href: "#/gemeente/" + ist, text: T.knoppen.bekijk }));
       // op een telefoon valt het infovak vaak buiten beeld: spring naar het resultaat
       var kaartje = rang[ist] && document.getElementById("pv-plaats-" + ist);
@@ -540,7 +542,7 @@
           doc.text(regels, 14, y); y += regels.length * (grootte || 10) * 0.42 + 2;
         };
         var p = S.profiel && profiel(S.profiel), datum = new Date().toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
-        tekst(P.titel, 18, "bold", groen);
+        tekst(fmt(P.titel, { n: res.top.length }), 18, "bold", groen);
         tekst(fmt(P.ondertitel, { datum: datum, n: getal(res.aantal, 0) }), 10, "normal", [91, 100, 112]);
         y += 2;
         tekst(P.keuzes, 12, "bold");
@@ -593,7 +595,7 @@
           doc.setPage(pg); doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(120, 120, 120);
           doc.text(doc.splitTextToSize(pdfTekst(P.voet), 160), 14, 289); doc.text(pg + " / " + n, 196, 289, { align: "right" });
         }
-        doc.save("plaatsvinder-top25-" + new Date().toISOString().slice(0, 10) + ".pdf");
+        doc.save("plaatsvinder-beste-" + res.top.length + "-" + new Date().toISOString().slice(0, 10) + ".pdf");
         knop.disabled = false; knop.textContent = oud;
       }).catch(function () { knop.disabled = false; knop.textContent = P.fout; });
   }
@@ -612,7 +614,7 @@
     app.appendChild(kop());
     var sectie = el("section", { class: "pv-uitslag" }, [el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }), el("p", { class: "pv-uitleg", text: U.bezig })]);
     app.appendChild(sectie);
-    scoreVraag().then(function (res) {
+    scoreVraag({ n: PER_KEER }).then(function (res) {
       sectie.innerHTML = "";
       sectie.appendChild(el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }));
       sectie.appendChild(el("p", { class: "pv-uitleg", text: res.aantal ? fmt(U.aantal, { n: getal(res.aantal, 0) }) + " " + U.uitleg : U.leeg }));
@@ -624,7 +626,27 @@
       if (res.aantal) sectie.appendChild(el("div", { class: "pv-knoprij" }, [el("button", { type: "button", class: "pv-knop", text: T.pdf.knop,
         onclick: function () { maakPdf(res, this); } })]));
       if (res.aantal) sectie.appendChild(kaartBlok(res.top));
-      sectie.appendChild(el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); })));
+      var lijst = el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); }));
+      sectie.appendChild(lijst);
+      if (res.aantal > res.top.length) {
+        var meer = el("button", { type: "button", class: "pv-knop pv-knop-meer" });
+        var zetTekst = function () {
+          var n = Math.min(PER_KEER, res.aantal - res.top.length);
+          meer.textContent = fmt(n === 1 ? U.meer_een : U.meer, { n: n, van: getal(res.top.length + 1, 0), tot: getal(res.top.length + n, 0) });
+        };
+        zetTekst();
+        meer.addEventListener("click", function () {
+          meer.disabled = true;
+          scoreVraag({ van: res.top.length, n: PER_KEER }).then(function (r) {
+            var eerste = null;
+            r.top.forEach(function (c) { res.top.push(c); var li = plaatsKaart(c, res.top.length); eerste = eerste || li; lijst.appendChild(li); });
+            meer.disabled = false;
+            if (res.top.length >= res.aantal || !r.top.length) meer.remove(); else zetTekst();
+            if (eerste) { eerste.scrollIntoView({ behavior: "smooth", block: "start" }); var a = eerste.querySelector("h3 a"); if (a) a.focus({ preventScroll: true }); }
+          }).catch(function () { meer.disabled = false; meer.textContent = U.fout; });
+        });
+        sectie.appendChild(el("div", { class: "pv-knoprij pv-meer-rij" }, [meer]));
+      }
       sectie.appendChild(el("div", { class: "pv-knoprij" }, [
         el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.aanpassen, onclick: function () { S.stap = STAPPEN.length - 1; teken(); } }),
         el("button", { type: "button", class: "pv-knop", text: T.knoppen.opnieuw, onclick: function () { S = leeg(); S.stap = 0; teken(); } })]));

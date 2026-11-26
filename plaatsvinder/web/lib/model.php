@@ -308,18 +308,16 @@ function scoor(array $invoer, array $comuni, int $n = 25): array
 {
     $a = antwoorden($invoer);
     $kand = kandidaten($comuni, $a);
-    $uit = ['aantal' => count($kand), 'gewichten' => $a['gewichten'],
-            'top' => array_map(fn($k) => samenvatting($k, $a), array_slice($kand, 0, $n))];
+    $van = max(0, (int)($invoer['van'] ?? 0));            // bladeren: plaats van de eerste gemeente (0 = de beste)
+    $uit = ['aantal' => count($kand), 'gewichten' => $a['gewichten'], 'van' => $van,
+            'top' => array_map(fn($k) => samenvatting($k, $a), array_slice($kand, $van, $n))];
     if (count($kand) < cfg('eigenschappen')['min_resultaten']
         && array_filter($a['keuzes'], fn($k) => $k['status'] === 'noodzakelijk')) {
         $uit['wegstrepen'] = wat_streept_weg($comuni, $a);
     }
     if (!empty($invoer['kaart'])) {
-        // scores van alle gemeenten die door de keuzes komen, voor de kaart (istat => score)
-        $uit['kaart'] = [];
-        foreach ($kand as $k) {
-            $uit['kaart'][$k['c']['istat']] = (int)round($k['score']);
-        }
+        // scores van alle gemeenten die door de keuzes komen, in volgorde van de ranglijst: [istat, score]
+        $uit['kaart'] = array_map(fn($k) => [$k['c']['istat'], (int)round($k['score'])], $kand);
     }
     $gevraagd = array_values(array_filter(array_map('strval', (array)($invoer['gemeenten'] ?? [])), fn($i) => preg_match('/^\d{6}$/', $i)));
     $voor = preg_match('/^\d{6}$/', (string)($invoer['alternatieven_voor'] ?? '')) ? (string)$invoer['alternatieven_voor'] : null;

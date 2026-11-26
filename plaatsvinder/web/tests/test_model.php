@@ -111,11 +111,18 @@ check($r['aantal'] < 25 && count($r['wegstrepen'] ?? []) >= 3 && $r['wegstrepen'
 
 // kaart: scores van alle gemeenten die door de keuzes komen
 $r = scoor(['profiel' => 'gepensioneerde', 'kaart' => true], $c, 25);
-check(count($r['kaart'] ?? []) === $r['aantal'] && $r['kaart'][$r['top'][0]['istat']] === $r['top'][0]['score'],
+check(count($r['kaart'] ?? []) === $r['aantal'] && $r['kaart'][0] === [$r['top'][0]['istat'], $r['top'][0]['score']],
     "kaart: score voor alle {$r['aantal']} gemeenten in de uitslag, gelijk aan de ranglijst");
 $k = json_decode((string)file_get_contents(__DIR__ . '/../data/kaart.json'), true);
 check(count($k['gemeenten']) === count($c) && !array_diff(array_keys($k['gemeenten']), array_keys($idx)),
     'kaart.json: grens voor elke gemeente, met dezelfde ISTAT-codes');
+
+// bladeren: de volgende 10 sluiten aan op de eerste 10
+$a10 = scoor(['profiel' => 'gepensioneerde'], $c, 10);
+$b10 = scoor(['profiel' => 'gepensioneerde', 'van' => 10], $c, 10);
+$a20 = scoor(['profiel' => 'gepensioneerde'], $c, 20);
+check(array_merge(array_column($a10['top'], 'istat'), array_column($b10['top'], 'istat')) === array_column($a20['top'], 'istat'),
+    'bladeren: nummers 11 tot en met 20 sluiten aan op de eerste 10');
 
 // gids
 $gl = array_filter(cfg('gids_links')['verwijzingen'], fn($v) => !empty($v['url']));

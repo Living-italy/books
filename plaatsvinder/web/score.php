@@ -22,7 +22,7 @@ if (!is_array($invoer)) {
     exit;
 }
 try {
-    $n = min(25, max(1, (int)($invoer['n'] ?? 25)));
+    $n = min(25, max(1, (int)($invoer['n'] ?? 10)));
     echo json_encode(scoor($invoer, comuni()['comuni'], $n), JSON_UNESCAPED_UNICODE);
 } catch (Throwable $e) {
     error_log('plaatsvinder score.php: ' . $e->getMessage());
