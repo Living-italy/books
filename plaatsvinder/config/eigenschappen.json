@@ -1,0 +1,1129 @@
+{
+  "_uitleg": "Eigenschappen voor de Plaatsvinder. Per eigenschap kiest de bezoeker: noodzakelijk (harde eis op het gekozen niveau, vast maximaal gewicht), meewegen (gekozen niveau en eigen gewicht) of onbelangrijk (geen niveau, minimaal gewicht 0). Niveaus lopen van soepel naar streng. Een gemeente haalt niveau i als haar waarde aan niveau i voldoet ('lager': waarde <= drempel, 'hoger': waarde >= drempel). Deelscore = 85 x (behaald niveau / gevraagd niveau, maximaal 1) + 15 x percentiel over heel Italië. Ontbrekende data sluit niet uit en telt niet mee.",
+  "statussen": {
+    "noodzakelijk": "Noodzakelijk",
+    "meewegen": "Meewegen",
+    "onbelangrijk": "Onbelangrijk"
+  },
+  "gewicht": {
+    "min": 1,
+    "max": 9,
+    "standaard": 5,
+    "noodzakelijk": 10,
+    "onbelangrijk": 0
+  },
+  "score": {
+    "niveau": 85,
+    "percentiel": 15
+  },
+  "min_resultaten": 25,
+  "groepen": {
+    "wonen": "Wonen en prijs",
+    "natuur": "Natuur en omgeving",
+    "klimaat": "Klimaat",
+    "bereik": "Bereikbaarheid",
+    "zorg": "Voorzieningen en zorg",
+    "leven": "Leven buiten het seizoen",
+    "risico": "Veiligheid en risico's",
+    "geld": "Belasting, verhuur en verkoop"
+  },
+  "eigenschappen": [
+    {
+      "id": "prijs",
+      "groep": "wonen",
+      "label": "Woningprijs",
+      "uitleg": "Officiële woningwaarde per m² (OMI, mediaan van de woonzones). Lager is gunstiger.",
+      "kolom": "koop_m2",
+      "richting": "lager",
+      "eenheid": "€ {v} per m²",
+      "bron": "omi",
+      "criterium": "prijs",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "tot € 2.000 per m²",
+          "waarde": 2000,
+          "uitleg": "Alleen de duurste plaatsen vallen af, zoals grote steden, de meren en toplocaties aan zee."
+        },
+        {
+          "label": "tot € 1.500 per m²",
+          "waarde": 1500,
+          "uitleg": "Ongeveer het niveau van een gewone Noord-Italiaanse provinciestad."
+        },
+        {
+          "label": "tot € 1.000 per m²",
+          "waarde": 1000,
+          "uitleg": "Betaalbaar: de helft van de Italiaanse gemeenten ligt hieronder."
+        },
+        {
+          "label": "tot € 750 per m²",
+          "waarde": 750,
+          "uitleg": "Goedkoop: vooral dorpen in het binnenland en in het zuiden."
+        }
+      ]
+    },
+    {
+      "id": "natuur",
+      "groep": "natuur",
+      "label": "Beschermde natuur",
+      "uitleg": "Aandeel beschermd natuurgebied (nationale parken, natuurreservaten, Natura 2000) binnen 5 km van het centrum.",
+      "kolom": "natuur_5km_pct",
+      "richting": "hoger",
+      "eenheid": "{v}%",
+      "bron": "osm",
+      "criterium": "natuur",
+      "standaard_niveau": 0,
+      "niveaus": [
+        {
+          "label": "enig beschermd gebied binnen 5 km",
+          "waarde": 0.1,
+          "uitleg": "Er ligt ten minste een stukje beschermde natuur in de buurt."
+        },
+        {
+          "label": "minstens 10% binnen 5 km",
+          "waarde": 10,
+          "uitleg": "Natuur is duidelijk aanwezig."
+        },
+        {
+          "label": "minstens 25% binnen 5 km",
+          "waarde": 25,
+          "uitleg": "Een kwart van de omgeving is beschermd gebied."
+        },
+        {
+          "label": "minstens 50% binnen 5 km",
+          "waarde": 50,
+          "uitleg": "U woont midden in de natuur."
+        }
+      ]
+    },
+    {
+      "id": "rust",
+      "groep": "natuur",
+      "label": "Rust en ruimte",
+      "uitleg": "Aantal inwoners per km² in de gemeente. Lager is rustiger.",
+      "kolom": "dichtheid",
+      "richting": "lager",
+      "eenheid": "{v} inwoners per km²",
+      "bron": "istat_bevolking",
+      "criterium": "natuur",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "tot 500 inwoners per km²",
+          "waarde": 500,
+          "uitleg": "Alleen steden en dichtbebouwde gebieden vallen af."
+        },
+        {
+          "label": "tot 200 inwoners per km²",
+          "waarde": 200,
+          "uitleg": "Landelijk, met dorpen en kleine stadjes."
+        },
+        {
+          "label": "tot 100 inwoners per km²",
+          "waarde": 100,
+          "uitleg": "Echt platteland."
+        },
+        {
+          "label": "tot 50 inwoners per km²",
+          "waarde": 50,
+          "uitleg": "Zeer dunbevolkt: veel ruimte, weinig buren."
+        }
+      ]
+    },
+    {
+      "id": "snelweg",
+      "groep": "natuur",
+      "label": "Geen snelweg dichtbij",
+      "uitleg": "Afstand van het centrum tot de dichtstbijzijnde autosnelweg (OpenStreetMap). Het huis zelf kan dichterbij of verder liggen.",
+      "kolom": "km_snelweg",
+      "richting": "hoger",
+      "eenheid": "{v} km",
+      "bron": "osm",
+      "criterium": "natuur",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "minstens 1 km van een snelweg",
+          "waarde": 1,
+          "uitleg": "Alleen gemeenten met een snelweg vlak langs het centrum vallen af."
+        },
+        {
+          "label": "minstens 2 km",
+          "waarde": 2,
+          "uitleg": "Weinig kans op snelweglawaai in het centrum."
+        },
+        {
+          "label": "minstens 5 km",
+          "waarde": 5,
+          "uitleg": "De snelweg is ver weg; wel langer rijden naar de oprit."
+        }
+      ]
+    },
+    {
+      "id": "drukte",
+      "groep": "natuur",
+      "label": "Geen massatoerisme",
+      "uitleg": "Overnachtingen in toeristische accommodaties per inwoner per jaar (ISTAT; schatting per gemeente). Italië als geheel: ongeveer 8.",
+      "kolom": "overnachtingen_per_inw",
+      "richting": "lager",
+      "eenheid": "{v} per inwoner",
+      "bron": "istat_overnachtingen",
+      "criterium": "natuur",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "tot 50 per inwoner",
+          "waarde": 50,
+          "uitleg": "Alleen de echte toeristenoorden vallen af."
+        },
+        {
+          "label": "tot 20 per inwoner",
+          "waarde": 20,
+          "uitleg": "In het seizoen druk, maar geen massatoerisme."
+        },
+        {
+          "label": "tot 10 per inwoner",
+          "waarde": 10,
+          "uitleg": "Ongeveer het Italiaanse gemiddelde of minder."
+        },
+        {
+          "label": "tot 5 per inwoner",
+          "waarde": 5,
+          "uitleg": "Weinig toeristen, ook in de zomer."
+        }
+      ]
+    },
+    {
+      "id": "winter",
+      "groep": "klimaat",
+      "label": "Zachte winter",
+      "uitleg": "Gemiddelde temperatuur in januari (Copernicus ERA5-Land, 2016-2025, gecorrigeerd voor de hoogte van het centrum).",
+      "kolom": "temp_jan",
+      "richting": "hoger",
+      "eenheid": "{v} °C",
+      "bron": "era5",
+      "criterium": "klimaat",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "januari gemiddeld 0 °C of warmer",
+          "waarde": 0,
+          "uitleg": "Alleen echte bergdorpen vallen af."
+        },
+        {
+          "label": "januari 3 °C of warmer",
+          "waarde": 3,
+          "uitleg": "Ongeveer een Nederlandse winter of milder."
+        },
+        {
+          "label": "januari 6 °C of warmer",
+          "waarde": 6,
+          "uitleg": "Zacht: weinig vorst, vooral aan de kust en in het zuiden."
+        },
+        {
+          "label": "januari 9 °C of warmer",
+          "waarde": 9,
+          "uitleg": "Zeer zacht: Sicilië, Sardinië en de zuidelijke kusten."
+        }
+      ]
+    },
+    {
+      "id": "hitte",
+      "groep": "klimaat",
+      "label": "Geen extreme zomerhitte",
+      "uitleg": "Aantal dagen per jaar boven 30 °C (Copernicus, 2016-2025).",
+      "kolom": "dagen_boven_30",
+      "richting": "lager",
+      "eenheid": "{v} dagen",
+      "bron": "ecde",
+      "criterium": "klimaat",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "hoogstens 60 dagen boven 30 °C",
+          "waarde": 60,
+          "uitleg": "Alleen de heetste gemeenten vallen af."
+        },
+        {
+          "label": "hoogstens 45 dagen",
+          "waarde": 45,
+          "uitleg": "Warme zomers, maar te doen."
+        },
+        {
+          "label": "hoogstens 30 dagen",
+          "waarde": 30,
+          "uitleg": "Gematigde zomers."
+        },
+        {
+          "label": "hoogstens 15 dagen",
+          "waarde": 15,
+          "uitleg": "Koele zomers: heuvels, bergen of een frisse kust."
+        }
+      ]
+    },
+    {
+      "id": "hoogte",
+      "groep": "klimaat",
+      "label": "Niet te hoog gelegen",
+      "uitleg": "Hoogte van het centrum (ISTAT). Per 100 m hoger is het ongeveer 0,6 °C kouder, met meer sneeuw.",
+      "kolom": "hoogte_m",
+      "richting": "lager",
+      "eenheid": "{v} m",
+      "bron": "istat_hoogte",
+      "criterium": "klimaat",
+      "standaard_niveau": 2,
+      "niveaus": [
+        {
+          "label": "centrum tot 1.000 m",
+          "waarde": 1000,
+          "uitleg": "Alleen hooggelegen bergdorpen vallen af."
+        },
+        {
+          "label": "tot 800 m",
+          "waarde": 800,
+          "uitleg": "Boven 800 m is sneeuw in de winter gewoon."
+        },
+        {
+          "label": "tot 600 m",
+          "waarde": 600,
+          "uitleg": "Weinig sneeuw, wegen zelden onbegaanbaar."
+        },
+        {
+          "label": "tot 400 m",
+          "waarde": 400,
+          "uitleg": "Vlakte, kust of lage heuvels."
+        }
+      ]
+    },
+    {
+      "id": "zon",
+      "groep": "klimaat",
+      "label": "Veel zon",
+      "uitleg": "Inkomende zonnestraling in kWh per m² per dag (Copernicus ERA5-Land), een maat voor zonuren.",
+      "kolom": "zon_kwh",
+      "richting": "hoger",
+      "eenheid": "{v} kWh per m² per dag",
+      "bron": "era5",
+      "criterium": "klimaat",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "minstens 3,5 kWh",
+          "waarde": 3.5,
+          "uitleg": "Vrijwel heel Italië, behalve de Alpen en sommige valleien."
+        },
+        {
+          "label": "minstens 3,8 kWh",
+          "waarde": 3.8,
+          "uitleg": "Zonniger dan het noorden van Italië."
+        },
+        {
+          "label": "minstens 4,1 kWh",
+          "waarde": 4.1,
+          "uitleg": "Zonnig: Midden- en Zuid-Italië."
+        },
+        {
+          "label": "minstens 4,4 kWh",
+          "waarde": 4.4,
+          "uitleg": "Zeer zonnig: het zuiden en de eilanden."
+        }
+      ]
+    },
+    {
+      "id": "lucht",
+      "groep": "klimaat",
+      "label": "Schone lucht",
+      "uitleg": "Jaargemiddelde fijnstof PM2,5 (Europees Milieuagentschap, 2023). De WHO adviseert 5 µg/m³; de Europese grens wordt in 2030 10.",
+      "kolom": "pm25",
+      "richting": "lager",
+      "eenheid": "{v} µg/m³",
+      "bron": "eea_pm25",
+      "criterium": "lucht",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "PM2,5 tot 20 µg/m³",
+          "waarde": 20,
+          "uitleg": "Alleen de meest vervuilde plaatsen in de Povlakte vallen af."
+        },
+        {
+          "label": "tot 15 µg/m³",
+          "waarde": 15,
+          "uitleg": "Tussendoel van de WHO."
+        },
+        {
+          "label": "tot 12 µg/m³",
+          "waarde": 12,
+          "uitleg": "Redelijk schone lucht."
+        },
+        {
+          "label": "tot 10 µg/m³",
+          "waarde": 10,
+          "uitleg": "Schoon: de Europese norm voor 2030."
+        }
+      ]
+    },
+    {
+      "id": "klimaatverandering",
+      "groep": "klimaat",
+      "label": "Weinig toename van hitte",
+      "uitleg": "Extra dagen boven 30 °C per jaar in 2016-2025 vergeleken met 1991-2000 (Copernicus).",
+      "kolom": "trend_hete_dagen",
+      "richting": "lager",
+      "eenheid": "{v} dagen",
+      "bron": "ecde",
+      "criterium": "klimaatverandering",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "hoogstens 25 dagen erbij",
+          "waarde": 25,
+          "uitleg": "Alleen waar de hitte het sterkst toenam, valt af."
+        },
+        {
+          "label": "hoogstens 15 dagen erbij",
+          "waarde": 15,
+          "uitleg": "Minder dan de helft van Italië zit hierboven."
+        },
+        {
+          "label": "hoogstens 10 dagen erbij",
+          "waarde": 10,
+          "uitleg": "Beperkte toename."
+        },
+        {
+          "label": "hoogstens 5 dagen erbij",
+          "waarde": 5,
+          "uitleg": "Nauwelijks toename: vooral bergen en noordelijke valleien."
+        }
+      ]
+    },
+    {
+      "id": "cultuur",
+      "groep": "natuur",
+      "label": "Cultuur in de buurt",
+      "uitleg": "Rijtijd naar het dichtstbijzijnde museum, kasteel, paleis, stadspoort, vesting, abdij of archeologische vindplaats (OpenStreetMap).",
+      "kolom": "min_cultuur",
+      "richting": "lager",
+      "eenheid": "{v} min",
+      "bron": "osm",
+      "criterium": "cultuur",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "binnen 30 minuten",
+          "waarde": 30,
+          "uitleg": "Vrijwel overal in Italië."
+        },
+        {
+          "label": "binnen 15 minuten",
+          "waarde": 15,
+          "uitleg": "Een uitje is snel geregeld."
+        },
+        {
+          "label": "binnen 10 minuten",
+          "waarde": 10,
+          "uitleg": "Cultuur om de hoek."
+        },
+        {
+          "label": "binnen 5 minuten",
+          "waarde": 5,
+          "uitleg": "In het dorp of de stad zelf."
+        }
+      ]
+    },
+    {
+      "id": "luchthaven",
+      "groep": "bereik",
+      "label": "Luchthaven met vluchten het hele jaar",
+      "uitleg": "Rijtijd naar een luchthaven met minstens één directe verbinding met Nederland of België die het hele jaar vliegt (Bijlage A van de gids).",
+      "kolom": "min_luchthaven_jaarrond",
+      "richting": "lager",
+      "eenheid": "{v} min",
+      "bron": "osrm",
+      "criterium": "bereikbaarheid",
+      "standaard_niveau": 2,
+      "niveaus": [
+        {
+          "label": "binnen 2 uur",
+          "waarde": 120,
+          "uitleg": "Alleen de meest afgelegen gemeenten vallen af."
+        },
+        {
+          "label": "binnen 90 minuten",
+          "waarde": 90,
+          "uitleg": "Een halve dag van deur tot deur."
+        },
+        {
+          "label": "binnen 60 minuten",
+          "waarde": 60,
+          "uitleg": "Ongeveer de helft van Italië."
+        },
+        {
+          "label": "binnen 45 minuten",
+          "waarde": 45,
+          "uitleg": "Snel thuis."
+        },
+        {
+          "label": "binnen 30 minuten",
+          "waarde": 30,
+          "uitleg": "Vlak bij de luchthaven."
+        }
+      ]
+    },
+    {
+      "id": "naar_huis",
+      "groep": "bereik",
+      "label": "Met de auto naar huis",
+      "uitleg": "Kortste rijtijd naar Utrecht of Brussel, zonder pauzes.",
+      "kolom": "uur_nl_be",
+      "richting": "lager",
+      "eenheid": "{v} uur",
+      "bron": "osrm_publiek",
+      "criterium": "bereikbaarheid",
+      "standaard_niveau": 2,
+      "niveaus": [
+        {
+          "label": "binnen 18 uur",
+          "waarde": 18,
+          "uitleg": "Alleen het uiterste zuiden en de eilanden vallen af."
+        },
+        {
+          "label": "binnen 16 uur",
+          "waarde": 16,
+          "uitleg": "Twee dagen rijden of één lange dag met twee chauffeurs."
+        },
+        {
+          "label": "binnen 14 uur",
+          "waarde": 14,
+          "uitleg": "Een lange dag: Noord-Italië en het noorden van Midden-Italië."
+        },
+        {
+          "label": "binnen 12 uur",
+          "waarde": 12,
+          "uitleg": "Noord-Italië."
+        },
+        {
+          "label": "binnen 11 uur",
+          "waarde": 11,
+          "uitleg": "Het noorden van Noord-Italië: Alpen, meren, Piemonte en Lombardije."
+        }
+      ]
+    },
+    {
+      "id": "station",
+      "groep": "bereik",
+      "label": "Treinstation dichtbij",
+      "uitleg": "Rijtijd naar het dichtstbijzijnde treinstation (OpenStreetMap).",
+      "kolom": "min_station",
+      "richting": "lager",
+      "eenheid": "{v} min",
+      "bron": "osm",
+      "criterium": "bereikbaarheid",
+      "standaard_niveau": 2,
+      "niveaus": [
+        {
+          "label": "binnen 30 minuten",
+          "waarde": 30,
+          "uitleg": "Vrijwel overal."
+        },
+        {
+          "label": "binnen 20 minuten",
+          "waarde": 20,
+          "uitleg": "Goed te doen voor dagtochten."
+        },
+        {
+          "label": "binnen 15 minuten",
+          "waarde": 15,
+          "uitleg": "Station in de buurt."
+        },
+        {
+          "label": "binnen 10 minuten",
+          "waarde": 10,
+          "uitleg": "Station dichtbij."
+        },
+        {
+          "label": "binnen 5 minuten",
+          "waarde": 5,
+          "uitleg": "Station in het dorp zelf."
+        }
+      ]
+    },
+    {
+      "id": "hogesnelheid",
+      "groep": "bereik",
+      "label": "Hogesnelheidstrein",
+      "uitleg": "Rijtijd naar een station met Frecciarossa of Italo; die verbinden de grote steden snel, Milaan en Rome in ruim drie uur.",
+      "kolom": "min_station_hs",
+      "richting": "lager",
+      "eenheid": "{v} min",
+      "bron": "treinstations",
+      "criterium": "bereikbaarheid",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "binnen 90 minuten",
+          "waarde": 90,
+          "uitleg": "Alleen afgelegen gebieden en de eilanden vallen af."
+        },
+        {
+          "label": "binnen 60 minuten",
+          "waarde": 60,
+          "uitleg": "Een uur naar de snelle trein."
+        },
+        {
+          "label": "binnen 45 minuten",
+          "waarde": 45,
+          "uitleg": "Goed bereikbaar."
+        },
+        {
+          "label": "binnen 30 minuten",
+          "waarde": 30,
+          "uitleg": "Vlak bij het snelle spoornet."
+        }
+      ]
+    },
+    {
+      "id": "voorzieningen",
+      "groep": "zorg",
+      "label": "Voorzieningen op loopafstand",
+      "uitleg": "Supermarkt, apotheek en bar binnen 800 m van het centrum, ongeveer 10 minuten lopen (OpenStreetMap en ministerie van Volksgezondheid).",
+      "kolom": "basis_800m",
+      "richting": "hoger",
+      "eenheid": "{v} van de 3",
+      "bron": "osm",
+      "criterium": "voorzieningen",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "minstens één van de drie",
+          "waarde": 1,
+          "uitleg": "Er is iets op loopafstand."
+        },
+        {
+          "label": "minstens twee van de drie",
+          "waarde": 2,
+          "uitleg": "De meeste boodschappen te voet."
+        },
+        {
+          "label": "alle drie",
+          "waarde": 3,
+          "uitleg": "Supermarkt, apotheek en bar allemaal op loopafstand."
+        }
+      ]
+    },
+    {
+      "id": "spoedeisende_hulp",
+      "groep": "zorg",
+      "label": "Spoedeisende hulp",
+      "uitleg": "Rijtijd naar een ziekenhuis met spoedeisende hulp (officiële lijst van het ministerie van Volksgezondheid).",
+      "kolom": "min_ziekenhuis",
+      "richting": "lager",
+      "eenheid": "{v} min",
+      "bron": "salute_ricovero",
+      "criterium": "zorg",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "binnen 60 minuten",
+          "waarde": 60,
+          "uitleg": "Alleen de meest afgelegen gemeenten vallen af."
+        },
+        {
+          "label": "binnen 45 minuten",
+          "waarde": 45,
+          "uitleg": "Aanbevolen voor wie er permanent woont."
+        },
+        {
+          "label": "binnen 30 minuten",
+          "waarde": 30,
+          "uitleg": "Snel bij de spoedeisende hulp."
+        },
+        {
+          "label": "binnen 20 minuten",
+          "waarde": 20,
+          "uitleg": "Ziekenhuis dichtbij."
+        }
+      ]
+    },
+    {
+      "id": "zorg_regio",
+      "groep": "zorg",
+      "label": "Goede regionale zorg",
+      "uitleg": "Laagste van de drie LEA-scores van de regio (preventie, zorg in de wijk, ziekenhuiszorg; ministerie van Volksgezondheid, 2023). Onder 60 is onvoldoende.",
+      "kolom": "lea_min_gebied",
+      "richting": "hoger",
+      "eenheid": "{v} van 100",
+      "bron": "lea_2023",
+      "criterium": "zorg",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "laagste gebiedsscore minstens 50",
+          "waarde": 50,
+          "uitleg": "Alleen de zwakste regio's vallen af."
+        },
+        {
+          "label": "minstens 60",
+          "waarde": 60,
+          "uitleg": "Op alle drie de gebieden voldoende."
+        },
+        {
+          "label": "minstens 70",
+          "waarde": 70,
+          "uitleg": "Goede zorg."
+        },
+        {
+          "label": "minstens 80",
+          "waarde": 80,
+          "uitleg": "Zeer goede zorg: vooral Noord- en Midden-Italië."
+        }
+      ]
+    },
+    {
+      "id": "oud_worden",
+      "groep": "zorg",
+      "label": "Oud worden zonder auto",
+      "uitleg": "De 80-jarentest van de Plaatsvinder: ziekenhuis, apotheek en huisarts, supermarkt op loopafstand, trein en regionale zorg.",
+      "kolom": "test_tachtig",
+      "richting": "hoger",
+      "eenheid": "{v} van 100",
+      "bron": "plaatsvinder",
+      "criterium": "zorg",
+      "standaard_niveau": 0,
+      "niveaus": [
+        {
+          "label": "minstens 35",
+          "waarde": 35,
+          "uitleg": "Alleen plaatsen waar u zonder auto vastzit, vallen af."
+        },
+        {
+          "label": "minstens 50",
+          "waarde": 50,
+          "uitleg": "Redelijk te doen op latere leeftijd."
+        },
+        {
+          "label": "minstens 65",
+          "waarde": 65,
+          "uitleg": "Goed: veel binnen bereik zonder auto."
+        }
+      ]
+    },
+    {
+      "id": "internet",
+      "groep": "zorg",
+      "label": "Snel internet",
+      "uitleg": "Aandeel huishoudens dat glasvezel tot in huis kan krijgen (AGCOM).",
+      "kolom": "glasvezel_pct",
+      "richting": "hoger",
+      "eenheid": "{v}%",
+      "bron": "agcom",
+      "criterium": "internet",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "minstens 25% glasvezel",
+          "waarde": 25,
+          "uitleg": "Alleen gemeenten zonder glasvezelnet vallen af."
+        },
+        {
+          "label": "minstens 50%",
+          "waarde": 50,
+          "uitleg": "Goede kans op glasvezel."
+        },
+        {
+          "label": "minstens 75%",
+          "waarde": 75,
+          "uitleg": "Glasvezel vrijwel overal."
+        },
+        {
+          "label": "minstens 90%",
+          "waarde": 90,
+          "uitleg": "Glasvezel bijna gegarandeerd."
+        }
+      ]
+    },
+    {
+      "id": "levendig",
+      "groep": "leven",
+      "label": "Levendig in de winter",
+      "uitleg": "De wintertest van de Plaatsvinder: afstand tot diensten, groei of krimp van de bevolking, vergrijzing, winkels en bars in het centrum, zomerpiek van het toerisme en vorst.",
+      "kolom": "test_winter",
+      "richting": "hoger",
+      "eenheid": "{v} van 100",
+      "bron": "plaatsvinder",
+      "criterium": "levendigheid",
+      "standaard_niveau": 0,
+      "niveaus": [
+        {
+          "label": "wintertest minstens 35",
+          "waarde": 35,
+          "uitleg": "Alleen echte spookdorpen buiten het seizoen vallen af."
+        },
+        {
+          "label": "minstens 50",
+          "waarde": 50,
+          "uitleg": "Ook in januari leeft het."
+        },
+        {
+          "label": "minstens 65",
+          "waarde": 65,
+          "uitleg": "Het hele jaar levendig."
+        }
+      ]
+    },
+    {
+      "id": "diensten",
+      "groep": "leven",
+      "label": "Niet afgelegen",
+      "uitleg": "Reistijd tot de dichtstbijzijnde kern met middelbare scholen, ziekenhuis met spoedeisende hulp en station (SNAI-indeling van de Italiaanse overheid).",
+      "kolom": "snai_score",
+      "richting": "hoger",
+      "eenheid": "{v} van 100",
+      "bron": "snai",
+      "criterium": "levendigheid",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "niet ultraperiferico (binnen ongeveer 67 minuten)",
+          "waarde": 20,
+          "uitleg": "Alleen de meest afgelegen gemeenten vallen af."
+        },
+        {
+          "label": "hoogstens intermedio (binnen ongeveer 41 minuten)",
+          "waarde": 40,
+          "uitleg": "Niet perifeer."
+        },
+        {
+          "label": "cintura of kern (binnen ongeveer 28 minuten)",
+          "waarde": 60,
+          "uitleg": "Dicht bij een kern."
+        },
+        {
+          "label": "zelf een kern (polo)",
+          "waarde": 80,
+          "uitleg": "De gemeente is zelf een kern met alle diensten."
+        }
+      ]
+    },
+    {
+      "id": "veiligheid",
+      "groep": "risico",
+      "label": "Veiligheid",
+      "uitleg": "Aangiften van misdrijven per 100.000 inwoners in de provincie, ten opzichte van het landelijk gemiddelde (ISTAT, 2024). In dorpen ligt de criminaliteit meestal lager.",
+      "kolom": "delitti_factor",
+      "richting": "lager",
+      "eenheid": "{v} keer het gemiddelde",
+      "bron": "istat_delitti",
+      "criterium": "veiligheid",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "hoogstens 1,5 keer het gemiddelde",
+          "waarde": 1.5,
+          "uitleg": "Alleen de provincies met de meeste aangiften vallen af."
+        },
+        {
+          "label": "hoogstens 1,2 keer",
+          "waarde": 1.2,
+          "uitleg": "Niet duidelijk boven het gemiddelde."
+        },
+        {
+          "label": "hoogstens het gemiddelde",
+          "waarde": 1.0,
+          "uitleg": "Gemiddeld of rustiger."
+        },
+        {
+          "label": "hoogstens 0,8 keer",
+          "waarde": 0.8,
+          "uitleg": "Duidelijk rustiger dan gemiddeld."
+        }
+      ]
+    },
+    {
+      "id": "maffia",
+      "groep": "risico",
+      "label": "Geen ontbonden gemeenteraad",
+      "uitleg": "De gemeenteraad is in 2025 of 2026 niet ontbonden wegens maffia-infiltratie (ministerie van Binnenlandse Zaken).",
+      "kolom": "maffia_rang",
+      "richting": "hoger",
+      "eenheid": "{v}",
+      "bron": "sciolti_mafia",
+      "criterium": "veiligheid",
+      "standaard_niveau": 0,
+      "niveaus": [
+        {
+          "label": "niet ontbonden in 2025 of 2026",
+          "waarde": 1,
+          "uitleg": "Gemeenten met een ontbonden gemeenteraad vallen af."
+        }
+      ]
+    },
+    {
+      "id": "aardbeving",
+      "groep": "risico",
+      "label": "Weinig aardbevingsgevaar",
+      "uitleg": "Seismische zone van de Protezione Civile: 1 is het hoogste gevaar, 4 het laagste. In zone 1 en 2 gelden de strengste bouwregels.",
+      "kolom": "seismische_zone",
+      "richting": "hoger",
+      "eenheid": "zone {v}",
+      "bron": "dpc_sismica",
+      "criterium": "risico",
+      "standaard_niveau": 0,
+      "niveaus": [
+        {
+          "label": "geen zone 1",
+          "waarde": 2,
+          "uitleg": "Alleen het hoogste gevaar valt af."
+        },
+        {
+          "label": "zone 3 of 4",
+          "waarde": 3,
+          "uitleg": "Gemiddeld of laag gevaar."
+        },
+        {
+          "label": "alleen zone 4",
+          "waarde": 4,
+          "uitleg": "Laag gevaar: vooral Sardinië, delen van Piemonte, Lombardije en Apulië."
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "groep": "risico",
+      "label": "Geen overstroming of aardverschuiving",
+      "uitleg": "Aandeel inwoners in een zone met hoog risico op aardverschuiving (P3/P4) of overstroming (P3), volgens ISPRA IdroGEO. Controleer altijd ook het perceel zelf.",
+      "kolom": "water_risico_pct",
+      "richting": "lager",
+      "eenheid": "{v}% van de inwoners",
+      "bron": "idrogeo",
+      "criterium": "risico",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "hoogstens 25% van de inwoners",
+          "waarde": 25,
+          "uitleg": "Alleen gemeenten met een groot risicogebied vallen af."
+        },
+        {
+          "label": "hoogstens 10%",
+          "waarde": 10,
+          "uitleg": "Beperkt risico."
+        },
+        {
+          "label": "hoogstens 5%",
+          "waarde": 5,
+          "uitleg": "Klein risico."
+        },
+        {
+          "label": "hoogstens 2%",
+          "waarde": 2,
+          "uitleg": "Nauwelijks risico."
+        }
+      ]
+    },
+    {
+      "id": "bosbrand",
+      "groep": "risico",
+      "label": "Weinig bosbrand",
+      "uitleg": "Afgebrand oppervlak in de afgelopen 10 jaar als aandeel van de gemeente (EFFIS, Copernicus).",
+      "kolom": "bosbrand_pct",
+      "richting": "lager",
+      "eenheid": "{v}%",
+      "bron": "effis",
+      "criterium": "risico",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "hoogstens 10% afgebrand",
+          "waarde": 10,
+          "uitleg": "Alleen de zwaarst getroffen gemeenten vallen af."
+        },
+        {
+          "label": "hoogstens 5%",
+          "waarde": 5,
+          "uitleg": "Weinig brand."
+        },
+        {
+          "label": "hoogstens 1%",
+          "waarde": 1,
+          "uitleg": "Zelden brand."
+        },
+        {
+          "label": "geen noemenswaardige brand (hoogstens 0,1%)",
+          "waarde": 0.1,
+          "uitleg": "Vrijwel geen bosbrand."
+        }
+      ]
+    },
+    {
+      "id": "vulkaan",
+      "groep": "risico",
+      "label": "Buiten vulkaangebied",
+      "uitleg": "De rode zone van de Vesuvius en de Campi Flegrei valt altijd af. De gele zone is het gebied waar zoveel as kan vallen dat daken bezwijken.",
+      "kolom": "vulkaan_rang",
+      "richting": "hoger",
+      "eenheid": "{v}",
+      "bron": "zona_gialla",
+      "criterium": "risico",
+      "standaard_niveau": 0,
+      "niveaus": [
+        {
+          "label": "buiten de rode zone",
+          "waarde": 1,
+          "uitleg": "Dit geldt altijd."
+        },
+        {
+          "label": "ook buiten de gele zone",
+          "waarde": 2,
+          "uitleg": "Ook de gemeenten met kans op zware asval vallen af."
+        }
+      ]
+    },
+    {
+      "id": "regime7",
+      "groep": "geld",
+      "label": "7%-regime",
+      "uitleg": "Vlaktaks van 7% op buitenlandse inkomsten voor gepensioneerden met een buitenlands pensioen, in kleine gemeenten in Zuid-Italië en in de aardbevingsgebieden. Geen belastingadvies; zie hoofdstuk 7 van de gids.",
+      "kolom": "regime7_rang",
+      "richting": "hoger",
+      "eenheid": "{v}",
+      "bron": "regime7",
+      "criterium": "fiscaal",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "komt in aanmerking of moet nog worden nagegaan",
+          "waarde": 1,
+          "uitleg": "Ook de gemeenten waar de inwonersgrens nog moet worden gecontroleerd."
+        },
+        {
+          "label": "komt zeker in aanmerking",
+          "waarde": 2,
+          "uitleg": "Alleen de gemeenten die zeker voldoen."
+        }
+      ]
+    },
+    {
+      "id": "belasting",
+      "groep": "geld",
+      "label": "Lage gemeentelijke belasting",
+      "uitleg": "Gemeentelijke opslag op de inkomstenbelasting (addizionale IRPEF, hoogste tarief; ministerie van Financiën).",
+      "kolom": "addizionale_irpef_pct",
+      "richting": "lager",
+      "eenheid": "{v}%",
+      "bron": "mef_addizionale",
+      "criterium": "fiscaal",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "hoogstens 0,8%",
+          "waarde": 0.8,
+          "uitleg": "Het wettelijke maximum; vrijwel geen gemeente valt af."
+        },
+        {
+          "label": "hoogstens 0,5%",
+          "waarde": 0.5,
+          "uitleg": "Lager dan gebruikelijk."
+        },
+        {
+          "label": "hoogstens 0,2%",
+          "waarde": 0.2,
+          "uitleg": "Laag."
+        },
+        {
+          "label": "geen opslag",
+          "waarde": 0,
+          "uitleg": "De gemeente heft geen opslag."
+        }
+      ]
+    },
+    {
+      "id": "verhuur",
+      "groep": "geld",
+      "label": "Vraag voor vakantieverhuur",
+      "uitleg": "Overnachtingen in toeristische accommodaties per inwoner per jaar (ISTAT; schatting per gemeente). Hoger is meer vraag.",
+      "kolom": "overnachtingen_per_inw",
+      "richting": "hoger",
+      "eenheid": "{v} per inwoner",
+      "bron": "istat_overnachtingen",
+      "criterium": "toerisme",
+      "standaard_niveau": 1,
+      "niveaus": [
+        {
+          "label": "minstens 2 per inwoner",
+          "waarde": 2,
+          "uitleg": "Er komen toeristen."
+        },
+        {
+          "label": "minstens 5 per inwoner",
+          "waarde": 5,
+          "uitleg": "Redelijke vraag."
+        },
+        {
+          "label": "minstens 10 per inwoner",
+          "waarde": 10,
+          "uitleg": "Goede vraag in het seizoen."
+        },
+        {
+          "label": "minstens 20 per inwoner",
+          "waarde": 20,
+          "uitleg": "Een echte toeristische bestemming."
+        }
+      ]
+    },
+    {
+      "id": "herverkoop",
+      "groep": "geld",
+      "label": "Goed verkoopbaar",
+      "uitleg": "Verkochte woningen per 100 woningen per jaar (OMI 2025 en census 2021). Waar weinig wordt verkocht, kan doorverkopen jaren duren.",
+      "kolom": "ntn_per_100",
+      "richting": "hoger",
+      "eenheid": "{v} per 100 woningen",
+      "bron": "omi_ntn",
+      "criterium": "liquiditeit",
+      "standaard_niveau": 0,
+      "niveaus": [
+        {
+          "label": "minstens 1 per 100 woningen",
+          "waarde": 1,
+          "uitleg": "Alleen gemeenten waar bijna niets wordt verkocht, vallen af."
+        },
+        {
+          "label": "minstens 1,5",
+          "waarde": 1.5,
+          "uitleg": "Een gewone woningmarkt."
+        },
+        {
+          "label": "minstens 2",
+          "waarde": 2,
+          "uitleg": "Levendige markt."
+        },
+        {
+          "label": "minstens 3",
+          "waarde": 3,
+          "uitleg": "Zeer levendige markt."
+        }
+      ]
+    }
+  ],
+  "profielen": {
+    "_uitleg": "Startkeuzes per profiel. Een eigenschap waarvan het criterium in profielen.json gewicht 0 heeft, begint als onbelangrijk; de andere als meewegen met gewicht = criteriumgewicht / 2, afgerond, tussen 1 en 9. Hieronder de uitzonderingen.",
+    "gepensioneerde": {
+      "spoedeisende_hulp": {
+        "status": "noodzakelijk",
+        "niveau": 1
+      }
+    },
+    "remote_worker": {
+      "internet": {
+        "status": "noodzakelijk",
+        "niveau": 1
+      }
+    },
+    "investeerder": {
+      "drukte": {
+        "status": "onbelangrijk"
+      }
+    }
+  }
+}
