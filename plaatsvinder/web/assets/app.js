@@ -342,6 +342,12 @@
           el("td", { text: x.deel == null ? "" : String(x.deel) })]);
       }))])]);
   }
+  function naarTestsUitleg(ev) {
+    ev.preventDefault();
+    var d = document.getElementById("pv-tests-uitleg");
+    if (d) { d.open = true; d.scrollIntoView({ behavior: "smooth", block: "start" }); }
+    else location.hash = "";
+  }
   function plaatsKaart(c, rang) {
     var U = T.uitslag, gekozen = S.vergelijk.indexOf(c.istat) >= 0;
     var info = [c.prov, c.regio, c.inwoners != null ? fmt(U.inwoners, { n: getal(c.inwoners, 0) }) : null,
@@ -361,9 +367,10 @@
           c.buiten_gebied ? el("span", { class: "pv-badge-buiten", text: U.buiten_gebied }) : null]),
         el("div", { class: "pv-score" }, [el("strong", { text: c.score == null ? LEEG : String(c.score) }), el("span", { text: "/100" })])]),
       el("div", { class: "pv-tests" }, [
-        el("span", { class: "pv-chip" }, [U.winter + " ", el("strong", { text: c.winter == null ? LEEG : String(c.winter) })]),
-        el("span", { class: "pv-chip" + (c.tachtig != null && c.tachtig < C.aandachtspunten.tachtig_waarschuwing.drempel ? " laag" : "") },
-          [U.tachtig + " ", el("strong", { text: c.tachtig == null ? LEEG : String(c.tachtig) })])]),
+        el("a", { class: "pv-chip", href: "#", title: T.tests.winter.titel, onclick: naarTestsUitleg }, [U.winter + " ", el("strong", { text: c.winter == null ? LEEG : String(c.winter) })]),
+        el("a", { class: "pv-chip" + (c.tachtig != null && c.tachtig < C.aandachtspunten.tachtig_waarschuwing.drempel ? " laag" : ""), href: "#", title: T.tests.tachtig.titel, onclick: naarTestsUitleg },
+          [U.tachtig + " ", el("strong", { text: c.tachtig == null ? LEEG : String(c.tachtig) })]),
+        el("span", { class: "pv-noot pv-tests-hint", text: U.tests_hint })]),
       punten(U.sterk, c.sterk, "sterk"), punten(U.zwak, c.zwak, "zwak"),
       el("details", { class: "pv-uitklap" }, [el("summary", { text: U.alle_eigenschappen }), eigTabel(c)]),
       el("div", { class: "pv-knoprij" }, [
@@ -547,6 +554,11 @@
         if (mee.length) tekst(P.meewegen + " " + mee.map(function (e) { var k = S.eigenschappen[e.id]; return e.label + " (" + e.niveaus[k.niveau].label + ", " + fmt(P.gewicht, { n: k.gewicht }) + ")"; }).join("; "), 10);
         if (onb.length) tekst(P.onbelangrijk + " " + onb.map(function (e) { return e.label; }).join(", "), 10);
         tekst(U.berekening, 9, "normal", [91, 100, 112]);
+        [T.tests.winter, T.tests.tachtig].forEach(function (x) {
+          tekst(x.titel, 10, "bold");
+          tekst(x.uitleg + " " + T.tests.onderdelen + " " + x.delen.join("; ") + ".", 9, "normal", [91, 100, 112]);
+        });
+        tekst(T.tests.slot, 9, "normal", [91, 100, 112]);
         y += 2;
         tekst(P.ranglijst, 12, "bold");
         doc.autoTable({ startY: y, head: [P.kol_rang.map(pdfTekst)], theme: "striped", headStyles: { fillColor: groen }, styles: { fontSize: 9, cellPadding: 1.6 },
@@ -578,6 +590,15 @@
         knop.disabled = false; knop.textContent = oud;
       }).catch(function () { knop.disabled = false; knop.textContent = P.fout; });
   }
+  // uitleg van de wintertest en de 80-jarentest
+  function testsUitleg() {
+    var X = T.tests, blok = function (x) {
+      return el("div", { class: "pv-test-uitleg" }, [el("h4", { text: x.titel }), el("p", { text: x.uitleg }), el("p", { class: "pv-noot", text: X.onderdelen }),
+        el("ul", {}, x.delen.map(function (d) { return el("li", { text: d }); }))]);
+    };
+    return el("details", { class: "pv-berekening pv-tests-uitleg", id: "pv-tests-uitleg" }, [el("summary", { text: X.titel }),
+      blok(X.winter), blok(X.tachtig), el("p", { class: "pv-noot", text: X.slot })]);
+  }
   function uitslag() {
     var U = T.uitslag;
     app.innerHTML = "";
@@ -589,6 +610,7 @@
       sectie.appendChild(el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }));
       sectie.appendChild(el("p", { class: "pv-uitleg", text: res.aantal ? fmt(U.aantal, { n: getal(res.aantal, 0) }) + " " + U.uitleg : U.leeg }));
       sectie.appendChild(el("details", { class: "pv-berekening" }, [el("summary", { text: U.berekening_titel }), el("p", { class: "pv-noot", text: U.berekening })]));
+      sectie.appendChild(testsUitleg());
       if (res.wegstrepen && res.wegstrepen.length) sectie.appendChild(weinigBlok(res));
       sectie.appendChild(overzicht());
       sectie.appendChild(deelBlok());

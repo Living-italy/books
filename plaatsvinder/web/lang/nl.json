@@ -216,7 +216,8 @@
     "kaart_hoog": "hoog ({s})",
     "kaart_grijs": "valt af door uw keuzes",
     "kaart_top": "uw top 25",
-    "kaart_uitleg": "De kleur loopt van rood (laagste score) via geel naar groen (hoogste score) over de {n} gemeenten die aan uw keuzes voldoen. Gemeentegrenzen:"
+    "kaart_uitleg": "De kleur loopt van rood (laagste score) via geel naar groen (hoogste score) over de {n} gemeenten die aan uw keuzes voldoen. Gemeentegrenzen:",
+    "tests_hint": "Tik op een test voor uitleg."
   },
   "gemeente": {
     "deelscores": "Score per criterium",
@@ -241,7 +242,7 @@
     "vulkaan_geheel": "in de rode zone van de {v}",
     "vulkaan_deels": "deels in de rode zone van de {v}",
     "winter_titel": "Wintertest: hoe is het hier in januari?",
-    "winter_uitleg": "Meet of de plaats ook buiten het seizoen leeft: diensten in de buurt, bevolking, vergrijzing, winkels en hoe sterk het toerisme in de zomer piekt.",
+    "winter_uitleg": "Meet of een plaats ook buiten het toeristenseizoen leeft, of dat het er in de winter stil en leeg is. Score 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is levendiger.",
     "winter_delen": {
       "snai": "Afstand tot diensten (SNAI)",
       "groei_10j": "Bevolkingsontwikkeling over 10 jaar",
@@ -251,7 +252,7 @@
       "winter_hoogte": "Vorstdagen (zonder klimaatdata: hoogteligging)"
     },
     "tachtig_titel": "80-jarentest: kunt u hier oud worden?",
-    "tachtig_uitleg": "Meet hoe goed zorg en dagelijkse dingen bereikbaar zijn als autorijden lastiger wordt.",
+    "tachtig_uitleg": "Meet of u er op hoge leeftijd goed kunt wonen als autorijden lastiger wordt. Score 0 tot 100, vergeleken met alle gemeenten in Italië. Onder 40 bent u er sterk afhankelijk van de auto; één op de drie Nederlandse pensioenmigranten in Italië en Frankrijk denkt aan terugkeer, met gezondheid als hoofdreden (NIDI).",
     "tachtig_delen": {
       "ziekenhuis": "Rijtijd naar spoedeisende hulp",
       "apotheek_huisarts": "Apotheek en huisarts",
@@ -431,5 +432,33 @@
     "nee": "nee",
     "link": "Meer over deze gemeente: {url}",
     "voet": "Plaatsvinder Italië (stefsmulders.nl). Open data van onder meer ISTAT, Agenzia delle Entrate (OMI), OpenStreetMap, Copernicus, ISPRA, Protezione Civile en het ministerie van Volksgezondheid. Een hulpmiddel, geen advies."
+  },
+  "tests": {
+    "titel": "Wat zijn de wintertest en de 80-jarentest?",
+    "winter": {
+      "titel": "Wintertest: hoe is het hier in januari?",
+      "uitleg": "Meet of een plaats ook buiten het toeristenseizoen leeft, of dat het er in de winter stil en leeg is. Score 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is levendiger.",
+      "delen": [
+        "Afstand tot diensten (SNAI-indeling: hoe ver de dichtstbijzijnde kern met middelbare school, ziekenhuis en station ligt) (30%)",
+        "Groei of krimp van de bevolking in 10 jaar (20%)",
+        "Supermarkt, apotheek en bar binnen 800 m van het centrum (20%)",
+        "Aandeel 65-plussers (minder is beter) (10%)",
+        "Zomerpiek van het toerisme ten opzichte van het aantal inwoners (minder is beter) (10%)",
+        "Aantal vorstdagen (minder is beter) (10%)"
+      ]
+    },
+    "tachtig": {
+      "titel": "80-jarentest: kunt u hier oud worden?",
+      "uitleg": "Meet of u er op hoge leeftijd goed kunt wonen als autorijden lastiger wordt. Score 0 tot 100, vergeleken met alle gemeenten in Italië. Onder 40 bent u er sterk afhankelijk van de auto; één op de drie Nederlandse pensioenmigranten in Italië en Frankrijk denkt aan terugkeer, met gezondheid als hoofdreden (NIDI).",
+      "delen": [
+        "Rijtijd naar een ziekenhuis met spoedeisende hulp (30%)",
+        "Rijtijd naar een apotheek, en een huisarts binnen 800 m (20%)",
+        "Kwaliteit van de regionale zorg (LEA-score van het ministerie) (20%)",
+        "Supermarkt binnen 800 m van het centrum (15%)",
+        "Rijtijd naar een treinstation (15%)"
+      ]
+    },
+    "slot": "Ontbreekt een onderdeel, dan telt het gewicht mee bij de andere onderdelen. De tests tellen niet mee in uw score, tenzij u bij de eigenschappen \"Levendig in de winter\" of \"Oud worden zonder auto\" laat meewegen of noodzakelijk maakt.",
+    "onderdelen": "Onderdelen en hun gewicht:"
   }
 }
