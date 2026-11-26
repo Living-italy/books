@@ -88,10 +88,6 @@ Van de 7894 gemeenten. Ontbrekende data sluit niet uit. **Vet**: meer dan de hel
 | Schone lucht | 2. tot 15 µg/m³ | 2097 | 26.6 | 0 |
 | Schone lucht | 3. tot 12 µg/m³ | 3617 | 45.8 | 0 |
 | Schone lucht | 4. tot 10 µg/m³ | **5197** | 65.8 | 0 |
-| Weinig toename van hitte | 1. hoogstens 25 dagen erbij | 764 | 9.7 | 0 |
-| Weinig toename van hitte | 2. hoogstens 15 dagen erbij | 3798 | 48.1 | 0 |
-| Weinig toename van hitte | 3. hoogstens 10 dagen erbij | **5882** | 74.5 | 0 |
-| Weinig toename van hitte | 4. hoogstens 5 dagen erbij | **6828** | 86.5 | 0 |
 | Cultuur in de buurt | 1. binnen 30 minuten | 19 | 0.2 | 0 |
 | Cultuur in de buurt | 2. binnen 15 minuten | 369 | 4.7 | 0 |
 | Cultuur in de buurt | 3. binnen 10 minuten | 1009 | 12.8 | 0 |
@@ -126,16 +122,16 @@ Van de 7894 gemeenten. Ontbrekende data sluit niet uit. **Vet**: meer dan de hel
 | Goede regionale zorg | 2. minstens 60 | 1791 | 22.7 | 0 |
 | Goede regionale zorg | 3. minstens 70 | 3353 | 42.5 | 0 |
 | Goede regionale zorg | 4. minstens 80 | **5294** | 67.1 | 0 |
-| Oud worden zonder auto | 1. minstens 35 | 2051 | 26.0 | 0 |
-| Oud worden zonder auto | 2. minstens 50 | **4148** | 52.5 | 0 |
-| Oud worden zonder auto | 3. minstens 65 | **6192** | 78.4 | 0 |
+| Oud worden zonder auto | 1. 80-jarentest minstens 35 van 100 | 2051 | 26.0 | 0 |
+| Oud worden zonder auto | 2. 80-jarentest minstens 50 van 100 | **4148** | 52.5 | 0 |
+| Oud worden zonder auto | 3. 80-jarentest minstens 65 van 100 | **6192** | 78.4 | 0 |
 | Snel internet | 1. minstens 25% glasvezel | 629 | 8.0 | 0 |
 | Snel internet | 2. minstens 50% | 1150 | 14.6 | 0 |
 | Snel internet | 3. minstens 75% | 2435 | 30.8 | 0 |
 | Snel internet | 4. minstens 90% | **4355** | 55.2 | 0 |
-| Levendig in de winter | 1. wintertest minstens 35 | 1324 | 16.8 | 0 |
-| Levendig in de winter | 2. minstens 50 | 3493 | 44.2 | 0 |
-| Levendig in de winter | 3. minstens 65 | **5989** | 75.9 | 0 |
+| Levendig in de winter | 1. wintertest minstens 35 van 100 | 1324 | 16.8 | 0 |
+| Levendig in de winter | 2. wintertest minstens 50 van 100 | 3493 | 44.2 | 0 |
+| Levendig in de winter | 3. wintertest minstens 65 van 100 | **5989** | 75.9 | 0 |
 | Niet afgelegen | 1. niet ultraperiferico (binnen ongeveer 67 minuten) | 382 | 4.8 | 9 |
 | Niet afgelegen | 2. hoogstens intermedio (binnen ongeveer 41 minuten) | 1905 | 24.1 | 9 |
 | Niet afgelegen | 3. cintura of kern (binnen ongeveer 28 minuten) | 3830 | 48.5 | 9 |
@@ -189,7 +185,6 @@ Het hoogste niveau waaraan de gemeente voldoet (0 = geen enkel, - = geen data).
 | Niet te hoog gelegen (max. 4) | 4 | 4 | 4 | 4 | 3 | 4 |
 | Veel zon (max. 4) | 1 | 1 | 2 | 3 | 4 | 2 |
 | Schone lucht (max. 4) | 1 | 4 | 4 | 2 | 3 | 3 |
-| Weinig toename van hitte (max. 4) | 1 | 2 | 1 | 4 | 0 | 1 |
 | Cultuur in de buurt (max. 4) | 4 | 4 | 4 | 4 | 4 | 3 |
 | Luchthaven met vluchten het hele jaar (max. 5) | 2 | 2 | 3 | 5 | 1 | 2 |
 | Met de auto naar huis (max. 5) | 4 | 4 | 3 | 1 | 0 | 2 |

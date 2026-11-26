@@ -38,7 +38,7 @@ Het profiel (gepensioneerde, tweede huis, gezin, remote worker, investeerder) be
 
 ### 2.3 De eigenschappen
 
-33 eigenschappen in 8 groepen, met 3 tot 5 niveaus. Uitzonderingen: het 7%-regime en vulkaangebied hebben 2 niveaus, de ontbonden gemeenteraad 1; dat zijn ja/nee-eigenschappen.
+32 eigenschappen in 8 groepen, met 3 tot 5 niveaus. Uitzonderingen: het 7%-regime en vulkaangebied hebben 2 niveaus, de ontbonden gemeenteraad 1; dat zijn ja/nee-eigenschappen.
 
 - **Noodzakelijk**: een gemeente die het gekozen niveau niet haalt, valt af. Telt in de score met het vaste maximale gewicht 10.
 - **Meewegen**: sluit niets uit. Telt mee met het eigen gewicht (1 tot 9) en het gewenste niveau.
@@ -57,7 +57,6 @@ Het profiel (gepensioneerde, tweede huis, gezin, remote worker, investeerder) be
 | Klimaat | Niet te hoog gelegen | 1. centrum tot 1.000 m; 2. tot 800 m; 3. tot 600 m; 4. tot 400 m |
 | Klimaat | Veel zon | 1. minstens 3,5 kWh; 2. minstens 3,8 kWh; 3. minstens 4,1 kWh; 4. minstens 4,4 kWh |
 | Klimaat | Schone lucht | 1. PM2,5 tot 20 µg/m³; 2. tot 15 µg/m³; 3. tot 12 µg/m³; 4. tot 10 µg/m³ |
-| Klimaat | Weinig toename van hitte | 1. hoogstens 25 dagen erbij; 2. hoogstens 15 dagen erbij; 3. hoogstens 10 dagen erbij; 4. hoogstens 5 dagen erbij |
 | Bereikbaarheid | Luchthaven met vluchten het hele jaar | 1. binnen 2 uur; 2. binnen 90 minuten; 3. binnen 60 minuten; 4. binnen 45 minuten; 5. binnen 30 minuten |
 | Bereikbaarheid | Met de auto naar huis | 1. binnen 18 uur; 2. binnen 16 uur; 3. binnen 14 uur; 4. binnen 12 uur; 5. binnen 11 uur |
 | Bereikbaarheid | Treinstation dichtbij | 1. binnen 30 minuten; 2. binnen 20 minuten; 3. binnen 15 minuten; 4. binnen 10 minuten; 5. binnen 5 minuten |
@@ -65,9 +64,9 @@ Het profiel (gepensioneerde, tweede huis, gezin, remote worker, investeerder) be
 | Voorzieningen en zorg | Voorzieningen op loopafstand | 1. minstens één van de drie; 2. minstens twee van de drie; 3. alle drie |
 | Voorzieningen en zorg | Spoedeisende hulp | 1. binnen 60 minuten; 2. binnen 45 minuten; 3. binnen 30 minuten; 4. binnen 20 minuten |
 | Voorzieningen en zorg | Goede regionale zorg | 1. laagste gebiedsscore minstens 50; 2. minstens 60; 3. minstens 70; 4. minstens 80 |
-| Voorzieningen en zorg | Oud worden zonder auto | 1. minstens 35; 2. minstens 50; 3. minstens 65 |
+| Voorzieningen en zorg | Oud worden zonder auto | 1. 80-jarentest minstens 35 van 100; 2. 80-jarentest minstens 50 van 100; 3. 80-jarentest minstens 65 van 100 |
 | Voorzieningen en zorg | Snel internet | 1. minstens 25% glasvezel; 2. minstens 50%; 3. minstens 75%; 4. minstens 90% |
-| Leven buiten het seizoen | Levendig in de winter | 1. wintertest minstens 35; 2. minstens 50; 3. minstens 65 |
+| Leven buiten het seizoen | Levendig in de winter | 1. wintertest minstens 35 van 100; 2. wintertest minstens 50 van 100; 3. wintertest minstens 65 van 100 |
 | Leven buiten het seizoen | Niet afgelegen | 1. niet ultraperiferico (binnen ongeveer 67 minuten); 2. hoogstens intermedio (binnen ongeveer 41 minuten); 3. cintura of kern (binnen ongeveer 28 minuten); 4. zelf een kern (polo) |
 | Veiligheid en risico's | Veiligheid | 1. hoogstens 1,5 keer het gemiddelde; 2. hoogstens 1,2 keer; 3. hoogstens het gemiddelde; 4. hoogstens 0,8 keer |
 | Veiligheid en risico's | Geen ontbonden gemeenteraad | 1. niet ontbonden in 2025 of 2026 |
@@ -79,6 +78,8 @@ Het profiel (gepensioneerde, tweede huis, gezin, remote worker, investeerder) be
 | Belasting, verhuur en verkoop | Lage gemeentelijke belasting | 1. hoogstens 0,8%; 2. hoogstens 0,5%; 3. hoogstens 0,2%; 4. geen opslag |
 | Belasting, verhuur en verkoop | Vraag voor vakantieverhuur | 1. minstens 2 per inwoner; 2. minstens 5 per inwoner; 3. minstens 10 per inwoner; 4. minstens 20 per inwoner |
 | Belasting, verhuur en verkoop | Goed verkoopbaar | 1. minstens 1 per 100 woningen; 2. minstens 1,5; 3. minstens 2; 4. minstens 3 |
+
+Bij "Levendig in de winter" en "Oud worden zonder auto" is het niveau de minimale score op de wintertest of de 80-jarentest (0 tot 100, vergeleken met alle gemeenten in Italië; zie 3.4). "Minstens 35" betekent dus: een testscore van 35 of hoger. Ongeveer 83% (wintertest) en 74% (80-jarentest) van de gemeenten haalt 35, ongeveer de helft haalt 50 en ongeveer een kwart haalt 65.
 
 De drempels, de uitleg per niveau en de bron staan in `config/eigenschappen.json`. In `data/dekking.md` staat per eigenschap en per niveau hoeveel gemeenten afvallen als de eigenschap noodzakelijk is, en welk niveau de steekproefgemeenten halen.
 
@@ -167,7 +168,7 @@ Een gemeente kan meerdere liggingen hebben.
 - Kustgemeenten waarvan het middelpunt in een zeecel valt, krijgen de dichtstbijzijnde landcel.
 - De temperatuur wordt gecorrigeerd voor het hoogteverschil tussen rastervak en centrum: 0,65 °C per 100 m.
 - Hete dagen (boven 30 °C) en vorstdagen: Copernicus-klimaatindicatoren, raster circa 25 km. Bij ruim 3.100 gemeenten ligt dat rastervak meer dan 150 m hoger of lager dan het centrum (dalen en bergen). Daar worden ze geschat uit de gecorrigeerde temperatuur van juli en januari, met het verband uit de overige gemeenten. De gemeentepagina meldt dat.
-- Klimaatverandering: extra hete dagen en verandering van de neerslag, 2016-2025 tegenover 1991-2000.
+- Klimaatverandering (extra hete dagen en verandering van de neerslag, 2016-2025 tegenover 1991-2000) wordt nog berekend (in `data/comuni.json`), maar is geen eigenschap meer in de wizard en staat niet meer op de site.
 
 ### 3.8 Overige berekeningen
 
@@ -276,7 +277,7 @@ Een volledige run zonder downloads duurt 4 tot 7 minuten.
 
 | Bestand | Inhoud |
 |---|---|
-| `config/eigenschappen.json` | de 33 eigenschappen met groep, kolom, richting, eenheid, bron, niveaus en uitleg; gewichten; startkeuzes per profiel |
+| `config/eigenschappen.json` | de 32 eigenschappen met groep, kolom, richting, eenheid, bron, niveaus en uitleg; gewichten; startkeuzes per profiel |
 | `config/criteria.json` | criteria en indicatoren (achtergrond voor de wintertest, de 80-jarentest en de koppeling met de profielen); gepland |
 | `config/profielen.json` | profielen, gewichten per criterium (basis voor de startkeuzes), vervolgvragen |
 | `config/bronnen.json` | alle bronnen met url, peildatum, schaalniveau en licentie |

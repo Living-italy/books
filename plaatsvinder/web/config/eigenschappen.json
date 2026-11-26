@@ -364,40 +364,6 @@
       ]
     },
     {
-      "id": "klimaatverandering",
-      "groep": "klimaat",
-      "label": "Weinig toename van hitte",
-      "uitleg": "Extra dagen boven 30 °C per jaar in 2016-2025 vergeleken met 1991-2000 (Copernicus).",
-      "kolom": "trend_hete_dagen",
-      "richting": "lager",
-      "eenheid": "{v} dagen",
-      "bron": "ecde",
-      "criterium": "klimaatverandering",
-      "standaard_niveau": 1,
-      "niveaus": [
-        {
-          "label": "hoogstens 25 dagen erbij",
-          "waarde": 25,
-          "uitleg": "Alleen waar de hitte het sterkst toenam, valt af."
-        },
-        {
-          "label": "hoogstens 15 dagen erbij",
-          "waarde": 15,
-          "uitleg": "Minder dan de helft van Italië zit hierboven."
-        },
-        {
-          "label": "hoogstens 10 dagen erbij",
-          "waarde": 10,
-          "uitleg": "Beperkte toename."
-        },
-        {
-          "label": "hoogstens 5 dagen erbij",
-          "waarde": 5,
-          "uitleg": "Nauwelijks toename: vooral bergen en noordelijke valleien."
-        }
-      ]
-    },
-    {
       "id": "cultuur",
       "groep": "natuur",
       "label": "Cultuur in de buurt",
@@ -683,28 +649,28 @@
       "id": "oud_worden",
       "groep": "zorg",
       "label": "Oud worden zonder auto",
-      "uitleg": "De 80-jarentest van de Plaatsvinder (0 tot 100): kunt u hier oud worden als autorijden lastiger wordt? Rijtijd naar spoedeisende hulp (30%), apotheek en huisarts (20%), regionale zorg (20%), supermarkt op loopafstand (15%) en treinstation (15%).",
+      "uitleg": "De 80-jarentest van de Plaatsvinder: kunt u hier oud worden als autorijden lastiger wordt? De test geeft elke gemeente een score van 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is beter. Onderdelen: rijtijd naar spoedeisende hulp (30%), apotheek en huisarts (20%), regionale zorg (20%), supermarkt op loopafstand (15%) en treinstation (15%). Het niveau is de minimale score op deze test; onder 40 bent u sterk afhankelijk van de auto.",
       "kolom": "test_tachtig",
       "richting": "hoger",
-      "eenheid": "{v} van 100",
+      "eenheid": "80-jarentest {v} van 100",
       "bron": "plaatsvinder",
       "criterium": "zorg",
       "standaard_niveau": 0,
       "niveaus": [
         {
-          "label": "minstens 35",
+          "label": "80-jarentest minstens 35 van 100",
           "waarde": 35,
-          "uitleg": "Alleen plaatsen waar u zonder auto vastzit, vallen af."
+          "uitleg": "Alleen plaatsen waar u zonder auto echt vastzit, vallen af. Ongeveer 74% van de gemeenten haalt dit."
         },
         {
-          "label": "minstens 50",
+          "label": "80-jarentest minstens 50 van 100",
           "waarde": 50,
-          "uitleg": "Redelijk te doen op latere leeftijd."
+          "uitleg": "Redelijk te doen op latere leeftijd. Ongeveer 47% van de gemeenten haalt dit."
         },
         {
-          "label": "minstens 65",
+          "label": "80-jarentest minstens 65 van 100",
           "waarde": 65,
-          "uitleg": "Goed: veel binnen bereik zonder auto."
+          "uitleg": "Goed: zorg en boodschappen ook zonder auto goed bereikbaar. Ongeveer 22% van de gemeenten haalt dit."
         }
       ]
     },
@@ -746,28 +712,28 @@
       "id": "levendig",
       "groep": "leven",
       "label": "Levendig in de winter",
-      "uitleg": "De wintertest van de Plaatsvinder (0 tot 100): leeft de plaats ook in januari? Afstand tot diensten (30%), groei of krimp van de bevolking (20%), supermarkt, apotheek en bar op loopafstand (20%), vergrijzing (10%), zomerpiek van het toerisme (10%) en vorstdagen (10%).",
+      "uitleg": "De wintertest van de Plaatsvinder: leeft de plaats ook in januari? De test geeft elke gemeente een score van 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is levendiger. Onderdelen: afstand tot diensten (30%), groei of krimp van de bevolking (20%), supermarkt, apotheek en bar op loopafstand (20%), vergrijzing (10%), zomerpiek van het toerisme (10%) en vorstdagen (10%). Het niveau is de minimale score op deze test.",
       "kolom": "test_winter",
       "richting": "hoger",
-      "eenheid": "{v} van 100",
+      "eenheid": "wintertest {v} van 100",
       "bron": "plaatsvinder",
       "criterium": "levendigheid",
       "standaard_niveau": 0,
       "niveaus": [
         {
-          "label": "wintertest minstens 35",
+          "label": "wintertest minstens 35 van 100",
           "waarde": 35,
-          "uitleg": "Alleen echte spookdorpen buiten het seizoen vallen af."
+          "uitleg": "Alleen echte spookdorpen buiten het seizoen vallen af. Ongeveer 83% van de gemeenten haalt dit."
         },
         {
-          "label": "minstens 50",
+          "label": "wintertest minstens 50 van 100",
           "waarde": 50,
-          "uitleg": "Ook in januari leeft het."
+          "uitleg": "Ook in januari leeft het. Ongeveer 56% van de gemeenten haalt dit."
         },
         {
-          "label": "minstens 65",
+          "label": "wintertest minstens 65 van 100",
           "waarde": 65,
-          "uitleg": "Het hele jaar levendig."
+          "uitleg": "Het hele jaar levendig. Ongeveer een kwart van de gemeenten haalt dit."
         }
       ]
     },
