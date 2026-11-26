@@ -33,6 +33,7 @@ window.PV = {
   cfg: <?= $j($cfg) ?>,
   lang: <?= $j($lang) ?>,
   lite: "data/comuni-lite.json?v=<?= (int)$v ?>",
+  kaart: "data/kaart.json?v=<?= (int)@filemtime(__DIR__ . "/data/kaart.json") ?>",
   score: "score.php",
   gemeente: "gemeente.php"
 };

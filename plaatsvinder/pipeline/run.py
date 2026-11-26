@@ -50,6 +50,8 @@ def main():
     web_data = ROOT / "web" / "data"
     web_data.mkdir(exist_ok=True)
     shutil.copy2(ROOT / "data" / "comuni-lite.json", web_data / "comuni-lite.json")
+    import kaart
+    kaart.web_kaart()                     # gemeentegrenzen voor de kaart bij de uitslag
     (web_data / "comuni.json").unlink(missing_ok=True)   # de site gebruikt score.json en detail/<prov>.json
     if not a.provincie:
         dekking.schrijf()

@@ -87,6 +87,7 @@ De drempels, de uitleg per niveau en de bron staan in `config/eigenschappen.json
 - De 25 gemeenten met de hoogste score (0 tot 100), met provincie, regio, inwoners, hoogte, de wintertest en de 80-jarentest.
 - Per gemeente de drie sterkste en de drie zwakste eigenschappen, en een uitklap "Alle eigenschappen" met per eigenschap de waarde, het behaalde niveau, het gevraagde niveau (gehaald of niet) en de deelscore.
 - Uitleg "Hoe wordt de score berekend?" boven de lijst.
+- Knop "Toon de scores op de kaart van Italië": een kaart met alle gemeentegrenzen (ISTAT 2026, vereenvoudigd, `web/data/kaart.json`). Elke gemeente die aan de keuzes voldoet, krijgt een kleur van rood (laagste score) via geel naar groen (hoogste score); de andere zijn grijs; de top 25 heeft een zwarte rand. Inzoomen, verschuiven en klikken op een gemeente voor naam, score en een link naar de gemeentepagina.
 - Bij minder dan 25 plaatsen: per noodzakelijke eigenschap hoeveel gemeenten die op zichzelf wegstreept, de strengste eerst, met de knoppen "Eén niveau soepeler" en "Laat meewegen in plaats van noodzakelijk".
 - Badge "trend" voor regio's en provincies die volgens het jaarrapport van Gate-away.com in opkomst zijn (handmatige tabel, geen score).
 - Een deelbare link met alle keuzes, een overzicht "Uw keuzes" met per stap "Wijzigen", en tot drie gemeenten om te vergelijken (alle eigenschappen naast elkaar).

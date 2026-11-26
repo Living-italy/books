@@ -422,6 +422,84 @@
           .catch(function () { inp.select(); });
       } })])]);
   }
+  // kaart van Italië: elke gemeente gekleurd naar haar score (groen hoog, rood laag), grijs als ze afvalt
+  var KAART = null, SVGNS = "http://www.w3.org/2000/svg";
+  function kleur(s, min, max) {
+    var t = max > min ? (s - min) / (max - min) : 1;
+    return "hsl(" + Math.round(120 * t) + ",70%," + Math.round(42 + 8 * (1 - Math.abs(t - 0.5) * 2)) + "%)";
+  }
+  function svg(tag, attrs) { var n = document.createElementNS(SVGNS, tag); Object.keys(attrs).forEach(function (k) { n.setAttribute(k, attrs[k]); }); return n; }
+  function kaartBlok(top) {
+    var U = T.uitslag, blok = el("section", { class: "pv-kaartblok" });
+    var knop = el("button", { type: "button", class: "pv-knop", text: U.kaart_toon, onclick: function () {
+      if (blok.querySelector(".pv-kaart-svg")) { blok.innerHTML = ""; blok.appendChild(knop); knop.textContent = U.kaart_toon; return; }
+      knop.disabled = true; knop.textContent = U.kaart_laden;
+      Promise.all([KAART ? Promise.resolve(KAART) : haal(window.PV.kaart), scoreVraag({ kaart: true, n: 1 })]).then(function (r) {
+        KAART = r[0]; knop.disabled = false; knop.textContent = U.kaart_verberg;
+        tekenKaart(blok, r[1].kaart || {}, top);
+      }).catch(function () { knop.disabled = false; knop.textContent = U.fout; });
+    } });
+    blok.appendChild(knop);
+    return blok;
+  }
+  function tekenKaart(blok, scores, top) {
+    var U = T.uitslag, K = KAART, waarden = Object.keys(scores).map(function (k) { return scores[k]; });
+    var min = Math.min.apply(null, waarden), max = Math.max.apply(null, waarden);
+    var rang = {}; top.forEach(function (c, i) { rang[c.istat] = i + 1; });
+    var vb = [0, 0, K.breedte, K.hoogte];
+    var kaart = svg("svg", { viewBox: vb.join(" "), class: "pv-kaart-svg", role: "img", "aria-label": U.kaart_label });
+    var laag = svg("g", {}), topLaag = svg("g", {});
+    Object.keys(K.gemeenten).forEach(function (ist) {
+      var g = K.gemeenten[ist], s = scores[ist];
+      var p = svg("path", { d: g[2], fill: s == null ? "var(--pv-kaart-uit)" : kleur(s, min, max), "data-i": ist });
+      (rang[ist] ? topLaag : laag).appendChild(p);
+      if (rang[ist]) p.setAttribute("class", "pv-kaart-top");
+    });
+    kaart.appendChild(laag);
+    kaart.appendChild(svg("path", { d: K.regios, class: "pv-kaart-regio" }));
+    kaart.appendChild(topLaag);
+    var info = el("p", { class: "pv-kaart-info", role: "status", text: U.kaart_tik });
+    kaart.addEventListener("click", function (e) {
+      var ist = e.target.getAttribute && e.target.getAttribute("data-i");
+      if (!ist) return;
+      var g = K.gemeenten[ist], s = scores[ist];
+      info.innerHTML = "";
+      info.appendChild(el("strong", { text: g[0] + " (" + g[1] + ")" }));
+      info.appendChild(document.createTextNode(" " + (s == null ? U.kaart_valt_af : fmt(U.kaart_score, { s: s }) + (rang[ist] ? " · " + fmt(U.kaart_rang, { n: rang[ist] }) : "")) + " "));
+      info.appendChild(el("a", { href: "#/gemeente/" + ist, text: T.knoppen.bekijk }));
+    });
+    // inzoomen en verschuiven
+    var zet = function () { kaart.setAttribute("viewBox", vb.join(" ")); };
+    var zoom = function (f, cx, cy) {
+      var nb = Math.min(K.breedte, Math.max(K.breedte / 40, vb[2] * f)), nh = nb * K.hoogte / K.breedte;
+      cx = cx == null ? vb[0] + vb[2] / 2 : cx; cy = cy == null ? vb[1] + vb[3] / 2 : cy;
+      vb = [cx - nb / 2, cy - nh / 2, nb, nh]; zet();
+    };
+    var punt = function (e) { var r = kaart.getBoundingClientRect(); return [vb[0] + (e.clientX - r.left) / r.width * vb[2], vb[1] + (e.clientY - r.top) / r.height * vb[3]]; };
+    kaart.addEventListener("wheel", function (e) { e.preventDefault(); var q = punt(e); zoom(e.deltaY < 0 ? 0.8 : 1.25, q[0], q[1]); }, { passive: false });
+    var sleep = null;
+    kaart.addEventListener("pointerdown", function (e) { sleep = { x: e.clientX, y: e.clientY, vb: vb.slice(), bewogen: false }; });
+    kaart.addEventListener("pointermove", function (e) {
+      if (!sleep) return;
+      var r = kaart.getBoundingClientRect(), dx = (e.clientX - sleep.x) / r.width * vb[2], dy = (e.clientY - sleep.y) / r.height * vb[3];
+      if (Math.abs(e.clientX - sleep.x) + Math.abs(e.clientY - sleep.y) > 4) sleep.bewogen = true;
+      if (sleep.bewogen) { vb = [sleep.vb[0] - dx, sleep.vb[1] - dy, vb[2], vb[3]]; zet(); }
+    });
+    var los = function () { if (sleep && sleep.bewogen) kaart.addEventListener("click", function stop(ev) { ev.stopPropagation(); kaart.removeEventListener("click", stop, true); }, true); sleep = null; };
+    kaart.addEventListener("pointerup", los); kaart.addEventListener("pointerleave", function () { sleep = null; });
+    var knoppen = el("div", { class: "pv-kaart-knoppen" }, [
+      el("button", { type: "button", class: "pv-knop pv-knop-klein", "aria-label": U.kaart_in, text: "+", onclick: function () { zoom(0.6); } }),
+      el("button", { type: "button", class: "pv-knop pv-knop-klein", "aria-label": U.kaart_uit, text: "−", onclick: function () { zoom(1 / 0.6); } }),
+      el("button", { type: "button", class: "pv-knop pv-knop-klein", text: U.kaart_heel, onclick: function () { vb = [0, 0, K.breedte, K.hoogte]; zet(); } })]);
+    var legenda = el("div", { class: "pv-kaart-legenda" }, [
+      el("span", { text: fmt(U.kaart_laag, { s: min }) }), el("span", { class: "pv-kaart-schaal", "aria-hidden": "true" }), el("span", { text: fmt(U.kaart_hoog, { s: max }) }),
+      el("span", { class: "pv-kaart-grijs" }, [el("i", { "aria-hidden": "true" }), U.kaart_grijs]),
+      el("span", { class: "pv-kaart-grijs" }, [el("i", { class: "top", "aria-hidden": "true" }), U.kaart_top])]);
+    blok.appendChild(el("div", { class: "pv-kaart-kader" }, [knoppen, kaart]));
+    blok.appendChild(legenda);
+    blok.appendChild(info);
+    blok.appendChild(el("p", { class: "pv-noot", text: fmt(U.kaart_uitleg, { n: getal(waarden.length, 0) }) + " " + K.bron + "." }));
+  }
   function uitslag() {
     var U = T.uitslag;
     app.innerHTML = "";
@@ -436,6 +514,7 @@
       if (res.wegstrepen && res.wegstrepen.length) sectie.appendChild(weinigBlok(res));
       sectie.appendChild(overzicht());
       sectie.appendChild(deelBlok());
+      if (res.aantal) sectie.appendChild(kaartBlok(res.top));
       sectie.appendChild(el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); })));
       sectie.appendChild(el("div", { class: "pv-knoprij" }, [
         el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.aanpassen, onclick: function () { S.stap = STAPPEN.length - 1; teken(); } }),

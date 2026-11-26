@@ -314,6 +314,13 @@ function scoor(array $invoer, array $comuni, int $n = 25): array
         && array_filter($a['keuzes'], fn($k) => $k['status'] === 'noodzakelijk')) {
         $uit['wegstrepen'] = wat_streept_weg($comuni, $a);
     }
+    if (!empty($invoer['kaart'])) {
+        // scores van alle gemeenten die door de keuzes komen, voor de kaart (istat => score)
+        $uit['kaart'] = [];
+        foreach ($kand as $k) {
+            $uit['kaart'][$k['c']['istat']] = (int)round($k['score']);
+        }
+    }
     $gevraagd = array_values(array_filter(array_map('strval', (array)($invoer['gemeenten'] ?? [])), fn($i) => preg_match('/^\d{6}$/', $i)));
     $voor = preg_match('/^\d{6}$/', (string)($invoer['alternatieven_voor'] ?? '')) ? (string)$invoer['alternatieven_voor'] : null;
     if ($voor) {

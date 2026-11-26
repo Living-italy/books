@@ -238,3 +238,21 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
   .pv-eigtabel th { grid-column: 1 / -1; }
   .pv-eigtabel td:nth-child(4) { grid-column: 2; grid-row: 2 / span 2; align-self: center; font-weight: 600; }
 }
+
+/* kaart bij de uitslag */
+:root { --pv-kaart-uit: #e4e0d8; --pv-kaart-rand: rgba(255,255,255,.55); }
+@media (prefers-color-scheme: dark) { :root { --pv-kaart-uit: #3a3d42; --pv-kaart-rand: rgba(0,0,0,.35); } }
+.pv-kaartblok { margin: 12px 0 16px; }
+.pv-kaart-kader { position: relative; margin-top: 10px; border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); background: var(--pv-vlak); overflow: hidden; }
+.pv-kaart-svg { display: block; width: 100%; height: auto; max-height: 80vh; touch-action: none; cursor: grab; }
+.pv-kaart-svg path[data-i] { stroke: var(--pv-kaart-rand); stroke-width: .4; vector-effect: non-scaling-stroke; }
+.pv-kaart-svg path.pv-kaart-top { stroke: #111; stroke-width: 1.6; }
+.pv-kaart-regio { fill: none; stroke: var(--pv-tekst); stroke-width: .9; vector-effect: non-scaling-stroke; pointer-events: none; opacity: .7; }
+.pv-kaart-knoppen { position: absolute; top: 8px; right: 8px; display: flex; gap: 6px; z-index: 1; }
+.pv-kaart-knoppen .pv-knop { min-width: 40px; }
+.pv-kaart-legenda { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 8px; font-size: .9em; }
+.pv-kaart-schaal { flex: 0 0 140px; height: 12px; border-radius: 6px; background: linear-gradient(90deg, hsl(0,70%,42%), hsl(60,70%,50%), hsl(120,70%,42%)); }
+.pv-kaart-grijs { display: inline-flex; align-items: center; gap: 6px; }
+.pv-kaart-grijs i { width: 14px; height: 14px; border-radius: 3px; background: var(--pv-kaart-uit); display: inline-block; }
+.pv-kaart-grijs i.top { background: transparent; border: 2px solid #111; }
+.pv-kaart-info { min-height: 1.5em; margin: 8px 0 0; }

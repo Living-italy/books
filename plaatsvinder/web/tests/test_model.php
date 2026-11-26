@@ -109,6 +109,14 @@ $r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV'], 'eigenschap
 check($r['aantal'] < 25 && count($r['wegstrepen'] ?? []) >= 3 && $r['wegstrepen'][0]['weg'] >= end($r['wegstrepen'])['weg'],
     "te weinig plaatsen ({$r['aantal']}): per noodzakelijke eigenschap hoeveel die wegstreept, strengste eerst");
 
+// kaart: scores van alle gemeenten die door de keuzes komen
+$r = scoor(['profiel' => 'gepensioneerde', 'kaart' => true], $c, 25);
+check(count($r['kaart'] ?? []) === $r['aantal'] && $r['kaart'][$r['top'][0]['istat']] === $r['top'][0]['score'],
+    "kaart: score voor alle {$r['aantal']} gemeenten in de uitslag, gelijk aan de ranglijst");
+$k = json_decode((string)file_get_contents(__DIR__ . '/../data/kaart.json'), true);
+check(count($k['gemeenten']) === count($c) && !array_diff(array_keys($k['gemeenten']), array_keys($idx)),
+    'kaart.json: grens voor elke gemeente, met dezelfde ISTAT-codes');
+
 // gids
 $gl = array_filter(cfg('gids_links')['verwijzingen'], fn($v) => !empty($v['url']));
 check(count(array_filter($gl, fn($v) => $v['id'] === 'kaarten')) === 1, 'gids-link naar Bijlage C staat erin');
