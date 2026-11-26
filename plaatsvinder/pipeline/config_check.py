@@ -52,22 +52,20 @@ def controleer() -> list[str]:
     for r in cfg["lea_2023"]["regios"]:
         if r["prevenzione"] + r["distrettuale"] + r["ospedaliera"] != r["totaal"]:
             fouten.append(f"lea_2023.json: totaal van {r['gebied']} klopt niet")
-    # wensenlijst (sectie 14)
-    wl = laad("wensenlijst")
-    ids = [i["id"] for i in wl["items"]]
-    if len(ids) != len(set(ids)) or len(ids) > 30:
-        fouten.append("wensenlijst.json: ids niet uniek of meer dan 30 items (masker)")
-    for i in wl["items"]:
-        if i["bron"] not in bron_ids:
-            fouten.append(f"wensenlijst.json: bron '{i['bron']}' bij '{i['id']}' staat niet in bronnen.json")
-        if i["criterium"] not in crit_ids:
-            fouten.append(f"wensenlijst.json: criterium '{i['criterium']}' bij '{i['id']}' bestaat niet")
-        if i["lijst"] not in ("dealbreaker", "musthave"):
-            fouten.append(f"wensenlijst.json: lijst '{i['lijst']}' bij '{i['id']}'")
-    for b in wl["blokkades"]:
-        for x in (b["a"], b["b"]):
-            if ":" not in x and x not in ids:
-                fouten.append(f"wensenlijst.json: blokkade noemt onbekend item '{x}'")
+    # eigenschappen
+    eg = laad("eigenschappen")
+    ids = [e["id"] for e in eg["eigenschappen"]]
+    if len(ids) != len(set(ids)):
+        fouten.append("eigenschappen.json: ids niet uniek")
+    for e in eg["eigenschappen"]:
+        if e["bron"] not in bron_ids:
+            fouten.append(f"eigenschappen.json: bron '{e['bron']}' bij '{e['id']}' staat niet in bronnen.json")
+        if e["criterium"] not in crit_ids or e["groep"] not in eg["groepen"] or e["richting"] not in ("lager", "hoger"):
+            fouten.append(f"eigenschappen.json: criterium, groep of richting bij '{e['id']}'")
+        w = [n["waarde"] for n in e["niveaus"]]
+        oplopend = all(a < b for a, b in zip(w, w[1:]))
+        if not 1 <= len(w) <= 5 or (e["richting"] == "hoger") != oplopend and len(w) > 1:
+            fouten.append(f"eigenschappen.json: niveaus van '{e['id']}' lopen niet van soepel naar streng")
     return fouten
 
 

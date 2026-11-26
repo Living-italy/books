@@ -55,14 +55,6 @@ def _schoon(v):
     return v
 
 
-B64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
-
-
-def _b64(n: int, breedte: int = 5) -> str:
-    """Getal (max. 30 bits) als vaste 5 tekens, voor het wensenlijst-masker in de lite-versie."""
-    return "".join(B64[(n >> (6 * (breedte - 1 - i))) & 63] for i in range(breedte))
-
-
 def _int(v):
     v = _schoon(v)
     return None if v is None else int(round(v))
@@ -70,21 +62,25 @@ def _int(v):
 
 def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> None:
     t = t.sort_values("istat").reset_index(drop=True).copy()
-    import wensenlijst
-    t["wl"] = wensenlijst.masker(t)
+    import eigenschappen as eg
+    t = eg.afgeleid(t)
+    eig = eg.cfg()["eigenschappen"]
+    niv = eg.niveaus(t)
+    pct = eg.percentielen(t)
+    t["e"] = eg.niveau_tekst(niv)
     for c, d in AFRONDEN.items():
         if c in t:
             t[c] = pd.to_numeric(t[c], errors="coerce").round(d)
     crit = json.loads((ROOT / "config/criteria.json").read_text(encoding="utf-8"))
     ind_kol = [i["kolom"] for c in crit["criteria"] for i in c["indicatoren"]]
-    waarden = list(dict.fromkeys(ind_kol + EXTRA))
+    waarden = list(dict.fromkeys(ind_kol + EXTRA + [e["kolom"] for e in eig]))
     s_cols = [f"s_{c['id']}" for c in crit["criteria"]] + ["s_klimaat_seizoenen"]
     rijen = []
     for _, r in t.iterrows():
         o = {c: _schoon(r.get(c)) for c in BASIS}
         o.update({c: bool(r.get(c)) for c in LIGGING})
         o["trend"] = bool(r.get("trend"))
-        o["wl"] = int(r["wl"])
+        o["e"] = r["e"]
         o["w"] = {c: _schoon(r.get(c)) for c in waarden if c in t and _schoon(r.get(c)) is not None}
         o["s"] = {c[2:]: _schoon(r.get(c)) for c in s_cols}
         o["t"] = {"winter": _schoon(r.get("test_winter")), "tachtig": _schoon(r.get("test_tachtig")),
@@ -141,15 +137,9 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
         "gr": [None if pd.isna(v) else int(np.searchsorted(GROOTTE, v, side="right")) for v in t.inwoners],
         "lig": [sum(1 << i for i, c in enumerate(LIGGING) if bool(r.get(c))) for _, r in t.iterrows()],
         "f": vlag,
-        "lh": kol("min_luchthaven_jaarrond"), "zh": kol("min_ziekenhuis"),
-        "gv": kol("glasvezel_pct", lambda v: None if _schoon(v) is None else int(round(_schoon(v) * 10))),   # x10
-        "uu": kol("uur_utrecht", halfuur), "ub": kol("uur_brussel", halfuur),
-        "uk": kol("uur_keulen", halfuur), "um": kol("uur_munchen", halfuur),
-        "koop": kol("koop_m2", lambda v: None if pd.isna(v) else int(round(v))),
-        "huur": kol("huur_m2", lambda v: None if pd.isna(v) else int(round(v * 10))),
-        "hm": kol("hoogte_m"),
-        "wl": "".join(_b64(int(v)) for v in t["wl"]),
-        "eenheden": "uu/ub/uk/um: halve uren; hm: hoogte centrum in m; gv: glasvezel-% x 10; wl: bitmasker wensenlijst, 5 tekens per gemeente (alfabet B64, eerste teken = hoogste 6 bits; bit i = items[i] laat de gemeente afvallen); koop: euro/m2; huur: euro/m2 x 10; regio = provincies[pv][2]",
+        "e": "".join(t["e"]),
+        "eigenschappen": [e["id"] for e in eig],
+        "eenheden": "e: per gemeente één teken per eigenschap (behaald niveau 0-5, '-' zonder data), achter elkaar; koop: euro/m2; huur: euro/m2 x 10; regio = provincies[pv][2]",
     }
     OUT_LITE.write_text(json.dumps(lite, separators=(",", ":")), encoding="utf-8")
     t.drop(columns=["geometry"], errors="ignore").to_csv(OUT_CSV, index=False)
@@ -160,9 +150,13 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
     for f in (web / "detail").glob("*.json"):
         f.unlink()
     compact = []
-    for o in rijen:
+    kol_e = [e["kolom"] for e in eig]
+    for i, o in enumerate(rijen):
         compact.append({k: o[k] for k in ["istat", "naam", "prov", "regio", "regio_code", "lat", "lon", "inwoners",
-                                          "hoogte_m", "trend", "wl"] + LIGGING} | {"s": o["s"], "tw": o["t"]["winter"], "tt": o["t"]["tachtig"],
+                                          "hoogte_m", "trend", "e"] + LIGGING} | {"tw": o["t"]["winter"], "tt": o["t"]["tachtig"],
+                       # per eigenschap (volgorde van eigenschappen.json): percentiel en waarde
+                       "ep": [_int(v) for v in pct.iloc[i]],
+                       "ev": [o["w"].get(k) for k in kol_e],
                        "w": {k: o["w"].get(k) for k in SCORE_W if o["w"].get(k) is not None}})
     (web / "score.json").write_text(json.dumps({"meta": {"gemaakt": meta["gemaakt"], "aantal": len(compact)},
                                                 "comuni": compact}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
@@ -177,7 +171,7 @@ def schrijf(t: pd.DataFrame, bronnen_downloads: dict, provincie: str | None) -> 
     doel = ROOT / "web" / "config"
     doel.mkdir(exist_ok=True)
     for naam in ["criteria", "profielen", "bronnen", "lea_2023", "regime7", "trends", "aandachtspunten", "luchthavens",
-                 "gids_links", "gids_prijzen", "sciolti_mafia", "wensenlijst", "zona_gialla"]:
+                 "gids_links", "gids_prijzen", "sciolti_mafia", "eigenschappen", "zona_gialla"]:
         shutil.copy2(ROOT / "config" / f"{naam}.json", doel / f"{naam}.json")
     print(f"  {OUT_FULL.name}: {OUT_FULL.stat().st_size/1e6:.2f} MB, {OUT_LITE.name}: "
           f"{OUT_LITE.stat().st_size/1e3:.0f} kB, {len(rijen)} comuni")

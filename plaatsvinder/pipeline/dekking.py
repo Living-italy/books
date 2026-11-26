@@ -22,30 +22,22 @@ def schrijf() -> None:
             k = t[i["kolom"]].notna().sum() if i["kolom"] in t else 0
             r.append(f"| {c['label']} | {i['label']} | {b.get('bron', i['bron'])} | {b.get('peildatum', '')} | "
                      f"{b.get('schaalniveau', '')} | {k} | {k / n * 100:.1f} |")
-    # wensenlijst (sectie 14h): hoeveel gemeenten elk item wegstreept, en wat het doet met de steekproef
-    import wensenlijst
+    # eigenschappen: per niveau hoeveel gemeenten afvallen, en wat dat doet met de steekproef
+    import eigenschappen as eg
     from steekproef import GEMEENTEN as STEEKPROEF
-    r += ["", "## Wensenlijst: gemeenten die afvallen per item", "",
-          f"Van de {n} gemeenten. Ontbrekende data sluit niet uit. **Vet**: het item streept meer dan de helft weg.", "",
-          "| Lijst | Item | Valt af als | Gemeenten af | % | Zonder data |", "|---|---|---|---|---|---|"]
-    items = {i["id"]: i for i in wensenlijst.cfg()["items"]}
-    for x in wensenlijst.rapport(t):
-        it = items[x["id"]]
-        if x["af"] is None:
-            r.append(f"| {it['lijst']} | {it['label']} | {it['drempel']} | gepland, staat uit | | |")
-            continue
-        pct = x["af"] / n * 100
-        af = f"**{x['af']}**" if pct > 50 else str(x["af"])
-        r.append(f"| {it['lijst']} | {it['label']} | {it['drempel']} | {af} | {pct:.1f} | {x['zonder_data']} |")
+    t = eg.afgeleid(t)
+    r += eg.rapport(t)
+    niv = eg.niveaus(t)
     sel = pd.Series(False, index=t.index)
     for naam, prov in STEEKPROEF:
         sel |= (t["naam"] == naam) & (t["prov"] == prov)
     st = t[sel]
-    r += ["", "### Steekproefgemeenten", "", "Per item: valt de gemeente af (x) of niet (-).", "",
-          "| Item | " + " | ".join(st["naam"]) + " |", "|---|" + "---|" * len(st)]
-    for it in wensenlijst.actieve_items():
-        af = wensenlijst._regel(t, it["regel"])[sel]          # drempels als top 10 % gelden over heel Italië
-        r.append(f"| {it['label']} ({it['lijst']}) | " + " | ".join("x" if a else "-" for a in af) + " |")
+    r += ["", "### Steekproefgemeenten: behaald niveau per eigenschap", "",
+          "Het hoogste niveau waaraan de gemeente voldoet (0 = geen enkel, - = geen data).", "",
+          "| Eigenschap | " + " | ".join(st["naam"]) + " |", "|---|" + "---|" * len(st)]
+    for e in eg.cfg()["eigenschappen"]:
+        x = niv.loc[st.index, e["id"]]
+        r.append(f"| {e['label']} (max. {len(e['niveaus'])}) | " + " | ".join("-" if pd.isna(v) else str(int(v)) for v in x) + " |")
     (DATA / "dekking.md").write_text("\n".join(r) + "\n", encoding="utf-8")
     print(f"  dekking: {DATA / 'dekking.md'}")
 
