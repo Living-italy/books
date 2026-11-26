@@ -256,3 +256,21 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-kaart-grijs i { width: 14px; height: 14px; border-radius: 3px; background: var(--pv-kaart-uit); display: inline-block; }
 .pv-kaart-grijs i.top { background: transparent; border: 2px solid #111; }
 .pv-kaart-info { min-height: 1.5em; margin: 8px 0 0; }
+
+/* eigenschappen: vakjes naast de naam, uitleg eronder, niveaus direct zichtbaar */
+.pv-verborgen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pv-eig-kop { flex-wrap: wrap; align-items: flex-start; }
+.pv-eig-kop h4 { flex: 1 1 12em; padding-top: 4px; }
+.pv-eig-vakjes { display: flex; gap: 6px; flex-wrap: wrap; }
+.pv-eig-vakje { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1.5px solid var(--pv-lijn); border-radius: 999px;
+  font-size: .9em; cursor: pointer; background: var(--pv-vlak); white-space: nowrap; }
+.pv-eig-vakje input { width: 18px; height: 18px; margin: 0; accent-color: var(--pv-accent); }
+.pv-eig-vakje:has(input:checked) { border-color: var(--pv-accent); background: var(--pv-accent-zacht); font-weight: 600; }
+.pv-eig .pv-eig-uitleg { margin: 2px 0 8px; padding: 0; background: none; font-size: .9em; color: var(--pv-zacht); }
+.pv-niveaus { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; min-width: 0; }
+.pv-niv { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border: 1.5px solid var(--pv-lijn); border-radius: 10px; cursor: pointer; }
+.pv-niv input { margin: 3px 0 0; width: 18px; height: 18px; flex: 0 0 auto; accent-color: var(--pv-accent); }
+.pv-niv.aan { border-color: var(--pv-accent); background: var(--pv-accent-zacht); }
+.pv-niv-label { display: block; font-weight: 600; }
+.pv-niv-uitleg { display: block; font-size: .85em; color: var(--pv-zacht); }
+.pv-niv-telling { margin: 6px 0 4px; }

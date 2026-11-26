@@ -114,13 +114,14 @@
     },
     "eigenschappen": {
       "titel": "Wat vindt u belangrijk?",
-      "uitleg": "Kies per eigenschap: noodzakelijk (een gemeente die het gekozen niveau niet haalt, valt af), meewegen (telt mee in de score) of onbelangrijk (telt niet mee). Kies daarna het niveau. De i-knop geeft uitleg.",
+      "uitleg": "Vink per eigenschap aan of die noodzakelijk is (een gemeente die het gekozen niveau niet haalt, valt af) of onbelangrijk (telt niet mee). Vinkt u niets aan, dan weegt de eigenschap gewoon mee. Kies daaronder het niveau.",
       "info": "Uitleg bij {item}",
       "niveau_nood": "Minimaal niveau (anders valt de gemeente af)",
       "niveau_mee": "Gewenst niveau",
       "haalt_nood": "{n} van de {totaal} gemeenten halen dit niveau.",
       "haalt_mee": "{n} van de {totaal} gemeenten halen dit niveau; de andere scoren lager op deze eigenschap.",
-      "telling": "{noodzakelijk} noodzakelijk, {meewegen} meewegen, {onbelangrijk} onbelangrijk."
+      "telling": "{noodzakelijk} noodzakelijk, {meewegen} meewegen, {onbelangrijk} onbelangrijk.",
+      "niveau_legend": "Niveau voor {item}"
     },
     "gewichten": {
       "titel": "Hoe zwaar wegen ze?",

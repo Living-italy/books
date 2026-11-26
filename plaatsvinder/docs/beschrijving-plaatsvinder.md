@@ -27,7 +27,7 @@ Onderaan elke stap staat een teller: "Nog 1.848 plaatsen over van 7.894". Die te
 | 2 | Waar wilt u zoeken? | Heel Italië (standaard, met de tip om daar te beginnen), een of meer regio's, of een of meer provincies (gegroepeerd per regio, met zoekveld). Een harde filter; de scores blijven over heel Italië berekend. |
 | 3 | Waar wilt u wonen? | Kust, meer, heuvels, bergen, vlakte; meerdere keuzes mogelijk (zie 3.5). |
 | 4 | Hoe groot mag de plaats zijn? | Minder dan 1.000 inwoners, 1.000-5.000, 5.000-20.000, 20.000-100.000, meer dan 100.000. |
-| 5 | Wat vindt u belangrijk? | Eén lijst met alle eigenschappen (zie 2.3). Per eigenschap: noodzakelijk, meewegen of onbelangrijk, en bij noodzakelijk en meewegen een niveau. Uitleg via de i-knop; onder het niveau staat hoeveel gemeenten het halen. |
+| 5 | Wat vindt u belangrijk? | Eén lijst met alle eigenschappen (zie 2.3). Naast de naam twee vakjes: noodzakelijk en onbelangrijk; niets aangevinkt is meewegen. Daaronder de uitleg en, behalve bij onbelangrijk, de niveaus als direct zichtbare keuzes met korte uitleg, en hoeveel gemeenten het gekozen niveau halen. |
 | 6 | Hoe zwaar wegen ze? | Een schuifje van 1 tot 9 voor elke eigenschap die meeweegt. Noodzakelijke eigenschappen tellen vast met gewicht 10, onbelangrijke met 0. |
 
 Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie terugkomt, krijgt "U was hier al eerder" met de keuze tussen verdergaan en opnieuw beginnen.

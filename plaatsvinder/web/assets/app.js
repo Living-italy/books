@@ -212,23 +212,29 @@
   }
 
   // ---------------------------------------------------------------- stap 5: eigenschappen
+  // per eigenschap: naam met vakjes Noodzakelijk en Onbelangrijk (geen van beide = meewegen),
+  // daaronder de uitleg en de niveaus als direct zichtbare keuzes (niet bij onbelangrijk)
   function eigenschapRij(e) {
     var st = T.stappen.eigenschappen, k = S.eigenschappen[e.id], j = EIDX[e.id];
-    var info = el("p", { class: "pv-eig-uitleg", id: "pv-ei-" + e.id, hidden: true, text: e.uitleg });
-    var kop = el("div", { class: "pv-eig-kop" }, [el("h4", { text: e.label }),
-      el("button", { type: "button", class: "pv-info", "aria-label": fmt(st.info, { item: e.label }), "aria-expanded": "false",
-        "aria-controls": info.id, text: "i", onclick: function () { info.hidden = !info.hidden; this.setAttribute("aria-expanded", info.hidden ? "false" : "true"); } })]);
-    var delen = [kop, info,
-      segment(e.label, k.status, [["noodzakelijk", EC.statussen.noodzakelijk], ["meewegen", EC.statussen.meewegen], ["onbelangrijk", EC.statussen.onbelangrijk]],
-        function (v) { k.status = v; teken(); })];
+    var vakje = function (status) {
+      var id = "pv-st-" + status + "-" + e.id;
+      return el("label", { class: "pv-eig-vakje", for: id }, [el("input", { type: "checkbox", id: id, checked: k.status === status,
+        onchange: function () { k.status = this.checked ? status : "meewegen"; teken(); } }), EC.statussen[status]]);
+    };
+    var delen = [el("div", { class: "pv-eig-kop" }, [el("h4", { text: e.label }),
+        el("div", { class: "pv-eig-vakjes" }, [vakje("noodzakelijk"), vakje("onbelangrijk")])]),
+      el("p", { class: "pv-eig-uitleg", text: e.uitleg })];
     if (k.status !== "onbelangrijk") {
-      var id = "pv-niv-" + e.id;
-      var sel = el("select", { id: id, onchange: function () { k.niveau = Number(this.value); teken(); } },
-        e.niveaus.map(function (n, i) { return el("option", { value: String(i), selected: i === k.niveau, text: (i + 1) + ". " + n.label }); }));
+      var naam = "pv-niv-" + e.id;
+      delen.push(el("fieldset", { class: "pv-niveaus" }, [el("legend", { class: "pv-verborgen", text: fmt(st.niveau_legend, { item: e.label }) })]
+        .concat(e.niveaus.map(function (n, i) {
+          var id = naam + "-" + i, aan = i === k.niveau;
+          return el("label", { class: "pv-niv" + (aan ? " aan" : ""), for: id }, [
+            el("input", { type: "radio", name: naam, id: id, value: String(i), checked: aan, onchange: function () { k.niveau = i; teken(); } }),
+            el("span", {}, [el("span", { class: "pv-niv-label", text: n.label }), el("span", { class: "pv-niv-uitleg", text: n.uitleg })])]);
+        }))));
       var n = haaltNiveau(j, k.niveau + 1);
-      delen.push(el("div", { class: "pv-veld pv-niveau" }, [el("label", { for: id, text: k.status === "noodzakelijk" ? st.niveau_nood : st.niveau_mee }), sel]),
-        el("p", { class: "pv-noot" }, [e.niveaus[k.niveau].uitleg,
-          n == null ? "" : " " + fmt(k.status === "noodzakelijk" ? st.haalt_nood : st.haalt_mee, { n: getal(n, 0), totaal: getal(LITE.n, 0) })]));
+      if (n != null) delen.push(el("p", { class: "pv-noot pv-niv-telling", text: fmt(k.status === "noodzakelijk" ? st.haalt_nood : st.haalt_mee, { n: getal(n, 0), totaal: getal(LITE.n, 0) }) }));
     }
     return el("li", { class: "pv-eig pv-eig-" + k.status }, delen);
   }
