@@ -546,13 +546,16 @@
         tekst(P.keuzes, 12, "bold");
         var gebied = S.gebied === "regios" && S.alleen_regios.length ? S.alleen_regios.map(function (x) { return T.regios[x]; }).join(", ")
           : S.gebied === "provincies" && S.alleen_provs.length ? S.alleen_provs.join(", ") : T.overzicht.overal;
-        var opties = function (sl) { return S[sl].length ? S[sl].map(function (x) { return T.stappen[sl].opties[x][0]; }).join(", ") : T.overzicht.alles; };
+        var opties = function (sl, metUitleg) {
+          return S[sl].length ? S[sl].map(function (x) { var o = T.stappen[sl].opties[x]; return metUitleg ? o[0] + " (" + o[1].toLowerCase() + ")" : o[0].toLowerCase(); }).join(", ") : P.geen_voorkeur;
+        };
         var per = function (st) { return EIG.filter(function (e) { return S.eigenschappen[e.id].status === st; }); };
-        tekst(fmt(P.profiel, { p: p ? p.label : "-" }) + "\n" + fmt(P.gebied, { g: gebied }) + "\n" + fmt(P.ligging, { l: opties("ligging") }) + "\n" + fmt(P.grootte, { g: opties("grootte") }), 10);
+        tekst(fmt(P.profiel, { p: p ? p.label : "-" }) + "\n" + fmt(P.gebied, { g: gebied }) + "\n" + fmt(P.ligging, { l: opties("ligging") }) + "\n" + fmt(P.grootte, { g: opties("grootte", true) }), 10);
         var nood = per("noodzakelijk"), mee = per("meewegen"), onb = per("onbelangrijk");
         if (nood.length) tekst(P.noodzakelijk + " " + nood.map(function (e) { return e.label + " (" + e.niveaus[S.eigenschappen[e.id].niveau].label + ")"; }).join("; "), 10);
         if (mee.length) tekst(P.meewegen + " " + mee.map(function (e) { var k = S.eigenschappen[e.id]; return e.label + " (" + e.niveaus[k.niveau].label + ", " + fmt(P.gewicht, { n: k.gewicht }) + ")"; }).join("; "), 10);
         if (onb.length) tekst(P.onbelangrijk + " " + onb.map(function (e) { return e.label; }).join(", "), 10);
+        tekst(P.berekening_titel, 10, "bold");
         tekst(U.berekening, 9, "normal", [91, 100, 112]);
         [T.tests.winter, T.tests.tachtig].forEach(function (x) {
           tekst(x.titel, 10, "bold");
@@ -569,16 +572,20 @@
           tekst((i + 1) + ". " + c.naam + " (" + c.prov + ", " + c.regio + ")", 14, "bold", groen);
           tekst(fmt(P.kop_gemeente, { s: c.score, inw: c.inwoners == null ? "-" : getal(c.inwoners, 0), h: c.hoogte_m == null ? "-" : getal(c.hoogte_m, 0),
             w: c.winter == null ? "-" : c.winter, t: c.tachtig == null ? "-" : c.tachtig }), 10, "normal", [91, 100, 112]);
-          doc.autoTable({ startY: y, head: [P.kol_eig.map(pdfTekst)], theme: "grid", headStyles: { fillColor: groen }, styles: { fontSize: 8, cellPadding: 1.3 },
-            columnStyles: { 0: { cellWidth: 58 }, 5: { halign: "right" } },
-            body: c.eigenschappen.map(function (x) {
-              var e = EIG[EIDX[x.id]], ok = x.gevraagd == null || x.behaald == null ? "-" : x.behaald >= x.gevraagd ? P.ja : P.nee;
-              return [pdfTekst(e.label), pdfTekst(EC.statussen[x.status]), pdfTekst(waardeE(e, x.waarde)),
-                x.behaald == null ? "-" : x.behaald + " / " + e.niveaus.length, x.gevraagd == null ? "-" : x.gevraagd + " (" + ok + ")", x.deel == null ? "-" : x.deel];
+          var rijen = c.eigenschappen.filter(function (x) { return x.status !== "onbelangrijk"; });
+          doc.autoTable({ startY: y, head: [P.kol_eig.map(pdfTekst)], theme: "grid", headStyles: { fillColor: groen }, styles: { fontSize: 8.5, cellPadding: 1.5 },
+            columnStyles: { 0: { cellWidth: 80 }, 2: { halign: "right", cellWidth: 20 } },
+            body: rijen.map(function (x) {
+              var e = EIG[EIDX[x.id]];
+              return [pdfTekst(e.label + (x.status === "noodzakelijk" ? " *" : "")), pdfTekst(waardeE(e, x.waarde)), x.deel == null ? "-" : x.deel];
             }),
-            didParseCell: function (d) { if (d.section === "body" && /\((nee)\)/.test(String(d.row.raw[4]))) d.cell.styles.textColor = [163, 84, 27]; },
+            didParseCell: function (d) {
+              var x = d.section === "body" && rijen[d.row.index];
+              if (x && x.gevraagd != null && x.behaald != null && x.behaald < x.gevraagd) d.cell.styles.textColor = [163, 84, 27];
+            },
             margin: { left: 14, right: 14 } });
           y = doc.lastAutoTable.finalY + 4;
+          tekst(P.legenda_tabel, 8, "normal", [91, 100, 112]);
           tekst(fmt(P.link, { url: location.origin + location.pathname + "#/gemeente/" + c.istat }), 8, "normal", [91, 100, 112]);
         });
         var n = doc.getNumberOfPages();
