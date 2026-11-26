@@ -274,3 +274,7 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-niv-label { display: block; font-weight: 600; }
 .pv-niv-uitleg { display: block; font-size: .85em; color: var(--pv-zacht); }
 .pv-niv-telling { margin: 6px 0 4px; }
+.pv-eig .pv-eig-uitleg { font-weight: 600; color: var(--pv-tekst); }
+@keyframes pv-flits { 0% { box-shadow: 0 0 0 4px var(--pv-accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.pv-plaats.pv-flits { animation: pv-flits 2s ease-out; }
+.pv-plaats { scroll-margin-top: 12px; }

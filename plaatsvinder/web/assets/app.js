@@ -353,7 +353,7 @@
         return el("li", {}, [el("span", { text: eLabel(id) }), balk(d[id]), el("span", { class: "pv-getal", text: String(d[id]) })]);
       }))]);
     };
-    return el("li", { class: "pv-plaats" }, [
+    return el("li", { class: "pv-plaats", id: rang ? "pv-plaats-" + c.istat : null }, [
       el("div", { class: "pv-plaats-kop" }, [
         rang ? el("span", { class: "pv-rang", text: String(rang) }) : null,
         el("div", { class: "pv-plaats-naam" }, [el("h3", {}, [el("a", { href: "#/gemeente/" + c.istat, text: c.naam })]), el("p", { text: info }),
@@ -473,6 +473,11 @@
       info.appendChild(el("strong", { text: g[0] + " (" + g[1] + ")" }));
       info.appendChild(document.createTextNode(" " + (s == null ? U.kaart_valt_af : fmt(U.kaart_score, { s: s }) + (rang[ist] ? " · " + fmt(U.kaart_rang, { n: rang[ist] }) : "")) + " "));
       info.appendChild(el("a", { href: "#/gemeente/" + ist, text: T.knoppen.bekijk }));
+      // op een telefoon valt het infovak vaak buiten beeld: spring naar het resultaat
+      var kaartje = rang[ist] && document.getElementById("pv-plaats-" + ist);
+      var doel = kaartje || info;
+      doel.scrollIntoView({ behavior: "smooth", block: kaartje ? "start" : "center" });
+      if (kaartje) { kaartje.classList.remove("pv-flits"); void kaartje.offsetWidth; kaartje.classList.add("pv-flits"); }
     });
     // inzoomen en verschuiven
     var zet = function () { kaart.setAttribute("viewBox", vb.join(" ")); };
@@ -506,6 +511,73 @@
     blok.appendChild(info);
     blok.appendChild(el("p", { class: "pv-noot", text: fmt(U.kaart_uitleg, { n: getal(waarden.length, 0) }) + " " + K.bron + "." }));
   }
+  // ---------------------------------------------------------------- pdf van de uitslag (jsPDF, op eigen server, pas geladen bij gebruik)
+  function laadScript(src) {
+    return new Promise(function (ok, nee) { var x = document.createElement("script"); x.src = src; x.onload = ok; x.onerror = nee; document.head.appendChild(x); });
+  }
+  function pdfTekst(t) {                                  // standaardlettertype van jsPDF kent alleen Windows-1252
+    return String(t == null ? "" : t).replace(/[≥]/g, ">=").replace(/[≤]/g, "<=").replace(/[−]/g, "-").replace(/[✓]/g, "ja").replace(/[✗]/g, "nee")
+      .replace(/[^\u0000-\u00ff€‘’“”–—•…]/g, "?");
+  }
+  function maakPdf(res, knop) {
+    var U = T.uitslag, P = T.pdf, oud = knop.textContent;
+    knop.disabled = true; knop.textContent = P.bezig;
+    var lib = "assets/lib/";
+    (window.jspdf ? Promise.resolve() : laadScript(lib + "jspdf-2.5.1.umd.min.js").then(function () { return laadScript(lib + "jspdf-autotable-3.8.2.min.js"); }))
+      .then(function () {
+        var doc = new window.jspdf.jsPDF({ unit: "mm", format: "a4" }), y = 16, groen = [31, 111, 92];
+        var tekst = function (t, grootte, stijl, kleur) {
+          doc.setFont("helvetica", stijl || "normal"); doc.setFontSize(grootte || 10); doc.setTextColor.apply(doc, kleur || [31, 35, 40]);
+          var regels = doc.splitTextToSize(pdfTekst(t), 182);
+          if (y + regels.length * grootte * 0.42 > 285) { doc.addPage(); y = 16; }
+          doc.text(regels, 14, y); y += regels.length * (grootte || 10) * 0.42 + 2;
+        };
+        var p = S.profiel && profiel(S.profiel), datum = new Date().toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+        tekst(P.titel, 18, "bold", groen);
+        tekst(fmt(P.ondertitel, { datum: datum, n: getal(res.aantal, 0) }), 10, "normal", [91, 100, 112]);
+        y += 2;
+        tekst(P.keuzes, 12, "bold");
+        var gebied = S.gebied === "regios" && S.alleen_regios.length ? S.alleen_regios.map(function (x) { return T.regios[x]; }).join(", ")
+          : S.gebied === "provincies" && S.alleen_provs.length ? S.alleen_provs.join(", ") : T.overzicht.overal;
+        var opties = function (sl) { return S[sl].length ? S[sl].map(function (x) { return T.stappen[sl].opties[x][0]; }).join(", ") : T.overzicht.alles; };
+        var per = function (st) { return EIG.filter(function (e) { return S.eigenschappen[e.id].status === st; }); };
+        tekst(fmt(P.profiel, { p: p ? p.label : "-" }) + "\n" + fmt(P.gebied, { g: gebied }) + "\n" + fmt(P.ligging, { l: opties("ligging") }) + "\n" + fmt(P.grootte, { g: opties("grootte") }), 10);
+        var nood = per("noodzakelijk"), mee = per("meewegen"), onb = per("onbelangrijk");
+        if (nood.length) tekst(P.noodzakelijk + " " + nood.map(function (e) { return e.label + " (" + e.niveaus[S.eigenschappen[e.id].niveau].label + ")"; }).join("; "), 10);
+        if (mee.length) tekst(P.meewegen + " " + mee.map(function (e) { var k = S.eigenschappen[e.id]; return e.label + " (" + e.niveaus[k.niveau].label + ", " + fmt(P.gewicht, { n: k.gewicht }) + ")"; }).join("; "), 10);
+        if (onb.length) tekst(P.onbelangrijk + " " + onb.map(function (e) { return e.label; }).join(", "), 10);
+        tekst(U.berekening, 9, "normal", [91, 100, 112]);
+        y += 2;
+        tekst(P.ranglijst, 12, "bold");
+        doc.autoTable({ startY: y, head: [P.kol_rang.map(pdfTekst)], theme: "striped", headStyles: { fillColor: groen }, styles: { fontSize: 9, cellPadding: 1.6 },
+          body: res.top.map(function (c, i) { return [i + 1, pdfTekst(c.naam), c.prov, pdfTekst(c.regio), c.score, c.winter == null ? "-" : c.winter, c.tachtig == null ? "-" : c.tachtig]; }),
+          margin: { left: 14, right: 14 } });
+        res.top.forEach(function (c, i) {
+          doc.addPage(); y = 16;
+          tekst((i + 1) + ". " + c.naam + " (" + c.prov + ", " + c.regio + ")", 14, "bold", groen);
+          tekst(fmt(P.kop_gemeente, { s: c.score, inw: c.inwoners == null ? "-" : getal(c.inwoners, 0), h: c.hoogte_m == null ? "-" : getal(c.hoogte_m, 0),
+            w: c.winter == null ? "-" : c.winter, t: c.tachtig == null ? "-" : c.tachtig }), 10, "normal", [91, 100, 112]);
+          doc.autoTable({ startY: y, head: [P.kol_eig.map(pdfTekst)], theme: "grid", headStyles: { fillColor: groen }, styles: { fontSize: 8, cellPadding: 1.3 },
+            columnStyles: { 0: { cellWidth: 58 }, 5: { halign: "right" } },
+            body: c.eigenschappen.map(function (x) {
+              var e = EIG[EIDX[x.id]], ok = x.gevraagd == null || x.behaald == null ? "-" : x.behaald >= x.gevraagd ? P.ja : P.nee;
+              return [pdfTekst(e.label), pdfTekst(EC.statussen[x.status]), pdfTekst(waardeE(e, x.waarde)),
+                x.behaald == null ? "-" : x.behaald + " / " + e.niveaus.length, x.gevraagd == null ? "-" : x.gevraagd + " (" + ok + ")", x.deel == null ? "-" : x.deel];
+            }),
+            didParseCell: function (d) { if (d.section === "body" && /\((nee)\)/.test(String(d.row.raw[4]))) d.cell.styles.textColor = [163, 84, 27]; },
+            margin: { left: 14, right: 14 } });
+          y = doc.lastAutoTable.finalY + 4;
+          tekst(fmt(P.link, { url: location.origin + location.pathname + "#/gemeente/" + c.istat }), 8, "normal", [91, 100, 112]);
+        });
+        var n = doc.getNumberOfPages();
+        for (var pg = 1; pg <= n; pg++) {
+          doc.setPage(pg); doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(120, 120, 120);
+          doc.text(doc.splitTextToSize(pdfTekst(P.voet), 160), 14, 289); doc.text(pg + " / " + n, 196, 289, { align: "right" });
+        }
+        doc.save("plaatsvinder-top25-" + new Date().toISOString().slice(0, 10) + ".pdf");
+        knop.disabled = false; knop.textContent = oud;
+      }).catch(function () { knop.disabled = false; knop.textContent = P.fout; });
+  }
   function uitslag() {
     var U = T.uitslag;
     app.innerHTML = "";
@@ -520,6 +592,8 @@
       if (res.wegstrepen && res.wegstrepen.length) sectie.appendChild(weinigBlok(res));
       sectie.appendChild(overzicht());
       sectie.appendChild(deelBlok());
+      if (res.aantal) sectie.appendChild(el("div", { class: "pv-knoprij" }, [el("button", { type: "button", class: "pv-knop", text: T.pdf.knop,
+        onclick: function () { maakPdf(res, this); } })]));
       if (res.aantal) sectie.appendChild(kaartBlok(res.top));
       sectie.appendChild(el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); })));
       sectie.appendChild(el("div", { class: "pv-knoprij" }, [

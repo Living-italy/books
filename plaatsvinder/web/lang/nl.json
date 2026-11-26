@@ -392,5 +392,44 @@
       "3": "zone 3",
       "4": "zone 4 (laagste gevaar)"
     }
+  },
+  "pdf": {
+    "knop": "Download de top 25 als pdf",
+    "bezig": "Pdf maken…",
+    "fout": "De pdf kon niet worden gemaakt. Probeer het opnieuw.",
+    "titel": "Plaatsvinder Italië: uw top 25",
+    "ondertitel": "Gemaakt op {datum}. {n} gemeenten voldoen aan uw keuzes.",
+    "keuzes": "Uw keuzes",
+    "profiel": "Profiel: {p}",
+    "gebied": "Zoekgebied: {g}",
+    "ligging": "Ligging: {l}",
+    "grootte": "Grootte: {g}",
+    "noodzakelijk": "Noodzakelijk:",
+    "meewegen": "Meewegen:",
+    "onbelangrijk": "Onbelangrijk:",
+    "gewicht": "gewicht {n}",
+    "ranglijst": "Ranglijst",
+    "kol_rang": [
+      "Nr.",
+      "Gemeente",
+      "Prov.",
+      "Regio",
+      "Score",
+      "Wintertest",
+      "80-jarentest"
+    ],
+    "kop_gemeente": "Score {s} van 100. {inw} inwoners, centrum op {h} m. Wintertest {w}, 80-jarentest {t}.",
+    "kol_eig": [
+      "Eigenschap",
+      "Keuze",
+      "Waarde",
+      "Niveau gehaald",
+      "Gevraagd (gehaald)",
+      "Score"
+    ],
+    "ja": "ja",
+    "nee": "nee",
+    "link": "Meer over deze gemeente: {url}",
+    "voet": "Plaatsvinder Italië (stefsmulders.nl). Open data van onder meer ISTAT, Agenzia delle Entrate (OMI), OpenStreetMap, Copernicus, ISPRA, Protezione Civile en het ministerie van Volksgezondheid. Een hulpmiddel, geen advies."
   }
 }
