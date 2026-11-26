@@ -246,7 +246,7 @@
     Object.keys(EC.groepen).forEach(function (gid) {
       var lijst = EIG.filter(function (e) { return e.groep === gid; });
       if (!lijst.length) return;
-      delen.push(el("fieldset", { class: "pv-groep" }, [el("legend", { text: EC.groepen[gid] }), el("ul", { class: "pv-eiglijst" }, lijst.map(eigenschapRij))]));
+      delen.push(el("fieldset", { class: "pv-groep pv-groep-" + gid }, [el("legend", { text: EC.groepen[gid] }), el("ul", { class: "pv-eiglijst" }, lijst.map(eigenschapRij))]));
     });
     return el("div", {}, delen);
   }
@@ -283,7 +283,12 @@
   };
 
   // ---------------------------------------------------------------- opbouw wizard
-  function kop() { return el("header", { class: "pv-kop" }, [el("h1", {}, [el("a", { href: "#", text: T.meta.titel, onclick: function (e) { e.preventDefault(); location.hash = ""; } })])]); }
+  function kop() {                                       // titel in twee kleuren met een driekleurige streep eronder
+    var d = T.meta.titel.split("-");
+    return el("header", { class: "pv-kop" }, [el("h1", {}, [el("a", { href: "#", onclick: function (e) { e.preventDefault(); location.hash = ""; } },
+      [el("span", { class: "pv-titel-1", text: d[0] }), el("span", { class: "pv-titel-2", text: d.length > 1 ? "-" + d.slice(1).join("-") : "" })])]),
+      el("p", { class: "pv-kop-sub", text: T.meta.kop_sub })]);
+  }
   function teller() {
     var n = telOver();
     if (n == null) return el("p", { class: "pv-teller", text: T.meta.laden });
@@ -595,7 +600,7 @@
           doc.setPage(pg); doc.setFont("helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(120, 120, 120);
           doc.text(doc.splitTextToSize(pdfTekst(P.voet), 160), 14, 289); doc.text(pg + " / " + n, 196, 289, { align: "right" });
         }
-        doc.save("plaatsvinder-beste-" + res.top.length + "-" + new Date().toISOString().slice(0, 10) + ".pdf");
+        doc.save("italie-verkenner-beste-" + res.top.length + "-" + new Date().toISOString().slice(0, 10) + ".pdf");
         knop.disabled = false; knop.textContent = oud;
       }).catch(function () { knop.disabled = false; knop.textContent = P.fout; });
   }

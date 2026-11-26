@@ -1,4 +1,4 @@
-/* Plaatsvinder Italië: mobiel eerst. Kleuren als variabelen, zodat de huisstijl makkelijk over te nemen is. */
+/* Italië-Verkenner: mobiel eerst. Kleuren als variabelen, zodat de huisstijl makkelijk over te nemen is. */
 :root {
   --pv-bg: #faf8f4;
   --pv-vlak: #ffffff;
@@ -284,3 +284,74 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 a.pv-chip { color: inherit; text-decoration: none; }
 a.pv-chip:hover, a.pv-chip:focus-visible { border-color: var(--pv-accent); }
 .pv-tests-hint { align-self: center; }
+
+/* ---- kleur: titel Italië-Verkenner en een eigen tint per onderdeel ---- */
+:root {
+  --pv-groen: #1f7a4d; --pv-rood: #c0392b; --pv-blauw: #2563a8; --pv-oker: #b7791f; --pv-paars: #7a4a9c; --pv-teal: #0f7c86; --pv-roze: #b8457a; --pv-bruin: #8a5a2b;
+  --pv-groen-z: #e6f4ec; --pv-rood-z: #fbe9e7; --pv-blauw-z: #e7f0fa; --pv-oker-z: #fbf2e1; --pv-paars-z: #f1eaf7; --pv-teal-z: #e2f3f4; --pv-roze-z: #f9e8f0; --pv-bruin-z: #f4ece3;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pv-groen: #5cc08a; --pv-rood: #ef7a6c; --pv-blauw: #74a8e6; --pv-oker: #e2b25a; --pv-paars: #b590d6; --pv-teal: #5fc4cc; --pv-roze: #e48bb3; --pv-bruin: #cf9d6c;
+    --pv-groen-z: #1a2e23; --pv-rood-z: #36201d; --pv-blauw-z: #1b2736; --pv-oker-z: #33291a; --pv-paars-z: #2a2133; --pv-teal-z: #172e30; --pv-roze-z: #33202a; --pv-bruin-z: #2f251c;
+  }
+}
+.pv-kop { position: relative; padding: 8px 0 18px; border-bottom: 0; margin-bottom: 20px; }
+.pv-kop::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; border-radius: 3px;
+  background: linear-gradient(90deg, #1f8f4e 0 33.3%, #f4f1ea 33.3% 66.6%, #ce2b37 66.6% 100%); box-shadow: 0 0 0 1px var(--pv-lijn) inset; }
+.pv h1, .pv-kop h1 { font-size: clamp(1.9rem, 7vw, 2.6rem); line-height: 1.1; font-weight: 800; letter-spacing: -.01em; color: var(--pv-groen); }
+.pv-kop h1 a { color: inherit; }
+.pv-titel-1 { color: var(--pv-groen); }
+.pv-titel-2 { color: var(--pv-rood); }
+.pv-kop-sub { margin: 4px 0 0; color: var(--pv-zacht); font-size: 1rem; }
+.pv h2 { color: var(--pv-blauw); }
+.pv-stapnr { color: var(--pv-oker); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; font-size: .78rem; }
+.pv-voortgang { height: 6px; }
+.pv-voortgang span { background: linear-gradient(90deg, var(--pv-groen), var(--pv-blauw)); }
+
+/* eigenschappen: elke groep een eigen kleur */
+.pv-groep { --g: var(--pv-accent); --gz: var(--pv-accent-zacht); border: 0; border-left: 6px solid var(--g); background: var(--gz); padding: 12px 12px 2px; }
+.pv-groep legend { float: left; width: 100%; margin: 0 0 10px; padding: 0; font-size: 1.1rem; font-weight: 800; color: var(--g); }
+.pv-groep legend + * { clear: both; }
+.pv-groep .pv-eig { border-color: color-mix(in srgb, var(--g) 25%, var(--pv-lijn)); }
+.pv-groep .pv-eig-kop h4 { color: var(--g); }
+.pv-groep-wonen   { --g: var(--pv-bruin); --gz: var(--pv-bruin-z); }
+.pv-groep-natuur  { --g: var(--pv-groen); --gz: var(--pv-groen-z); }
+.pv-groep-klimaat { --g: var(--pv-oker);  --gz: var(--pv-oker-z); }
+.pv-groep-bereik  { --g: var(--pv-blauw); --gz: var(--pv-blauw-z); }
+.pv-groep-zorg    { --g: var(--pv-teal);  --gz: var(--pv-teal-z); }
+.pv-groep-leven   { --g: var(--pv-roze);  --gz: var(--pv-roze-z); }
+.pv-groep-risico  { --g: var(--pv-rood);  --gz: var(--pv-rood-z); }
+.pv-groep-geld    { --g: var(--pv-paars); --gz: var(--pv-paars-z); }
+
+/* uitslag: de onderdelen elk met een eigen tint */
+.pv-overzicht { border: 0; border-left: 6px solid var(--pv-oker); background: var(--pv-oker-z); }
+.pv-overzicht summary { color: var(--pv-oker); }
+/* berekening blauw, uitleg tests paars */
+.pv-berekening { border-left: 6px solid var(--pv-blauw); background: var(--pv-blauw-z); border-radius: var(--pv-radius); padding: 8px 14px; }
+.pv-berekening summary { color: var(--pv-blauw); }
+#pv-tests-uitleg { border-left-color: var(--pv-paars); background: var(--pv-paars-z); }
+#pv-tests-uitleg summary, #pv-tests-uitleg h4 { color: var(--pv-paars); }
+.pv-kaartblok { border-left: 6px solid var(--pv-teal); background: var(--pv-teal-z); border-radius: var(--pv-radius); padding: 10px 14px; }
+.pv-top3 { border-left: 6px solid var(--pv-groen); background: var(--pv-groen-z); }
+.pv-plaats { border-top: 4px solid var(--pv-groen); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.pv-rang { background: var(--pv-groen); border-color: var(--pv-groen); color: #fff; }
+.pv-score strong { color: var(--pv-groen); }
+.pv-uitklap summary { color: var(--pv-paars); }
+
+/* gemeentepagina */
+.pv-risico { border: 0; border-left: 6px solid var(--pv-rood); background: var(--pv-rood-z); }
+.pv-risico h3 { color: var(--pv-rood); }
+.pv-testkaart { border: 0; border-left: 6px solid var(--pv-blauw); background: var(--pv-blauw-z); }
+.pv-testkaart h3, .pv-testscore strong { color: var(--pv-blauw); }
+.pv-blok { border-left: 6px solid var(--pv-paars); }
+.pv-blok h3 { color: var(--pv-paars); }
+.pv-blok.pv-gids { border-left-color: var(--pv-teal); }
+.pv-blok.pv-gids h3 { color: var(--pv-teal); }
+.pv-criterium { border-left: 4px solid var(--pv-oker); }
+.pv-tip { border-left-color: var(--pv-oker); background: var(--pv-oker-z); }
+
+.pv-blok.pv-label-maffia { border-left-color: var(--pv-rood); }
+.pv-blok.pv-label-maffia h3 { color: var(--pv-rood); }
+.pv-blok.pv-weinig { border-left-color: var(--pv-oker); background: var(--pv-oker-z); }
+.pv-blok.pv-weinig h3 { color: var(--pv-oker); }

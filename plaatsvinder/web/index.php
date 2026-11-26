@@ -23,7 +23,7 @@ $j = fn($x) => json_encode($x, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_
 </head>
 <body>
 <main id="app" class="pv" aria-live="polite">
-  <header class="pv-kop"><h1><?= $e($t['meta']['titel']) ?></h1></header>
+  <header class="pv-kop"><h1><?= $e($t['meta']['titel']) ?></h1><p class="pv-kop-sub"><?= $e($t['meta']['kop_sub']) ?></p></header>
   <p class="pv-laden"><?= $e($t['meta']['laden']) ?></p>
   <noscript><p>Deze plaatsvinder heeft JavaScript nodig.</p></noscript>
 </main>

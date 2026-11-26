@@ -1,9 +1,10 @@
 {
   "meta": {
-    "titel": "Plaatsvinder Italië",
+    "titel": "Italië-Verkenner",
     "ondertitel": "Vind de Italiaanse gemeenten die bij u passen, met open data en eerlijke uitleg.",
     "laden": "Gegevens laden…",
-    "fout_laden": "De gegevens konden niet worden geladen. Probeer het later opnieuw."
+    "fout_laden": "De gegevens konden niet worden geladen. Probeer het later opnieuw.",
+    "kop_sub": "Vind de Italiaanse gemeente die bij u past"
   },
   "knoppen": {
     "start": "Begin",
@@ -400,7 +401,7 @@
     "knop": "Download deze lijst als pdf",
     "bezig": "Pdf maken…",
     "fout": "De pdf kon niet worden gemaakt. Probeer het opnieuw.",
-    "titel": "Plaatsvinder Italië: uw beste {n} gemeenten",
+    "titel": "Italië-Verkenner: uw beste {n} gemeenten",
     "ondertitel": "Gemaakt op {datum}. {n} gemeenten voldoen aan uw keuzes.",
     "keuzes": "Uw keuzes",
     "profiel": "Wie bent u: {p}",
@@ -430,7 +431,7 @@
     "ja": "ja",
     "nee": "nee",
     "link": "Meer over deze gemeente: {url}",
-    "voet": "Plaatsvinder Italië (stefsmulders.nl). Open data van onder meer ISTAT, Agenzia delle Entrate (OMI), OpenStreetMap, Copernicus, ISPRA, Protezione Civile en het ministerie van Volksgezondheid. Een hulpmiddel, geen advies.",
+    "voet": "Italië-Verkenner (stefsmulders.nl). Open data van onder meer ISTAT, Agenzia delle Entrate (OMI), OpenStreetMap, Copernicus, ISPRA, Protezione Civile en het ministerie van Volksgezondheid. Een hulpmiddel, geen advies.",
     "geen_voorkeur": "geen voorkeur",
     "berekening_titel": "Hoe de score werkt",
     "legenda_tabel": "Score per eigenschap van 0 tot 100. * = noodzakelijk. Oranje: de gemeente haalt het niveau dat u koos niet. Onbelangrijke eigenschappen staan niet in de tabel."

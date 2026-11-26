@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /*
- * Rekenmodel van de Plaatsvinder (config/eigenschappen.json, docs/plan-eigenschappen.md)
+ * Rekenmodel van de Italië-Verkenner (config/eigenschappen.json, docs/plan-eigenschappen.md)
  *  - per eigenschap: noodzakelijk (harde eis op het gekozen niveau, gewicht 10), meewegen (eigen gewicht 1-9)
  *    of onbelangrijk (gewicht 0, geen niveau)
  *  - deelscore = 85 x (behaald niveau / gekozen niveau, hoogstens 1) + 15 x percentiel over heel Italië

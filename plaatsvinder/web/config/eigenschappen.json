@@ -1,5 +1,5 @@
 {
-  "_uitleg": "Eigenschappen voor de Plaatsvinder. Per eigenschap kiest de bezoeker: noodzakelijk (harde eis op het gekozen niveau, vast maximaal gewicht), meewegen (gekozen niveau en eigen gewicht) of onbelangrijk (geen niveau, minimaal gewicht 0). Niveaus lopen van soepel naar streng. Een gemeente haalt niveau i als haar waarde aan niveau i voldoet ('lager': waarde <= drempel, 'hoger': waarde >= drempel). Deelscore = 85 x (behaald niveau / gevraagd niveau, maximaal 1) + 15 x percentiel over heel Italië. Ontbrekende data sluit niet uit en telt niet mee.",
+  "_uitleg": "Eigenschappen voor de Italië-Verkenner. Per eigenschap kiest de bezoeker: noodzakelijk (harde eis op het gekozen niveau, vast maximaal gewicht), meewegen (gekozen niveau en eigen gewicht) of onbelangrijk (geen niveau, minimaal gewicht 0). Niveaus lopen van soepel naar streng. Een gemeente haalt niveau i als haar waarde aan niveau i voldoet ('lager': waarde <= drempel, 'hoger': waarde >= drempel). Deelscore = 85 x (behaald niveau / gevraagd niveau, maximaal 1) + 15 x percentiel over heel Italië. Ontbrekende data sluit niet uit en telt niet mee.",
   "statussen": {
     "noodzakelijk": "Noodzakelijk",
     "meewegen": "Meewegen",
@@ -649,7 +649,7 @@
       "id": "oud_worden",
       "groep": "zorg",
       "label": "Oud worden zonder auto",
-      "uitleg": "De 80-jarentest van de Plaatsvinder: kunt u hier oud worden als autorijden lastiger wordt? De test geeft elke gemeente een score van 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is beter. Onderdelen: rijtijd naar spoedeisende hulp (30%), apotheek en huisarts (20%), regionale zorg (20%), supermarkt op loopafstand (15%) en treinstation (15%). Het niveau is de minimale score op deze test; onder 40 bent u sterk afhankelijk van de auto.",
+      "uitleg": "De 80-jarentest van de Italië-Verkenner: kunt u hier oud worden als autorijden lastiger wordt? De test geeft elke gemeente een score van 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is beter. Onderdelen: rijtijd naar spoedeisende hulp (30%), apotheek en huisarts (20%), regionale zorg (20%), supermarkt op loopafstand (15%) en treinstation (15%). Het niveau is de minimale score op deze test; onder 40 bent u sterk afhankelijk van de auto.",
       "kolom": "test_tachtig",
       "richting": "hoger",
       "eenheid": "80-jarentest {v} van 100",
@@ -712,7 +712,7 @@
       "id": "levendig",
       "groep": "leven",
       "label": "Levendig in de winter",
-      "uitleg": "De wintertest van de Plaatsvinder: leeft de plaats ook in januari? De test geeft elke gemeente een score van 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is levendiger. Onderdelen: afstand tot diensten (30%), groei of krimp van de bevolking (20%), supermarkt, apotheek en bar op loopafstand (20%), vergrijzing (10%), zomerpiek van het toerisme (10%) en vorstdagen (10%). Het niveau is de minimale score op deze test.",
+      "uitleg": "De wintertest van de Italië-Verkenner: leeft de plaats ook in januari? De test geeft elke gemeente een score van 0 tot 100, vergeleken met alle gemeenten in Italië; hoger is levendiger. Onderdelen: afstand tot diensten (30%), groei of krimp van de bevolking (20%), supermarkt, apotheek en bar op loopafstand (20%), vergrijzing (10%), zomerpiek van het toerisme (10%) en vorstdagen (10%). Het niveau is de minimale score op deze test.",
       "kolom": "test_winter",
       "richting": "hoger",
       "eenheid": "wintertest {v} van 100",

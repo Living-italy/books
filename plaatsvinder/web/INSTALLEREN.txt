@@ -1,4 +1,4 @@
-Plaatsvinder Italië: installatie op de webserver
+Italië-Verkenner: installatie op de webserver
 =================================================
 
 1. Zet de hele map web/ (met assets, config, data, lang en lib) op de server,

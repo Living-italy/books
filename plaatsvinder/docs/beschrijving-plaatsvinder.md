@@ -1,10 +1,10 @@
-# Plaatsvinder Italië: beschrijving
+# Italië-Verkenner: beschrijving
 
 Stand 26 november 2026. Deze beschrijving volgt de code op branch `plaatsvinder` (map `plaatsvinder/`).
 
 ## 1. Wat het is
 
-De Plaatsvinder helpt Nederlandstaligen die een huis in Italië zoeken. De bezoeker beantwoordt een paar vragen. De tool geeft dan de 25 Italiaanse gemeenten die het best passen, met per gemeente een uitleg.
+De Italië-Verkenner helpt Nederlandstaligen die een huis in Italië zoeken. De bezoeker beantwoordt een paar vragen. De tool geeft dan eerst de 10 Italiaanse gemeenten die het best passen, met per gemeente een uitleg.
 
 - Alle 7.894 Italiaanse gemeenten (comuni) doen mee, met de ISTAT-code als sleutel.
 - Alle cijfers komen uit open bronnen. Elke waarde heeft een bron, een peildatum en een schaalniveau.
@@ -290,3 +290,7 @@ Een volledige run zonder downloads duurt 4 tot 7 minuten.
 | `config/sciolti_mafia.json` | ontbonden gemeenteraden 2025-2026 |
 | `config/aandachtspunten.json` | checklist en waarschuwingen |
 | `config/trends.json` | regio's en provincies in opkomst |
+
+## Naam en opmaak
+
+De tool heet Italië-Verkenner (was: Plaatsvinder Italië). De titel staat groot in twee kleuren (groen en rood) met een streep in de Italiaanse driekleur eronder. Elk onderdeel heeft een eigen kleurtint: bij de eigenschappen per groep (wonen bruin, natuur groen, klimaat oker, bereikbaarheid blauw, zorg blauwgroen, leven roze, risico rood, geld paars), bij de uitslag de scoreberekening blauw, de uitleg van de tests paars, de keuzes oker en de kaart blauwgroen. Op de gemeentepagina zijn de risico's rood en de tests blauw. Alle kleuren hebben een eigen variant voor de donkere modus. De pdf heet nu italie-verkenner-beste-<n>-<datum>.pdf.
