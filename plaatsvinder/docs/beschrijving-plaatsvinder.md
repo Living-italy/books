@@ -1,6 +1,6 @@
 # Plaatsvinder Italië: beschrijving
 
-Stand 25 november 2026. Deze beschrijving volgt de code op branch `plaatsvinder` (map `plaatsvinder/`).
+Stand 26 november 2026. Deze beschrijving volgt de code op branch `plaatsvinder` (map `plaatsvinder/`).
 
 ## 1. Wat het is
 
@@ -17,142 +17,102 @@ Er zijn twee delen:
 
 ## 2. De website voor de bezoeker
 
-### 2.1 De wizard (7 stappen)
+### 2.1 De wizard (6 stappen)
 
-Onderaan elke stap staat een teller: "Nog 4.913 plaatsen over van 7.894". Die telt direct in de browser na elke keuze.
+Onderaan elke stap staat een teller: "Nog 1.848 plaatsen over van 7.894". Die telt direct in de browser na elke keuze.
 
 | Stap | Vraag | Wat het doet |
 |---|---|---|
-| 1 | Wie bent u? | Kies een profiel (zie 2.2). Bij de gepensioneerde volgt de vraag "permanent wonen of het jaar verdelen". Het profiel bepaalt de startgewichten en enkele standaardeisen. |
+| 1 | Wie bent u? | Kies een profiel (zie 2.2). Bij de gepensioneerde volgt de vraag "permanent wonen of het jaar verdelen". Het profiel bepaalt de startkeuzes bij de eigenschappen. |
 | 2 | Waar wilt u zoeken? | Heel Italië (standaard, met de tip om daar te beginnen), een of meer regio's, of een of meer provincies (gegroepeerd per regio, met zoekveld). Een harde filter; de scores blijven over heel Italië berekend. |
-| 3 | Uw wensenlijst | Maximaal drie dealbreakers, drie must-haves en drie nice-to-haves (gids, paragraaf 1.3). Zie 2.3. |
-| 4 | Waar wilt u wonen? | Kust, meer, heuvels, bergen, vlakte; meerdere keuzes mogelijk (zie 3.5). |
-| 5 | Hoe groot mag de plaats zijn? | Minder dan 1.000 inwoners, 1.000-5.000, 5.000-20.000, 20.000-100.000, meer dan 100.000. |
-| 6 | Wat vindt u belangrijk? | Een schuifje per criterium; de gewichten tellen altijd op tot 100. Bij klimaat de keuze "zachte winter" of "vier seizoenen"; bij andere buitenlanders "liever veel", "maakt niet uit" of "liever weinig". |
-| 7 | Overige eisen | Alleen wat de wensenlijst niet dekt: maximale prijs per m², maximale rijtijd naar één stad naar keuze (Utrecht, Brussel, Keulen of München), een budget, en de standaardeis van het profiel (gepensioneerde: spoedeisende hulp binnen 45 minuten; remote worker: minimaal 50% glasvezel), uit te zetten. De rode zone van de Vesuvius en de Campi Flegrei valt altijd af. |
+| 3 | Waar wilt u wonen? | Kust, meer, heuvels, bergen, vlakte; meerdere keuzes mogelijk (zie 3.5). |
+| 4 | Hoe groot mag de plaats zijn? | Minder dan 1.000 inwoners, 1.000-5.000, 5.000-20.000, 20.000-100.000, meer dan 100.000. |
+| 5 | Wat vindt u belangrijk? | Eén lijst met alle eigenschappen (zie 2.3). Per eigenschap: noodzakelijk, meewegen of onbelangrijk, en bij noodzakelijk en meewegen een niveau. Uitleg via de i-knop; onder het niveau staat hoeveel gemeenten het halen. |
+| 6 | Hoe zwaar wegen ze? | Een schuifje van 1 tot 9 voor elke eigenschap die meeweegt. Noodzakelijke eigenschappen tellen vast met gewicht 10, onbelangrijke met 0. |
 
-Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie terugkomt, krijgt "U was hier al eerder" met de keuze tussen verdergaan en opnieuw beginnen. Dit patroon komt uit de wensenlijst van Un Sogno di Casa.
+Antwoorden blijven in de browser bewaard (localStorage, niet op de server). Wie terugkomt, krijgt "U was hier al eerder" met de keuze tussen verdergaan en opnieuw beginnen.
 
-### 2.2 Profielen en startgewichten
+### 2.2 Profielen en startkeuzes
 
-| Criterium | Gepensioneerde | Tweede huis | Gezin | Remote worker | Investeerder / B&B |
-|---|---|---|---|---|---|
-| Budget en prijsniveau | 15 | 15 | 12 | 12 | 15 |
-| Natuur, rust en ruimte | 7 | 15 | 3 | 6 | 7 |
-| Klimaat | 12 | 8 | 6 | 10 | 0 |
-| Cultuur | 5 | 8 | 2 | 6 | 8 |
-| Bereikbaarheid | 8 | 18 | 8 | 16 | 12 |
-| Dagelijkse voorzieningen | 12 | 4 | 18 | 8 | 0 |
-| Gezondheidszorg | 15 | 0 | 8 | 0 | 0 |
-| Internet | 2 | 3 | 12 | 22 | 3 |
-| Levendigheid (wintertest) | 8 | 0 | 12 | 12 | 0 |
-| Natuurrisico's | 8 | 8 | 8 | 6 | 10 |
-| Veiligheid | 3 | 5 | 8 | 2 | 5 |
-| Andere buitenlanders | 2 | 0 | 0 | 0 | 0 |
-| Toerisme / verhuur | 0 | 10 | 0 | 0 | 22 |
-| Herverkoopbaarheid | 0 | 6 | 0 | 0 | 18 |
-| Luchtkwaliteit | 3 | 0 | 3 | 0 | 0 |
-| Fiscaal, kosten, klimaatverandering | 0 | 0 | 0 | 0 | 0 |
+Het profiel (gepensioneerde, tweede huis, gezin, remote worker, investeerder) bepaalt de startkeuzes per eigenschap. Elke eigenschap hoort bij een criterium uit `config/profielen.json`. Heeft dat criterium in het profiel gewicht 0, dan begint de eigenschap als onbelangrijk; anders als meewegen met gewicht criteriumgewicht / 2 (afgerond, tussen 1 en 9) en het standaardniveau. Uitzonderingen (`config/eigenschappen.json`, onderdeel profielen): gepensioneerde spoedeisende hulp noodzakelijk binnen 45 minuten; remote worker internet noodzakelijk minimaal 50%; investeerder geen massatoerisme onbelangrijk. De bezoeker kan alles aanpassen.
 
-- Gepensioneerde die het jaar verdeelt: bereikbaarheid 18, natuur en luchtkwaliteit 0.
-- Standaardeisen: gepensioneerde spoedeisende hulp binnen 45 minuten; remote worker minimaal 50% glasvezel. De bezoeker kan ze aanpassen.
-- Labels in de profielkeuze volgen de gids: "permanente bewoning (hoofdwoning)" en "tweede huis (vakantie, af en toe)".
-- Fiscaal, kosten van levensonderhoud en klimaatverandering hebben startgewicht 0. De bezoeker kan ze zelf zwaarder maken.
+### 2.3 De eigenschappen
 
-### 2.3 Wensenlijst
+33 eigenschappen in 8 groepen, met 3 tot 5 niveaus. Uitzonderingen: het 7%-regime en vulkaangebied hebben 2 niveaus, de ontbonden gemeenteraad 1; dat zijn ja/nee-eigenschappen.
 
-De items staan in `config/wensenlijst.json`, met drempel, bron en uitleg (via de i-knop in de wizard). De drempels liggen vast. Elk item staat op precies één lijst. Dealbreakers: zoveel als de bezoeker wil; must-haves en nice-to-haves: maximaal drie.
+- **Noodzakelijk**: een gemeente die het gekozen niveau niet haalt, valt af. Telt in de score met het vaste maximale gewicht 10.
+- **Meewegen**: sluit niets uit. Telt mee met het eigen gewicht (1 tot 9) en het gewenste niveau.
+- **Onbelangrijk**: geen niveau, gewicht 0.
 
-- **Dealbreaker**: een ongewenst kenmerk. Heeft de gemeente het, dan valt zij af.
-- **Must-have**: iets wat er moet zijn. Ontbreekt het, dan valt de gemeente af.
-- **Nice-to-have**: elk must-have-item plus klimaat, natuur en rust, cultuur en herverkoopbaarheid. Het bijbehorende criterium telt 1,2 keer zo zwaar (heeft het gewicht 0, dan eerst 5); daarna weer samen 100. Sluit niets uit.
+| Groep | Eigenschap | Niveaus (van soepel naar streng) |
+|---|---|---|
+| Wonen en prijs | Woningprijs | 1. tot € 2.000 per m²; 2. tot € 1.500 per m²; 3. tot € 1.000 per m²; 4. tot € 750 per m² |
+| Natuur en omgeving | Beschermde natuur | 1. enig beschermd gebied binnen 5 km; 2. minstens 10% binnen 5 km; 3. minstens 25% binnen 5 km; 4. minstens 50% binnen 5 km |
+| Natuur en omgeving | Rust en ruimte | 1. tot 500 inwoners per km²; 2. tot 200 inwoners per km²; 3. tot 100 inwoners per km²; 4. tot 50 inwoners per km² |
+| Natuur en omgeving | Geen snelweg dichtbij | 1. minstens 1 km van een snelweg; 2. minstens 2 km; 3. minstens 5 km |
+| Natuur en omgeving | Geen massatoerisme | 1. tot 50 per inwoner; 2. tot 20 per inwoner; 3. tot 10 per inwoner; 4. tot 5 per inwoner |
+| Natuur en omgeving | Cultuur in de buurt | 1. binnen 30 minuten; 2. binnen 15 minuten; 3. binnen 10 minuten; 4. binnen 5 minuten |
+| Klimaat | Zachte winter | 1. januari gemiddeld 0 °C of warmer; 2. januari 3 °C of warmer; 3. januari 6 °C of warmer; 4. januari 9 °C of warmer |
+| Klimaat | Geen extreme zomerhitte | 1. hoogstens 60 dagen boven 30 °C; 2. hoogstens 45 dagen; 3. hoogstens 30 dagen; 4. hoogstens 15 dagen |
+| Klimaat | Niet te hoog gelegen | 1. centrum tot 1.000 m; 2. tot 800 m; 3. tot 600 m; 4. tot 400 m |
+| Klimaat | Veel zon | 1. minstens 3,5 kWh; 2. minstens 3,8 kWh; 3. minstens 4,1 kWh; 4. minstens 4,4 kWh |
+| Klimaat | Schone lucht | 1. PM2,5 tot 20 µg/m³; 2. tot 15 µg/m³; 3. tot 12 µg/m³; 4. tot 10 µg/m³ |
+| Klimaat | Weinig toename van hitte | 1. hoogstens 25 dagen erbij; 2. hoogstens 15 dagen erbij; 3. hoogstens 10 dagen erbij; 4. hoogstens 5 dagen erbij |
+| Bereikbaarheid | Luchthaven met vluchten het hele jaar | 1. binnen 2 uur; 2. binnen 90 minuten; 3. binnen 60 minuten; 4. binnen 45 minuten; 5. binnen 30 minuten |
+| Bereikbaarheid | Met de auto naar huis | 1. binnen 18 uur; 2. binnen 16 uur; 3. binnen 14 uur; 4. binnen 12 uur; 5. binnen 11 uur |
+| Bereikbaarheid | Treinstation dichtbij | 1. binnen 30 minuten; 2. binnen 20 minuten; 3. binnen 15 minuten; 4. binnen 10 minuten; 5. binnen 5 minuten |
+| Bereikbaarheid | Hogesnelheidstrein | 1. binnen 90 minuten; 2. binnen 60 minuten; 3. binnen 45 minuten; 4. binnen 30 minuten |
+| Voorzieningen en zorg | Voorzieningen op loopafstand | 1. minstens één van de drie; 2. minstens twee van de drie; 3. alle drie |
+| Voorzieningen en zorg | Spoedeisende hulp | 1. binnen 60 minuten; 2. binnen 45 minuten; 3. binnen 30 minuten; 4. binnen 20 minuten |
+| Voorzieningen en zorg | Goede regionale zorg | 1. laagste gebiedsscore minstens 50; 2. minstens 60; 3. minstens 70; 4. minstens 80 |
+| Voorzieningen en zorg | Oud worden zonder auto | 1. minstens 35; 2. minstens 50; 3. minstens 65 |
+| Voorzieningen en zorg | Snel internet | 1. minstens 25% glasvezel; 2. minstens 50%; 3. minstens 75%; 4. minstens 90% |
+| Leven buiten het seizoen | Levendig in de winter | 1. wintertest minstens 35; 2. minstens 50; 3. minstens 65 |
+| Leven buiten het seizoen | Niet afgelegen | 1. niet ultraperiferico (binnen ongeveer 67 minuten); 2. hoogstens intermedio (binnen ongeveer 41 minuten); 3. cintura of kern (binnen ongeveer 28 minuten); 4. zelf een kern (polo) |
+| Veiligheid en risico's | Veiligheid | 1. hoogstens 1,5 keer het gemiddelde; 2. hoogstens 1,2 keer; 3. hoogstens het gemiddelde; 4. hoogstens 0,8 keer |
+| Veiligheid en risico's | Geen ontbonden gemeenteraad | 1. niet ontbonden in 2025 of 2026 |
+| Veiligheid en risico's | Weinig aardbevingsgevaar | 1. geen zone 1; 2. zone 3 of 4; 3. alleen zone 4 |
+| Veiligheid en risico's | Geen overstroming of aardverschuiving | 1. hoogstens 25% van de inwoners; 2. hoogstens 10%; 3. hoogstens 5%; 4. hoogstens 2% |
+| Veiligheid en risico's | Weinig bosbrand | 1. hoogstens 10% afgebrand; 2. hoogstens 5%; 3. hoogstens 1%; 4. geen noemenswaardige brand (hoogstens 0,1%) |
+| Veiligheid en risico's | Buiten vulkaangebied | 1. buiten de rode zone; 2. ook buiten de gele zone |
+| Belasting, verhuur en verkoop | 7%-regime | 1. komt in aanmerking of moet nog worden nagegaan; 2. komt zeker in aanmerking |
+| Belasting, verhuur en verkoop | Lage gemeentelijke belasting | 1. hoogstens 0,8%; 2. hoogstens 0,5%; 3. hoogstens 0,2%; 4. geen opslag |
+| Belasting, verhuur en verkoop | Vraag voor vakantieverhuur | 1. minstens 2 per inwoner; 2. minstens 5 per inwoner; 3. minstens 10 per inwoner; 4. minstens 20 per inwoner |
+| Belasting, verhuur en verkoop | Goed verkoopbaar | 1. minstens 1 per 100 woningen; 2. minstens 1,5; 3. minstens 2; 4. minstens 3 |
 
-| Dealbreaker | Valt af als |
-|---|---|
-| Hoog aardbevingsrisico | seismische zone 1 of 2 |
-| Vulkaangebied | rode of gele zone van de Vesuvius of de Campi Flegrei |
-| Overstroming of aardverschuiving | meer dan 10 % van de inwoners in aardverschuiving P3/P4 of overstroming P3 |
-| Bosbrandgebied | afgebrand oppervlak in de hoogste 10 % van Italië |
-| Strenge winters | centrum hoger dan 600 m |
-| Extreme zomerhitte | dagen boven 30 °C in de hoogste 10 % van Italië |
-| Slechte luchtkwaliteit | PM2,5 hoger dan 15 µg/m³ |
-| Massatoerisme | meer dan 10 overnachtingen per inwoner per jaar |
-| Stil buiten het seizoen | wintertest lager dan 35 |
-| Afgelegen ligging | SNAI intermedio, periferico of ultraperiferico |
-| Hoge criminaliteit | aangiften in de provincie hoger dan 1,2 keer het landelijk gemiddelde |
-| Lawaai van een snelweg | autosnelweg binnen 2 km van het centrum |
-| Zwakke regionale zorg | een LEA-gebiedsscore van de regio onder 60 |
-| Moeilijk verkoopbaar | minder dan 1 verkoop per 100 woningen per jaar |
-| Maffia-infiltratie | gemeenteraad in 2025 of 2026 ontbonden |
-
-| Must-have | Valt af als |
-|---|---|
-| Luchthaven met vluchten het hele jaar | niet binnen 60 minuten |
-| Met de auto vanuit NL of BE binnen een dag | Utrecht en Brussel allebei verder dan 14 uur |
-| Spoedeisende hulp dichtbij | verder dan 30 minuten |
-| Dagelijkse voorzieningen op loopafstand | niet alle drie (supermarkt, apotheek, bar) binnen 800 m; de huisarts telt niet mee, omdat die in OpenStreetMap te onvolledig is |
-| Snel internet | minder dan 80 % glasvezel |
-| Treinstation dichtbij | geen station binnen 15 minuten |
-| Hogesnelheidstrein bereikbaar | geen Frecciarossa- of Italo-station binnen 30 minuten |
-| Beschermde natuur in de buurt | geen beschermd gebied binnen 5 km |
-| Cultuur in de buurt | geen museum, kasteel, paleis, stadspoort, vesting of opgraving binnen 15 minuten |
-| Toeristische vraag voor verhuur | minder dan 5 overnachtingen per inwoner per jaar |
-| 7%-regime | komt niet in aanmerking |
-| Internationale school bereikbaar | gepland; staat uit zolang de lijst leeg is |
-
-- **Blokkades**: "Massatoerisme" tegenover "Toeristische vraag"; "Strenge winters" tegenover de ligging bergen en de klimaatkeuze vier seizoenen. Waarschuwingen (geen blokkade): "Afgelegen ligging" met minder dan 1.000 inwoners, en het 7%-regime met "Zwakke regionale zorg".
-- **Bewust weggelaten** (keuze van de opdrachtgever): "Veel buitenlanders" en "Landgenoten in de buurt".
-- **Te weinig plaatsen** (minder dan 25): de uitslag toont per eis hoeveel gemeenten die op zichzelf wegstreept, de strengste eerst, met de keuze om de eis te verwijderen of (bij een must-have) een nice-to-have te maken.
-- **Rekenen**: de pipeline bepaalt per gemeente en per item of de gemeente afvalt en slaat dat op als bitmasker; de teller en de server lezen hetzelfde masker. Ontbrekende data sluit niet uit.
-- `data/dekking.md` toont per item hoeveel gemeenten afvallen en wat elk item met de steekproefgemeenten doet.
+De drempels, de uitleg per niveau en de bron staan in `config/eigenschappen.json`. In `data/dekking.md` staat per eigenschap en per niveau hoeveel gemeenten afvallen als de eigenschap noodzakelijk is, en welk niveau de steekproefgemeenten halen.
 
 ### 2.4 De uitslag
 
-- De 25 gemeenten met de hoogste totaalscore (0 tot 100), met provincie, regio, inwoners en hoogte.
-- Per gemeente de drie sterkste en de drie zwakste criteria met een balkje, de wintertest en de 80-jarentest, en de criteria zonder data.
-- Bij een budget: de geschatte woonlast (OMI-prijs maal woninggrootte) en hoeveel procent onder het budget.
+- De 25 gemeenten met de hoogste score (0 tot 100), met provincie, regio, inwoners, hoogte, de wintertest en de 80-jarentest.
+- Per gemeente de drie sterkste en de drie zwakste eigenschappen, en een uitklap "Alle eigenschappen" met per eigenschap de waarde, het behaalde niveau, het gevraagde niveau (gehaald of niet) en de deelscore.
+- Uitleg "Hoe wordt de score berekend?" boven de lijst.
+- Bij minder dan 25 plaatsen: per noodzakelijke eigenschap hoeveel gemeenten die op zichzelf wegstreept, de strengste eerst, met de knoppen "Eén niveau soepeler" en "Laat meewegen in plaats van noodzakelijk".
 - Badge "trend" voor regio's en provincies die volgens het jaarrapport van Gate-away.com in opkomst zijn (handmatige tabel, geen score).
-- Een deelbare link met alle keuzes (profiel, zoekgebied, wensenlijst, filters en gewichten).
-- Overzicht "Uw keuzes" met per stap "Wijzigen". Na het wijzigen brengt "Terug naar de uitslag" de bezoeker direct terug.
-- Tot drie gemeenten aanvinken om te vergelijken.
+- Een deelbare link met alle keuzes, een overzicht "Uw keuzes" met per stap "Wijzigen", en tot drie gemeenten om te vergelijken (alle eigenschappen naast elkaar).
 
 ### 2.5 De gemeentepagina
 
-- Totaalscore met de gewichten van de bezoeker, hoogte van het centrum met de uitleg "per 100 m ongeveer 0,6 °C koeler".
-- Per criterium de deelscore, het gewicht, de basis (enquête of expertoordeel) en alle onderliggende waarden met bron, peildatum en schaalniveau. Een provinciecijfer wordt als zodanig gemeld.
-- Extra regels per criterium:
-  - prijs: de gemiddelde vraagprijs volgens de gids voor 10 regio's;
-  - bereikbaarheid: de directe vluchten vanaf de dichtstbijzijnde jaarrond-luchthaven (Bijlage A) en de namen van het dichtstbijzijnde hogesnelheidsstation en nachttreinstation;
-  - klimaat: een melding als hete dagen en vorstdagen geschat zijn (zie 4.3).
-- Risicoblok (altijd): seismische zone met subzone, aardverschuiving, overstroming, bosbrand, vulkaan, en een link naar de IdroGEO-kaart van ISPRA.
-- Wintertest en 80-jarentest met hun onderdelen. Bij een 80-jarentest onder 40 de waarschuwing dat men hier op latere leeftijd sterk afhankelijk is van de auto (onderbouwing NIDI).
-- 7%-regime: ja, nee of te verifiëren, met reden; waarschuwing als de regionale zorg (LEA) laag scoort.
-- Herverkoop: verkopen per 100 woningen per jaar; onder 1 de waarschuwing "Verkopen kan hier lang duren."
-- Label "Gemeenteraad ontbonden" voor de 18 gemeenten uit 2025 en 2026 die wegens maffia-infiltratie zijn ontbonden, met jaar, organisatie, het hoeveelste keer en de bron. Geen score.
-- Checklist (bezoek in januari of februari, wintervluchten, jacht en bespuitingen, staat van de woning, verhuur, taal) en de lijst van wat niet in de score zit.
-- Blok "Meer hierover in de gids" met paragraaf en pagina: regio's (1.1.2 en Bijlage B), Bijlage A, natuurrisico's (1.1.1 c), 7%-regime (7.2.1, met link naar het 7%-document), verhuur (hoofdstuk 10) en Bijlage C (link naar de kaarten).
-- Drie alternatieven: gemeenten van dezelfde grootteklasse met een vergelijkbaar profiel en een minstens zo hoge score. Ze mogen buiten het zoekgebied liggen en zijn dan gemarkeerd met "buiten uw zoekgebied".
+- Score met de keuzes van de bezoeker, en een melding als de gemeente niet in de ranglijst staat (noodzakelijk niveau niet gehaald of buiten de keuzes).
+- Alle eigenschappen met waarde, niveau en deelscore, en per eigenschap de bron (bron, peildatum, schaalniveau).
+- Extra: gidsprijs per regio, directe vluchten vanaf de dichtstbijzijnde jaarrond-luchthaven (Bijlage A), hogesnelheids- en nachttreinstation, melding als hete dagen en vorstdagen geschat zijn.
+- Risicoblok (altijd): seismische zone, aardverschuiving, overstroming, bosbrand, vulkaan (rode of gele zone), met een link naar de IdroGEO-kaart.
+- Wintertest en 80-jarentest met hun onderdelen; waarschuwing bij een 80-jarentest onder 40.
+- 7%-regime, herverkoop, label ontbonden gemeenteraad, checklist, "Meer hierover in de gids" en drie alternatieven (ook buiten het zoekgebied, dan gemarkeerd).
 
 ## 3. Wat de tool berekent
 
-### 3.1 Van ruwe waarde naar percentiel
+### 3.1 Behaald niveau en percentiel
 
-Elke indicator wordt per gemeente omgezet in een percentiel van 0 tot 100 over heel Italië.
+Per gemeente en per eigenschap rekent de pipeline het hoogste niveau uit waaraan de gemeente voldoet (0 = geen enkel; zonder data: geen niveau), en het percentiel van de waarde over heel Italië (0 tot 100, 100 is het beste). Afgeleide waarden: criminaliteit als veelvoud van het landelijk gemiddelde (gewogen naar inwoners), risico water als het hoogste van aardverschuiving (P3/P4) en overstroming (P3).
 
-- 100 is het beste, 0 het slechtste. Bij "lager is beter" (prijs, rijtijden, risico's) wordt de volgorde omgedraaid.
-- Gelijke waarden krijgen hetzelfde gemiddelde percentiel.
-- Ontbreekt een waarde, dan blijft die leeg. Alleen bij koopprijs, huurprijs en glasvezel wordt een ontbrekend cijfer vervangen door het provinciecijfer (gewogen naar inwoners), en dat wordt op de gemeentepagina gemeld.
+### 3.2 Deelscore per eigenschap
 
-### 3.2 Deelscore per criterium
-
-De deelscore is het gemiddelde van de percentielen van de indicatoren met data. Bij bereikbaarheid is dat gewogen: luchthaven 50, naar huis 30, hogesnelheidsstation 10, nachttrein 10.
+Deelscore = 85 x (behaald niveau / gevraagd niveau, hoogstens 1) + 15 x percentiel / 100. Wie het gevraagde niveau haalt, krijgt dus minstens 85; de laatste 15 punten maken onderscheid tussen gemeenten die hetzelfde niveau halen.
 
 ### 3.3 Totaalscore
 
-Totaal = gewogen gemiddelde van de deelscores, met de gewichten van de bezoeker. Ontbreekt een deelscore, dan gaat het gewicht naar de andere criteria; een gemeente wordt dus niet gestraft voor een gat in de data.
-
-- Klimaat: bij "vier seizoenen" draaien de wintertemperatuur en de vorstdagen van richting om (meer winter is dan beter).
-- Andere buitenlanders: bij "liever weinig" draait de richting om; bij "maakt niet uit" telt het criterium niet mee.
+Totaal = gewogen gemiddelde van de deelscores: noodzakelijk 10, meewegen 1 tot 9, onbelangrijk 0. Ontbreekt een gegeven, dan telt die eigenschap niet mee. Zoekgebied, ligging en grootte zijn filters; de rode zone van de Vesuvius en de Campi Flegrei valt altijd af.
 
 ### 3.4 Wintertest en 80-jarentest
 
@@ -281,7 +241,7 @@ De dekking per indicator staat in `data/dekking.md`. Vrijwel alles heeft data vo
 - PM10 en NO2 (EEA 2023): de EEA-servers zijn op dit moment onbereikbaar; opnieuw proberen staat ingepland.
 - Gepland in `criteria.json`: huisdieren (leishmania en dergelijke), wild (Afrikaanse varkenspest), droogte, laadpalen, aardgasnet, internationale scholen, toeristenbelasting, programma's voor nieuwe inwoners.
 - Eventueel: ontbonden gemeenteraden van 2016 tot en met 2024.
-- Internationale scholen: `config/internationale_scholen.json` is leeg; het must-have-item staat uit tot de lijst gevuld is.
+- Internationale scholen: nog geen bron; staat niet in de eigenschappen.
 
 ## 7. Techniek
 
@@ -306,7 +266,7 @@ Een volledige run zonder downloads duurt 4 tot 7 minuten.
 
 ### 7.3 Tests
 
-- `php web/tests/test_model.php`: gewichten tellen op tot 100 (ook na must/nice), standaardeisen werken, de rode zone sluit Ercolano uit, de dealbreaker internet laat geen gemeente onder 50% glasvezel over, het hoogtefilter werkt, klimaatvoorkeur werkt, labels veranderen de score niet, de gids-link staat erin, alternatieven scoren minstens zo hoog.
+- `php web/tests/test_model.php`: profielgewichten, startkeuzes voor alle eigenschappen, aantal niveaus, noodzakelijk sluit uit op het gekozen niveau, meewegen en onbelangrijk niet, vaste gewichten 10 en 0, begrenzing van gewicht en niveau, onbelangrijk en labels veranderen de score niet, hoger niveau geeft een hogere deelscore, standaardeis gepensioneerde (45 minuten), rode zone (Ercolano), zoekgebied Pavia met Montecalvo Versiggia, zelfde score bij heel Italië en eigen regio, alternatieven buiten het zoekgebied, te weinig plaatsen, gids-link.
 - `python -m unittest discover -s pipeline/tests`: configuratie, 7%-regime, teksten, bronnen.
 - Steekproef: zes gemeenten (Montecalvo Versiggia, Greve in Chianti, Casale Monferrato, Montegiorgio, Gerace, Ercolano) vergeleken met de ruwe bronbestanden; alle waarden kloppen.
 
@@ -314,8 +274,9 @@ Een volledige run zonder downloads duurt 4 tot 7 minuten.
 
 | Bestand | Inhoud |
 |---|---|
-| `config/criteria.json` | criteria, indicatoren, richting, bron, gewichten binnen een criterium, dealbreakers, wensenlijst, gepland |
-| `config/profielen.json` | profielen, startgewichten, standaardeisen, vervolgvragen |
+| `config/eigenschappen.json` | de 33 eigenschappen met groep, kolom, richting, eenheid, bron, niveaus en uitleg; gewichten; startkeuzes per profiel |
+| `config/criteria.json` | criteria en indicatoren (achtergrond voor de wintertest, de 80-jarentest en de koppeling met de profielen); gepland |
+| `config/profielen.json` | profielen, gewichten per criterium (basis voor de startkeuzes), vervolgvragen |
 | `config/bronnen.json` | alle bronnen met url, peildatum, schaalniveau en licentie |
 | `config/luchthavens.json` | passagiersdrempel, Bijlage A (verbindingen en jaarrond) |
 | `config/treinstations.json` | hogesnelheidsstations |

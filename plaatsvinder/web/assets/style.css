@@ -210,3 +210,31 @@ body { margin: 0; background: var(--pv-bg); color: var(--pv-tekst); font: 16px/1
 .pv-deel label { display: block; font-weight: 600; margin-bottom: 4px; }
 .pv-deel-rij { display: flex; gap: 8px; }
 .pv-deel-rij input { flex: 1; min-width: 0; padding: 8px; border: 1.5px solid var(--pv-lijn); border-radius: 8px; font: inherit; background: var(--pv-vlak); color: var(--pv-tekst); }
+
+/* eigenschappen (stap 5) en ranglijst met uitklap */
+.pv-eiglijst { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 10px; }
+.pv-eig { padding: 10px 12px 4px; border: 1.5px solid var(--pv-lijn); border-radius: var(--pv-radius); background: var(--pv-vlak); }
+.pv-eig-noodzakelijk { border-color: var(--pv-accent); }
+.pv-eig-onbelangrijk { opacity: .8; }
+.pv-eig-kop { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
+.pv-eig-kop h4 { margin: 0; font-size: 1em; }
+.pv-eig-kop .pv-info { flex: 0 0 36px; height: 36px; }
+.pv-eig-uitleg { margin: 0 0 8px; padding: 8px 12px; font-size: .92em; background: var(--pv-accent-zacht); border-radius: var(--pv-radius); }
+.pv-eig .pv-segment { margin-bottom: 8px; }
+.pv-niveau { margin: 4px 0 2px; }
+.pv-niveau select { width: 100%; }
+.pv-uitklap, .pv-berekening { margin: 10px 0 4px; }
+.pv-uitklap summary, .pv-berekening summary { cursor: pointer; font-weight: 600; color: var(--pv-accent); }
+.pv-eigtabel { width: 100%; border-collapse: collapse; font-size: .9em; margin-top: 8px; }
+.pv-eigtabel th, .pv-eigtabel td { text-align: left; vertical-align: top; padding: 6px 8px; border-top: 1px solid var(--pv-lijn); }
+.pv-eigtabel thead th { border-top: 0; font-size: .85em; color: var(--pv-zacht); }
+.pv-eigtabel tr.pv-niet td, .pv-eigtabel tr.pv-niet th { color: var(--pv-zwak); }
+.pv-eigtabel tr.pv-eig-onbelangrijk { color: var(--pv-zacht); }
+.pv-extra { padding-left: 1.2rem; }
+@media (max-width: 560px) {
+  .pv-eigtabel thead { display: none; }
+  .pv-eigtabel tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 8px 0; border-top: 1px solid var(--pv-lijn); }
+  .pv-eigtabel th, .pv-eigtabel td { border: 0; padding: 0; }
+  .pv-eigtabel th { grid-column: 1 / -1; }
+  .pv-eigtabel td:nth-child(4) { grid-column: 2; grid-row: 2 / span 2; align-self: center; font-weight: 600; }
+}

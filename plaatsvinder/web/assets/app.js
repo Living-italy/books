@@ -1,125 +1,19 @@
-/* Plaatsvinder Italië: wizard, resultaten, gemeentepagina en vergelijken. Vanilla JS.
- * De teller filtert in de browser op comuni-lite.json met dezelfde regels als voldoet() in lib/model.php.
- * Scores rekent score.php uit; de gemeentepagina haalt de details op bij gemeente.php. */
+/* Plaatsvinder Italië: wizard, ranglijst, gemeentepagina en vergelijken. Vanilla JS.
+ * Stappen: profiel, zoekgebied, ligging, grootte, eigenschappen (noodzakelijk, meewegen of onbelangrijk, met niveau),
+ * gewichten. De teller filtert in de browser op comuni-lite.json met dezelfde regels als voldoet() in lib/model.php;
+ * de scores rekent score.php uit. */
 (function () {
   "use strict";
 
   var T = window.PV.taal, C = window.PV.cfg;
   var app = document.getElementById("app");
   var LITE = null;
-  var OPSLAG = "plaatsvinder.v2";
-  var STAPPEN = ["profiel", "gebied", "wensen", "ligging", "grootte", "gewichten", "filters"];
-  var CRIT = C.criteria.criteria.slice().sort(function (a, b) { return a.rang - b.rang; });
-  var BRONNEN = C.bronnen.bronnen;
-  var ZONDER_DATA = C.zonder_data || [];
+  var OPSLAG = "plaatsvinder.v3";
+  var STAPPEN = ["profiel", "gebied", "ligging", "grootte", "eigenschappen", "gewichten"];
+  var EC = C.eigenschappen, EIG = EC.eigenschappen, GW = EC.gewicht, BRONNEN = C.bronnen.bronnen;
+  var EIDX = {}; EIG.forEach(function (e, i) { EIDX[e.id] = i; });
   var MAX_VERGELIJK = 3;
   var LEEG = T.gemeente.geen_data;
-
-  function zonderData(c) {
-    return !c.indicatoren.length || ZONDER_DATA.indexOf(c.id) >= 0;
-  }
-  function profiel(id) { return C.profielen.profielen.filter(function (p) { return p.id === id; })[0]; }
-
-  function basisgewichten(pid, verblijf) {
-    var p = profiel(pid), g = Object.assign({}, p.gewichten);
-    (p.vragen || []).forEach(function (v) {
-      v.opties.forEach(function (o) { if (o.id === verblijf && o.effect) Object.assign(g, o.effect); });
-    });
-    return g;
-  }
-  // naar precies 100 met de grootste-rest-methode (gelijk aan normaliseer() in model.php)
-  function normaliseer(g) {
-    var k = Object.keys(g), t = som(g);
-    if (t <= 0) return g;
-    var ex = k.map(function (x) { return g[x] * 100 / t; }), af = ex.map(Math.floor);
-    var tekort = 100 - af.reduce(function (a, b) { return a + b; }, 0);
-    ex.map(function (v, i) { return [v - af[i], i]; }).sort(function (a, b) { return b[0] - a[0]; })
-      .slice(0, tekort).forEach(function (x) { af[x[1]]++; });
-    var uit = {}; k.forEach(function (x, i) { uit[x] = af[i]; });
-    return uit;
-  }
-  // wensenlijst (sectie 14), gelijk aan wensen() en pas_nice_toe() in model.php
-  var WL = C.wensenlijst, WITEMS = {}, WEXTRA = {};
-  WL.items.forEach(function (it, bit) { WITEMS[it.id] = Object.assign({ bit: bit }, it); });
-  WL.nice_extra.forEach(function (it) { WEXTRA[it.id] = it; });
-  function startgewichten(pid, verblijf) {
-    var g = basisgewichten(pid, verblijf), crit = {};
-    ((S.wensen || {}).nice || []).forEach(function (id) { var it = WITEMS[id] || WEXTRA[id]; if (it) crit[it.criterium] = 1; });
-    Object.keys(crit).forEach(function (c) { if (g[c] != null) g[c] = Math.max(g[c], 5) * WL.factor_nice; });
-    return Object.keys(crit).length ? normaliseer(g) : g;
-  }
-  function wensMasker() {
-    var m = 0;
-    S.wensen.dealbreakers.concat(S.wensen.must).forEach(function (id) { if (WITEMS[id]) m |= 1 << WITEMS[id].bit; });
-    return m;
-  }
-  var B64 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
-  function wlVan(i) {                                     // 5 tekens per gemeente, zie export.py
-    var s = LITE.wl, n = 0;
-    for (var k = 0; k < 5; k++) n = n * 64 + B64.indexOf(s.charAt(i * 5 + k));
-    return n;
-  }
-  function gekozen(id) { var w = S.wensen; return w.dealbreakers.indexOf(id) >= 0 || w.must.indexOf(id) >= 0 || w.nice.indexOf(id) >= 0; }
-  // blokkades en waarschuwingen (14e); b kan een item zijn of "ligging:berg", "klimaat:seizoenen", "grootte:0"
-  function aanKant(x) {
-    var d = x.split(":");
-    if (d.length === 1) return gekozen(x);
-    if (d[0] === "ligging") return S.ligging.indexOf(d[1]) >= 0;
-    if (d[0] === "klimaat") return S.klimaat === d[1];
-    if (d[0] === "grootte") return S.grootte.indexOf(d[1]) >= 0;
-    return false;
-  }
-  function geblokkeerd(x) {                               // reden als x niet gekozen kan worden, anders null
-    var b = WL.blokkades.filter(function (b) { return b.soort === "blokkade" && ((b.b === x && aanKant(b.a)) || (b.a === x && aanKant(b.b))); })[0];
-    return b ? b.tekst : null;
-  }
-  function waarschuwingen() {
-    return WL.blokkades.filter(function (b) { return b.soort === "waarschuwing" && aanKant(b.a) && aanKant(b.b); }).map(function (b) { return b.tekst; });
-  }
-
-  var leeg = function () {
-    return {
-      stap: -1, profiel: "", verblijf: "permanent", expats: "maakt_niet_uit", klimaat: "zacht", gewichten: {},
-      wensen: { dealbreakers: [], must: [], nice: [] },
-      ligging: [], grootte: [], filters: { rode_zone_uit: true }, budget: { soort: "", max: null, m2: 80 },
-      gebied: "overal", alleen_regios: [], alleen_provs: [], vergelijk: []
-    };
-  };
-  function schoon(x) {                                   // keuzes uit een oudere versie of een gedeelde link opschonen
-    var w = x.wensen || {};
-    x.wensen = {
-      dealbreakers: (w.dealbreakers || []).filter(function (id) { return WITEMS[id] && WITEMS[id].lijst === "dealbreaker" && WITEMS[id].status === "actief"; }),
-      must: (w.must || []).filter(function (id) { return WITEMS[id] && WITEMS[id].lijst === "musthave" && WITEMS[id].status === "actief"; }),
-      nice: (w.nice || []).filter(function (id) { return (WITEMS[id] && WITEMS[id].lijst === "musthave" && WITEMS[id].status === "actief") || WEXTRA[id]; })
-    };
-    if (["overal", "regios", "provincies"].indexOf(x.gebied) < 0) x.gebied = x.alleen_provs && x.alleen_provs.length ? "provincies" : x.alleen_regios && x.alleen_regios.length ? "regios" : "overal";
-    delete x.regios_uit;
-    x.filters = Object.assign({}, x.filters || {});
-    ["max_luchthaven", "max_hoogte", "zone1_uit", "alleen_regime7"].forEach(function (k) { delete x.filters[k]; });
-    x.filters.rode_zone_uit = true;
-    return x;
-  }
-  var S = leeg();
-  var HERVAT = false;   // eerder begonnen: eerst vragen of de bezoeker verder wil (zoals de wensenlijst van Un Sogno di Casa)
-  try {
-    var b = JSON.parse(localStorage.getItem(OPSLAG) || "null");
-    if (b) { S = schoon(Object.assign(leeg(), b)); HERVAT = !!S.profiel && !location.hash; }
-  } catch (e) { /* geen opslag */ }
-  try {                                                   // gedeelde link: ?keuzes=...
-    var q = new URLSearchParams(location.search).get("keuzes");
-    if (q) {
-      var k = JSON.parse(decodeURIComponent(escape(atob(q.replace(/-/g, "+").replace(/_/g, "/")))));
-      S = schoon(Object.assign(leeg(), { profiel: k.p || "", verblijf: k.v || "permanent", expats: k.e || "maakt_niet_uit",
-        klimaat: k.k || "zacht", gewichten: k.g || {}, wensen: k.w || {}, ligging: k.l || [], grootte: k.gr || [],
-        filters: k.f || { rode_zone_uit: true }, budget: k.b || { soort: "", max: null, m2: 80 }, gebied: k.z || "overal",
-        alleen_regios: k.r || [], alleen_provs: k.pr || [] }));
-      S.stap = STAPPEN.length;
-      HERVAT = false;
-      history.replaceState(null, "", location.pathname);
-    }
-  } catch (e) { /* ongeldige link: gewoon beginnen */ }
-  var NAAR_UITSLAG = false;   // via "Wijzigen" in het overzicht: na de stap terug naar de uitslag
-  function bewaar() { try { localStorage.setItem(OPSLAG, JSON.stringify(S)); } catch (e) { /* geen opslag */ } }
 
   // ---------------------------------------------------------------- hulp
   function el(tag, attrs, kids) {
@@ -136,55 +30,99 @@
     return n;
   }
   function fmt(tpl, v) { return String(tpl).replace(/\{(\w+)\}/g, function (_, k) { return v[k] != null ? v[k] : ""; }); }
-  function getal(n, dec) {
-    return Number(n).toLocaleString("nl-NL", { maximumFractionDigits: dec == null ? 1 : dec });
-  }
+  function getal(n, dec) { return Number(n).toLocaleString("nl-NL", { maximumFractionDigits: dec == null ? 1 : dec }); }
   function toggle(l, v) { var i = l.indexOf(v); if (i >= 0) l.splice(i, 1); else l.push(v); }
-  function som(g) { return Object.keys(g).reduce(function (s, k) { return s + (g[k] || 0); }, 0); }
-  function haal(url, opties) {
-    return fetch(url, opties).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
-  }
+  function haal(url, opties) { return fetch(url, opties).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+  function profiel(id) { return C.profielen.profielen.filter(function (p) { return p.id === id; })[0]; }
 
-  // ---------------------------------------------------------------- filters (gelijk aan voldoet() in model.php)
-  var STAD_KOL = { utrecht: "uu", brussel: "ub", keulen: "uk", munchen: "um" };
-  function telOver() {
+  // ---------------------------------------------------------------- startkeuzes (gelijk aan startkeuzes() in model.php)
+  function criteriumgewichten(pid, verblijf) {
+    var p = profiel(pid), g = Object.assign({}, p.gewichten);
+    (p.vragen || []).forEach(function (v) { v.opties.forEach(function (o) { if (o.id === verblijf && o.effect) Object.assign(g, o.effect); }); });
+    return g;
+  }
+  function startkeuzes(pid, verblijf) {
+    var g = criteriumgewichten(pid, verblijf), uitz = EC.profielen[pid] || {}, k = {};
+    EIG.forEach(function (e) {
+      var w = g[e.criterium] || 0;
+      k[e.id] = w > 0 ? { status: "meewegen", niveau: e.standaard_niveau, gewicht: Math.max(GW.min, Math.min(GW.max, Math.round(w / 2))) }
+                      : { status: "onbelangrijk", niveau: e.standaard_niveau, gewicht: GW.standaard };
+      if (uitz[e.id]) Object.assign(k[e.id], uitz[e.id]);
+    });
+    return k;
+  }
+  function telgewicht(k) { return k.status === "noodzakelijk" ? GW.noodzakelijk : k.status === "onbelangrijk" ? GW.onbelangrijk : k.gewicht; }
+
+  // ---------------------------------------------------------------- toestand
+  function leeg() {
+    return { stap: -1, profiel: "", verblijf: "permanent", eigenschappen: {}, ligging: [], grootte: [],
+             gebied: "overal", alleen_regios: [], alleen_provs: [], vergelijk: [] };
+  }
+  function schoon(x) {                                    // keuzes uit een gedeelde link of opslag controleren
+    var basis = x.profiel ? startkeuzes(x.profiel, x.verblijf) : {}, k = {};
+    EIG.forEach(function (e) {
+      var v = (x.eigenschappen || {})[e.id] || {}, b = basis[e.id] || { status: "meewegen", niveau: e.standaard_niveau, gewicht: GW.standaard };
+      k[e.id] = {
+        status: ["noodzakelijk", "meewegen", "onbelangrijk"].indexOf(v.status) >= 0 ? v.status : b.status,
+        niveau: v.niveau >= 0 && v.niveau < e.niveaus.length ? Number(v.niveau) : b.niveau,
+        gewicht: v.gewicht >= GW.min && v.gewicht <= GW.max ? Number(v.gewicht) : b.gewicht
+      };
+    });
+    x.eigenschappen = k;
+    if (["overal", "regios", "provincies"].indexOf(x.gebied) < 0) x.gebied = "overal";
+    return x;
+  }
+  var S = leeg(), HERVAT = false, NAAR_UITSLAG = false;
+  try {
+    var b = JSON.parse(localStorage.getItem(OPSLAG) || "null");
+    if (b) { S = schoon(Object.assign(leeg(), b)); HERVAT = !!S.profiel && !location.hash; }
+  } catch (e) { /* geen opslag */ }
+  try {                                                   // gedeelde link: ?keuzes=...
+    var q = new URLSearchParams(location.search).get("keuzes");
+    if (q) {
+      var k = JSON.parse(decodeURIComponent(escape(atob(q.replace(/-/g, "+").replace(/_/g, "/")))));
+      S = schoon(Object.assign(leeg(), { profiel: k.p || "gepensioneerde", verblijf: k.v || "permanent", eigenschappen: k.e || {},
+        ligging: k.l || [], grootte: k.g || [], gebied: k.z || "overal", alleen_regios: k.r || [], alleen_provs: k.pr || [] }));
+      S.stap = STAPPEN.length; HERVAT = false;
+      history.replaceState(null, "", location.pathname);
+    }
+  } catch (e) { /* ongeldige link: gewoon beginnen */ }
+  function bewaar() { try { localStorage.setItem(OPSLAG, JSON.stringify(S)); } catch (e) { /* geen opslag */ } }
+
+  // ---------------------------------------------------------------- teller (gelijk aan voldoet() in model.php)
+  function behaald(i, j) { var ch = LITE.e.charAt(i * EIG.length + j); return ch === "-" ? null : Number(ch); }
+  function telOver(zonderGebied) {
     if (!LITE) return null;
-    var L = LITE, n = 0, masker = 0, f = S.filters, bu = S.budget, wm = wensMasker();
-    S.ligging.forEach(function (k) { masker |= 1 << L.ligging.indexOf(k); });
+    var L = LITE, n = 0, masker = 0, nood = [];
+    S.ligging.forEach(function (x) { masker |= 1 << L.ligging.indexOf(x); });
+    EIG.forEach(function (e, j) { var k = S.eigenschappen[e.id]; if (k && k.status === "noodzakelijk") nood.push([j, k.niveau + 1]); });
     var gr = S.grootte.map(Number);
-    var regios = S.gebied === "regios" && S.alleen_regios.length ? S.alleen_regios : null;
-    var provs = S.gebied === "provincies" && S.alleen_provs.length ? S.alleen_provs : null;
-    var metBudget = bu.soort && bu.max > 0 && bu.m2 > 0;
-    var uur = f.max_uur && f.max_uur.stad && f.max_uur.uren ? L[STAD_KOL[f.max_uur.stad]] : null;
+    var regios = !zonderGebied && S.gebied === "regios" && S.alleen_regios.length ? S.alleen_regios : null;
+    var provs = !zonderGebied && S.gebied === "provincies" && S.alleen_provs.length ? S.alleen_provs : null;
     for (var i = 0; i < L.n; i++) {
-      var pv = L.provincies[L.pv[i]], fl = L.f[i];
-      if (wm && (wlVan(i) & wm)) continue;
+      var pv = L.provincies[L.pv[i]];
       if (masker && !(L.lig[i] & masker)) continue;
       if (gr.length && gr.indexOf(L.gr[i]) < 0) continue;
       if (regios && regios.indexOf(pv[2]) < 0) continue;
       if (provs && provs.indexOf(pv[0]) < 0) continue;
-      if (f.max_prijs_m2 && L.koop[i] != null && L.koop[i] > f.max_prijs_m2) continue;
-      if (f.max_luchthaven && L.lh[i] != null && L.lh[i] > f.max_luchthaven) continue;
-      if (f.max_ziekenhuis && L.zh[i] != null && L.zh[i] > f.max_ziekenhuis) continue;
-      if (uur && uur[i] != null && uur[i] / 2 > f.max_uur.uren) continue;
-      if (f.zone1_uit && (fl & 3) === 0) continue;
-      if (f.rode_zone_uit && ((fl >> 2) & 3) === 2) continue;
-      if (f.min_glasvezel && L.gv[i] != null && L.gv[i] / 10 < f.min_glasvezel) continue;
-      if (f.alleen_regime7 && ((fl >> 4) & 3) !== 1) continue;
-      if (f.max_hoogte && L.hm[i] != null && L.hm[i] > f.max_hoogte) continue;
-      if (metBudget) {
-        var m2p = bu.soort === "huren" ? (L.huur[i] == null ? null : L.huur[i] / 10) : L.koop[i];
-        if (m2p != null && m2p * bu.m2 > bu.max) continue;
-      }
-      n++;
+      if (((L.f[i] >> 2) & 3) === 2) continue;          // rode zone, geheel
+      var ok = true;
+      for (var x = 0; x < nood.length && ok; x++) { var a = behaald(i, nood[x][0]); if (a !== null && a < nood[x][1]) ok = false; }
+      if (ok) n++;
     }
+    return n;
+  }
+  function haaltNiveau(j, niveau) {                       // hoeveel gemeenten (heel Italië) dit niveau halen
+    if (!LITE) return null;
+    var n = 0;
+    for (var i = 0; i < LITE.n; i++) { var a = behaald(i, j); if (a === null || a >= niveau) n++; }
     return n;
   }
 
   // ---------------------------------------------------------------- onderdelen
-  function kaart(titel, uitleg, aan, klik, extra) {
+  function kaart(titel, uitleg, aan, klik) {
     return el("button", { type: "button", class: "pv-kaart" + (aan ? " aan" : ""), "aria-pressed": aan ? "true" : "false", onclick: klik },
-      [el("span", { class: "pv-kaart-titel", text: titel }), uitleg ? el("span", { class: "pv-kaart-uitleg", text: uitleg }) : null, extra || null]);
+      [el("span", { class: "pv-kaart-titel", text: titel }), uitleg ? el("span", { class: "pv-kaart-uitleg", text: uitleg }) : null]);
   }
   function segment(label, waarde, opties, kies) {
     return el("div", { class: "pv-segment", role: "radiogroup", "aria-label": label }, opties.map(function (o) {
@@ -193,27 +131,19 @@
         onclick: function () { kies(o[0]); } });
     }));
   }
-  function keuzelijst(label, waarde, opties, veranderd, id) {
-    id = id || "pv-" + label.replace(/\W+/g, "").slice(0, 20);
-    var sel = el("select", { id: id, onchange: veranderd ? function () { veranderd(this.value === "" ? null : Number(this.value)); } : null },
-      opties.map(function (o) { return el("option", { value: o[0] == null ? "" : String(o[0]), selected: o[0] === waarde, text: o[1] }); }));
-    return el("div", { class: "pv-veld" }, [el("label", { for: id, text: label }), sel]);
+  function balk(score) { return el("span", { class: "pv-balk", "aria-hidden": "true" }, [el("span", { style: "width:" + (score == null ? 0 : score) + "%" })]); }
+  function eLabel(id) { return EIG[EIDX[id]].label; }
+  function waardeE(e, v) {
+    if (v == null) return LEEG;
+    var rang = (T.rang || {})[e.kolom];
+    if (rang) return rang[String(v)] || String(v);
+    return fmt(e.eenheid, { v: typeof v === "number" ? getal(v, Math.abs(v) < 10 ? 2 : 0) : v });
   }
-  function vinkje(label, aan, veranderd) {
-    var id = "pv-v-" + label.replace(/\W+/g, "").slice(0, 24);
-    var inp = el("input", { type: "checkbox", id: id, checked: !!aan, onchange: function () { veranderd(this.checked); } });
-    return el("div", { class: "pv-vinkje" }, [inp, el("label", { for: id, text: label })]);
-  }
-  function basisLabel(c) { return el("span", { class: "pv-basis pv-basis-" + c.basis, text: T.basis[c.basis] }); }
 
   // ---------------------------------------------------------------- stap 1: profiel
   function kiesProfiel(id) {
     S.profiel = id;
-    S.gewichten = startgewichten(id, S.verblijf);
-    var std = profiel(id).filters_standaard || {};
-    S.filters = { rode_zone_uit: true };
-    if (std.max_ziekenhuis) S.filters.max_ziekenhuis = std.max_ziekenhuis;
-    if (std.min_glasvezel_pct) S.filters.min_glasvezel = std.min_glasvezel_pct;
+    S.eigenschappen = startkeuzes(id, S.verblijf);
     teken();
   }
   function schermProfiel() {
@@ -225,187 +155,37 @@
     (p && p.vragen || []).forEach(function (v) {
       delen.push(el("h3", { class: "pv-sub-kop", text: v.vraag }));
       delen.push(segment(v.vraag, S.verblijf, v.opties.map(function (o) { return [o.id, o.label]; }), function (id) {
-        S.verblijf = id; S.gewichten = startgewichten(S.profiel, id); teken();
+        S.verblijf = id; S.eigenschappen = startkeuzes(S.profiel, id); teken();
       }));
       v.opties.forEach(function (o) { if (o.id === S.verblijf && o.uitleg) delen.push(el("p", { class: "pv-uitleg", text: o.uitleg })); });
     });
+    delen.push(el("p", { class: "pv-noot", text: st.startkeuzes }));
     return el("div", {}, delen);
   }
 
-  // ---------------------------------------------------------------- stap 3: wensenlijst (gids 1.3, sectie 14)
-  function wensRij(id, label, sub, uitleg, soort) {
-    var st = T.stappen.wensen, w = S.wensen, lijst = w[soort], aan = lijst.indexOf(id) >= 0;
-    var max = soort === "dealbreakers" && WL.aantal_dealbreakers == null ? Infinity : WL.aantal;
-    var reden = !aan && geblokkeerd(id), vol = !aan && lijst.length >= max, elders = !aan && gekozen(id);
-    var info = el("p", { class: "pv-wens-uitleg", id: "pv-wi-" + soort + "-" + id, hidden: true, text: uitleg || "" });
-    var knop = el("button", { type: "button", class: "pv-wens" + (aan ? " aan" : ""), "aria-pressed": aan ? "true" : "false",
-      disabled: !!(reden || vol), onclick: function () {
-        ["dealbreakers", "must", "nice"].forEach(function (x) { if (x !== soort) w[x] = w[x].filter(function (y) { return y !== id; }); });
-        toggle(lijst, id);
-        S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf);
-        if (id === "strenge_winter" && aan === false) { S.ligging = S.ligging.filter(function (l) { return l !== "berg"; }); if (S.klimaat === "seizoenen") S.klimaat = "zacht"; }
-        teken();
-      } }, [el("span", { class: "pv-kaart-titel", text: label }), sub ? el("span", { class: "pv-kaart-uitleg", text: sub }) : null,
-        reden ? el("span", { class: "pv-wens-reden", text: reden }) : elders ? el("span", { class: "pv-wens-reden", text: st.elders }) : null]);
-    var i = uitleg ? el("button", { type: "button", class: "pv-info", "aria-label": fmt(st.info, { item: label }), "aria-expanded": "false",
-      "aria-controls": info.id, text: "i", onclick: function () {
-        info.hidden = !info.hidden; this.setAttribute("aria-expanded", info.hidden ? "false" : "true");
-      } }) : null;
-    return el("li", { class: "pv-wens-rij" }, [el("div", { class: "pv-wens-kop" }, [knop, i]), info]);
-  }
-  function schermWensen() {
-    var st = T.stappen.wensen, w = S.wensen, max = WL.aantal;
-    var actief = function (lijst) { return WL.items.filter(function (it) { return it.lijst === lijst && it.status === "actief"; }); };
-    var groep = function (soort, items) {
-      return el("fieldset", { class: "pv-groep" }, [
-        el("legend", { text: st[soort] }),
-        el("p", { class: "pv-uitleg", text: st[soort + "_uitleg"] + " " + (soort === "dealbreakers" && WL.aantal_dealbreakers == null
-          ? fmt(st.gekozen_vrij, { n: w[soort].length }) : fmt(st.gekozen, { n: w[soort].length, max: max })) }),
-        el("ul", { class: "pv-wenslijst" }, items.map(function (it) { return wensRij(it.id, it.label, it.sub, it.uitleg, soort); }))]);
-    };
-    var db = actief("dealbreaker").map(function (it) { return { id: it.id, label: it.label, sub: fmt(st.valt_af, { d: it.drempel }), uitleg: it.uitleg }; });
-    var mh = actief("musthave").map(function (it) { return { id: it.id, label: it.label, sub: fmt(st.valt_af, { d: it.drempel }), uitleg: it.uitleg }; });
-    var nh = actief("musthave").map(function (it) { return { id: it.id, label: it.label, uitleg: it.uitleg }; })
-      .concat(WL.nice_extra.filter(function (x) { var c = CRIT.filter(function (k) { return k.id === x.criterium; })[0]; return c && !zonderData(c); })
-        .map(function (x) { return { id: x.id, label: x.label }; }));
-    var delen = [groep("dealbreakers", db), groep("must", mh), groep("nice", nh)];
-    var gepland = WL.items.filter(function (it) { return it.status !== "actief"; });
-    if (gepland.length) delen.push(el("p", { class: "pv-noot", text: fmt(st.gepland, { lijst: gepland.map(function (it) { return it.label; }).join(", ") }) }));
-    waarschuwingen().forEach(function (t) { delen.unshift(el("p", { class: "pv-let-op", role: "status", text: t })); });
-    return el("div", {}, delen);
-  }
-
-  function schermKeuzes(sleutel) {
-    var opties = T.stappen[sleutel].opties;
-    var delen = [el("div", { class: "pv-raster" }, Object.keys(opties).map(function (k) {
-      var reden = geblokkeerd(sleutel + ":" + k);
-      if (reden && S[sleutel].indexOf(k) < 0) {
-        var kt = kaart(opties[k][0], reden, false, function () {});
-        kt.disabled = true;
-        return kt;
-      }
-      return kaart(opties[k][0], opties[k][1], S[sleutel].indexOf(k) >= 0, function () { toggle(S[sleutel], k); teken(); });
-    }))];
-    waarschuwingen().forEach(function (t) { delen.unshift(el("p", { class: "pv-let-op", role: "status", text: t })); });
-    return el("div", {}, delen);
-  }
-
-  // ---------------------------------------------------------------- stap 4: gewichten (som 100)
-  function zetGewicht(id, nieuw) {
-    var g = S.gewichten, actief = CRIT.filter(function (c) { return !zonderData(c) && c.id !== id; }).map(function (c) { return c.id; });
-    nieuw = Math.max(0, Math.min(100, Math.round(nieuw)));
-    var rest = 100 - nieuw, oud = actief.reduce(function (s, k) { return s + (g[k] || 0); }, 0);
-    var basis = actief.map(function (k) { return oud > 0 ? (g[k] || 0) / oud * rest : rest / actief.length; });
-    var afgerond = basis.map(Math.floor), tekort = rest - afgerond.reduce(function (a, b) { return a + b; }, 0);
-    basis.map(function (v, i) { return [v - afgerond[i], i]; }).sort(function (a, b) { return b[0] - a[0]; })
-      .slice(0, tekort).forEach(function (x) { afgerond[x[1]]++; });
-    actief.forEach(function (k, i) { g[k] = afgerond[i]; });
-    CRIT.forEach(function (c) { if (zonderData(c)) g[c.id] = 0; });
-    g[id] = nieuw;
-  }
-  function schermGewichten() {
-    var st = T.stappen.gewichten;
-    if (!S.profiel) S.gewichten = startgewichten("gepensioneerde", S.verblijf);
-    var lijst = el("div", { class: "pv-schuifjes" }, CRIT.map(function (c) {
-      var geen = zonderData(c), id = "pv-g-" + c.id, w = S.gewichten[c.id] || 0;
-      var schuif = el("input", { type: "range", id: id, min: "0", max: "100", step: "1", value: String(w), disabled: geen,
-        "aria-describedby": id + "-u" });
-      var waarde = el("output", { for: id, class: "pv-gewicht", text: String(w) });
-      schuif.addEventListener("input", function () { waarde.textContent = schuif.value; });
-      schuif.addEventListener("change", function () { zetGewicht(c.id, Number(schuif.value)); teken(); });
-      var rij = [
-        el("div", { class: "pv-schuif-kop" }, [el("label", { for: id, text: c.label }), waarde]),
-        schuif,
-        el("p", { class: "pv-schuif-uitleg", id: id + "-u" }, [geen ? el("strong", { text: st.geen_data + ". " }) : null,
-          geen ? st.geen_data_uitleg : c.uitleg, " ", basisLabel(c)])
-      ];
-      if (c.id === "klimaat" && c.voorkeur) {
-        var kb = geblokkeerd("klimaat:seizoenen");
-        rij.push(segment(c.voorkeur.vraag, S.klimaat, c.voorkeur.opties.filter(function (o) { return !(kb && o.id === "seizoenen"); })
-          .map(function (o) { return [o.id, o.label]; }), function (v) { S.klimaat = v; teken(); }));
-        if (kb) rij.push(el("p", { class: "pv-noot", text: kb }));
-        rij.push(el("p", { class: "pv-noot", text: c.voorkeur.uitleg }));
-      }
-      if (c.id === "expats") {
-        var q = C.profielen.expats_vraag;
-        rij.push(segment(q.vraag, S.expats, q.opties.map(function (o) { return [o.id, o.label]; }), function (v) { S.expats = v; teken(); }));
-      }
-      return el("div", { class: "pv-schuif" + (geen ? " uit" : "") }, rij);
-    }));
-    return el("div", {}, [
-      el("p", { class: "pv-let-op", text: st.expertoordeel }),
-      el("p", { class: "pv-som", text: fmt(st.som, { n: som(S.gewichten) }) }),
-      lijst,
-      el("button", { type: "button", class: "pv-link", text: T.knoppen.startwaarden, onclick: function () {
-        S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf); teken();
-      } })
-    ]);
-  }
-
-  // ---------------------------------------------------------------- stap 5: harde filters
-  // stap 7: alleen eisen die de wensenlijst niet dekt (prijs, rijtijd naar een gekozen stad, budget)
-  // en de standaardeis van het profiel; risico's, luchthaven, internet en 7%-regime zitten in de wensenlijst
-  function schermFilters() {
-    var st = T.stappen.filters, f = S.filters, bu = S.budget;
-    var uur = f.max_uur || { stad: "utrecht", uren: null };
-    var std = (S.profiel && profiel(S.profiel).filters_standaard) || {};
-    var delen = [el("p", { class: "pv-noot", text: st.wensen_actief })];
-    if (std.max_ziekenhuis) delen.push(vinkje(fmt(st.std_ziekenhuis, { n: std.max_ziekenhuis }), f.max_ziekenhuis === std.max_ziekenhuis,
-      function (v) { f.max_ziekenhuis = v ? std.max_ziekenhuis : null; teken(); }));
-    if (std.min_glasvezel_pct) delen.push(vinkje(fmt(st.std_glasvezel, { n: std.min_glasvezel_pct }), f.min_glasvezel === std.min_glasvezel_pct,
-      function (v) { f.min_glasvezel = v ? std.min_glasvezel_pct : null; teken(); }));
-    delen.push(
-      keuzelijst(st.max_prijs, f.max_prijs_m2 || null, [[null, st.geen_limiet]].concat([500, 750, 1000, 1500, 2000, 3000].map(function (e) { return [e, fmt(st.euro, { n: getal(e) })]; })),
-        function (v) { f.max_prijs_m2 = v; teken(); }, "pv-f-prijs"));
-    var groep = el("fieldset", { class: "pv-groep" }, [el("legend", { text: st.max_uur }), el("p", { class: "pv-noot", text: st.max_uur_noot }),
-      keuzelijst(st.stad, uur.stad, Object.keys(T.steden).map(function (k) { return [k, T.steden[k]]; }), null, "pv-f-stad"),
-      keuzelijst(st.hoe_lang, uur.uren, [[null, st.geen_limiet]].concat([6, 8, 10, 12, 14].map(function (u) { return [u, fmt(st.uren, { n: u })]; })), null, "pv-f-uren")]);
-    delen.push(groep);
-    var stadSel = groep.querySelector("#pv-f-stad"), urenSel = groep.querySelector("#pv-f-uren");
-    stadSel.value = uur.stad;
-    var zetUur = function () { var u = urenSel.value ? Number(urenSel.value) : null; f.max_uur = u ? { stad: stadSel.value, uren: u } : null; teken(); };
-    stadSel.onchange = zetUur; urenSel.onchange = zetUur;
-    delen.push(el("h3", { class: "pv-sub-kop", text: st.budget_titel }),
-      segment(st.soort, bu.soort, [["", st.geen], ["huren", st.huren], ["kopen", st.kopen]], function (v) { bu.soort = v; teken(); }));
-    if (bu.soort) {
-      var veld = function (label, sleutel, stap) {
-        var id = "pv-b-" + sleutel, inp = el("input", { id: id, type: "number", inputmode: "numeric", min: "0", step: stap, value: bu[sleutel] != null ? bu[sleutel] : "" });
-        inp.addEventListener("change", function () { bu[sleutel] = inp.value ? Number(inp.value) : null; teken(); });
-        return el("div", { class: "pv-veld" }, [el("label", { for: id, text: label }), inp]);
-      };
-      delen.push(veld(bu.soort === "kopen" ? st.max_koop : st.max_huur, "max", bu.soort === "kopen" ? "5000" : "50"));
-      delen.push(veld(st.m2, "m2", "5"));
-    }
-    delen.push(el("p", { class: "pv-noot", text: st.rode_zone_vast }));
-    return el("div", {}, delen);
-  }
-
-  // ---------------------------------------------------------------- stap 2: zoekgebied (sectie 13)
+  // ---------------------------------------------------------------- stap 2: zoekgebied
   var ZOEK = "";
   function schermGebied() {
     var R = T.regios, st = T.stappen.gebied;
     var delen = [segment(st.titel, S.gebied, [["overal", st.overal], ["regios", st.regios], ["provincies", st.provincies]],
       function (v) { S.gebied = v; teken(); })];
-    if (S.gebied === "overal") {
-      delen.push(el("p", { class: "pv-tip", text: st.tip }));
-      return el("div", {}, delen);
-    }
+    if (S.gebied === "overal") { delen.push(el("p", { class: "pv-tip", text: st.tip })); return el("div", {}, delen); }
+    var gesorteerd = Object.keys(R).sort(function (a, b) { return R[a].localeCompare(R[b], "it"); });
     if (S.gebied === "regios") {
       delen.push(el("p", { class: "pv-uitleg", text: S.alleen_regios.length ? fmt(st.regios_gekozen, { n: S.alleen_regios.length }) : st.regios_leeg }));
-      delen.push(el("div", { class: "pv-raster pv-raster-klein" }, Object.keys(R).sort(function (a, b) { return R[a].localeCompare(R[b], "it"); }).map(function (k) {
+      delen.push(el("div", { class: "pv-raster pv-raster-klein" }, gesorteerd.map(function (k) {
         var code = Number(k);
         return kaart(R[k], null, S.alleen_regios.indexOf(code) >= 0, function () { toggle(S.alleen_regios, code); teken(); });
       })));
       return el("div", {}, delen);
     }
-    // provincies, gegroepeerd per regio, met zoekveld
     delen.push(el("p", { class: "pv-uitleg", text: S.alleen_provs.length ? fmt(st.provs_gekozen, { n: S.alleen_provs.length }) : st.provs_leeg }));
     var zoek = el("input", { type: "search", id: "pv-zoek-prov", value: ZOEK, placeholder: st.zoek_plaats, autocomplete: "off" });
     var lijst = el("div", { class: "pv-provlijst" });
     var vul = function () {
       var q = ZOEK.trim().toLowerCase();
       lijst.innerHTML = "";
-      Object.keys(R).sort(function (a, b) { return R[a].localeCompare(R[b], "it"); }).forEach(function (k) {
+      gesorteerd.forEach(function (k) {
         var provs = (LITE ? LITE.provincies : []).filter(function (p) {
           return p[2] === Number(k) && (!q || p[1].toLowerCase().indexOf(q) >= 0 || R[k].toLowerCase().indexOf(q) >= 0);
         });
@@ -423,9 +203,76 @@
     return el("div", {}, delen);
   }
 
+  // ---------------------------------------------------------------- stap 3 en 4: ligging en grootte
+  function schermKeuzes(sleutel) {
+    var opties = T.stappen[sleutel].opties;
+    return el("div", { class: "pv-raster" }, Object.keys(opties).map(function (x) {
+      return kaart(opties[x][0], opties[x][1], S[sleutel].indexOf(x) >= 0, function () { toggle(S[sleutel], x); teken(); });
+    }));
+  }
+
+  // ---------------------------------------------------------------- stap 5: eigenschappen
+  function eigenschapRij(e) {
+    var st = T.stappen.eigenschappen, k = S.eigenschappen[e.id], j = EIDX[e.id];
+    var info = el("p", { class: "pv-eig-uitleg", id: "pv-ei-" + e.id, hidden: true, text: e.uitleg });
+    var kop = el("div", { class: "pv-eig-kop" }, [el("h4", { text: e.label }),
+      el("button", { type: "button", class: "pv-info", "aria-label": fmt(st.info, { item: e.label }), "aria-expanded": "false",
+        "aria-controls": info.id, text: "i", onclick: function () { info.hidden = !info.hidden; this.setAttribute("aria-expanded", info.hidden ? "false" : "true"); } })]);
+    var delen = [kop, info,
+      segment(e.label, k.status, [["noodzakelijk", EC.statussen.noodzakelijk], ["meewegen", EC.statussen.meewegen], ["onbelangrijk", EC.statussen.onbelangrijk]],
+        function (v) { k.status = v; teken(); })];
+    if (k.status !== "onbelangrijk") {
+      var id = "pv-niv-" + e.id;
+      var sel = el("select", { id: id, onchange: function () { k.niveau = Number(this.value); teken(); } },
+        e.niveaus.map(function (n, i) { return el("option", { value: String(i), selected: i === k.niveau, text: (i + 1) + ". " + n.label }); }));
+      var n = haaltNiveau(j, k.niveau + 1);
+      delen.push(el("div", { class: "pv-veld pv-niveau" }, [el("label", { for: id, text: k.status === "noodzakelijk" ? st.niveau_nood : st.niveau_mee }), sel]),
+        el("p", { class: "pv-noot" }, [e.niveaus[k.niveau].uitleg,
+          n == null ? "" : " " + fmt(k.status === "noodzakelijk" ? st.haalt_nood : st.haalt_mee, { n: getal(n, 0), totaal: getal(LITE.n, 0) })]));
+    }
+    return el("li", { class: "pv-eig pv-eig-" + k.status }, delen);
+  }
+  function schermEigenschappen() {
+    var st = T.stappen.eigenschappen, tel = { noodzakelijk: 0, meewegen: 0, onbelangrijk: 0 };
+    EIG.forEach(function (e) { tel[S.eigenschappen[e.id].status]++; });
+    var delen = [el("p", { class: "pv-noot", text: fmt(st.telling, tel) })];
+    Object.keys(EC.groepen).forEach(function (gid) {
+      var lijst = EIG.filter(function (e) { return e.groep === gid; });
+      if (!lijst.length) return;
+      delen.push(el("fieldset", { class: "pv-groep" }, [el("legend", { text: EC.groepen[gid] }), el("ul", { class: "pv-eiglijst" }, lijst.map(eigenschapRij))]));
+    });
+    return el("div", {}, delen);
+  }
+
+  // ---------------------------------------------------------------- stap 6: gewichten
+  function schermGewichten() {
+    var st = T.stappen.gewichten;
+    var mee = EIG.filter(function (e) { return S.eigenschappen[e.id].status === "meewegen"; });
+    var nood = EIG.filter(function (e) { return S.eigenschappen[e.id].status === "noodzakelijk"; });
+    var onb = EIG.filter(function (e) { return S.eigenschappen[e.id].status === "onbelangrijk"; });
+    var delen = [];
+    if (nood.length) delen.push(el("p", { class: "pv-noot" }, [el("strong", { text: fmt(st.vast_nood, { n: GW.noodzakelijk }) + " " }), nood.map(function (e) { return e.label; }).join(", ")]));
+    if (onb.length) delen.push(el("p", { class: "pv-noot" }, [el("strong", { text: fmt(st.vast_onb, { n: GW.onbelangrijk }) + " " }), onb.map(function (e) { return e.label; }).join(", ")]));
+    if (!mee.length) { delen.push(el("p", { class: "pv-uitleg", text: st.geen_meewegen })); return el("div", {}, delen); }
+    delen.push(el("div", { class: "pv-schuifjes" }, mee.map(function (e) {
+      var k = S.eigenschappen[e.id], id = "pv-g-" + e.id;
+      var schuif = el("input", { type: "range", id: id, min: String(GW.min), max: String(GW.max), step: "1", value: String(k.gewicht) });
+      var waarde = el("output", { for: id, class: "pv-gewicht", text: String(k.gewicht) });
+      schuif.addEventListener("input", function () { waarde.textContent = schuif.value; });
+      schuif.addEventListener("change", function () { k.gewicht = Number(schuif.value); bewaar(); });
+      return el("div", { class: "pv-schuif" }, [el("div", { class: "pv-schuif-kop" }, [el("label", { for: id, text: e.label }), waarde]), schuif,
+        el("p", { class: "pv-schuif-uitleg", text: fmt(st.niveau, { n: e.niveaus[k.niveau].label }) })]);
+    })));
+    delen.push(el("button", { type: "button", class: "pv-link", text: T.knoppen.startwaarden, onclick: function () {
+      var s = startkeuzes(S.profiel || "gepensioneerde", S.verblijf);
+      mee.forEach(function (e) { S.eigenschappen[e.id].gewicht = s[e.id].gewicht; }); teken();
+    } }));
+    return el("div", {}, delen);
+  }
+
   var SCHERMEN = {
-    profiel: schermProfiel, wensen: schermWensen, ligging: function () { return schermKeuzes("ligging"); }, grootte: function () { return schermKeuzes("grootte"); },
-    gewichten: schermGewichten, filters: schermFilters, gebied: schermGebied
+    profiel: schermProfiel, gebied: schermGebied, ligging: function () { return schermKeuzes("ligging"); },
+    grootte: function () { return schermKeuzes("grootte"); }, eigenschappen: schermEigenschappen, gewichten: schermGewichten
   };
 
   // ---------------------------------------------------------------- opbouw wizard
@@ -464,41 +311,40 @@
       SCHERMEN[sleutel]()]), nav];
   }
 
-  // ---------------------------------------------------------------- antwoorden naar de server
+  // ---------------------------------------------------------------- server
   function antwoorden(extra) {
-    var bu = S.budget;
-    return Object.assign({
-      lang: window.PV.lang, profiel: S.profiel || "gepensioneerde", verblijf: S.verblijf, expats: S.expats, klimaat: S.klimaat,
-      wensen: S.wensen,
-      gewichten: S.gewichten, ligging: S.ligging, grootte: S.grootte, filters: S.filters,
-      budget: bu.soort && bu.max > 0 && bu.m2 > 0 ? { soort: bu.soort, max: bu.max, m2: bu.m2 } : null,
-      alleen_regios: S.gebied === "regios" ? S.alleen_regios : [], alleen_provs: S.gebied === "provincies" ? S.alleen_provs : []
-    }, extra || {});
+    return Object.assign({ lang: window.PV.lang, profiel: S.profiel || "gepensioneerde", verblijf: S.verblijf, eigenschappen: S.eigenschappen,
+      ligging: S.ligging, grootte: S.grootte,
+      alleen_regios: S.gebied === "regios" ? S.alleen_regios : [], alleen_provs: S.gebied === "provincies" ? S.alleen_provs : [] }, extra || {});
   }
   function scoreVraag(extra) {
     return haal(window.PV.score, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(antwoorden(extra)) });
   }
 
-  // ---------------------------------------------------------------- uitslag
-  function critLabel(id) { var c = CRIT.filter(function (x) { return x.id === id; })[0]; return c ? c.label : id; }
-  function balk(score) {
-    return el("span", { class: "pv-balk", "aria-hidden": "true" }, [el("span", { style: "width:" + (score == null ? 0 : score) + "%" })]);
-  }
-  function woonlast(wl) {
+  // ---------------------------------------------------------------- ranglijst
+  function eigTabel(c) {                                  // uitklap: alle eigenschappen van één gemeente
     var U = T.uitslag;
-    if (!wl) return null;
-    if (wl.prijs == null) return el("p", { class: "pv-woonlast", text: U.woonlast_geen });
-    return el("p", { class: "pv-woonlast" }, [el("strong", { text: fmt(wl.soort === "huren" ? U.woonlast_huren : U.woonlast_kopen, { prijs: getal(wl.prijs, 0), m2: wl.m2 }) }),
-      " · " + (wl.onder_pct >= 5 ? fmt(U.woonlast_onder, { pct: wl.onder_pct }) : U.woonlast_rond)]);
+    return el("div", { class: "pv-tabelrol" }, [el("table", { class: "pv-eigtabel" }, [
+      el("thead", {}, [el("tr", {}, [el("th", { text: U.kol_eig }), el("th", { text: U.kol_waarde }), el("th", { text: U.kol_niveau }), el("th", { text: U.kol_score })])]),
+      el("tbody", {}, c.eigenschappen.map(function (x) {
+        var e = EIG[EIDX[x.id]], ok = x.gevraagd == null || x.behaald == null ? null : x.behaald >= x.gevraagd;
+        var niv = x.behaald == null ? LEEG : fmt(U.niveau_van, { b: x.behaald, n: e.niveaus.length })
+          + (x.gevraagd == null ? "" : ", " + fmt(ok ? U.niveau_ok : U.niveau_niet, { g: x.gevraagd }));
+        return el("tr", { class: "pv-eig-" + x.status + (ok === false ? " pv-niet" : "") }, [
+          el("th", { scope: "row" }, [e.label, el("br"), el("span", { class: "pv-noot", text: EC.statussen[x.status] })]),
+          el("td", { text: waardeE(e, x.waarde) }), el("td", { text: niv }),
+          el("td", { text: x.deel == null ? "" : String(x.deel) })]);
+      }))])]);
   }
   function plaatsKaart(c, rang) {
     var U = T.uitslag, gekozen = S.vergelijk.indexOf(c.istat) >= 0;
     var info = [c.prov, c.regio, c.inwoners != null ? fmt(U.inwoners, { n: getal(c.inwoners, 0) }) : null,
       c.hoogte_m != null ? fmt(U.hoogte, { n: getal(c.hoogte_m, 0) }) : null].filter(Boolean).join(" · ");
-    var deelLijst = function (titel, ids, cls) {
+    var punten = function (titel, ids, cls) {
       if (!ids.length) return null;
+      var d = {}; c.eigenschappen.forEach(function (x) { d[x.id] = x.deel; });
       return el("div", { class: "pv-punten " + cls }, [el("h4", { text: titel }), el("ul", {}, ids.map(function (id) {
-        return el("li", {}, [el("span", { text: critLabel(id) }), balk(c.deel[id]), el("span", { class: "pv-getal", text: String(c.deel[id]) })]);
+        return el("li", {}, [el("span", { text: eLabel(id) }), balk(d[id]), el("span", { class: "pv-getal", text: String(d[id]) })]);
       }))]);
     };
     return el("li", { class: "pv-plaats" }, [
@@ -507,21 +353,24 @@
         el("div", { class: "pv-plaats-naam" }, [el("h3", {}, [el("a", { href: "#/gemeente/" + c.istat, text: c.naam })]), el("p", { text: info }),
           c.trend ? el("span", { class: "pv-badge-trend", title: C.trends.uitleg, text: U.trend }) : null,
           c.buiten_gebied ? el("span", { class: "pv-badge-buiten", text: U.buiten_gebied }) : null]),
-        el("div", { class: "pv-score" }, [el("strong", { text: String(c.score) }), el("span", { text: "/100" })])]),
-      woonlast(c.woonlast),
+        el("div", { class: "pv-score" }, [el("strong", { text: c.score == null ? LEEG : String(c.score) }), el("span", { text: "/100" })])]),
       el("div", { class: "pv-tests" }, [
         el("span", { class: "pv-chip" }, [U.winter + " ", el("strong", { text: c.winter == null ? LEEG : String(c.winter) })]),
         el("span", { class: "pv-chip" + (c.tachtig != null && c.tachtig < C.aandachtspunten.tachtig_waarschuwing.drempel ? " laag" : "") },
           [U.tachtig + " ", el("strong", { text: c.tachtig == null ? LEEG : String(c.tachtig) })])]),
-      deelLijst(U.sterk, c.sterk, "sterk"), deelLijst(U.zwak, c.zwak, "zwak"),
-      c.geen_data.length ? el("p", { class: "pv-geen-data", text: fmt(U.geen_data, { lijst: c.geen_data.map(critLabel).join(", ") }) }) : null,
+      punten(U.sterk, c.sterk, "sterk"), punten(U.zwak, c.zwak, "zwak"),
+      el("details", { class: "pv-uitklap" }, [el("summary", { text: U.alle_eigenschappen }), eigTabel(c)]),
       el("div", { class: "pv-knoprij" }, [
         el("a", { class: "pv-knop pv-knop-klein", href: "#/gemeente/" + c.istat, text: T.knoppen.bekijk }),
-        vinkje(T.knoppen.vergelijk, gekozen, function (v) {
-          if (v && S.vergelijk.length >= MAX_VERGELIJK) { alert(U.vergelijk_max); teken(); return; }
-          toggle(S.vergelijk, c.istat); bewaar(); tekenVergelijkBalk();
-        })])
+        rang ? vinkjeVergelijk(c) : null])
     ]);
+    function vinkjeVergelijk(c) {
+      var id = "pv-vg-" + c.istat;
+      return el("div", { class: "pv-vinkje" }, [el("input", { type: "checkbox", id: id, checked: gekozen, onchange: function () {
+        if (this.checked && S.vergelijk.length >= MAX_VERGELIJK) { alert(U.vergelijk_max); this.checked = false; return; }
+        toggle(S.vergelijk, c.istat); bewaar(); tekenVergelijkBalk();
+      } }), el("label", { for: id, text: T.knoppen.vergelijk })]);
+    }
   }
   function tekenVergelijkBalk() {
     var oud = document.getElementById("pv-vergelijkbalk"); if (oud) oud.remove();
@@ -530,59 +379,42 @@
       el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.wis_vergelijk, onclick: function () { S.vergelijk = []; bewaar(); teken(); } }),
       el("a", { class: "pv-knop pv-knop-hoofd", href: "#/vergelijk", text: fmt(T.knoppen.vergelijk_n, { n: S.vergelijk.length }) })])]));
   }
-  // overzicht van de keuzes met "Wijzigen" per stap
   function overzicht() {
-    var O = T.overzicht, w = S.wensen, f = S.filters;
-    var opties = function (sl) { return S[sl].length ? S[sl].map(function (k) { return T.stappen[sl].opties[k][0]; }).join(", ") : O.alles; };
-    var eisen = Object.keys(f).filter(function (k) { return f[k] && !(k === "rode_zone_uit" && f[k] === true); }).length;
-    var gebied = S.gebied === "regios" && S.alleen_regios.length
-      ? fmt(O.alleen, { lijst: S.alleen_regios.map(function (r) { return T.regios[r]; }).join(", ") })
-      : S.gebied === "provincies" && S.alleen_provs.length
-        ? fmt(O.alleen, { lijst: S.alleen_provs.map(function (p) { var q = (LITE ? LITE.provincies : []).filter(function (x) { return x[0] === p; })[0]; return q ? q[1] : p; }).join(", ") })
-        : O.overal;
-    var p = S.profiel && profiel(S.profiel);
-    var rijen = [
-      ["profiel", p ? p.label : O.geen], ["gebied", gebied],
-      ["wensen", fmt(O.wensen, { d: w.dealbreakers.length, m: w.must.length, n: w.nice.length })],
-      ["ligging", opties("ligging")], ["grootte", opties("grootte")],
-      ["gewichten", CRIT.slice().sort(function (a, b) { return (S.gewichten[b.id] || 0) - (S.gewichten[a.id] || 0); }).slice(0, 3)
-        .map(function (c) { return c.label + " " + (S.gewichten[c.id] || 0); }).join(", ")],
-      ["filters", eisen === 0 ? O.filters_geen : eisen === 1 ? O.filters_een : fmt(O.filters, { n: eisen })]];
+    var O = T.overzicht, p = S.profiel && profiel(S.profiel), tel = { noodzakelijk: 0, meewegen: 0, onbelangrijk: 0 };
+    EIG.forEach(function (e) { tel[S.eigenschappen[e.id].status]++; });
+    var opties = function (sl) { return S[sl].length ? S[sl].map(function (x) { return T.stappen[sl].opties[x][0]; }).join(", ") : O.alles; };
+    var gebied = S.gebied === "regios" && S.alleen_regios.length ? S.alleen_regios.map(function (r) { return T.regios[r]; }).join(", ")
+      : S.gebied === "provincies" && S.alleen_provs.length ? S.alleen_provs.join(", ") : O.overal;
+    var rijen = [["profiel", p ? p.label : O.geen], ["gebied", gebied], ["ligging", opties("ligging")], ["grootte", opties("grootte")],
+      ["eigenschappen", fmt(T.stappen.eigenschappen.telling, tel)],
+      ["gewichten", EIG.filter(function (e) { return S.eigenschappen[e.id].status === "meewegen"; })
+        .sort(function (a, b) { return S.eigenschappen[b.id].gewicht - S.eigenschappen[a.id].gewicht; }).slice(0, 3)
+        .map(function (e) { return e.label + " " + S.eigenschappen[e.id].gewicht; }).join(", ") || O.geen]];
     return el("details", { class: "pv-overzicht" }, [el("summary", { text: O.titel }), el("ul", {}, rijen.map(function (r) {
       return el("li", {}, [el("span", {}, [el("strong", { text: T.stappen[r[0]].titel }), el("br"), r[1]]),
         el("button", { type: "button", class: "pv-link", text: T.knoppen.wijzigen, onclick: function () { NAAR_UITSLAG = true; S.stap = STAPPEN.indexOf(r[0]); teken(); } })]);
     }))]);
   }
-  // 14f: te weinig plaatsen; per eis hoeveel gemeenten die wegstreept, met omzetten of verwijderen
-  function weinigBlok(res) {
+  function weinigBlok(res) {                              // te weinig plaatsen: wat elke noodzakelijke eigenschap wegstreept
     var U = T.uitslag;
     return el("section", { class: "pv-blok pv-weinig" }, [el("h3", { text: fmt(U.weinig_titel, { n: res.aantal }) }),
       el("p", { class: "pv-uitleg", text: U.weinig_uitleg }),
       el("ul", { class: "pv-weinig-lijst" }, res.wegstrepen.map(function (x) {
-        var weg = function (naarNice) {
-          var w = S.wensen;
-          w.dealbreakers = w.dealbreakers.filter(function (y) { return y !== x.id; });
-          w.must = w.must.filter(function (y) { return y !== x.id; });
-          if (naarNice && w.nice.indexOf(x.id) < 0 && w.nice.length < WL.aantal) w.nice.push(x.id);
-          S.gewichten = startgewichten(S.profiel || "gepensioneerde", S.verblijf);
-          teken();
-        };
-        return el("li", {}, [el("span", {}, [el("strong", { text: x.label }), " " + fmt(U.weinig_extra, { n: getal(x.weg, 0), van: getal(x.van, 0) })]),
+        var k = S.eigenschappen[x.id], e = EIG[EIDX[x.id]];
+        return el("li", {}, [el("span", {}, [el("strong", { text: e.label }), " (" + e.niveaus[k.niveau].label + ") " + fmt(U.weinig_extra, { n: getal(x.weg, 0), van: getal(x.van, 0) })]),
           el("span", { class: "pv-knoprij" }, [
-            x.lijst === "musthave" && S.wensen.nice.length < WL.aantal ? el("button", { type: "button", class: "pv-link", text: U.naar_nice, onclick: function () { weg(true); } }) : null,
-            el("button", { type: "button", class: "pv-link", text: U.verwijder, onclick: function () { weg(false); } })])]);
+            k.niveau > 0 ? el("button", { type: "button", class: "pv-link", text: U.soepeler, onclick: function () { k.niveau--; teken(); } }) : null,
+            el("button", { type: "button", class: "pv-link", text: U.naar_mee, onclick: function () { k.status = "meewegen"; teken(); } })])]);
       }))]);
   }
-  // deelbare link (13): alle keuzes in de URL
   function deelLink() {
-    var k = { p: S.profiel, v: S.verblijf, e: S.expats, k: S.klimaat, g: S.gewichten, w: S.wensen, l: S.ligging, gr: S.grootte,
-              f: S.filters, b: S.budget, z: S.gebied, r: S.alleen_regios, pr: S.alleen_provs };
+    var k = { p: S.profiel, v: S.verblijf, e: S.eigenschappen, l: S.ligging, g: S.grootte, z: S.gebied, r: S.alleen_regios, pr: S.alleen_provs };
     var t = btoa(unescape(encodeURIComponent(JSON.stringify(k)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
     return location.origin + location.pathname + "?keuzes=" + t;
   }
   function deelBlok() {
     var U = T.uitslag, link = deelLink();
-    var inp = el("input", { type: "text", readonly: true, value: link, id: "pv-deellink", "aria-label": U.deel_label });
+    var inp = el("input", { type: "text", readonly: true, value: link, id: "pv-deellink" });
     return el("div", { class: "pv-deel" }, [el("label", { for: "pv-deellink", text: U.deel_label }), el("div", { class: "pv-deel-rij" }, [inp,
       el("button", { type: "button", class: "pv-knop pv-knop-klein", text: U.kopieer, onclick: function () {
         var knop = this;
@@ -600,11 +432,10 @@
       sectie.innerHTML = "";
       sectie.appendChild(el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }));
       sectie.appendChild(el("p", { class: "pv-uitleg", text: res.aantal ? fmt(U.aantal, { n: getal(res.aantal, 0) }) + " " + U.uitleg : U.leeg }));
-      var we = res.wensen || { dealbreakers: [], must: [] }, eisen = we.dealbreakers.concat(we.must);
-      if (eisen.length) sectie.appendChild(el("p", { class: "pv-noot", text: fmt(U.wensen_eisen, { lijst: eisen.map(function (id) { return WITEMS[id].label; }).join(", ") }) }));
+      sectie.appendChild(el("details", { class: "pv-berekening" }, [el("summary", { text: U.berekening_titel }), el("p", { class: "pv-noot", text: U.berekening })]));
       if (res.wegstrepen && res.wegstrepen.length) sectie.appendChild(weinigBlok(res));
-      sectie.appendChild(deelBlok());
       sectie.appendChild(overzicht());
+      sectie.appendChild(deelBlok());
       sectie.appendChild(el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); })));
       sectie.appendChild(el("div", { class: "pv-knoprij" }, [
         el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.aanpassen, onclick: function () { S.stap = STAPPEN.length - 1; teken(); } }),
@@ -629,54 +460,36 @@
   function waardeTekst(kolom, v) {
     var G = T.gemeente;
     if (v == null) return G.geen_data;
-    if (kolom === "regime7") return v ? G.waarde_ja : G.waarde_nee;
     if (typeof v === "boolean") return v ? G.waarde_ja : G.waarde_nee;
-    var tpl = T.waarden[kolom] || "{v}";
-    return fmt(tpl, { v: typeof v === "number" ? getal(v, kolom.indexOf("pct") >= 0 || kolom === "bedden_per_inw" ? 2 : 1) : v });
+    return fmt(T.waarden[kolom] || "{v}", { v: typeof v === "number" ? getal(v, kolom.indexOf("pct") >= 0 ? 2 : 1) : v });
   }
   function waardeRij(label, kolom, g) {
-    return el("li", { class: "pv-waarde" }, [el("span", { class: "pv-waarde-label", text: label }),
-      el("strong", { text: waardeTekst(kolom, g.w[kolom]) }), bronRegel(kolom, g)]);
-  }
-  function totaalJS(s) {
-    var sw = 0, sg = 0;
-    Object.keys(S.gewichten).forEach(function (k) {
-      var w = S.gewichten[k] || 0, v = k === "klimaat" && S.klimaat === "seizoenen" && s.klimaat_seizoenen !== undefined ? s.klimaat_seizoenen : s[k];
-      if (k === "expats") { if (S.expats === "maakt_niet_uit") w = 0; else if (S.expats === "weinig" && v != null) v = 100 - v; }
-      if (w > 0 && v != null) { sw += w * v; sg += w; }
-    });
-    return sg ? Math.round(sw / sg) : null;
+    return el("li", { class: "pv-waarde" }, [el("span", { class: "pv-waarde-label", text: label }), el("strong", { text: waardeTekst(kolom, g.w[kolom]) }), bronRegel(kolom, g)]);
   }
   function testKaart(titel, uitleg, score, delen, labels, waarschuwing) {
     return el("section", { class: "pv-testkaart" }, [el("h3", { text: titel }), el("p", { class: "pv-uitleg", text: uitleg }),
       el("p", { class: "pv-testscore" }, [el("strong", { text: score == null ? LEEG : String(score) }), " / 100"]),
       waarschuwing || null,
-      el("ul", { class: "pv-delen" }, Object.keys(labels).map(function (k) {
-        return el("li", {}, [el("span", { text: labels[k] }), balk(delen[k]), el("span", { class: "pv-getal", text: delen[k] == null ? T.gemeente.geen_data : String(delen[k]) })]);
+      el("ul", { class: "pv-delen" }, Object.keys(labels).map(function (x) {
+        return el("li", {}, [el("span", { text: labels[x] }), balk(delen[x]), el("span", { class: "pv-getal", text: delen[x] == null ? T.gemeente.geen_data : String(delen[x]) })]);
       }))]);
   }
-  // extra regels onder een criterium: gidsprijs bij prijs, stationsnamen bij bereikbaarheid
-  function extraBijCriterium(id, g) {
+  function extraRegels(g) {                               // gidsprijs, vluchten, stations, klimaatschatting
     var G = T.gemeente, w = g.w, regels = [];
-    if (id === "prijs") {
-      var gp = (C.gids_prijzen || {}).regios || {}, v = gp[g.regio];
-      if (v != null) regels.push(fmt(G.gidsprijs, { v: getal(v, 0), regio: g.regio, toelichting: ((C.gids_prijzen.toelichting || {})[g.regio]) || C.gids_prijzen.peildatum }));
+    var gp = (C.gids_prijzen || {}).regios || {}, v = gp[g.regio];
+    if (v != null) regels.push(fmt(G.gidsprijs, { v: getal(v, 0), regio: g.regio, toelichting: ((C.gids_prijzen.toelichting || {})[g.regio]) || C.gids_prijzen.peildatum }));
+    var lv = C.luchthavens, m = String(w.luchthaven_jaarrond_naam || "").match(/\(([A-Z]{3})\)$/), vb = m && lv && lv.verbindingen && lv.verbindingen[m[1]];
+    if (vb) {
+      var lijst = [];
+      if (vb.nl.length) lijst.push(fmt(G.vluchten_nl, { l: vb.nl.join(", ") }));
+      if (vb.be.length) lijst.push(fmt(G.vluchten_be, { l: vb.be.join(", ") }));
+      regels.push(fmt(G.vluchten, { lh: w.luchthaven_jaarrond_naam.replace(/ \([A-Z]{3}\)$/, ""), lijst: lijst.join("; ") }));
     }
-    if (id === "klimaat" && w.klimaat_geschat) regels.push(G.klimaat_geschat);
-    if (id === "bereikbaarheid") {
-      var lv = C.luchthavens, m = String(w.luchthaven_jaarrond_naam || "").match(/\(([A-Z]{3})\)$/), vb = m && lv && lv.verbindingen && lv.verbindingen[m[1]];
-      if (vb) {
-        var lijst = [];
-        if (vb.nl.length) lijst.push(fmt(G.vluchten_nl, { l: vb.nl.join(", ") }));
-        if (vb.be.length) lijst.push(fmt(G.vluchten_be, { l: vb.be.join(", ") }));
-        regels.push(fmt(G.vluchten, { lh: w.luchthaven_jaarrond_naam.replace(/ \([A-Z]{3}\)$/, ""), lijst: lijst.join("; ") }));
-      }
-      if (w.station_hs_naam) regels.push(fmt(G.station_hs, { naam: w.station_hs_naam }));
-      if (w.station_nacht_naam) regels.push(fmt(G.station_nacht, { naam: w.station_nacht_naam }));
-    }
-    return regels.length ? el("p", { class: "pv-noot" }, regels.map(function (r, i) { return i ? [el("br"), r] : [r]; }).reduce(function (a, b) { return a.concat(b); }, [])) : null;
+    if (w.station_hs_naam) regels.push(fmt(G.station_hs, { naam: w.station_hs_naam }));
+    if (w.station_nacht_naam) regels.push(fmt(G.station_nacht, { naam: w.station_nacht_naam }));
+    if (w.klimaat_geschat) regels.push(G.klimaat_geschat);
+    return regels.length ? el("ul", { class: "pv-noot pv-extra" }, regels.map(function (r) { return el("li", { text: r }); })) : null;
   }
-  // blok "Meer hierover in de gids": met url een link, anders de verwijzing als tekst
   function gidsBlok() {
     var G = T.gemeente, gl = C.gids_links || { verwijzingen: [] };
     if (!gl.verwijzingen.length) return null;
@@ -687,48 +500,43 @@
       }))]);
   }
   function gemeentePagina(istat) {
-    var G = T.gemeente;
+    var G = T.gemeente, U = T.uitslag;
     app.innerHTML = "";
     app.appendChild(kop());
-    var sectie = el("section", { class: "pv-gemeente" }, [el("p", { text: T.uitslag.bezig })]);
+    var sectie = el("section", { class: "pv-gemeente" }, [el("p", { text: U.bezig })]);
     app.appendChild(sectie);
     window.scrollTo(0, 0);
     Promise.all([haal(window.PV.gemeente + "?istat=" + encodeURIComponent(istat)), scoreVraag({ alternatieven_voor: istat, n: 1 }).catch(function () { return {}; })])
       .then(function (res) {
-        var g = res[0], alt = res[1].alternatieven || [], w = g.w, U = T.uitslag;
+        var g = res[0], r = res[1], s = (r.gemeenten || {})[istat], alt = r.alternatieven || [], w = g.w;
         sectie.innerHTML = "";
-        var tot = totaalJS(g.s);
         sectie.appendChild(el("a", { href: "#", class: "pv-link", text: "← " + T.knoppen.terug_lijst, onclick: function (e) { e.preventDefault(); history.back(); } }));
         sectie.appendChild(el("div", { class: "pv-plaats-kop" }, [
           el("div", { class: "pv-plaats-naam" }, [el("h2", { text: g.naam, tabindex: "-1", id: "pv-titel" }),
             el("p", { text: [g.prov, g.provincie, g.regio, fmt(U.inwoners, { n: getal(g.inwoners, 0) }), g.hoogte_m != null ? fmt(U.hoogte, { n: g.hoogte_m }) : null].filter(Boolean).join(" · ") }),
             g.trend ? el("p", {}, [el("span", { class: "pv-badge-trend", text: C.trends.label }), " " + C.trends.uitleg]) : null]),
-          el("div", { class: "pv-score", title: G.totaal }, [el("strong", { text: tot == null ? LEEG : String(tot) }), el("span", { text: "/100" })])]));
-
+          el("div", { class: "pv-score", title: G.totaal }, [el("strong", { text: !s || s.score == null ? LEEG : String(s.score) }), el("span", { text: "/100" })])]));
+        if (s && !s.voldoet) sectie.appendChild(el("p", { class: "pv-let-op", text: G.voldoet_niet }));
         if (g.hoogte_m != null) sectie.appendChild(el("p", { class: "pv-noot", text: fmt(G.hoogte_uitleg, { n: getal(g.hoogte_m, 0) }) }));
         if (w.sciolto_mafia_jaar) {
           var sm = C.sciolti_mafia, smg = sm.gemeenten.filter(function (x) { return x.istat === g.istat; })[0] || {};
           sectie.appendChild(el("section", { class: "pv-blok pv-label-maffia" }, [el("h3", { text: G.maffia_titel }),
             el("p", {}, [el("strong", { text: fmt(G.maffia, { jaar: w.sciolto_mafia_jaar, org: smg.organisatie || "", keer: smg.keer > 1 ? fmt(G.maffia_keer, { n: smg.keer }) : "" }) }), " " + sm.tekst]),
-            smg.bron ? el("p", { class: "pv-noot", text: fmt(G.maffia_bron, { bron: smg.bron }) }) : null,
-            sm.url && !smg.bron ? el("a", { href: sm.url, target: "_blank", rel: "noopener", text: G.maffia_link }) : null]));
+            smg.bron ? el("p", { class: "pv-noot", text: fmt(G.maffia_bron, { bron: smg.bron }) }) : null]));
         }
-
-        // deelscores met indicatoren en bronnen
-        sectie.appendChild(el("h3", { class: "pv-sub-kop", text: G.deelscores }));
-        sectie.appendChild(el("ul", { class: "pv-criteria" }, CRIT.map(function (c) {
-          var s = c.id === "klimaat" && S.klimaat === "seizoenen" && g.s.klimaat_seizoenen !== undefined ? g.s.klimaat_seizoenen : g.s[c.id], gw = S.gewichten[c.id] || 0;
-          return el("li", { class: "pv-criterium" + (s == null ? " leeg" : "") }, [
-            el("div", { class: "pv-criterium-kop" }, [el("strong", { text: c.label }), balk(s),
-              el("span", { class: "pv-getal", text: s == null ? G.geen_data : String(s) })]),
-            el("p", { class: "pv-noot" }, [fmt(G.gewicht, { n: gw }) + " · ", basisLabel(c)]),
-            c.indicatoren.length ? el("ul", { class: "pv-waarden" }, c.indicatoren.map(function (i) { return waardeRij(i.label, i.kolom, g); })) : null,
-            extraBijCriterium(c.id, g)]);
-        })));
-
+        // alle eigenschappen met waarde, niveau en bron
+        if (s) {
+          sectie.appendChild(el("h3", { class: "pv-sub-kop", text: G.eigenschappen_titel }));
+          sectie.appendChild(eigTabel(s));
+          sectie.appendChild(el("p", { class: "pv-noot", text: G.bronnen_eig }));
+          sectie.appendChild(el("ul", { class: "pv-waarden pv-bronnenlijst" }, EIG.map(function (e) {
+            return el("li", { class: "pv-waarde" }, [el("span", { class: "pv-waarde-label", text: e.label }), bronRegel(e.kolom, g)]);
+          })));
+        }
+        sectie.appendChild(extraRegels(g));
         // risicoblok (altijd)
         var zone = w.seismische_zone;
-        var vulk = !w.vulkaan_deel ? G.vulkaan_geen : fmt(w.vulkaan_deel === "geheel" ? G.vulkaan_geheel : G.vulkaan_deels, { v: w.vulkaan });
+        var vulk = !w.vulkaan_deel ? (w.vulkaan_zone === "geel" ? G.vulkaan_geel : G.vulkaan_geen) : fmt(w.vulkaan_deel === "geheel" ? G.vulkaan_geheel : G.vulkaan_deels, { v: w.vulkaan });
         sectie.appendChild(el("section", { class: "pv-risico" }, [el("h3", { text: G.risico_titel }), el("p", { class: "pv-uitleg", text: G.risico_uitleg }),
           el("ul", { class: "pv-waarden" }, [
             el("li", { class: "pv-waarde" }, [el("span", { class: "pv-waarde-label", text: G.seismisch }),
@@ -736,35 +544,24 @@
             waardeRij(G.frane, "frane_pop_pct", g), waardeRij(G.alluvioni, "alluvioni_pop_pct", g), waardeRij(G.bosbrand, "bosbrand_pct", g),
             el("li", { class: "pv-waarde" }, [el("span", { class: "pv-waarde-label", text: G.vulkaan }), el("strong", { text: vulk }), bronRegel("vulkaan", g)])]),
           el("a", { href: "https://idrogeo.isprambiente.it/app/iffi?@=" + g.lat + "," + g.lon + ",14", target: "_blank", rel: "noopener", text: G.idrogeo_link })]));
-
-        // tests
         var tw = C.aandachtspunten.tachtig_waarschuwing;
         sectie.appendChild(el("div", { class: "pv-tests-groot" }, [
           testKaart(G.winter_titel, G.winter_uitleg, g.t.winter, g.t.winter_delen, G.winter_delen),
           testKaart(G.tachtig_titel, G.tachtig_uitleg, g.t.tachtig, g.t.tachtig_delen, G.tachtig_delen,
             g.t.tachtig != null && g.t.tachtig < tw.drempel ? el("p", { class: "pv-let-op" }, [el("strong", { text: tw.tekst }), " " + tw.onderbouwing]) : null)]));
-
-        // 7%-regime
         var r7 = w.regime7_status || "nee", rg = C.regime7;
         var r7delen = [el("h3", { text: G.regime7_titel }), el("p", {}, [el("strong", { text: G.regime7[r7] }), w.regime7_reden && r7 !== "te_verifieren" ? " (" + w.regime7_reden + ")" : ""])];
         if (r7 === "ja" && w.lea != null && w.lea < rg.waarschuwing_lea.drempel) r7delen.push(el("p", { class: "pv-let-op", text: rg.waarschuwing_lea.tekst }));
         r7delen.push(el("p", { class: "pv-noot", text: rg.disclaimer }), bronRegel("regime7_status", g));
         sectie.appendChild(el("section", { class: "pv-blok" }, r7delen));
-
-        // herverkoop
         var nt = w.ntn_per_100, hw = C.aandachtspunten.herverkoop_waarschuwing;
         sectie.appendChild(el("section", { class: "pv-blok" }, [el("h3", { text: G.herverkoop_titel }),
           el("p", { text: nt == null ? G.herverkoop_geen : fmt(G.herverkoop, { n: getal(nt, 1) }) }),
           nt != null && nt < hw.drempel ? el("p", { class: "pv-let-op", text: hw.tekst }) : null]));
-
-        // checklist
         sectie.appendChild(el("section", { class: "pv-blok" }, [el("h3", { text: G.checklist_titel }),
           el("ul", { class: "pv-checklist" }, C.aandachtspunten.checklist.map(function (p) { return el("li", { text: p }); })),
           el("p", { class: "pv-noot", text: fmt(G.niet_in_score, { lijst: C.aandachtspunten.niet_in_score.join(", ").toLowerCase() }) })]));
-
         sectie.appendChild(gidsBlok());
-
-        // alternatieven
         if (alt.length) {
           sectie.appendChild(el("section", {}, [el("h3", { class: "pv-sub-kop", text: G.alternatieven_titel }), el("p", { class: "pv-uitleg", text: G.alternatieven_uitleg }),
             el("ol", { class: "pv-lijst" }, alt.map(function (c) { return plaatsKaart(c, null); }))]));
@@ -782,17 +579,19 @@
     var sectie = el("section", { class: "pv-vergelijk" }, [el("h2", { text: V.titel, tabindex: "-1", id: "pv-titel" })]);
     app.appendChild(sectie);
     if (!S.vergelijk.length) { sectie.appendChild(el("p", { text: V.leeg })); return; }
-    Promise.all(S.vergelijk.map(function (id) { return haal(window.PV.gemeente + "?istat=" + id); })).then(function (gs) {
+    scoreVraag({ gemeenten: S.vergelijk, n: 1 }).then(function (r) {
+      var gs = S.vergelijk.map(function (id) { return (r.gemeenten || {})[id]; }).filter(Boolean);
       var rij = function (label, cellen, cls) { return el("tr", { class: cls || "" }, [el("th", { scope: "row", text: label })].concat(cellen.map(function (c) { return el("td", {}, [c]); }))); };
       var kop2 = el("tr", {}, [el("th", { text: V.criterium })].concat(gs.map(function (g) { return el("th", { scope: "col" }, [el("a", { href: "#/gemeente/" + g.istat, text: g.naam }), el("br"), g.prov]); })));
-      var rijen = [rij(G.totaal, gs.map(function (g) { var t = totaalJS(g.s); return el("strong", { text: t == null ? LEEG : String(t) }); }), "pv-totaalrij")];
-      CRIT.forEach(function (c) { rijen.push(rij(c.label, gs.map(function (g) { return g.s[c.id] == null ? G.geen_data : String(g.s[c.id]); }))); });
-      rijen.push(rij(T.uitslag.winter, gs.map(function (g) { return g.t.winter == null ? LEEG : String(g.t.winter); })));
-      rijen.push(rij(T.uitslag.tachtig, gs.map(function (g) { return g.t.tachtig == null ? LEEG : String(g.t.tachtig); })));
-      [["koop_m2", "Koopprijs"], ["min_ziekenhuis", G.tachtig_delen.ziekenhuis], ["min_luchthaven_jaarrond", "Luchthaven (hele jaar)"],
-       ["uur_naar_huis", "Naar huis"], ["seismische_zone", G.seismisch]].forEach(function (x) {
-        rijen.push(rij(x[1], gs.map(function (g) { return waardeTekst(x[0], g.w[x[0]]); })));
+      var rijen = [rij(G.totaal, gs.map(function (g) { return el("strong", { text: g.score == null ? LEEG : String(g.score) }); }), "pv-totaalrij")];
+      EIG.forEach(function (e, j) {
+        rijen.push(rij(e.label, gs.map(function (g) {
+          var x = g.eigenschappen[j], ok = x.gevraagd == null || x.behaald == null ? "" : x.behaald >= x.gevraagd ? " ✓" : " ✗";
+          return waardeE(e, x.waarde) + ok;
+        })));
       });
+      rijen.push(rij(T.uitslag.winter, gs.map(function (g) { return g.winter == null ? LEEG : String(g.winter); })));
+      rijen.push(rij(T.uitslag.tachtig, gs.map(function (g) { return g.tachtig == null ? LEEG : String(g.tachtig); })));
       sectie.appendChild(el("div", { class: "pv-tabelrol" }, [el("table", { class: "pv-tabel" }, [el("thead", {}, [kop2]), el("tbody", {}, rijen)])]));
       sectie.appendChild(el("button", { type: "button", class: "pv-knop pv-knop-terug", text: T.knoppen.terug_lijst, onclick: function () { history.back(); } }));
       sectie.appendChild(voet());
@@ -809,12 +608,16 @@
     if (S.stap >= STAPPEN.length && !HERVAT) return uitslag();
     var actief = document.activeElement && document.activeElement.id;
     var inhoud = HERVAT ? hervatScherm() : S.stap < 0 ? intro() : stapScherm();
+    var y = window.scrollY;
     app.innerHTML = "";
     inhoud.forEach(function (n) { app.appendChild(n); });
     if (S.stap !== vorigeStap) {
       vorigeStap = S.stap; window.scrollTo(0, 0);
       var t = document.getElementById("pv-titel"); if (t) t.focus({ preventScroll: true });
-    } else if (actief && document.getElementById(actief)) document.getElementById(actief).focus();
+    } else {
+      window.scrollTo(0, y);
+      if (actief && document.getElementById(actief)) document.getElementById(actief).focus({ preventScroll: true });
+    }
   }
   window.addEventListener("hashchange", function () { vorigeStap = null; teken(); });
 

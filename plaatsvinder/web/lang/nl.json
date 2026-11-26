@@ -42,7 +42,8 @@
         "gezin": "Voorzieningen, scholen, internet en levendigheid wegen zwaar.",
         "remote_worker": "Snel internet en bereikbaarheid wegen zwaar.",
         "investeerder": "Toerisme, herverkoopbaarheid en prijs wegen zwaar."
-      }
+      },
+      "startkeuzes": "Uw profiel bepaalt de startkeuzes bij de eigenschappen (stap 5). Die kunt u daar allemaal aanpassen."
     },
     "gebied": {
       "titel": "Waar wilt u zoeken?",
@@ -58,22 +59,6 @@
       "zoek": "Zoek een provincie of regio",
       "zoek_plaats": "bijvoorbeeld Pavia",
       "niets_gevonden": "Geen provincie gevonden."
-    },
-    "wensen": {
-      "titel": "Uw wensenlijst",
-      "uitleg": "Kies zoveel dealbreakers als u wilt, en maximaal drie must-haves en drie nice-to-haves, zoals in paragraaf 1.3 van de gids. Elk punt kan maar op één lijst staan. U mag deze stap ook overslaan.",
-      "dealbreakers": "Dealbreakers",
-      "dealbreakers_uitleg": "Iets wat u niet wilt. Heeft een gemeente het, dan valt zij af.",
-      "must": "Must-haves",
-      "must_uitleg": "Iets wat er moet zijn. Ontbreekt het, dan valt de gemeente af.",
-      "nice": "Nice-to-haves",
-      "nice_uitleg": "Iets wat er mag zijn. Het telt 1,2 keer zo zwaar en sluit niets uit.",
-      "gekozen": "{n} van {max} gekozen.",
-      "valt_af": "Valt af als: {d}.",
-      "info": "Uitleg bij {item}",
-      "elders": "Staat al op een andere lijst. Kiest u het hier, dan verhuist het.",
-      "gepland": "Volgt later: {lijst}.",
-      "gekozen_vrij": "{n} gekozen."
     },
     "ligging": {
       "titel": "Waar wilt u wonen?",
@@ -127,39 +112,23 @@
         ]
       }
     },
-    "gewichten": {
+    "eigenschappen": {
       "titel": "Wat vindt u belangrijk?",
-      "uitleg": "De gewichten tellen samen op tot 100. Schuift u er één omhoog, dan zakken de andere naar verhouding.",
-      "expertoordeel": "Startwaarden op basis van expertoordeel.",
-      "geen_data": "nog geen data",
-      "geen_data_uitleg": "Voor dit criterium is nog geen open bron beschikbaar; het telt niet mee.",
-      "som": "Totaal: {n}",
-      "expats_titel": "Andere Nederlanders, Belgen, Duitsers en Britten in de buurt?",
-      "klimaat_vraag": "Wat voor winter wilt u?"
+      "uitleg": "Kies per eigenschap: noodzakelijk (een gemeente die het gekozen niveau niet haalt, valt af), meewegen (telt mee in de score) of onbelangrijk (telt niet mee). Kies daarna het niveau. De i-knop geeft uitleg.",
+      "info": "Uitleg bij {item}",
+      "niveau_nood": "Minimaal niveau (anders valt de gemeente af)",
+      "niveau_mee": "Gewenst niveau",
+      "haalt_nood": "{n} van de {totaal} gemeenten halen dit niveau.",
+      "haalt_mee": "{n} van de {totaal} gemeenten halen dit niveau; de andere scoren lager op deze eigenschap.",
+      "telling": "{noodzakelijk} noodzakelijk, {meewegen} meewegen, {onbelangrijk} onbelangrijk."
     },
-    "filters": {
-      "titel": "Overige eisen",
-      "uitleg": "Eisen die niet in de wensenlijst staan. Een gemeente die hier niet aan voldoet, valt af. Alles is optioneel.",
-      "max_prijs": "Maximale prijs per m² (koop, OMI)",
-      "max_uur": "Maximale rijtijd naar huis",
-      "stad": "Naar",
-      "uren": "{n} uur",
-      "geen_limiet": "Geen eis",
-      "euro": "€ {n}",
-      "budget_titel": "Budget (optioneel)",
-      "soort": "Ik wil",
-      "huren": "huren",
-      "kopen": "kopen",
-      "geen": "geen budget opgeven",
-      "max_koop": "Maximale koopprijs (€)",
-      "max_huur": "Maximale huur per maand (€)",
-      "m2": "Woninggrootte (m²)",
-      "wensen_actief": "Risico's, luchthaven, zorg, internet en het 7%-regime kiest u in de wensenlijst (stap 3). Hier staan alleen de eisen die daar niet in zitten.",
-      "std_ziekenhuis": "Spoedeisende hulp binnen {n} minuten (standaard voor uw profiel)",
-      "std_glasvezel": "Minimaal {n}% van de huishoudens met glasvezel (standaard voor uw profiel)",
-      "max_uur_noot": "Rijtijd met de auto naar één stad naar keuze. De must-have \"Met de auto vanuit Nederland of België binnen een dag\" kijkt alleen naar Utrecht en Brussel.",
-      "rode_zone_vast": "Gemeenten in de rode zone van de Vesuvius of de Campi Flegrei vallen altijd af. Met de dealbreaker \"Vulkaangebied\" valt ook de gele zone af.",
-      "hoe_lang": "Hoe lang maximaal"
+    "gewichten": {
+      "titel": "Hoe zwaar wegen ze?",
+      "uitleg": "Geef de eigenschappen die meewegen een gewicht van 1 (licht) tot 9 (zwaar). Noodzakelijke eigenschappen tellen altijd maximaal mee, onbelangrijke niet.",
+      "vast_nood": "Noodzakelijk, gewicht {n}:",
+      "vast_onb": "Onbelangrijk, gewicht {n}:",
+      "geen_meewegen": "Er zijn geen eigenschappen die meewegen. Kies in stap 5 bij een of meer eigenschappen voor meewegen.",
+      "niveau": "Gewenst niveau: {n}."
     }
   },
   "steden": {
@@ -197,7 +166,7 @@
   },
   "uitslag": {
     "titel": "Uw top 25",
-    "uitleg": "Score van 0 tot 100: hoe de gemeente scoort op wat u belangrijk vindt, vergeleken met alle gemeenten in Italië.",
+    "uitleg": "De score (0 tot 100) laat zien hoe goed de gemeente past bij uw eigenschappen en gewichten, vergeleken met heel Italië.",
     "aantal": "{n} gemeenten voldoen aan uw eisen.",
     "leeg": "Geen gemeenten gevonden. Maak een eis ruimer.",
     "bezig": "Bezig met rekenen…",
@@ -212,21 +181,25 @@
     "tachtig": "80-jarentest",
     "trend": "In opkomst bij buitenlanders",
     "vergelijk_max": "U kunt maximaal 3 gemeenten vergelijken.",
-    "woonlast_kopen": "Geschatte koopprijs € {prijs} voor {m2} m²",
-    "woonlast_huren": "Geschatte huur € {prijs} per maand voor {m2} m²",
-    "woonlast_onder": "{pct}% onder uw budget",
-    "woonlast_rond": "rond uw budget",
-    "woonlast_geen": "Geen prijsgegevens",
-    "wensen_eisen": "Uit uw wensenlijst: {lijst}.",
     "weinig_titel": "Er blijven maar {n} plaatsen over",
-    "weinig_uitleg": "Dit zijn uw eisen uit de wensenlijst, met hoeveel gemeenten elke eis op zichzelf wegstreept. De strengste staat bovenaan. Laat een eis vallen of maak er een nice-to-have van.",
+    "weinig_uitleg": "Dit zijn uw noodzakelijke eigenschappen, met hoeveel gemeenten elke eis op zichzelf wegstreept. De strengste staat bovenaan.",
     "weinig_extra": "streept {n} van de {van} gemeenten weg",
-    "naar_nice": "Maak er een nice-to-have van",
-    "verwijder": "Verwijderen",
     "deel_label": "Deel uw keuzes met deze link",
     "kopieer": "Kopieer",
     "gekopieerd": "Gekopieerd",
-    "buiten_gebied": "buiten uw zoekgebied"
+    "buiten_gebied": "buiten uw zoekgebied",
+    "berekening_titel": "Hoe wordt de score berekend?",
+    "berekening": "Per eigenschap: haalt de gemeente uw niveau, dan telt 85 van de 100 punten volledig; haalt ze een lager niveau, dan naar verhouding minder. De overige 15 punten hangen af van de plaats van de gemeente op die eigenschap binnen heel Italië. De totaalscore is het gewogen gemiddelde: noodzakelijk telt 10 keer, meewegen 1 tot 9 keer, onbelangrijk niet. Ontbreekt een gegeven, dan telt die eigenschap niet mee. Een gemeente die een noodzakelijk niveau niet haalt, staat niet in de lijst.",
+    "alle_eigenschappen": "Alle eigenschappen",
+    "kol_eig": "Eigenschap",
+    "kol_waarde": "Waarde",
+    "kol_niveau": "Niveau",
+    "kol_score": "Score",
+    "niveau_van": "niveau {b} van {n}",
+    "niveau_ok": "gevraagd {g}: gehaald",
+    "niveau_niet": "gevraagd {g}: niet gehaald",
+    "soepeler": "Eén niveau soepeler",
+    "naar_mee": "Laat meewegen in plaats van noodzakelijk"
   },
   "gemeente": {
     "deelscores": "Score per criterium",
@@ -306,7 +279,11 @@
     "gids_uitleg": "Uit de gids 'Huis kopen in Italië':",
     "klimaat_geschat": "Hete dagen en vorstdagen zijn hier geschat uit de temperatuur van juli en januari. Het raster van 25 km waar deze cijfers vandaan komen, ligt hier gemiddeld veel hoger of lager dan het centrum.",
     "maffia_keer": ", voor de {n}e keer",
-    "maffia_bron": "Bron: {bron}."
+    "maffia_bron": "Bron: {bron}.",
+    "eigenschappen_titel": "Alle eigenschappen",
+    "bronnen_eig": "Bronnen per eigenschap:",
+    "voldoet_niet": "Deze gemeente haalt niet alle noodzakelijke niveaus of valt buiten uw keuzes; ze staat daarom niet in uw ranglijst.",
+    "vulkaan_geel": "Gele zone (kans op zware asval)"
   },
   "vergelijk": {
     "titel": "Vergelijken",
@@ -367,12 +344,36 @@
     "titel": "Uw keuzes",
     "geen": "geen keuze",
     "alles": "alles",
-    "wensen": "{d} dealbreakers, {m} must-haves, {n} nice-to-haves",
-    "filters": "{n} eisen",
-    "overal": "heel Italië",
-    "regios_uit": "{n} regio's uitgezet",
-    "alleen": "alleen {lijst}",
-    "filters_een": "1 eis",
-    "filters_geen": "geen overige eisen"
+    "overal": "heel Italië"
+  },
+  "rang": {
+    "maffia_rang": {
+      "0": "ontbonden in 2025 of 2026",
+      "1": "niet ontbonden"
+    },
+    "vulkaan_rang": {
+      "0": "rode zone",
+      "1": "gele zone",
+      "2": "buiten vulkaangebied"
+    },
+    "regime7_rang": {
+      "0": "komt niet in aanmerking",
+      "1": "nog na te gaan",
+      "2": "komt in aanmerking"
+    },
+    "snai_score": {
+      "0": "ultraperiferico",
+      "20": "periferico",
+      "40": "intermedio",
+      "60": "cintura",
+      "80": "polo intercomunale",
+      "100": "polo"
+    },
+    "seismische_zone": {
+      "1": "zone 1 (hoogste gevaar)",
+      "2": "zone 2",
+      "3": "zone 3",
+      "4": "zone 4 (laagste gevaar)"
+    }
   }
 }

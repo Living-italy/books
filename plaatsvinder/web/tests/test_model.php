@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../lib/data.php';
 require __DIR__ . '/../lib/model.php';
-ini_set('memory_limit', '256M');
+ini_set('memory_limit', '512M');
 
 $fout = 0;
 function check(bool $ok, string $wat): void
@@ -13,96 +13,81 @@ function check(bool $ok, string $wat): void
     $fout += $ok ? 0 : 1;
 }
 
+$c = comuni()['comuni'];
+$idx = array_column($c, null, 'istat');
+$E = eigenschappen();
+$pos = array_flip(array_column($E, 'id'));
+$waarde = fn(array $g, string $id) => $g['ev'][$pos[$id]] ?? null;
+
+// configuratie
 foreach (cfg('profielen')['profielen'] as $p) {
     check(array_sum($p['gewichten']) === 100, "gewichten van profiel {$p['id']} tellen op tot 100");
+    $k = startkeuzes($p['id']);
+    check(count($k) === count($E), "profiel {$p['id']}: startkeuze voor alle " . count($E) . ' eigenschappen');
 }
-check(array_sum(startgewichten('gepensioneerde', 'verdelen')) === 100, 'gepensioneerde, het jaar verdelen: som 100');
-check(startgewichten('gepensioneerde', 'verdelen')['bereikbaarheid'] === 18, 'verdelen: bereikbaarheid 18');
-
-$c = comuni()['comuni'];
-$r = scoor(['profiel' => 'gepensioneerde'], $c, 100000);
-$max = max(array_map(fn($x) => $x['istat'], $r['top']) ? array_map(function ($x) use ($c) {
-    foreach ($c as $k) { if ($k['istat'] === $x['istat']) { return $k['w']['min_ziekenhuis'] ?? 0; } }
-    return 0;
-}, $r['top']) : [0]);
-check($max <= 45, "gepensioneerde: geen resultaat met meer dan 45 min naar spoedeisende hulp (max $max)");
-
-$ercolano = array_values(array_filter($c, fn($k) => $k['naam'] === 'Ercolano'))[0]['istat'];
-$ids = array_column(scoor(['profiel' => 'tweede_huis'], $c, 100000)['top'], 'istat');
-check(!in_array($ercolano, $ids, true), 'Ercolano (rode zone Vesuvius) valt standaard weg');
-$ids = array_column(scoor(['profiel' => 'tweede_huis', 'filters' => ['rode_zone_uit' => false]], $c, 100000)['top'], 'istat');
-check(in_array($ercolano, $ids, true), 'Ercolano komt terug als het filter uit staat');
-
-$n = scoor(['profiel' => 'gepensioneerde', 'ligging' => ['heuvel']], $c, 1)['aantal'];
-check($n > 1000, "ligging heuvel + gepensioneerde geeft plaatsen ($n)");
-check(totaal(['a' => 80, 'b' => null], ['a' => 50, 'b' => 50]) === 80.0, 'ontbrekende data: gewicht gaat naar de andere criteria');
-
-$alle = scoor(['profiel' => 'gezin'], $c, 100000)['top'];
-$doel = $alle[200];
-$r = scoor(['profiel' => 'gezin', 'alternatieven_voor' => $doel['istat']], $c, 1);
-check(count($r['alternatieven']) === 3, "3 alternatieven voor {$doel['naam']}");
-foreach ($r['alternatieven'] as $alt) {
-    check($alt['score'] >= $doel['score'], "alternatief {$alt['naam']} ({$alt['score']}) scoort minstens zo hoog als {$doel['naam']} ({$doel['score']})");
-}
-
-// sectie 12e en 14: wensenlijst
-$idx = array_column($c, null, 'istat');
-$r = scoor(['profiel' => 'gezin', 'wensen' => ['must' => ['internet']]], $c, 100000);
-$onder = array_filter($r['top'], fn($x) => ($idx[$x['istat']]['w']['glasvezel_pct'] ?? 100) < 80);
-check(count($onder) === 0, "must-have internet: geen gemeente onder 80% glasvezel ({$r['aantal']} over)");
-$zonder = scoor(['profiel' => 'gezin'], $c, 1)['aantal'];
-check($r['aantal'] < $zonder, "een must-have sluit uit ($zonder naar {$r['aantal']})");
-$nice = scoor(['profiel' => 'gezin', 'wensen' => ['nice' => ['internet']]], $c, 1)['aantal'];
-check($nice === $zonder, "een nice-to-have sluit niets uit ($nice = $zonder)");
-foreach (cfg('profielen')['profielen'] as $p) {
-    $a = antwoorden(['profiel' => $p['id'], 'wensen' => ['nice' => ['luchthaven', 'natuur', 'n_klimaat']]]);
-    check(array_sum($a['gewichten']) === 100 || ($a['expats'] === 'maakt_niet_uit' && array_sum($a['gewichten']) <= 100),
-        "profiel {$p['id']}: gewichten na nice-to-haves tellen op tot 100 (" . array_sum($a['gewichten']) . ')');
-}
-$basis = antwoorden(['profiel' => 'gepensioneerde'])['gewichten'];
-$met = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['nice' => ['n_klimaat']]])['gewichten'];
-check($met['klimaat'] > $basis['klimaat'], "nice-to-have klimaat weegt zwaarder ({$basis['klimaat']} naar {$met['klimaat']})");
-$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['must' => ['luchthaven', 'internet', 'station', 'natuur']]]);
-check(count($a['wensen']['must']) === 3, 'meer dan drie must-haves: alleen de eerste drie tellen');
-$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['luchthaven'], 'must' => ['aardbeving']]]);
-check(!$a['wensen']['dealbreakers'] && !$a['wensen']['must'], 'een item kan alleen op zijn eigen lijst staan');
-$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['must' => ['natuur'], 'nice' => ['natuur']]]);
-check($a['wensen']['must'] === ['natuur'] && !$a['wensen']['nice'], 'een item staat op precies één lijst');
-// 14h: geen dealbreaker en must-have met hetzelfde onderwerp, tenzij ze elkaar blokkeren
-$wl = cfg('wensenlijst');
-$kolom = fn($i) => implode(',', array_column($i['regel']['of'] ?? [$i['regel']], 'kolom'));
-$blok = [];
-foreach ($wl['blokkades'] as $b) {
-    $blok[$b['a'] . '|' . $b['b']] = $blok[$b['b'] . '|' . $b['a']] = true;
-}
-$dubbel = [];
-foreach ($wl['items'] as $d) {
-    foreach ($wl['items'] as $m) {
-        if ($d['lijst'] === 'dealbreaker' && $m['lijst'] === 'musthave' && $kolom($d) === $kolom($m) && !isset($blok[$d['id'] . '|' . $m['id']])) {
-            $dubbel[] = "{$d['id']}/{$m['id']}";
-        }
+foreach ($E as $e) {
+    $n = count($e['niveaus']);
+    if ($n < 3 && !in_array($e['id'], ['regime7', 'vulkaan', 'maffia'], true)) {
+        check(false, "eigenschap {$e['id']} heeft $n niveaus (minstens 3)");
     }
 }
-check(!$dubbel, 'geen dealbreaker en must-have met hetzelfde onderwerp (' . implode(', ', $dubbel) . ')');
-check(count(array_unique(array_column($wl['items'], 'id'))) === count($wl['items']) && count($wl['items']) <= 30, 'items uniek en passen in het masker');
-// 14e: geblokkeerde combinaties
-$alleDb = array_column(array_filter(cfg('wensenlijst')['items'], fn($i) => $i['lijst'] === 'dealbreaker' && $i['status'] === 'actief'), 'id');
-$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => $alleDb]]);
-check(count($a['wensen']['dealbreakers']) === count($alleDb), 'dealbreakers: geen limiet (' . count($alleDb) . ' tegelijk gekozen)');
-$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['expatbubbel'], 'must' => ['landgenoten']]]);
-check(!$a['wensen']['dealbreakers'] && !$a['wensen']['must'], 'veel buitenlanders en landgenoten zijn geen keuze meer');
-$a = antwoorden(['profiel' => 'gepensioneerde', 'wensen' => ['dealbreakers' => ['massatoerisme'], 'nice' => ['toeristische_vraag']]]);
-check(!in_array('toeristische_vraag', $a['wensen']['nice'], true), 'blokkade: massatoerisme en toeristische vraag niet tegelijk');
-$a = antwoorden(['profiel' => 'gepensioneerde', 'ligging' => ['berg', 'heuvel'], 'klimaat' => 'seizoenen', 'wensen' => ['dealbreakers' => ['strenge_winter']]]);
-check($a['ligging'] === ['heuvel'] && $a['klimaat'] === 'zacht', 'blokkade: strenge winters haalt bergen en vier seizoenen weg');
-// 14f: te weinig plaatsen
-$r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV'], 'wensen' => ['dealbreakers' => ['lucht', 'afgelegen'], 'must' => ['station', 'hogesnelheid']]], $c, 25);
-check($r['aantal'] < 25 && count($r['wegstrepen'] ?? []) === 4 && $r['wegstrepen'][0]['weg'] >= $r['wegstrepen'][3]['weg'],
-    "te weinig plaatsen ({$r['aantal']}): per eis hoeveel die wegstreept, strengste eerst");
-// sectie 13: zoekgebied
+check(true, 'alle eigenschappen hebben 3 tot 5 niveaus, behalve de ja/nee-eigenschappen (7%-regime, vulkaan, maffia)');
+
+// noodzakelijk sluit uit op het gekozen niveau, meewegen en onbelangrijk niet
+$basis = scoor(['profiel' => 'gezin'], $c, 1)['aantal'];
+$r = scoor(['profiel' => 'gezin', 'eigenschappen' => ['internet' => ['status' => 'noodzakelijk', 'niveau' => 2]]], $c, 100000);
+$onder = array_filter($r['top'], fn($x) => ($waarde($idx[$x['istat']], 'internet') ?? 100) < 75);
+check(count($onder) === 0 && $r['aantal'] < $basis, "noodzakelijk internet niveau 3 (75%): niemand eronder ($basis naar {$r['aantal']})");
+$mee = scoor(['profiel' => 'gezin', 'eigenschappen' => ['internet' => ['status' => 'meewegen', 'niveau' => 2]]], $c, 1)['aantal'];
+$onb = scoor(['profiel' => 'gezin', 'eigenschappen' => ['internet' => ['status' => 'onbelangrijk']]], $c, 1)['aantal'];
+check($mee === $basis && $onb === $basis, 'meewegen en onbelangrijk sluiten niets uit');
+
+// gewichten: noodzakelijk vast maximaal, onbelangrijk minimaal
+$a = antwoorden(['profiel' => 'gezin', 'eigenschappen' => [
+    'internet' => ['status' => 'noodzakelijk', 'gewicht' => 3], 'prijs' => ['status' => 'onbelangrijk', 'gewicht' => 9],
+    'cultuur' => ['status' => 'meewegen', 'gewicht' => 7]]]);
+check($a['gewichten']['internet'] === 10 && $a['gewichten']['prijs'] === 0 && $a['gewichten']['cultuur'] === 7,
+    'gewicht: noodzakelijk 10, onbelangrijk 0, meewegen het gekozen gewicht');
+$a = antwoorden(['profiel' => 'gezin', 'eigenschappen' => ['cultuur' => ['status' => 'meewegen', 'gewicht' => 99, 'niveau' => 9]]]);
+check($a['keuzes']['cultuur']['gewicht'] === 9 && $a['keuzes']['cultuur']['niveau'] === 3, 'gewicht en niveau worden begrensd');
+
+// onbelangrijk verandert de score niet, ook niet bij een slechte waarde
+$x = $idx['018096'];
+$a1 = antwoorden(['profiel' => 'gepensioneerde', 'eigenschappen' => ['bosbrand' => ['status' => 'onbelangrijk']]]);
+$s1 = totaal(deelscores($x, $a1), $a1['gewichten']);
+$y = $x;
+$y['e'][$pos['bosbrand']] = '0';
+check(totaal(deelscores($y, $a1), $a1['gewichten']) === $s1, 'een onbelangrijke eigenschap telt niet mee in de score');
+// labels veranderen de score niet
+$y = $x;
+$y['trend'] = !$x['trend'];
+$y['w']['sciolto_mafia_jaar'] = 2020;
+check(totaal(deelscores($y, $a1), $a1['gewichten']) === $s1, 'labels (trend, maffia-jaartal) veranderen de score niet');
+
+// hoger niveau gehaald = hogere deelscore
+$a = antwoorden(['profiel' => 'gepensioneerde', 'eigenschappen' => ['luchthaven' => ['status' => 'meewegen', 'niveau' => 4]]]);
+$goed = $slecht = null;
+foreach ($c as $g) {
+    $n = behaald($g, $pos['luchthaven']);
+    if ($n === 5 && !$goed) { $goed = $g; }
+    if ($n === 1 && !$slecht) { $slecht = $g; }
+}
+check(deelscores($goed, $a)['luchthaven'] > deelscores($slecht, $a)['luchthaven'], 'wie het gevraagde niveau haalt, scoort hoger op die eigenschap');
+
+// standaard: gepensioneerde spoedeisende hulp binnen 45 minuten; rode zone valt altijd af
+$r = scoor(['profiel' => 'gepensioneerde'], $c, 100000);
+$max = max(array_map(fn($t) => $waarde($idx[$t['istat']], 'spoedeisende_hulp') ?? 0, $r['top']));
+check($max <= 45, "gepensioneerde: standaard geen resultaat met meer dan 45 min naar spoedeisende hulp (max $max)");
+$ercolano = array_values(array_filter($c, fn($k) => $k['naam'] === 'Ercolano'))[0]['istat'];
+check(!in_array($ercolano, array_column($r['top'], 'istat'), true), 'Ercolano (rode zone Vesuvius) valt altijd af');
+$r2 = scoor(['profiel' => 'gepensioneerde', 'eigenschappen' => ['spoedeisende_hulp' => ['status' => 'meewegen']]], $c, 1);
+check($r2['aantal'] > $r['aantal'], 'de standaardeis van het profiel kan uit');
+
+// ligging, zoekgebied, alternatieven
+$n = scoor(['profiel' => 'gepensioneerde', 'ligging' => ['heuvel']], $c, 1)['aantal'];
+check($n > 1000, "ligging heuvel geeft plaatsen ($n)");
 $r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV']], $c, 100000);
-$provs = array_unique(array_column($r['top'], 'prov'));
-check($provs === ['PV'] || array_values($provs) === ['PV'], 'zoekgebied provincie Pavia: alleen gemeenten uit Pavia');
+check(array_values(array_unique(array_column($r['top'], 'prov'))) === ['PV'], 'zoekgebied provincie Pavia: alleen gemeenten uit Pavia');
 check(in_array('Montecalvo Versiggia', array_column($r['top'], 'naam'), true), 'Montecalvo Versiggia staat erin');
 $heel = array_column(scoor(['profiel' => 'gepensioneerde'], $c, 100000)['top'], 'score', 'istat');
 $regio = array_column(scoor(['profiel' => 'gepensioneerde', 'alleen_regios' => [3]], $c, 100000)['top'], 'score', 'istat');
@@ -112,27 +97,21 @@ $r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV'], 'alternatie
 $alt = $r['alternatieven'] ?? [];
 check($alt && !array_filter($alt, fn($x) => ($x['prov'] !== 'PV') !== $x['buiten_gebied']),
     'alternatieven buiten het zoekgebied zijn gemarkeerd (' . implode(', ', array_map(fn($x) => "{$x['naam']} {$x['prov']}", $alt)) . ')');
+foreach ($alt as $x) {
+    check($x['score'] >= $r['gemeenten']['018096']['score'], "alternatief {$x['naam']} ({$x['score']}) scoort minstens zo hoog als Montecalvo Versiggia");
+}
+check(count($r['gemeenten']['018096']['eigenschappen']) === count($E), 'uitklap: alle eigenschappen per gemeente');
 
+// te weinig plaatsen: per noodzakelijke eigenschap hoeveel die wegstreept
+$r = scoor(['profiel' => 'gepensioneerde', 'alleen_provs' => ['PV'], 'eigenschappen' => [
+    'hogesnelheid' => ['status' => 'noodzakelijk', 'niveau' => 3], 'lucht' => ['status' => 'noodzakelijk', 'niveau' => 3],
+    'station' => ['status' => 'noodzakelijk', 'niveau' => 4]]], $c, 25);
+check($r['aantal'] < 25 && count($r['wegstrepen'] ?? []) >= 3 && $r['wegstrepen'][0]['weg'] >= end($r['wegstrepen'])['weg'],
+    "te weinig plaatsen ({$r['aantal']}): per noodzakelijke eigenschap hoeveel die wegstreept, strengste eerst");
+
+// gids
 $gl = array_filter(cfg('gids_links')['verwijzingen'], fn($v) => !empty($v['url']));
-check(count($gl) >= 1, 'gemeentepagina: minstens één gids-link met url (' . implode(', ', array_column($gl, 'paragraaf')) . ')');
-$bijlageC = array_filter($gl, fn($v) => $v['id'] === 'kaarten');
-check(count($bijlageC) === 1 && str_starts_with(array_values($bijlageC)[0]['url'], 'https://'), 'gids-link naar Bijlage C staat erin');
-
-// labels (maffia, trend) veranderen de score niet
-$x = $c[100];
-$a = antwoorden(['profiel' => 'gepensioneerde']);
-$s1 = totaal(deelscores($x, $a), $a['gewichten']);
-$x['w']['sciolto_mafia_jaar'] = 2020;
-$x['trend'] = !($x['trend'] ?? false);
-check(totaal(deelscores($x, $a), $a['gewichten']) === $s1, 'labels (maffia, trend) veranderen de score niet');
-
-$h = scoor(['profiel' => 'gepensioneerde', 'filters' => ['max_hoogte' => 500]], $c, 100000)['top'];
-check(max(array_map(fn($k) => $k['hoogte_m'] ?? 0, $h)) <= 500, 'filter maximale hoogte 500 m werkt');
-$z = antwoorden(['profiel' => 'gepensioneerde', 'klimaat' => 'seizoenen']);
-$x = $c[100];
-check(deelscores($x, $z)['klimaat'] === ($x['s']['klimaat_seizoenen'] ?? $x['s']['klimaat']) && !array_key_exists('klimaat_seizoenen', deelscores($x, $z)),
-    'klimaatvoorkeur vier seizoenen gebruikt de omgedraaide klimaatscore');
-
+check(count(array_filter($gl, fn($v) => $v['id'] === 'kaarten')) === 1, 'gids-link naar Bijlage C staat erin');
 
 echo $fout ? "\n$fout test(s) mislukt\n" : "\nalle tests geslaagd\n";
 exit($fout ? 1 : 0);

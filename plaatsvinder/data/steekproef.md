@@ -1,6 +1,6 @@
 # Steekproef
 
-Gemaakt op 2026-11-25 met `python pipeline/steekproef.py`. Per gemeente: de waarde in de tabel en, waar mogelijk, de waarde rechtstreeks uit het ruwe bronbestand.
+Gemaakt op 2026-11-26 met `python pipeline/steekproef.py`. Per gemeente: de waarde in de tabel en, waar mogelijk, de waarde rechtstreeks uit het ruwe bronbestand.
 
 ## Montecalvo Versiggia (PV), ISTAT 018096
 

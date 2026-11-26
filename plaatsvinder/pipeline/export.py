@@ -32,7 +32,7 @@ EXTRA = ["koop_m2", "huur_m2", "koop_laagste_zone", "omi_semester", "glasvezel_p
          "scholen_basis_5km", "scholen_midden_5km", "scholen_hoog_5km", "scholen_basis_20min", "scholen_hoog_20min",
          "woningen", "apotheken_n", "ntn", "ntn_jaar", "neerslag_mm", "station_hs_naam", "station_nacht_naam",
          "sciolto_mafia_jaar", "klimaat_geschat",
-         # wensenlijst (sectie 14)
+         # extra waarden voor de eigenschappen
          "vulkaan_zone", "alluvioni_p3_pop_pct", "overnachtingen_per_inw", "noord_pct", "km_snelweg", "lea_min_gebied",
          "uur_nl_be", "vier_800m", "min_cultuur", "cultuur_naam", "min_station_hs"]
 # waarden die score.php nodig heeft voor filters en korte teksten

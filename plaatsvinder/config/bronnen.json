@@ -281,13 +281,6 @@
       "schaalniveau": "provincie, verdeeld over gemeenten",
       "licentie": "CC BY 4.0"
     },
-    "internationale_scholen": {
-      "bron": "Handmatige lijst (nog leeg)",
-      "url": "config/internationale_scholen.json",
-      "peildatum": "nog niet",
-      "schaalniveau": "adres",
-      "licentie": "eigen tabel"
-    },
     "plaatsvinder": {
       "bron": "Plaatsvinder, eigen berekening (wintertest)",
       "url": "docs/beschrijving-plaatsvinder.md",
