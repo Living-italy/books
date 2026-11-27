@@ -1,4 +1,4 @@
-/* Plaatsvinder Italië: wizard, ranglijst, gemeentepagina en vergelijken. Vanilla JS.
+/* Italië-Verkenner: wizard, ranglijst, gemeentepagina en vergelijken. Vanilla JS.
  * Stappen: profiel, zoekgebied, ligging, grootte, eigenschappen (noodzakelijk, meewegen of onbelangrijk, met niveau),
  * gewichten. De teller filtert in de browser op comuni-lite.json met dezelfde regels als voldoet() in lib/model.php;
  * de scores rekent score.php uit. */
@@ -34,6 +34,36 @@
   function getal(n, dec) { return Number(n).toLocaleString("nl-NL", { maximumFractionDigits: dec == null ? 1 : dec }); }
   function toggle(l, v) { var i = l.indexOf(v); if (i >= 0) l.splice(i, 1); else l.push(v); }
   function haal(url, opties) { return fetch(url, opties).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+  // ---------------------------------------------------------------- anonieme statistiek
+  // Geen cookies, geen IP-adres: alleen een willekeurige code per bezoek in sessionStorage (weg als het tabblad sluit).
+  // Wie in de browser "niet volgen" of Global Privacy Control aanzet, wordt niet geteld.
+  var STAT = (function () {
+    if (!window.PV.stat || navigator.doNotTrack === "1" || window.doNotTrack === "1" || navigator.globalPrivacyControl) return null;
+    try {
+      var s = sessionStorage.getItem("iv.stat");
+      if (!s) {
+        s = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(10)), function (b) { return (b % 36).toString(36); }).join("");
+        sessionStorage.setItem("iv.stat", s);
+      }
+      return s;
+    } catch (e) { return null; }
+  })();
+  var STAT_GEZIEN = {};
+  function stat(k, x) {
+    if (!STAT) return;
+    var body = JSON.stringify(Object.assign({ s: STAT, k: k }, x || {}));
+    try {
+      if (!(navigator.sendBeacon && navigator.sendBeacon(window.PV.stat, new Blob([body], { type: "application/json" }))))
+        fetch(window.PV.stat, { method: "POST", body: body, keepalive: true, headers: { "Content-Type": "application/json" } }).catch(function () {});
+    } catch (e) { /* statistiek mag nooit storen */ }
+  }
+  function statEenmaal(sleutel, k, x) { if (STAT_GEZIEN[sleutel]) return; STAT_GEZIEN[sleutel] = 1; stat(k, x); }
+  function bezoekInfo() {
+    var w = window.innerWidth, ref = "";
+    try { var u = new URL(document.referrer); if (u.host !== location.host) ref = u.hostname.replace(/^www\./, ""); } catch (e) { /* geen verwijzer */ }
+    return { a: w < 600 ? "mobiel" : w < 1024 ? "tablet" : "computer", b: ref || null };
+  }
+
   function profiel(id) { return C.profielen.profielen.filter(function (p) { return p.id === id; })[0]; }
 
   // ---------------------------------------------------------------- startkeuzes (gelijk aan startkeuzes() in model.php)
@@ -85,6 +115,8 @@
       S = schoon(Object.assign(leeg(), { profiel: k.p || "gepensioneerde", verblijf: k.v || "permanent", eigenschappen: k.e || {},
         ligging: k.l || [], grootte: k.g || [], gebied: k.z || "overal", alleen_regios: k.r || [], alleen_provs: k.pr || [] }));
       S.stap = STAPPEN.length; HERVAT = false;
+      try { sessionStorage.setItem("iv.bezoek", "1"); } catch (e2) { /* geen opslag */ }
+      stat("gedeeld", bezoekInfo());
       history.replaceState(null, "", location.pathname);
     }
   } catch (e) { /* ongeldige link: gewoon beginnen */ }
@@ -306,7 +338,7 @@
   function intro() {
     return [kop(), el("section", { class: "pv-intro" }, [el("p", { class: "pv-sub", text: T.meta.ondertitel }),
       el("button", { type: "button", class: "pv-knop pv-knop-hoofd", text: T.knoppen.start, onclick: function () { S.stap = 0; teken(); } }),
-      el("p", { class: "pv-noot", text: T.disclaimer })])];
+      el("p", { class: "pv-noot", text: T.disclaimer }), el("p", { class: "pv-noot", text: T.statistiek_noot })])];
   }
   function stapScherm() {
     var sleutel = STAPPEN[S.stap], st = T.stappen[sleutel], laatste = S.stap === STAPPEN.length - 1;
@@ -331,6 +363,12 @@
   }
   function scoreVraag(extra) {
     return haal(window.PV.score, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(antwoorden(extra)) });
+  }
+  var LAATSTE_UITSLAG = null;                             // dezelfde keuzes in één bezoek tellen maar één keer
+  function uitslagVraag() {
+    var extra = { n: PER_KEER }, sleutel = JSON.stringify(antwoorden());
+    if (STAT && sleutel !== LAATSTE_UITSLAG) { extra.stat = STAT; LAATSTE_UITSLAG = sleutel; }
+    return scoreVraag(extra);
   }
 
   // ---------------------------------------------------------------- ranglijst
@@ -437,6 +475,7 @@
     return el("div", { class: "pv-deel" }, [el("label", { for: "pv-deellink", text: U.deel_label }), el("div", { class: "pv-deel-rij" }, [inp,
       el("button", { type: "button", class: "pv-knop pv-knop-klein", text: U.kopieer, onclick: function () {
         var knop = this;
+        stat("deel");
         (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(function () { knop.textContent = U.gekopieerd; })
           .catch(function () { inp.select(); });
       } })])]);
@@ -452,6 +491,7 @@
     var U = T.uitslag, blok = el("section", { class: "pv-kaartblok" });
     var knop = el("button", { type: "button", class: "pv-knop", text: U.kaart_toon, onclick: function () {
       if (blok.querySelector(".pv-kaart-svg")) { blok.innerHTML = ""; blok.appendChild(knop); knop.textContent = U.kaart_toon; return; }
+      stat("kaart");
       knop.disabled = true; knop.textContent = U.kaart_laden;
       Promise.all([KAART ? Promise.resolve(KAART) : haal(window.PV.kaart), scoreVraag({ kaart: true, n: 1 })]).then(function (r) {
         KAART = r[0]; knop.disabled = false; knop.textContent = U.kaart_verberg;
@@ -619,7 +659,7 @@
     app.appendChild(kop());
     var sectie = el("section", { class: "pv-uitslag" }, [el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }), el("p", { class: "pv-uitleg", text: U.bezig })]);
     app.appendChild(sectie);
-    scoreVraag({ n: PER_KEER }).then(function (res) {
+    uitslagVraag().then(function (res) {
       sectie.innerHTML = "";
       sectie.appendChild(el("h2", { text: U.titel, tabindex: "-1", id: "pv-titel" }));
       sectie.appendChild(el("p", { class: "pv-uitleg", text: res.aantal ? fmt(U.aantal, { n: getal(res.aantal, 0) }) + " " + U.uitleg : U.leeg }));
@@ -629,7 +669,7 @@
       sectie.appendChild(overzicht());
       sectie.appendChild(deelBlok());
       if (res.aantal) sectie.appendChild(el("div", { class: "pv-knoprij" }, [el("button", { type: "button", class: "pv-knop", text: T.pdf.knop,
-        onclick: function () { maakPdf(res, this); } })]));
+        onclick: function () { stat("pdf"); maakPdf(res, this); } })]));
       if (res.aantal) sectie.appendChild(kaartBlok(res.top));
       var lijst = el("ol", { class: "pv-lijst" }, res.top.map(function (c, i) { return plaatsKaart(c, i + 1); }));
       sectie.appendChild(lijst);
@@ -642,6 +682,7 @@
         zetTekst();
         meer.addEventListener("click", function () {
           meer.disabled = true;
+          stat("meer", { n: res.top.length });
           scoreVraag({ van: res.top.length, n: PER_KEER }).then(function (r) {
             var eerste = null;
             r.top.forEach(function (c) { res.top.push(c); var li = plaatsKaart(c, res.top.length); eerste = eerste || li; lijst.appendChild(li); });
@@ -661,7 +702,7 @@
   }
   function voet() {
     return el("footer", { class: "pv-bronnen" }, [T.bronnen_voet + " ", el("a", { href: T.osm_link, target: "_blank", rel: "noopener", text: T.osm }),
-      el("br"), T.disclaimer]);
+      el("br"), T.disclaimer, el("br"), T.statistiek_noot]);
   }
 
   // ---------------------------------------------------------------- gemeentepagina
@@ -716,6 +757,7 @@
   }
   function gemeentePagina(istat) {
     var G = T.gemeente, U = T.uitslag;
+    stat("gemeente", { i: istat });
     app.innerHTML = "";
     app.appendChild(kop());
     var sectie = el("section", { class: "pv-gemeente" }, [el("p", { text: U.bezig })]);
@@ -827,7 +869,8 @@
     app.innerHTML = "";
     inhoud.forEach(function (n) { app.appendChild(n); });
     if (S.stap !== vorigeStap) {
-      vorigeStap = S.stap; window.scrollTo(0, 0);
+      vorigeStap = S.stap;
+      if (!HERVAT && S.stap >= 0) statEenmaal("stap" + S.stap, "stap", { n: S.stap }); window.scrollTo(0, 0);
       var t = document.getElementById("pv-titel"); if (t) t.focus({ preventScroll: true });
     } else {
       window.scrollTo(0, y);
@@ -836,6 +879,7 @@
   }
   window.addEventListener("hashchange", function () { vorigeStap = null; teken(); });
 
+  try { if (STAT && !sessionStorage.getItem("iv.bezoek")) { sessionStorage.setItem("iv.bezoek", "1"); stat("start", bezoekInfo()); } } catch (e) { /* geen opslag */ }
   haal(window.PV.lite).then(function (d) { LITE = d; teken(); })
     .catch(function () { app.innerHTML = ""; app.appendChild(kop()); app.appendChild(el("p", { class: "pv-fout", text: T.meta.fout_laden })); });
   teken();

@@ -294,3 +294,17 @@ Een volledige run zonder downloads duurt 4 tot 7 minuten.
 ## Naam en opmaak
 
 De tool heet Italië-Verkenner (was: Plaatsvinder Italië). De titel staat groot in twee kleuren (groen en rood) met een streep in de Italiaanse driekleur eronder. Elk onderdeel heeft een eigen kleurtint: bij de eigenschappen per groep (wonen bruin, natuur groen, klimaat oker, bereikbaarheid blauw, zorg blauwgroen, leven roze, risico rood, geld paars), bij de uitslag de scoreberekening blauw, de uitleg van de tests paars, de keuzes oker en de kaart blauwgroen. Op de gemeentepagina zijn de risico's rood en de tests blauw. Alle kleuren hebben een eigen variant voor de donkere modus. De pdf heet nu italie-verkenner-beste-<n>-<datum>.pdf.
+
+## Statistiek
+
+De verkenner houdt anoniem bij hoe bezoekers hem invullen. Er worden geen cookies gezet en geen IP-adressen of browsergegevens bewaard. Per geopend tabblad maakt de browser een willekeurige code (sessionStorage, weg als het tabblad sluit), zodat de stappen van één bezoek bij elkaar horen. Wie "niet volgen" of Global Privacy Control aanzet, wordt niet geteld. De bezoeker ziet dit in een korte noot op de startpagina en onder de uitslag.
+
+Wat wordt vastgelegd (data/statistiek/JJJJ-MM.jsonl, datum en uur in UTC):
+
+- start: een bezoek begint, met apparaat (mobiel, tablet of computer, op schermbreedte) en de domeinnaam van de verwijzende site;
+- stap: welke stap van de vragenlijst is bereikt;
+- uitslag: alle keuzes (profiel, verblijf, zoekgebied, ligging, grootte, per eigenschap noodzakelijk, meewegen of onbelangrijk met niveau en gewicht), het aantal overgebleven gemeenten en de top 10. Dit legt score.php vast; dezelfde keuzes tellen in één bezoek maar één keer;
+- meer, pdf, kaart, deel, gedeeld: de knoppen bij de uitslag en binnenkomst via een gedeelde link;
+- gemeente: welke gemeentepagina is geopend.
+
+Het overzicht staat op statistiek.php (met wachtwoord): bezoeken, hoe ver bezoekers komen per stap, per dag, profiel, zoekgebied met regio's en provincies, ligging, grootte, per eigenschap de verdeling noodzakelijk/meewegen/onbelangrijk met het meest gekozen niveau, het gemiddelde gewicht en hoe vaak de startkeuze is aangepast, het aantal overgebleven gemeenten, de gemeenten die het vaakst in de top 10 staan of worden bekeken, het gebruik van de knoppen, apparaat en herkomst. Per maand te kiezen, en als CSV te downloaden. Bestanden ouder dan 24 maanden worden automatisch gewist.

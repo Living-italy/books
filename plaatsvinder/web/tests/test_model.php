@@ -124,6 +124,14 @@ $a20 = scoor(['profiel' => 'gepensioneerde'], $c, 20);
 check(array_merge(array_column($a10['top'], 'istat'), array_column($b10['top'], 'istat')) === array_column($a20['top'], 'istat'),
     'bladeren: nummers 11 tot en met 20 sluiten aan op de eerste 10');
 
+// statistiek: keuzes compact en volledig
+require __DIR__ . '/../lib/statistiek.php';
+$sk = stat_keuzes(antwoorden(['profiel' => 'gezin', 'eigenschappen' => ['internet' => ['status' => 'noodzakelijk', 'niveau' => 2],
+    'prijs' => ['status' => 'onbelangrijk'], 'cultuur' => ['status' => 'meewegen', 'niveau' => 1, 'gewicht' => 7]], 'alleen_regios' => [9]]), []);
+check(count($sk['e']) === count($E) && $sk['e']['internet'] === 'n2' && $sk['e']['prijs'] === 'o' && $sk['e']['cultuur'] === 'm1:7' && $sk['z'] === 'regios',
+    'statistiek: per eigenschap status, niveau en gewicht; zoekgebied regio');
+check(stat_sessie('abc123def4') !== null && stat_sessie('../x') === null && stat_sessie(str_repeat('a', 40)) === null, 'statistiek: alleen geldige bezoekcodes');
+
 // gids
 $gl = array_filter(cfg('gids_links')['verwijzingen'], fn($v) => !empty($v['url']));
 check(count(array_filter($gl, fn($v) => $v['id'] === 'kaarten')) === 1, 'gids-link naar Bijlage C staat erin');

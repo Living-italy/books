@@ -9,7 +9,7 @@ Italië-Verkenner: installatie op de webserver
    dan wordt daar score.cache.php aangemaakt voor snelheid).
 4. Apache: de .htaccess-bestanden in data/, data/detail/ en config/ schermen de
    tabellen af. Op nginx zelf blokkeren:
-     location ~ /(data/(score|meta)\.json|data/detail/|config/) { deny all; }
+     location ~ /(data/(score|meta)\.json|data/detail/|data/statistiek/|config/) { deny all; }
 5. Open index.php in de browser.
 
 Gegevens verversen: vervang data/score.json, data/meta.json, data/comuni-lite.json,
@@ -17,3 +17,20 @@ de map data/detail/ en de map config/ door de nieuwe versies uit de pipeline.
 Verwijder daarna data/score.cache.php als dat bestand bestaat.
 
 Teksten: lang/nl.json. Kleuren: bovenaan assets/style.css.
+
+Statistiek (anoniem)
+--------------------
+De verkenner houdt bij hoe bezoekers hem invullen: welke stappen ze doorlopen, welk profiel,
+zoekgebied, ligging en grootte ze kiezen, per eigenschap noodzakelijk/meewegen/onbelangrijk met
+niveau en gewicht, hoeveel gemeenten overblijven, en of ze de kaart, de pdf of een gemeentepagina openen.
+Er worden geen cookies gezet en geen IP-adressen of browsergegevens opgeslagen; alleen een
+willekeurige code per geopend tabblad. Wie in de browser "niet volgen" aanzet, wordt niet geteld.
+Opslag: data/statistiek/JJJJ-MM.jsonl (per maand; na 24 maanden automatisch gewist).
+
+1. Maak de map data/ schrijfbaar voor PHP (de map data/statistiek/ wordt vanzelf aangemaakt,
+   met een .htaccess die hem afschermt).
+2. Kopieer lib/statistiek-wachtwoord.voorbeeld.php naar lib/statistiek-wachtwoord.php en zet daarin
+   een eigen, lang wachtwoord. Een nieuwe versie van de verkenner overschrijft dat bestand niet.
+3. Open statistiek.php in de browser en log in. Daar staan de overzichten per maand en een
+   CSV-download met de keuzes per bezoek (opent in Excel).
+Let op: bij een nieuwe versie de map data/statistiek/ niet weggooien, anders is de statistiek weg.

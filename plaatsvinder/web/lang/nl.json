@@ -356,7 +356,7 @@
   "bronnen_voet": "Bronnen: ISTAT, Agenzia delle Entrate – OMI (CC BY 4.0; officiële waarden, vraagprijzen liggen vaak hoger), ISPRA, European Environment Agency (EEA), EFFIS (Copernicus), Protezione Civile, Ministero della Salute, MIM, MEF, AGCOM, Assaeroporti. Kaartdata en rijtijden:",
   "osm": "© OpenStreetMap-bijdragers (ODbL)",
   "osm_link": "https://www.openstreetmap.org/copyright",
-  "disclaimer": "Deze plaatsvinder gebruikt open data en een eigen weging. Het is een hulpmiddel om plaatsen te ontdekken, geen advies.",
+  "disclaimer": "De Italië-Verkenner gebruikt open data en een eigen weging. Het is een hulpmiddel om plaatsen te ontdekken, geen advies.",
   "hervat": {
     "titel": "U was hier al eerder",
     "tekst": "Wilt u verdergaan waar u gebleven was? Uw antwoorden staan alleen in deze browser."
@@ -463,5 +463,6 @@
     },
     "slot": "Ontbreekt een onderdeel, dan telt het gewicht mee bij de andere onderdelen. De tests tellen niet mee in uw score, tenzij u bij de eigenschappen \"Levendig in de winter\" of \"Oud worden zonder auto\" laat meewegen of noodzakelijk maakt.",
     "onderdelen": "Onderdelen en hun gewicht:"
-  }
+  },
+  "statistiek_noot": "We houden anoniem bij hoe de Italië-Verkenner wordt ingevuld, om hem te verbeteren: zonder cookies, zonder IP-adres en zonder iets dat u herkenbaar maakt. Staat \"niet volgen\" aan in uw browser, dan tellen we niets."
 }

@@ -7,3 +7,5 @@ data/*
 !data/steekproef.md
 !data/dekking.md
 web/data/score.cache.php*
+web/lib/statistiek-wachtwoord.php
+web/data/statistiek/

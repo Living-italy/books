@@ -25,7 +25,7 @@ $j = fn($x) => json_encode($x, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_
 <main id="app" class="pv" aria-live="polite">
   <header class="pv-kop"><h1><?= $e($t['meta']['titel']) ?></h1><p class="pv-kop-sub"><?= $e($t['meta']['kop_sub']) ?></p></header>
   <p class="pv-laden"><?= $e($t['meta']['laden']) ?></p>
-  <noscript><p>Deze plaatsvinder heeft JavaScript nodig.</p></noscript>
+  <noscript><p>De Italië-Verkenner heeft JavaScript nodig.</p></noscript>
 </main>
 <script>
 window.PV = {
@@ -35,6 +35,7 @@ window.PV = {
   lite: "data/comuni-lite.json?v=<?= (int)$v ?>",
   kaart: "data/kaart.json?v=<?= (int)@filemtime(__DIR__ . "/data/kaart.json") ?>",
   score: "score.php",
+  stat: "stat.php",
   gemeente: "gemeente.php"
 };
 </script>
