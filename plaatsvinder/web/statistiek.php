@@ -176,6 +176,10 @@ foreach ($alleMaanden as $m) {
 }
 $h .= '</select><a class="pv-knop pv-knop-klein" href="?csv=1' . ($maand ? "&amp;maand=$maand" : '') . '">Download keuzes (CSV)</a>'
     . '<a class="pv-link" href="?uit=1">Uitloggen</a></form>';
+$schrijf = is_dir(STAT_DIR) ? is_writable(STAT_DIR) : is_writable(dirname(STAT_DIR));
+$h .= $schrijf ? '<p class="pv-tip">Opslag in orde: PHP kan schrijven in data/statistiek/.</p>'
+    : '<p class="pv-tip pv-fout">PHP kan niet schrijven in de map data/ (of data/statistiek/). Er wordt dus niets bijgehouden. '
+    . 'Zet de rechten van die map op 755, en als dat niet helpt op 775 of 777 (in uw FTP-programma of het bestandsbeheer van de hosting).</p>';
 $h .= '<p class="pv-noot">Een bezoek is één geopend tabblad (zonder cookies, dus iemand die later terugkomt telt opnieuw). '
     . 'De keuzes per bezoek zijn de laatste keuzes waarmee een uitslag werd bekeken. Tijden in UTC.</p>';
 
